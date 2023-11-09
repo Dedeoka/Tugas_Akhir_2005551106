@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tb_incomes', function (Blueprint $table) {
+        Schema::create('incomes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('income_type_id')->constrained('m_income_types')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('income_type_id')->constrained('income_types')->onDelete('cascade')->onUpdate('cascade');
             $table->string('name');
             $table->string('total_amount');
             $table->string('status');

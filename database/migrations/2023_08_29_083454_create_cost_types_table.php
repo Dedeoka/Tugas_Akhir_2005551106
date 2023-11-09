@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('m_cost_types', function (Blueprint $table) {
+        Schema::create('cost_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->timestamps();

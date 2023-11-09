@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tb_orphanage_profiles', function (Blueprint $table) {
+        Schema::create('orphanage_profiles', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('thumbnail');

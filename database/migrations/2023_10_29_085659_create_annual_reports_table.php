@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tb_annual_reports', function (Blueprint $table) {
+        Schema::create('annual_reports', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('year');

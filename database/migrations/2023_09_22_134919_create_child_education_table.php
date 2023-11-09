@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tb_child_education', function (Blueprint $table) {
+        Schema::create('child_educations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('children_id')->constrained('tb_childrens')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('children_id')->constrained('childrens')->onDelete('cascade')->onUpdate('cascade');
             $table->string('name');
             $table->string('school_name');
             $table->date('graduation_date');

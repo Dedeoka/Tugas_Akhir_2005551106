@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tb_child_achievements', function (Blueprint $table) {
+        Schema::create('child_achievements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('children_id')->constrained('tb_childrens')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('children_id')->constrained('childrens')->onDelete('cascade')->onUpdate('cascade');
             $table->string('title');
             $table->date('competition_date');
             $table->string('ranking');

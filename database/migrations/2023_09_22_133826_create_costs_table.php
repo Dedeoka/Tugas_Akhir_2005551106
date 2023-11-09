@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tb_costs', function (Blueprint $table) {
+        Schema::create('costs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cost_type_id')->constrained('m_cost_types')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('cost_type_id')->constrained('cost_types')->onDelete('cascade')->onUpdate('cascade');
             $table->string('name');
             $table->string('total_amount');
             $table->string('status');

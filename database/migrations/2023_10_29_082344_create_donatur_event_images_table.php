@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tb_donatur_event_images', function (Blueprint $table) {
+        Schema::create('donatur_event_images', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('donatur_event_id')->constrained('tb_donatur_events')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('donatur_event_id')->constrained('donatur_events')->onDelete('cascade')->onUpdate('cascade');
             $table->string('image_url');
             $table->timestamps();
         });

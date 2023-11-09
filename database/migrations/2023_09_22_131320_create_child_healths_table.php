@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tb_child_healths', function (Blueprint $table) {
+        Schema::create('child_healths', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('children_id')->constrained('tb_childrens')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('disease_id')->constrained('m_diseases')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('children_id')->constrained('childrens')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('disease_id')->constrained('diseases')->onDelete('cascade')->onUpdate('cascade');
             $table->string('medicine');
             $table->date('date_of_illness');
             $table->string('description');

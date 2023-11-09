@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\Master\KategoriBarangController;
+use App\Http\Controllers\Admin\Master\KategoriPemasukanController;
+use App\Http\Controllers\Admin\Master\KategoriPengeluaranController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +19,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::prefix('master-data')->group(function () {
+    Route::resource('kategori-barang', KategoriBarangController::class);
+    Route::resource('kategori-pemasukan', KategoriPemasukanController::class);
+    Route::resource('kategori-pengeluaran', KategoriPengeluaranController::class);
+});
+

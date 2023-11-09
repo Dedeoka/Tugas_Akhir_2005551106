@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tb_event_images', function (Blueprint $table) {
+        Schema::create('event_images', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('event_id')->constrained('tb_events')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('event_id')->constrained('events')->onDelete('cascade')->onUpdate('cascade');
             $table->string('image_url');
             $table->timestamps();
         });

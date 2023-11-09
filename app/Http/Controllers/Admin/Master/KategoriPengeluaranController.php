@@ -4,21 +4,18 @@ namespace App\Http\Controllers\Admin\Master;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\GoodsCategory;
+use App\Models\CostType;
 use App\Http\Requests\StoreKategoriRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class KategoriBarangController extends Controller
+class KategoriPengeluaranController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         $keyword = $request->query('q','');
-        $datas = GoodsCategory::where('name', 'LIKE', "%{$keyword}%")->orWhere('id', '=',$keyword)->paginate(10)->withQueryString();
-        return view('admin.master-data.kategori-barang', compact('datas', 'keyword'));
+        $datas = CostType::where('name', 'LIKE', "%{$keyword}%")->orWhere('id', '=',$keyword)->paginate(10)->withQueryString();
+        return view('admin.master-data.kategori-pengeluaran', compact('datas', 'keyword'));
     }
 
     /**
@@ -35,7 +32,7 @@ class KategoriBarangController extends Controller
     public function store(Request $request)
     {
         $validasi = Validator::make($request->all(), [
-            'name' => 'required|unique:goods_categories,name',
+            'name' => 'required|unique:cost_types,name',
         ], [
             'name.required' => 'Data wajib diisi',
             'name.unique' => 'Nama kategori barang sudah digunakan, harap pilih nama yang lain.',
@@ -47,7 +44,7 @@ class KategoriBarangController extends Controller
             $data = [
                 'name' => $request->name,
             ];
-            GoodsCategory::create($data);
+            CostType::create($data);
 
             return response()->json(['success' => "Berhasil menyimpan data"]);
         }
@@ -75,7 +72,7 @@ class KategoriBarangController extends Controller
     public function update(Request $request, string $id)
     {
         $validasi = Validator::make($request->all(), [
-            'name' => 'required|unique:goods_categories,name,' . $id,
+            'name' => 'required|unique:cost_types,name,' . $id,
         ], [
             'name.required' => 'Data wajib diisi',
             'name.unique' => 'Nama kategori barang sudah digunakan, harap pilih nama yang lain.',
@@ -87,7 +84,7 @@ class KategoriBarangController extends Controller
             $data = [
                 'name' => $request->name,
             ];
-            GoodsCategory::where('id', $id)->update($data);
+            CostType::where('id', $id)->update($data);
             return response()->json(['success' => "Berhasil melakukan update data"]);
         }
     }
@@ -97,7 +94,7 @@ class KategoriBarangController extends Controller
      */
     public function destroy(string $id)
     {
-        GoodsCategory::find($id)->delete();
+        CostType::find($id)->delete();
         return response()->json(['success'=>'Record deleted successfully.']);
     }
 }

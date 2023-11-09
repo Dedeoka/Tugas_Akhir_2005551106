@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tb_donatur_events', function (Blueprint $table) {
+        Schema::create('donatur_events', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('address');
             $table->string('email');
             $table->string('phone_number');
-            $table->foreignId('event_type_id')->constrained('m_event_types')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('event_type_id')->constrained('event_types')->onDelete('cascade')->onUpdate('cascade');
             $table->string('title');
             $table->string('description');
             $table->date('date');
