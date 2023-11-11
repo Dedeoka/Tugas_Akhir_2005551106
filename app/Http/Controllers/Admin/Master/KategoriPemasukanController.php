@@ -35,7 +35,7 @@ class KategoriPemasukanController extends Controller
             'name' => 'required|unique:income_types,name',
         ], [
             'name.required' => 'Data wajib diisi',
-            'name.unique' => 'Nama kategori barang sudah digunakan, harap pilih nama yang lain.',
+            'name.unique' => 'Nama kategori pengeluaran sudah digunakan, harap pilih nama yang lain.',
         ]);
 
         if ($validasi->fails()) {
@@ -75,7 +75,7 @@ class KategoriPemasukanController extends Controller
             'name' => 'required|unique:income_types,name,' . $id,
         ], [
             'name.required' => 'Data wajib diisi',
-            'name.unique' => 'Nama kategori barang sudah digunakan, harap pilih nama yang lain.',
+            'name.unique' => 'Nama kategori pengeluaran sudah digunakan, harap pilih nama yang lain.',
         ]);
 
         if ($validasi->fails()) {

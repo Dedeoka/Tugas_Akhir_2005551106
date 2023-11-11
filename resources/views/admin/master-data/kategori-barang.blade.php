@@ -89,33 +89,29 @@
         <li class="menu-item active">
             <a href="{{ route('kategori-barang.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-shopping-bags"></i>
-                <div data-i18n="Email">Kategori Donasi Barang</div>
+                <div data-i18n="Email">Kategori Barang</div>
             </a>
         </li>
         <li class="menu-item">
-            <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-email.html"
-                class="menu-link">
+            <a href="{{ route('kategori-pemasukan.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-category-alt"></i>
                 <div data-i18n="Email">Kategori Pemasukan</div>
             </a>
         </li>
         <li class="menu-item">
-            <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-email.html"
-                class="menu-link">
+            <a href="{{ route('kategori-pengeluaran.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-category-alt"></i>
                 <div data-i18n="Email">Kategori Pengeluaran</div>
             </a>
         </li>
         <li class="menu-item">
-            <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-email.html"
-                class="menu-link">
+            <a href="{{ route('kategori-program.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-party"></i>
                 <div data-i18n="Email">Kategori Program Panti</div>
             </a>
         </li>
         <li class="menu-item">
-            <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-email.html"
-                class="menu-link">
+            <a href="{{ route('kategori-penyakit.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-virus"></i>
                 <div data-i18n="Email">Kategori Penyakit</div>
             </a>
@@ -132,7 +128,7 @@
         <li class="menu-item">
             <a href="cards-basic.html" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-donate-heart"></i>
-                <div data-i18n="Basic">Donasi Barang</div>
+                <div data-i18n="Basic">Pemasukan</div>
             </a>
         </li>
         <li class="menu-item">
@@ -275,7 +271,8 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-outline-secondary"
                                                 data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" id="postSubmit" class="btn btn-primary">Save</button>
+                                            <button type="submit" id="postSubmit"
+                                                class="btn btn-primary">Simpan</button>
                                         </div>
                                     </form>
                                 </div>

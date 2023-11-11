@@ -92,7 +92,7 @@
                 <div data-i18n="Email">Kategori Barang</div>
             </a>
         </li>
-        <li class="menu-item active">
+        <li class="menu-item">
             <a href="{{ route('kategori-pemasukan.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-category-alt"></i>
                 <div data-i18n="Email">Kategori Pemasukan</div>
@@ -110,7 +110,7 @@
                 <div data-i18n="Email">Kategori Program Panti</div>
             </a>
         </li>
-        <li class="menu-item">
+        <li class="menu-item active">
             <a href="{{ route('kategori-penyakit.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-virus"></i>
                 <div data-i18n="Email">Kategori Penyakit</div>
@@ -201,7 +201,7 @@
 
 
         <h4 class="py-3 mb-4">
-            <span class="text-muted fw-light">Master Data /</span> <b>Kategori Pemasukan</b>
+            <span class="text-muted fw-light">Master Data /</span> <b>Kategori Penyakit</b>
         </h4>
 
 
@@ -210,7 +210,7 @@
             <div class="d-flex">
                 <div class="w-75 m-3 quick-sand">
                     <h3>
-                        Tabel Data Kategori Pemasukan
+                        Tabel Data Kategori Penyakit
                     </h3>
                 </div>
                 {{-- <div class="col-lg-3 col-md-6">
@@ -249,19 +249,19 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel1">Tambah Data Kategori Pemasukan
+                                        <h5 class="modal-title" id="exampleModalLabel1">Tambah Data Kategori Penyakit
                                         </h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
-                                    <form id="categoryPemasukanForm" action="{{ route('kategori-pemasukan.store') }}"
+                                    <form id="categoryPenyakitForm" action="{{ route('kategori-penyakit.store') }}"
                                         method="POST">
                                         @csrf
                                         <div class="modal-body">
                                             <div class="row">
                                                 <div class="col mb-3">
                                                     <label for="nameBasic" class="form-label">Nama Kategori
-                                                        Pemasukan</label>
+                                                        Pengeluaran</label>
                                                     <input type="text" id="nameBasic" name="name"
                                                         class="form-control" placeholder="Enter Name" />
                                                     <div id="nameError" class="invalid-feedback"></div>
@@ -380,11 +380,11 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel1">Edit Data Kategori Pemasukan</h5>
+                                <h5 class="modal-title" id="exampleModalLabel1">Edit Data Kategori Penyakit</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <form action="{{ route('kategori-pemasukan.update', $data->id) }}" method="POST">
+                            <form action="{{ route('kategori-penyakit.update', $data->id) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
                                 <div class="modal-body">
@@ -465,7 +465,7 @@
 
             function simpan() {
                 $.ajax({
-                    url: "{{ route('kategori-pemasukan.store') }}",
+                    url: "{{ route('kategori-penyakit.store') }}",
                     type: 'POST',
                     data: {
                         name: $('#nameBasic').val(),
@@ -492,7 +492,7 @@
 
             function update(id) {
                 $.ajax({
-                    url: "{{ url('master-data/kategori-pemasukan') }}/" + id,
+                    url: "{{ url('master-data/kategori-penyakit') }}/" + id,
                     type: 'PATCH',
                     data: {
                         name: $('#editName' + id).val(),
@@ -553,7 +553,7 @@
 
             function deleteData(dataId) {
                 // Kirim permintaan Ajax ke server
-                fetch(`/master-data/kategori-pemasukan/${dataId}`, {
+                fetch(`/master-data/kategori-penyakit/${dataId}`, {
                         method: 'DELETE',
                         headers: {
                             'X-CSRF-TOKEN': '{{ csrf_token() }}',

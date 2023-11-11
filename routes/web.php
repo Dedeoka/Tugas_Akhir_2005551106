@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Master\KategoriBarangController;
 use App\Http\Controllers\Admin\Master\KategoriPemasukanController;
 use App\Http\Controllers\Admin\Master\KategoriPengeluaranController;
+use App\Http\Controllers\Admin\Master\KategoriProgramController;
+use App\Http\Controllers\Admin\Master\KategoriPenyakitController;
+use App\Http\Controllers\Admin\Anak\DataAnakController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,5 +27,11 @@ Route::prefix('master-data')->group(function () {
     Route::resource('kategori-barang', KategoriBarangController::class);
     Route::resource('kategori-pemasukan', KategoriPemasukanController::class);
     Route::resource('kategori-pengeluaran', KategoriPengeluaranController::class);
+    Route::resource('kategori-program', KategoriProgramController::class);
+    Route::resource('kategori-penyakit', KategoriPenyakitController::class);
+});
+
+Route::prefix('anak-asuh')->group(function () {
+    Route::resource('data-anak', DataAnakController::class);
 });
 

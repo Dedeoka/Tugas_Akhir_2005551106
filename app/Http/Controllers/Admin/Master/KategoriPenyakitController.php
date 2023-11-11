@@ -4,18 +4,18 @@ namespace App\Http\Controllers\Admin\Master;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\CostType;
+use App\Models\Disease;
 use App\Http\Requests\StoreKategoriRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class KategoriPengeluaranController extends Controller
+class KategoriPenyakitController extends Controller
 {
     public function index(Request $request)
     {
         $keyword = $request->query('q','');
-        $datas = CostType::where('name', 'LIKE', "%{$keyword}%")->orWhere('id', '=',$keyword)->paginate(10)->withQueryString();
-        return view('admin.master-data.kategori-pengeluaran', compact('datas', 'keyword'));
+        $datas = Disease::where('name', 'LIKE', "%{$keyword}%")->orWhere('id', '=',$keyword)->paginate(10)->withQueryString();
+        return view('admin.master-data.kategori-penyakit', compact('datas', 'keyword'));
     }
 
     /**
@@ -32,10 +32,10 @@ class KategoriPengeluaranController extends Controller
     public function store(Request $request)
     {
         $validasi = Validator::make($request->all(), [
-            'name' => 'required|unique:cost_types,name',
+            'name' => 'required|unique:diseases,name',
         ], [
             'name.required' => 'Data wajib diisi',
-            'name.unique' => 'Nama kategori pengeluaran sudah digunakan, harap pilih nama yang lain.',
+            'name.unique' => 'Nama kategori penyakit sudah digunakan, harap pilih nama yang lain.',
         ]);
 
         if ($validasi->fails()) {
@@ -44,7 +44,7 @@ class KategoriPengeluaranController extends Controller
             $data = [
                 'name' => $request->name,
             ];
-            CostType::create($data);
+            Disease::create($data);
 
             return response()->json(['success' => "Berhasil menyimpan data"]);
         }
@@ -72,10 +72,10 @@ class KategoriPengeluaranController extends Controller
     public function update(Request $request, string $id)
     {
         $validasi = Validator::make($request->all(), [
-            'name' => 'required|unique:cost_types,name,' . $id,
+            'name' => 'required|unique:diseases,name,' . $id,
         ], [
             'name.required' => 'Data wajib diisi',
-            'name.unique' => 'Nama kategori pengeluaran sudah digunakan, harap pilih nama yang lain.',
+            'name.unique' => 'Nama kategori penyakit sudah digunakan, harap pilih nama yang lain.',
         ]);
 
         if ($validasi->fails()) {
@@ -84,7 +84,7 @@ class KategoriPengeluaranController extends Controller
             $data = [
                 'name' => $request->name,
             ];
-            CostType::where('id', $id)->update($data);
+            Disease::where('id', $id)->update($data);
             return response()->json(['success' => "Berhasil melakukan update data"]);
         }
     }
@@ -94,7 +94,7 @@ class KategoriPengeluaranController extends Controller
      */
     public function destroy(string $id)
     {
-        CostType::find($id)->delete();
+        Disease::find($id)->delete();
         return response()->json(['success'=>'Record deleted successfully.']);
     }
 }

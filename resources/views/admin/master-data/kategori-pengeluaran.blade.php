@@ -99,21 +99,19 @@
             </a>
         </li>
         <li class="menu-item active">
-            <a href="{{ route('kategori-pemasukan.index') }}" class="menu-link">
+            <a href="{{ route('kategori-pengeluaran.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-category-alt"></i>
                 <div data-i18n="Email">Kategori Pengeluaran</div>
             </a>
         </li>
         <li class="menu-item">
-            <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-email.html"
-                class="menu-link">
+            <a href="{{ route('kategori-program.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-party"></i>
                 <div data-i18n="Email">Kategori Program Panti</div>
             </a>
         </li>
         <li class="menu-item">
-            <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-email.html"
-                class="menu-link">
+            <a href="{{ route('kategori-penyakit.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-virus"></i>
                 <div data-i18n="Email">Kategori Penyakit</div>
             </a>
@@ -256,7 +254,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
-                                    <form id="categoryBarangForm" action="{{ route('kategori-pengeluaran.store') }}"
+                                    <form id="categoryPengeluaranForm" action="{{ route('kategori-pengeluaran.store') }}"
                                         method="POST">
                                         @csrf
                                         <div class="modal-body">
@@ -273,7 +271,8 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-outline-secondary"
                                                 data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" id="postSubmit" class="btn btn-primary">Save</button>
+                                            <button type="submit" id="postSubmit"
+                                                class="btn btn-primary">Simpan</button>
                                         </div>
                                     </form>
                                 </div>
