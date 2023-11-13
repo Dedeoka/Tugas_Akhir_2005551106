@@ -843,6 +843,17 @@
                     $('#ktpError').text(errors.ktp[0]);
                 }
             }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
 
             $('#updateSubmit').click(function(e) {
                 e.preventDefault();
@@ -850,42 +861,69 @@
                 update(id);
             });
 
-            function update(id) {
-                var formData = new FormData();
-                formData.append('_token', '{{ csrf_token() }}');
-                formData.append('name', $('#editName' + id).val());
-                formData.append('place_of_birth', $('#editPlace_of_birth' + id).val());
-                formData.append('date_of_birth', $('#editDate_of_birth' + id).val());
-                formData.append('gender', $('#editGender' + id).val());
-                formData.append('religion', $('#editReligion' + id).val());
-                formData.append('status', $('#editStatus' + id).val());
+            function showSuccessMessage(message) {
+                Swal.fire({
+                    icon: 'success',
+                    title: message,
+                    confirmButtonText: 'OK',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.reload();
+                    }
+                });
+            }
 
-                // Handle file uploads
+            function showErrorMessage(message) {
+                Swal.fire({
+                    icon: 'error',
+                    title: message,
+                });
+            }
+
+            function update(id) {
                 var birthCertificateFile = $('#editBirth_certificate' + id)[0].files[0];
                 var familyCardFile = $('#editFamily_card' + id)[0].files[0];
                 var ktpFile = $('#editKtp' + id)[0].files[0];
 
-                if (birthCertificateFile) {
-                    formData.append('birth_certificate', birthCertificateFile);
-                }
-
-                if (familyCardFile) {
-                    formData.append('family_card', familyCardFile);
-                }
-
-                if (ktpFile) {
-                    formData.append('ktp', ktpFile);
-                }
+                var url = "{{ url('anak-asuh/data-anak') }}" + '/' + id;
+                console.log('URL:', url);
 
                 $.ajax({
-                    url: "{{ url('anak-asuh/data-anak') }}" + '/' + id,
+                    url: url,
                     type: 'PATCH',
-                    data: formData,
-                    enctype: 'multipart/form-data',
+                    data: function() {
+                        var formData = new FormData();
+
+                        // Menambahkan data teks ke FormData
+                        formData.append('_token', '{{ csrf_token() }}');
+                        formData.append('name', $('#editName' + id).val());
+                        formData.append('place_of_birth', $('#editPlace_of_birth' + id).val());
+                        formData.append('date_of_birth', $('#editDate_of_birth' + id).val());
+                        formData.append('gender', $('#editGender' + id).val());
+                        formData.append('religion', $('#editReligion' + id).val());
+                        formData.append('status', $('#editStatus' + id).val());
+
+                        // Menambahkan file ke FormData jika ada
+                        if (birthCertificateFile) {
+                            formData.append('birth_certificate', birthCertificateFile);
+                        }
+
+                        if (familyCardFile) {
+                            formData.append('family_card', familyCardFile);
+                        }
+
+                        if (ktpFile) {
+                            formData.append('ktp', ktpFile);
+                        }
+
+                        return formData;
+                    }(),
+                    contentType: false,
+                    processData: false,
                     success: function(response) {
                         if (response.errors) {
                             handleUpdateErrors(response.errors, id);
-                            console.log(formData);
+                            console.log('Error Response:', response);
                         } else {
                             // Handle success
                             showSuccessMessage(response.success);
@@ -894,7 +932,7 @@
                     },
                     error: function(xhr, status, error) {
                         // Handle other types of errors (e.g., server errors)
-                        console.error(xhr.responseText);
+                        console.error('XHR Response:', xhr.responseText);
                         showErrorMessage("An error occurred while updating data.");
                     }
                 });
@@ -966,11 +1004,8 @@
                 $('#editFamilyCardError' + id).text('');
                 $('#editKtpError' + id).text('');
             }
-
         });
     </script>
-
-
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
