@@ -687,9 +687,8 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-outline-secondary"
                                         data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary" id="updateSubmit"
-                                        data-id="{{ $data->id }}">Save
-                                        Changes</button>
+                                    <button type="button" class="btn btn-primary updateSubmit"
+                                        data-id="{{ $data->id }}">Save Changes</button>
                                 </div>
                             </form>
                         </div>
@@ -855,7 +854,7 @@
                 }
             });
 
-            $('#updateSubmit').click(function(e) {
+            $('.updateSubmit').click(function(e) {
                 e.preventDefault();
                 var id = $(this).data('id');
                 update(id);
@@ -881,43 +880,46 @@
             }
 
             function update(id) {
+                var formData = new FormData();
+
+                // Add text data to FormData
+                formData.append('_token', '{{ csrf_token() }}');
+                formData.append('name', $('#editName' + id).val());
+                formData.append('place_of_birth', $('#editPlace_of_birth' + id).val());
+                formData.append('date_of_birth', $('#editDate_of_birth' + id).val());
+                formData.append('gender', $('#editGender' + id).val());
+                formData.append('religion', $('#editReligion' + id).val());
+                formData.append('status', $('#editStatus' + id).val());
+
+                // Add file data to FormData if available
                 var birthCertificateFile = $('#editBirth_certificate' + id)[0].files[0];
                 var familyCardFile = $('#editFamily_card' + id)[0].files[0];
                 var ktpFile = $('#editKtp' + id)[0].files[0];
 
+                if (birthCertificateFile) {
+                    formData.append('birth_certificate', birthCertificateFile);
+                }
+
+                if (familyCardFile) {
+                    formData.append('family_card', familyCardFile);
+                }
+
+                if (ktpFile) {
+                    formData.append('ktp', ktpFile);
+                }
+
+                formData.append('_method', 'patch');
                 var url = "{{ url('anak-asuh/data-anak') }}" + '/' + id;
                 console.log('URL:', url);
+                for (var pair of formData.entries()) {
+                    console.log(pair[0] + ', ' + pair[1]);
+                }
 
                 $.ajax({
                     url: url,
-                    type: 'PATCH',
-                    data: function() {
-                        var formData = new FormData();
-
-                        // Menambahkan data teks ke FormData
-                        formData.append('_token', '{{ csrf_token() }}');
-                        formData.append('name', $('#editName' + id).val());
-                        formData.append('place_of_birth', $('#editPlace_of_birth' + id).val());
-                        formData.append('date_of_birth', $('#editDate_of_birth' + id).val());
-                        formData.append('gender', $('#editGender' + id).val());
-                        formData.append('religion', $('#editReligion' + id).val());
-                        formData.append('status', $('#editStatus' + id).val());
-
-                        // Menambahkan file ke FormData jika ada
-                        if (birthCertificateFile) {
-                            formData.append('birth_certificate', birthCertificateFile);
-                        }
-
-                        if (familyCardFile) {
-                            formData.append('family_card', familyCardFile);
-                        }
-
-                        if (ktpFile) {
-                            formData.append('ktp', ktpFile);
-                        }
-
-                        return formData;
-                    }(),
+                    type: 'POST',
+                    data: formData,
+                    cache: false,
                     contentType: false,
                     processData: false,
                     success: function(response) {
