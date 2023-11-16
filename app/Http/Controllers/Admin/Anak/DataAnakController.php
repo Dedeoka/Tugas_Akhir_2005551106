@@ -16,6 +16,7 @@ class DataAnakController extends Controller
     {
         $keyword = $request->query('q','');
         $datas = Children::where('name', 'LIKE', "%{$keyword}%")->orWhere('place_of_birth', 'LIKE',"%{$keyword}%")->paginate(10)->withQueryString();
+        $childs = Children::all();
         return view('admin.anak-asuh.data-anak-asuh', compact('datas', 'keyword'));
     }
 
@@ -33,7 +34,7 @@ class DataAnakController extends Controller
     public function store(Request $request)
     {
         $validasi = Validator::make($request->all(), [
-            'name' => 'required|unique:childrens,name',
+            'name' => 'required',
             'place_of_birth' => 'required',
             'date_of_birth' => 'required|date',
             'gender' => 'required',
@@ -44,7 +45,6 @@ class DataAnakController extends Controller
             'ktp' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
         ], [
             'name.required' => 'Data wajib diisi',
-            'name.unique' => 'Nama anak asuh sudah digunakan, harap pilih nama yang lain.',
             'place_of_birth.required' => 'Tempat lahir wajib diisi',
             'date_of_birth.required' => 'Tanggal lahir wajib diisi',
             'date_of_birth.date' => 'Format tanggal lahir tidak valid',
@@ -112,7 +112,7 @@ class DataAnakController extends Controller
     public function update(Request $request, $id)
     {
         $validasi = Validator::make($request->all(), [
-            'name' => 'required|unique:childrens,name,' . $id,
+            'name' => 'required',
             'place_of_birth' => 'required',
             'date_of_birth' => 'required|date',
             'gender' => 'required',
@@ -123,7 +123,6 @@ class DataAnakController extends Controller
             'ktp' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
         ], [
             'name.required' => 'Data wajib diisi',
-            'name.unique' => 'Nama anak asuh sudah digunakan, harap pilih nama yang lain.',
             'place_of_birth.required' => 'Tempat lahir wajib diisi',
             'date_of_birth.required' => 'Tanggal lahir wajib diisi',
             'date_of_birth.date' => 'Format tanggal lahir tidak valid',
@@ -147,42 +146,42 @@ class DataAnakController extends Controller
         }
 
         // Ambil data anak berdasarkan ID
-        $child = Children::find($id);
+        $data = Children::find($id);
 
         // Cek jika data anak tidak ditemukan
-        if (!$child) {
+        if (!$data) {
             return response()->json(['errors' => ['Anak tidak ditemukan']]);
         }
 
         // Update data anak
-        $child->name = $request->name;
-        $child->place_of_birth = $request->place_of_birth;
-        $child->date_of_birth = $request->date_of_birth;
-        $child->gender = $request->gender;
-        $child->religion = $request->religion;
-        $child->status = $request->status;
+        $data->name = $request->name;
+        $data->place_of_birth = $request->place_of_birth;
+        $data->date_of_birth = $request->date_of_birth;
+        $data->gender = $request->gender;
+        $data->religion = $request->religion;
+        $data->status = $request->status;
 
         // Periksa dan simpan file-file yang diunggah jika ada
         if ($request->hasFile('birth_certificate')) {
             // Hapus file lama sebelum menyimpan yang baru
-            Storage::delete($child->birth_certificate);
+            Storage::delete($data->birth_certificate);
 
             // Simpan file yang baru
-            $child->birth_certificate = $request->file('birth_certificate')->store('uploads/akta-kelahiran');
+            $data->birth_certificate = $request->file('birth_certificate')->store('uploads/akta-kelahiran');
         }
 
         if ($request->hasFile('family_card')) {
-            Storage::delete($child->family_card);
-            $child->family_card = $request->file('family_card')->store('uploads/kartu-keluarga');
+            Storage::delete($data->family_card);
+            $data->family_card = $request->file('family_card')->store('uploads/kartu-keluarga');
         }
 
         if ($request->hasFile('ktp')) {
-            Storage::delete($child->ktp);
-            $child->ktp = $request->file('ktp')->store('uploads/kartu-pengenal');
+            Storage::delete($data->ktp);
+            $data->ktp = $request->file('ktp')->store('uploads/kartu-pengenal');
         }
 
         // Simpan perubahan
-        $child->save();
+        $data->save();
 
         return response()->json(['success' => "Berhasil memperbarui data"]);
     }

@@ -1,21 +1,5 @@
 @extends('layouts.admin')
 
-@section('search')
-    <div class="navbar-nav align-items-center w-50">
-        <form action="" onsubmit="javascript:void(0);" class="w-100">
-            <div class="nav-item d-flex align-items-center w-100">
-                <div class="">
-                    <i class="bx bx-search fs-4 lh-0"></i>
-                </div>
-                <div class="w-100">
-                    <input type="text" class="form-control border-0 shadow-none ps-1 ps-sm-3" width="75%" name="q"
-                        placeholder="Search..." aria-label="Search..." id="search" />
-                </div>
-            </div>
-        </form>
-    </div>
-@endsection
-
 @section('menu-bar')
     <ul class="menu-inner py-1">
         <!-- Dashboards -->
@@ -210,7 +194,7 @@
             <div class="d-flex">
                 <div class="w-75 m-3 quick-sand">
                     <h3>
-                        Tabel Data Data Anak Asuh
+                        Tabel Data Anak Asuh
                     </h3>
                 </div>
                 {{-- <div class="col-lg-3 col-md-6">
@@ -549,7 +533,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel1">Edit Data Data Anak Asuh</h5>
+                                <h5 class="modal-title" id="exampleModalLabel1">Edit Data Anak Asuh</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>

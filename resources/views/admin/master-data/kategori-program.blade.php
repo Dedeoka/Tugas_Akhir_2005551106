@@ -1,21 +1,5 @@
 @extends('layouts.admin')
 
-@section('search')
-    <div class="navbar-nav align-items-center w-50">
-        <form action="" onsubmit="javascript:void(0);" class="w-100">
-            <div class="nav-item d-flex align-items-center w-100">
-                <div class="">
-                    <i class="bx bx-search fs-4 lh-0"></i>
-                </div>
-                <div class="w-100">
-                    <input type="text" class="form-control border-0 shadow-none ps-1 ps-sm-3" width="75%" name="q"
-                        placeholder="Search..." aria-label="Search..." id="search" />
-                </div>
-            </div>
-        </form>
-    </div>
-@endsection
-
 @section('menu-bar')
     <ul class="menu-inner py-1">
         <!-- Dashboards -->

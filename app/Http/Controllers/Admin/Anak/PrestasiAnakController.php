@@ -4,34 +4,28 @@ namespace App\Http\Controllers\Admin\Anak;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\ChildHealth;
 use App\Models\Children;
-use App\Models\Disease;
+use App\Models\ChildAchievement;
 use App\Http\Requests\StoreKategoriRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
 
-class KesehatanAnakController extends Controller
+class PrestasiAnakController extends Controller
 {
     public function index(Request $request)
     {
         $keyword = $request->query('q','');
-        $datas = ChildHealth::with(['childrens', 'diseases'])
+        $datas = ChildAchievement::with(['childrens'])
         ->where(function ($query) use ($keyword) {
             $query->whereHas('childrens', function ($subQuery) use ($keyword) {
-                $subQuery->where('name', 'LIKE', "%{$keyword}%");
-            })
-            ->orWhereHas('diseases', function ($subQuery) use ($keyword) {
                 $subQuery->where('name', 'LIKE', "%{$keyword}%");
             });
         })
         ->paginate(10)
         ->withQueryString();
         $childs = Children::all();
-        $diseases = Disease::all();
-        // dd($datas);
-        return view('admin.anak-asuh.kesehatan-anak-asuh', compact('datas', 'keyword', 'childs', 'diseases'));
+        return view('admin.anak-asuh.prestasi-anak-asuh', compact('datas', 'keyword', 'childs'));
     }
 
     /**
@@ -49,31 +43,39 @@ class KesehatanAnakController extends Controller
     {
         $validasi = Validator::make($request->all(), [
             'children_id' => 'required',
-            'disease_id' => 'required',
-            'medicine' => 'required',
-            'date_of_illness' => 'required|date',
+            'title' => 'required',
+            'ranking' => 'required',
+            'competition_date' => 'required|date',
+            'certificate' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
             'description' => 'required',
         ], [
             'children_id.required' => 'Data wajib diisi',
-            'disease_id.required' => 'Penyakit wajib diisi',
-            'medicine.required' => 'Obat wajib diisi',
-            'date_of_illness.required' => 'Tanggal sakit wajib diisi',
-            'date_of_illness.date' => 'Format tanggal tidak valid',
+            'title.required' => 'Judul wajib diisi',
+            'ranking.required' => 'Peringkat wajib diisi',
+            'competition_date.required' => 'Tanggal perlombaan wajib diisi',
+            'competition_date.date' => 'Format tanggal tidak valid',
+            'certificate.required' => 'Berkas bukti perlombaan wajib diisi',
+            'certificate.file' => 'Berkas bukti perlombaan harus berupa file',
+            'certificate.mimes' => 'Format file bukti perlombaan tidak valid. Pilih format pdf, jpg, jpeg, atau png',
+            'certificate.max' => 'Ukuran file bukti perlombaan tidak boleh lebih dari 2MB',
             'description' => 'Deskripsi wajib diisi',
         ]);
 
         if ($validasi->fails()) {
             return response()->json(['errors' => $validasi->errors()]);
         } else {
+            $certificatePath = $request->file('certificate')->store('uploads/bukti-perlombaan');
+
             $data = [
                 'children_id' => $request->children_id,
-                'disease_id' => $request->disease_id,
-                'medicine' => $request->medicine,
-                'date_of_illness' => $request->date_of_illness,
+                'title' => $request->title,
+                'ranking' => $request->ranking,
+                'competition_date' => $request->competition_date,
+                'certificate' => $certificatePath,
                 'description' => $request->description,
             ];
 
-            ChildHealth::create($data);
+            ChildAchievement::create($data);
 
             return response()->json(['success' => "Berhasil menyimpan data"]);
         }
@@ -102,16 +104,20 @@ class KesehatanAnakController extends Controller
     {
         $validasi = Validator::make($request->all(), [
             'children_id' => 'required',
-            'disease_id' => 'required',
-            'medicine' => 'required',
-            'date_of_illness' => 'required|date',
+            'title' => 'required',
+            'ranking' => 'required',
+            'competition_date' => 'required|date',
+            'certificate' => 'file|mimes:pdf,jpg,jpeg,png|max:2048',
             'description' => 'required',
         ], [
             'children_id.required' => 'Data wajib diisi',
-            'disease_id.required' => 'Penyakit wajib diisi',
-            'medicine.required' => 'Obat wajib diisi',
-            'date_of_illness.required' => 'Tanggal sakit wajib diisi',
-            'date_of_illness.date' => 'Format tanggal tidak valid',
+            'title.required' => 'Judul wajib diisi',
+            'ranking.required' => 'Peringkat wajib diisi',
+            'competition_date.required' => 'Tanggal perlombaan wajib diisi',
+            'competition_date.date' => 'Format tanggal tidak valid',
+            'certificate.file' => 'Berkas bukti perlombaan harus berupa file',
+            'certificate.mimes' => 'Format file bukti perlombaan tidak valid. Pilih format pdf, jpg, jpeg, atau png',
+            'certificate.max' => 'Ukuran file bukti perlombaan tidak boleh lebih dari 2MB',
             'description' => 'Deskripsi wajib diisi',
         ]);
 
@@ -121,19 +127,28 @@ class KesehatanAnakController extends Controller
         }
 
         // Ambil data anak berdasarkan ID
-        $data = ChildHealth::find($id);
+        $data = ChildAchievement::find($id);
 
         // Cek jika data anak tidak ditemukan
         if (!$data) {
-            return response()->json(['errors' => ['Anak tidak ditemukan']]);
+            return response()->json(['errors' => ['Data tidak ditemukan']]);
         }
 
         // Update data anak
         $data->children_id = $request->children_id;
-        $data->disease_id = $request->disease_id;
-        $data->medicine = $request->medicine;
-        $data->date_of_illness = $request->date_of_illness;
+        $data->title = $request->title;
+        $data->competition_date = $request->competition_date;
+        $data->ranking = $request->ranking;
         $data->description = $request->description;
+
+        // Periksa dan simpan file-file yang diunggah jika ada
+        if ($request->hasFile('certificate')) {
+            // Hapus file lama sebelum menyimpan yang baru
+            Storage::delete($data->certificate);
+
+            // Simpan file yang baru
+            $data->certificate = $request->file('certificate')->store('uploads/bukti-perlombaan');
+        }
 
         // Simpan perubahan
         $data->save();
@@ -146,7 +161,7 @@ class KesehatanAnakController extends Controller
      */
     public function destroy(string $id)
     {
-        ChildHealth::find($id)->delete();
+        ChildAchievement::find($id)->delete();
         return response()->json(['success'=>'Record deleted successfully.']);
     }
 }

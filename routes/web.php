@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\Master\KategoriProgramController;
 use App\Http\Controllers\Admin\Master\KategoriPenyakitController;
 use App\Http\Controllers\Admin\Anak\DataAnakController;
 use App\Http\Controllers\Admin\Anak\KesehatanAnakController;
+use App\Http\Controllers\Admin\Anak\PendidikanAnakController;
+use App\Http\Controllers\Admin\Anak\PrestasiAnakController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,5 +37,7 @@ Route::prefix('master-data')->group(function () {
 Route::prefix('anak-asuh')->group(function () {
     Route::resource('data-anak', DataAnakController::class);
     Route::resource('kesehatan-anak', KesehatanAnakController::class);
+    Route::resource('pendidikan-anak', PendidikanAnakController::class);
+    Route::resource('prestasi-anak', PrestasiAnakController::class);
 });
 

@@ -50,6 +50,17 @@
         .quick-sand {
             font-family: 'Quicksand Book Oblique', sans-serif;
         }
+
+        .w-90 {
+            width: 95%;
+        }
+
+        .rounded-search {
+            border: black 2px solid;
+            border-radius: 20px;
+            padding-left: 8px;
+            padding-right: 8px;
+        }
     </style>
 </head>
 
@@ -134,7 +145,21 @@
 
                     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
                         <!-- Search -->
-                        @yield('search')
+                        <div class="navbar-nav align-items-center w-90">
+                            <form class="w-100" id="searchForm">
+                                <div class="nav-item d-flex align-items-center w-100 rounded-search">
+                                    <div class="">
+                                        <i class="bx bx-search fs-4 lh-0"></i>
+                                    </div>
+                                    <div class="w-90">
+                                        <input type="text" class="form-control border-0 shadow-none ps-1 ps-sm-3"
+                                            width="75%" name="q" placeholder="Search..."
+                                            aria-label="Search..." id="search" value="{{ request('q') }}" />
+                                    </div>
+                                    <i class='bx bx-x' id="clearSearch" style="cursor: pointer;"></i>
+                                </div>
+                            </form>
+                        </div>
 
                         <!-- /Search -->
 
@@ -220,6 +245,26 @@
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mendapatkan elemen-elemen yang dibutuhkan
+            var searchForm = document.getElementById('searchForm');
+            var searchInput = document.getElementById('search');
+            var clearSearch = document.getElementById('clearSearch');
+
+            // Menambahkan event listener untuk menghapus pencarian
+            clearSearch.addEventListener('click', function() {
+                searchInput.value = '';
+                searchForm.submit(); // Mengirim formulir setelah menghapus pencarian
+            });
+
+            // Menambahkan event listener untuk mengirim formulir saat nilai input berubah
+            searchForm.addEventListener('submit', function() {
+                searchForm.submit();
+            });
+        });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>

@@ -1,20 +1,5 @@
 @extends('layouts.admin')
 
-@section('search')
-    <div class="navbar-nav align-items-center w-50">
-        <form action="" onsubmit="javascript:void(0);" class="w-100">
-            <div class="nav-item d-flex align-items-center w-100">
-                <div class="">
-                    <i class="bx bx-search fs-4 lh-0"></i>
-                </div>
-                <div class="w-100">
-                    <input type="text" class="form-control border-0 shadow-none ps-1 ps-sm-3" width="75%" name="q"
-                        placeholder="Search..." aria-label="Search..." id="search" />
-                </div>
-            </div>
-        </form>
-    </div>
-@endsection
 
 @section('menu-bar')
     <ul class="menu-inner py-1">
@@ -167,7 +152,7 @@
         <!-- Misc -->
         <li class="menu-header small text-uppercase"><span class="menu-header-text">Anak Asuh</span></li>
         <li class="menu-item">
-            <a href="{{ route('kesehatan-anak.index') }}" class="menu-link">
+            <a href="{{ route('data-anak.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-child"></i>
                 <div data-i18n="Support">Data Anak Asuh</div>
             </a>
@@ -200,7 +185,7 @@
 
 
         <h4 class="py-3 mb-4">
-            <span class="text-muted fw-light">Anak Asuh /</span> <b>Data Anak Asuh</b>
+            <span class="text-muted fw-light">Anak Asuh /</span> <b>Data Kesehatan Anak Asuh</b>
         </h4>
 
 
@@ -209,7 +194,7 @@
             <div class="d-flex">
                 <div class="w-75 m-3 quick-sand">
                     <h3>
-                        Tabel Data Data Anak Asuh
+                        Tabel Data Kesehatan Anak Asuh
                     </h3>
                 </div>
                 {{-- <div class="col-lg-3 col-md-6">
@@ -246,90 +231,61 @@
                                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEnd"
                                     aria-labelledby="offcanvasEndLabel">
                                     <div class="offcanvas-header">
-                                        <h5 id="offcanvasEndLabel" class="offcanvas-title">Tambah Data Anak Asuh</h5>
+                                        <h5 id="offcanvasEndLabel" class="offcanvas-title">Tambah Data Kesehatan Anak Asuh
+                                        </h5>
                                         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="offcanvas-body my-auto mx-0 flex-grow-0">
                                         <form id="dataAnakForm" action="{{ route('kesehatan-anak.store') }}"
-                                            method="POST" enctype="multipart/form-data">
+                                            method="POST">
                                             <div class="card mb-4">
                                                 <div class="card-body">
                                                     @csrf
                                                     <div class="mb-3">
-                                                        <label for="name" class="form-label">Nama Anak</label>
-                                                        <input type="text" class="form-control" id="name"
-                                                            name="name" placeholder="Nama Anak..." />
-                                                        <div id="nameError" class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="place_of_birth" class="form-label">Tempat
-                                                            Lahir</label>
-                                                        <input type="text" class="form-control" id="place_of_birth"
-                                                            name="place_of_birth" placeholder="Tempat Lahir..." />
-                                                        <div id="placeOfBirthError" class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="date_of_birth" class="form-label">Tanggal
-                                                            Lahir</label>
-                                                        <input class="form-control" type="date" id="date_of_birth"
-                                                            name="date_of_birth" />
-                                                        <div id="dateOfBirthError" class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="gender" class="form-label">Jenis Kelamin</label>
-                                                        <select class="form-select" id="gender" name="gender"
+                                                        <label for="children_id" class="form-label">Nama Anak</label>
+                                                        <select class="form-select" id="children_id" name="children_id"
                                                             aria-label="Default select example">
-                                                            <option value="" hidden>Pilih Jenis Kelamin
+                                                            <option value="" hidden>Pilih Nama Anak Asuh
                                                             </option>
-                                                            <option value="Laki-Laki">Laki-Laki</option>
-                                                            <option value="Perempuan">Perempuan</option>
+                                                            @foreach ($childs as $child)
+                                                                <option value="{{ $child->id }}">{{ $child->name }}
+                                                                </option>
+                                                            @endforeach
                                                         </select>
-                                                        <div id="genderError" class="invalid-feedback"></div>
+                                                        <div id="childrenError" class="invalid-feedback"></div>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="religion" class="form-label">Agama</label>
-                                                        <select class="form-select" id="religion" name="religion"
+                                                        <label for="disease_id" class="form-label">Nama Penyakit</label>
+                                                        <select class="form-select" id="disease_id" name="disease_id"
                                                             aria-label="Default select example">
-                                                            <option value="" hidden>Pilih Agama</option>
-                                                            <option value="Islam">Islam</option>
-                                                            <option value="Hindu">Hindu</option>
-                                                            <option value="Kristen Protestan">Kristen Protestan</option>
-                                                            <option value="Kristen Katolik">Kristen Katolik</option>
-                                                            <option value="Budha">Budha</option>
-                                                            <option value="Konghucu">Konghucu</option>
+                                                            <option value="" hidden>Pilih Nama Penyakit
+                                                            </option>
+                                                            @foreach ($diseases as $disease)
+                                                                <option value="{{ $disease->id }}">{{ $disease->name }}
+                                                                </option>
+                                                            @endforeach
                                                         </select>
-                                                        <div id="religionError" class="invalid-feedback"></div>
+                                                        <div id="diseaseError" class="invalid-feedback"></div>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="status" class="form-label">Status</label>
-                                                        <select class="form-select" id="status" name="status"
-                                                            aria-label="Default select example">
-                                                            <option value="" hidden>Status Anak Asuh</option>
-                                                            <option value="Aktif">Aktif</option>
-                                                            <option value="Non-Aktif">Non-Aktif</option>
-                                                        </select>
-                                                        <div id="statusError" class="invalid-feedback"></div>
+                                                        <label for="medicine" class="form-label">Nama Obat</label>
+                                                        <input type="text" class="form-control" id="medicine"
+                                                            name="medicine" placeholder="Nama Obat..." />
+                                                        <div id="medicineError" class="invalid-feedback"></div>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="birth_certificate" class="form-label">Akta
-                                                            Kelahiran</label>
-                                                        <input class="form-control" type="file" id="birth_certificate"
-                                                            name="birth_certificate" />
-                                                        <div id="birthCertificateError" class="invalid-feedback"></div>
+                                                        <label for="date_of_illness" class="form-label">Tanggal
+                                                            Sakit</label>
+                                                        <input class="form-control" type="date" id="date_of_illness"
+                                                            name="date_of_illness" />
+                                                        <div id="dateOfIllnessError" class="invalid-feedback"></div>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="family_card" class="form-label">Kartu Keluarga</label>
-                                                        <input class="form-control" type="file" id="family_card"
-                                                            name="family_card" />
-                                                        <div id="familyCardError" class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="ktp" class="form-label">Kartu Tanda Pengenal (KTP
-                                                            atau Tanda Pengenal Lainnya)</label>
-                                                        <input class="form-control" type="file" id="ktp"
-                                                            name="ktp" />
-                                                        <div id="ktpError" class="invalid-feedback"></div>
+                                                        <label for="description" class="form-label">Deskripsi
+                                                            Kesehatan</label>
+                                                        <textarea class="form-control" id="description" rows="3"></textarea>
+                                                        <div id="descriptionError" class="invalid-feedback"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -351,15 +307,11 @@
                         <thead>
                             <tr>
                                 <th class="col-md-1 text-center fw-bold">No</th>
-                                <th class="col-md-1 text-center fw-bold">Nama</th>
-                                <th class="col-md-1 text-center fw-bold">Tanggal Lahir</th>
-                                <th class="col-md-1 text-center fw-bold">Tempat Lahir</th>
-                                <th class="col-md-1 text-center fw-bold">Jenis Kelamin</th>
-                                <th class="col-md-1 text-center fw-bold">Agama</th>
-                                <th class="col-md-2 text-center fw-bold">Akta Kelahiran</th>
-                                <th class="col-md-2 text-center fw-bold">Kartu Keluarga</th>
-                                <th class="col-md-2 text-center fw-bold">Kartu Pengenal</th>
-                                <th class="col-md-1 text-center fw-bold">Status</th>
+                                <th class="col-md-1 text-center fw-bold">Nama Anak</th>
+                                <th class="col-md-1 text-center fw-bold">Nama Penyakit</th>
+                                <th class="col-md-1 text-center fw-bold">Obat Penyakit</th>
+                                <th class="col-md-1 text-center fw-bold">Tanggal Sakit</th>
+                                <th class="col-md-1 text-center fw-bold">Deskripsi</th>
                                 <th class="col-md-1 text-center fw-bold">Action</th>
                             </tr>
                         </thead>
@@ -370,102 +322,11 @@
                             @foreach ($datas as $data)
                                 <tr>
                                     <td>{{ $loop->iteration + $initialNumber }}</td>
-                                    <td>{{ $data->name }}</td>
-                                    <td>{{ $data->date_of_birth }}</td>
-                                    <td>{{ $data->place_of_birth }}</td>
-                                    <td>{{ $data->gender }}</td>
-                                    <td>{{ $data->religion }}</td>
-                                    <td>
-                                        <ul class="list-unstyled users-list m-0 avatar-group align-items-center">
-                                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom"
-                                                data-bs-placement="top" class="avatar avatar-xl pull-up"
-                                                title="Akta Kelahiran {{ $data->name }}">
-                                                <img src="{{ asset('storage/' . $data->birth_certificate) }}"
-                                                    alt="" data-bs-toggle="modal"
-                                                    data-bs-target="#modalCenterAkta_{{ $loop->index }}">
-                                            </li>
-                                            <div class="modal fade" id="modalCenterAkta_{{ $loop->index }}"
-                                                tabindex="-1" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalCenterTitle">Akta Kelahiran
-                                                                {{ $data->name }}</h5>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="row">
-                                                                <img src="{{ asset('storage/' . $data->birth_certificate) }}"
-                                                                    alt="" width="700px" height="450px">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </ul>
-                                    </td>
-                                    <td>
-                                        <ul class="list-unstyled users-list m-0 avatar-group align-items-center">
-                                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom"
-                                                data-bs-placement="top" class="avatar avatar-xl pull-up"
-                                                title="Kartu Keluarga {{ $data->name }}">
-                                                <img src="{{ asset('storage/' . $data->family_card) }}" alt=""
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#modalCenterKk_{{ $loop->index }}">
-                                            </li>
-                                            <div class="modal fade" id="modalCenterKk_{{ $loop->index }}"
-                                                tabindex="-1" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalCenterTitle">Kartu Keluarga
-                                                                {{ $data->name }}</h5>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="row">
-                                                                <img src="{{ asset('storage/' . $data->family_card) }}"
-                                                                    alt="" width="700px" height="450px">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </ul>
-                                    </td>
-                                    <td>
-                                        <ul class="list-unstyled users-list m-0 avatar-group align-items-center">
-                                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom"
-                                                data-bs-placement="top" class="avatar avatar-xl pull-up"
-                                                title="Tanda Pengenal {{ $data->name }}">
-                                                <img src="{{ asset('storage/' . $data->ktp) }}" alt=""
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#modalCenterKtp_{{ $loop->index }}">
-                                            </li>
-                                            <div class="modal fade" id="modalCenterKtp_{{ $loop->index }}"
-                                                tabindex="-1" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalCenterTitle">Tanda Pengenal
-                                                                {{ $data->name }}</h5>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="row">
-                                                                <img src="{{ asset('storage/' . $data->ktp) }}"
-                                                                    alt="" width="700px" height="450px">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </ul>
-                                    </td>
-                                    <td>{{ $data->status }}</td>
+                                    <td>{{ $data->childrens->name }}</td>
+                                    <td>{{ $data->diseases->name }}</td>
+                                    <td>{{ $data->medicine }}</td>
+                                    <td>{{ $data->date_of_illness }}</td>
+                                    <td>{{ $data->description }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -561,123 +422,69 @@
                                         <div class="card mb-4">
                                             <div class="card-body">
                                                 <div class="mb-3">
-                                                    <label for="editName{{ $data->id }}" class="form-label">Nama
+                                                    <label for="editChildren_id{{ $data->id }}"
+                                                        class="form-label">Nama
                                                         Anak</label>
-                                                    <input type="text" class="form-control"
-                                                        id="editName{{ $data->id }}" name="name"
-                                                        value="{{ $data->name }}" placeholder="Nama Anak..." />
-                                                    <div id="editNameError{{ $data->id }}" class="invalid-feedback">
-                                                    </div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="editPlace_of_birth{{ $data->id }}"
-                                                        class="form-label">Tempat Lahir</label>
-                                                    <input type="text" class="form-control"
-                                                        id="editPlace_of_birth{{ $data->id }}" name="place_of_birth"
-                                                        value="{{ $data->place_of_birth }}"
-                                                        placeholder="Tempat Lahir..." />
-                                                    <div id="editPlaceOfBirthError{{ $data->id }}"
+                                                    <select class="form-select" id="editChildren_id{{ $data->id }}"
+                                                        name="editChildren_id{{ $data->id }}"
+                                                        aria-label="Default select example">
+                                                        <option value="" hidden>Pilih Nama Anak Asuh</option>
+                                                        @foreach ($childs as $child)
+                                                            <option value="{{ $child->id }}"
+                                                                @if ($child->id == $data->children_id) selected @endif>
+                                                                {{ $child->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    <div id="editChildrenError{{ $data->id }}"
                                                         class="invalid-feedback"></div>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="editDate_of_birth{{ $data->id }}"
-                                                        class="form-label">Tanggal Lahir</label>
+                                                    <label for="editDisease_id{{ $data->id }}"
+                                                        class="form-label">Nama Penyakit</label>
+                                                    <select class="form-select" id="editDisease_id{{ $data->id }}"
+                                                        name="editDisease_id{{ $data->id }}"
+                                                        aria-label="Default select example">
+                                                        <option value="" hidden>Pilih Nama Penyakit
+                                                        </option>
+                                                        @foreach ($diseases as $disease)
+                                                            <option value="{{ $disease->id }}"
+                                                                @if ($disease->id == $data->disease_id) selected @endif>
+                                                                {{ $disease->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    <div id="editDiseaseError{{ $data->id }}"
+                                                        class="invalid-feedback"></div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="editMedicine{{ $data->id }}" class="form-label">Nama
+                                                        Obat</label>
+                                                    <input type="text" class="form-control"
+                                                        id="editMedicine{{ $data->id }}"
+                                                        name="editMedicine{{ $data->id }}" placeholder="Nama Obat..."
+                                                        value="{{ $data->medicine }}" />
+                                                    <div id="editMedicineError{{ $data->id }}"
+                                                        class="invalid-feedback"></div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="editDate_of_illness{{ $data->id }}"
+                                                        class="form-label">Tanggal
+                                                        Sakit</label>
                                                     <input class="form-control" type="date"
-                                                        id="editDate_of_birth{{ $data->id }}" name="date_of_birth"
-                                                        value="{{ $data->date_of_birth }}" />
-                                                    <div id="editDateOfBirthError{{ $data->id }}"
+                                                        id="editDate_of_illness{{ $data->id }}"
+                                                        name="editDate_of_illness{{ $data->id }}"
+                                                        value="{{ $data->date_of_illness }}" />
+                                                    <div id="editDateOfIllnessError{{ $data->id }}"
                                                         class="invalid-feedback"></div>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="editGender{{ $data->id }}" class="form-label">Jenis
-                                                        Kelamin</label>
-                                                    <select class="form-select" id="editGender{{ $data->id }}"
-                                                        name="gender" aria-label="Default select example">
-                                                        <option value="" hidden>Pilih Jenis Kelamin</option>
-                                                        <option value="Laki-Laki"
-                                                            {{ $data->gender == 'Laki-Laki' ? 'selected' : '' }}>Laki-Laki
-                                                        </option>
-                                                        <option value="Perempuan"
-                                                            {{ $data->gender == 'Perempuan' ? 'selected' : '' }}>Perempuan
-                                                        </option>
-                                                    </select>
-                                                    <div id="editGenderError{{ $data->id }}"
-                                                        class="invalid-feedback">
-                                                    </div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="editReligion{{ $data->id }}"
-                                                        class="form-label">Agama</label>
-                                                    <select class="form-select" id="editReligion{{ $data->id }}"
-                                                        name="religion" aria-label="Default select example">
-                                                        <option value="" hidden>Pilih Agama</option>
-                                                        <option value="Islam"
-                                                            {{ $data->religion == 'Islam' ? 'selected' : '' }}>Islam
-                                                        </option>
-                                                        <option value="Hindu"
-                                                            {{ $data->religion == 'Hindu' ? 'selected' : '' }}>Hindu
-                                                        </option>
-                                                        <option value="Kristen Protestan"
-                                                            {{ $data->religion == 'Kristen Protestan' ? 'selected' : '' }}>
-                                                            Kristen Protestan</option>
-                                                        <option value="Kristen Katolik"
-                                                            {{ $data->religion == 'Kristen Katolik' ? 'selected' : '' }}>
-                                                            Kristen Katolik</option>
-                                                        <option value="Budha"
-                                                            {{ $data->religion == 'Budha' ? 'selected' : '' }}>Budha
-                                                        </option>
-                                                        <option value="Konghucu"
-                                                            {{ $data->religion == 'Konghucu' ? 'selected' : '' }}>Konghucu
-                                                        </option>
-                                                    </select>
-                                                    <div id="editReligionError{{ $data->id }}"
-                                                        class="invalid-feedback">
-                                                    </div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="editStatus{{ $data->id }}"
-                                                        class="form-label">Status</label>
-                                                    <select class="form-select" id="editStatus{{ $data->id }}"
-                                                        name="status" aria-label="Default select example">
-                                                        <option value="" hidden>Status Anak Asuh</option>
-                                                        <option value="Aktif"
-                                                            {{ $data->status == 'Aktif' ? 'selected' : '' }}>Aktif</option>
-                                                        <option value="Non-Aktif"
-                                                            {{ $data->status == 'Non-Aktif' ? 'selected' : '' }}>Non-Aktif
-                                                        </option>
-                                                    </select>
-                                                    <div id="editStatusError{{ $data->id }}"
-                                                        class="invalid-feedback">
-                                                    </div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="editBirth_certificate{{ $data->id }}"
-                                                        class="form-label">Akta
-                                                        Kelahiran</label>
-                                                    <input class="form-control" type="file"
-                                                        id="editBirth_certificate{{ $data->id }}"
-                                                        name="birth_certificate" />
-                                                    <div id="editBirthCertificateError{{ $data->id }}"
+                                                    <label for="editDescription{{ $data->id }}"
+                                                        class="form-label">Deskripsi
+                                                        Kesehatan</label>
+                                                    <textarea class="form-control" id="editDescription{{ $data->id }}" rows="3">{{ $data->description }}</textarea>
+                                                    <div id="editDescriptionError{{ $data->id }}"
                                                         class="invalid-feedback"></div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="editFamily_card{{ $data->id }}"
-                                                        class="form-label">Kartu
-                                                        Keluarga</label>
-                                                    <input class="form-control" type="file"
-                                                        id="editFamily_card{{ $data->id }}" name="family_card" />
-                                                    <div id="editFamilyCardError{{ $data->id }}"
-                                                        class="invalid-feedback"></div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="editKtp{{ $data->id }}" class="form-label">Kartu
-                                                        Tanda
-                                                        Pengenal (KTP
-                                                        atau Tanda Pengenal Lainnya)</label>
-                                                    <input class="form-control" type="file"
-                                                        id="editKtp{{ $data->id }}" name="ktp" />
-                                                    <div id="editKtpError{{ $data->id }}" class="invalid-feedback">
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -686,9 +493,8 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-outline-secondary"
                                         data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary" id="updateSubmit"
-                                        data-id="{{ $data->id }}">Save
-                                        Changes</button>
+                                    <button type="button" class="btn btn-primary updateSubmit"
+                                        data-id="{{ $data->id }}">Save Changes</button>
                                 </div>
                             </form>
                         </div>
@@ -716,15 +522,11 @@
 
             function clearForm() {
                 // Ganti ID sesuai dengan form Anda
-                $('#name').val('');
-                $('#place_of_birth').val('');
-                $('#date_of_birth').val('');
-                $('#gender').val('');
-                $('#religion').val('');
-                $('#status').val('');
-                $('#birth_certificate').val('');
-                $('#family_card').val('');
-                $('#ktp').val('');
+                $('#children_id').val('');
+                $('#disease_id').val('');
+                $('#medicine').val('');
+                $('#date_of_illness').val('');
+                $('#description').val('');
                 $('.form-control').removeClass('is-invalid');
                 $('.invalid-feedback').text('');
             }
@@ -756,10 +558,18 @@
             });
 
             function simpan() {
+                var formData = new FormData();
+                formData.append('_token', '{{ csrf_token() }}');
+                formData.append('children_id', $('#children_id').val());
+                formData.append('disease_id', $('#disease_id').val());
+                formData.append('medicine', $('#medicine').val());
+                formData.append('date_of_illness', $('#date_of_illness').val());
+                formData.append('description', $('#description').val());
+
                 $.ajax({
                     url: "{{ route('kesehatan-anak.store') }}",
                     type: 'POST',
-                    data: new FormData($('#dataAnakForm')[0]),
+                    data: formData,
                     processData: false,
                     contentType: false,
                     success: function(response) {
@@ -781,9 +591,14 @@
                             });
                             $('#offcanvasEnd').offcanvas('hide');
                         }
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        // Handle the case where the server returns an error status code
+                        console.error(xhr.responseText);
                     }
                 });
             }
+
 
             function clearErrors() {
                 // Hapus kelas is-invalid dari semua elemen input
@@ -805,86 +620,93 @@
                 clearErrors();
 
                 // Menambahkan kelas is-invalid hanya untuk elemen input yang memiliki error
-                if (errors.name) {
-                    $('#name').addClass('is-invalid');
-                    $('#nameError').text(errors.name[0]);
+                if (errors.children_id) {
+                    $('#children_id').addClass('is-invalid');
+                    $('#childrenError').text(errors.children_id[0]);
                 }
-                if (errors.place_of_birth) {
-                    $('#place_of_birth').addClass('is-invalid');
-                    $('#placeOfBirthError').text(errors.place_of_birth[0]);
+                if (errors.disease_id) {
+                    $('#disease_id').addClass('is-invalid');
+                    $('#diseaseError').text(errors.disease_id[0]);
                 }
-                if (errors.date_of_birth) {
-                    $('#date_of_birth').addClass('is-invalid');
-                    $('#dateOfBirthError').text(errors.date_of_birth[0]);
+                if (errors.medicine) {
+                    $('#medicine').addClass('is-invalid');
+                    $('#medicineError').text(errors.medicine[0]);
                 }
-                if (errors.gender) {
-                    $('#gender').addClass('is-invalid');
-                    $('#genderError').text(errors.gender[0]);
+                if (errors.date_of_illness) {
+                    $('#date_of_illness').addClass('is-invalid');
+                    $('#dateOfIllnessError').text(errors.date_of_illness[0]);
                 }
-                if (errors.religion) {
-                    $('#religion').addClass('is-invalid');
-                    $('#religionError').text(errors.religion[0]);
-                }
-                if (errors.status) {
-                    $('#status').addClass('is-invalid');
-                    $('#statusError').text(errors.status[0]);
-                }
-                if (errors.birth_certificate) {
-                    $('#birth_certificate').addClass('is-invalid');
-                    $('#birthCertificateError').text(errors.birth_certificate[0]);
-                }
-                if (errors.family_card) {
-                    $('#family_card').addClass('is-invalid');
-                    $('#familyCardError').text(errors.family_card[0]);
-                }
-                if (errors.ktp) {
-                    $('#ktp').addClass('is-invalid');
-                    $('#ktpError').text(errors.ktp[0]);
+                if (errors.description) {
+                    $('#description').addClass('is-invalid');
+                    $('#descriptionError').text(errors.description[0]);
                 }
             }
+        });
+    </script>
 
-            $('#updateSubmit').click(function(e) {
+    <script>
+        $(document).ready(function() {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $('.updateSubmit').click(function(e) {
                 e.preventDefault();
                 var id = $(this).data('id');
                 update(id);
             });
 
+            function showSuccessMessage(message) {
+                Swal.fire({
+                    icon: 'success',
+                    title: message,
+                    confirmButtonText: 'OK',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.reload();
+                    }
+                });
+            }
+
+            function showErrorMessage(message) {
+                Swal.fire({
+                    icon: 'error',
+                    title: message,
+                });
+            }
+
             function update(id) {
                 var formData = new FormData();
+
+                // Add text data to FormData
                 formData.append('_token', '{{ csrf_token() }}');
-                formData.append('name', $('#editName' + id).val());
-                formData.append('place_of_birth', $('#editPlace_of_birth' + id).val());
-                formData.append('date_of_birth', $('#editDate_of_birth' + id).val());
-                formData.append('gender', $('#editGender' + id).val());
-                formData.append('religion', $('#editReligion' + id).val());
-                formData.append('status', $('#editStatus' + id).val());
+                formData.append('children_id', $('#editChildren_id' + id).val());
+                formData.append('disease_id', $('#editDisease_id' + id).val());
+                formData.append('medicine', $('#editMedicine' + id).val());
+                formData.append('date_of_illness', $('#editDate_of_illness' + id).val());
+                formData.append('description', $('#editDescription' + id).val());
+                formData.append('_method', 'patch');
 
-                // Handle file uploads
-                var birthCertificateFile = $('#editBirth_certificate' + id)[0].files[0];
-                var familyCardFile = $('#editFamily_card' + id)[0].files[0];
-                var ktpFile = $('#editKtp' + id)[0].files[0];
-
-                if (birthCertificateFile) {
-                    formData.append('birth_certificate', birthCertificateFile);
+                for (var pair of formData.entries()) {
+                    console.log(pair[0] + ', ' + pair[1]);
                 }
 
-                if (familyCardFile) {
-                    formData.append('family_card', familyCardFile);
-                }
-
-                if (ktpFile) {
-                    formData.append('ktp', ktpFile);
-                }
+                var url = "{{ url('anak-asuh/kesehatan-anak') }}" + '/' + id;
 
                 $.ajax({
-                    url: "{{ url('anak-asuh/kesehatan-anak') }}" + '/' + id,
-                    type: 'PATCH',
-                    processData: false,
-                    contentType: false,
+                    url: url,
+                    type: 'POST',
                     data: formData,
+                    contentType: false,
+                    processData: false, // Set this to false to prevent jQuery from processing the data
+                    cache: false,
                     success: function(response) {
                         if (response.errors) {
                             handleUpdateErrors(response.errors, id);
+                            console.log('Error Response:', response);
                         } else {
                             // Handle success
                             showSuccessMessage(response.success);
@@ -893,83 +715,66 @@
                     },
                     error: function(xhr, status, error) {
                         // Handle other types of errors (e.g., server errors)
-                        console.error(xhr.responseText);
+                        console.error('XHR Response:', xhr.responseText);
                         showErrorMessage("An error occurred while updating data.");
                     }
                 });
             }
 
+            // Function to format date to 'YYYY-MM-DD'
+            function formatDate(dateString) {
+                var date = new Date(dateString);
+                var year = date.getFullYear();
+                var month = (date.getMonth() + 1).toString().padStart(2, '0');
+                var day = date.getDate().toString().padStart(2, '0');
+                return year + '-' + month + '-' + day;
+            }
+
+
             function handleUpdateErrors(errors, id) {
                 // Clear previous errors
                 clearUpdateErrors(id);
 
-                // Display new errors
-                if (errors.name) {
-                    $('#editName' + id).addClass('is-invalid');
-                    $('#editNameError' + id).text(errors.name[0]);
+                // Menambahkan kelas is-invalid hanya untuk elemen input yang memiliki error
+                if (errors.children_id) {
+                    $('#editChildren_id' + id).addClass('is-invalid');
+                    $('#editChildrenError' + id).text(errors.children_id[0]);
                 }
-                if (errors.place_of_birth) {
-                    $('#editPlace_of_birth' + id).addClass('is-invalid');
-                    $('#editPlaceOfBirthError' + id).text(errors.place_of_birth[0]);
+                if (errors.disease_id) {
+                    $('#editDisease_id' + id).addClass('is-invalid');
+                    $('#editDiseaseError' + id).text(errors.disease_id[0]);
                 }
-                if (errors.date_of_birth) {
-                    $('#editDate_of_birth' + id).addClass('is-invalid');
-                    $('#editDateOfBirthError' + id).text(errors.date_of_birth[0]);
+                if (errors.medicine) {
+                    $('#editMedicine' + id).addClass('is-invalid');
+                    $('#editMedicineError' + id).text(errors.medicine[0]);
                 }
-                if (errors.gender) {
-                    $('#editGender' + id).addClass('is-invalid');
-                    $('#editGenderError' + id).text(errors.gender[0]);
+                if (errors.date_of_illness) {
+                    $('#editDate_of_illness' + id).addClass('is-invalid');
+                    $('#editDateOfIllnessError' + id).text(errors.date_of_illness[0]);
                 }
-                if (errors.religion) {
-                    $('#editReligion' + id).addClass('is-invalid');
-                    $('#editReligionError' + id).text(errors.religion[0]);
-                }
-                if (errors.status) {
-                    $('#editStatus' + id).addClass('is-invalid');
-                    $('#editStatusError' + id).text(errors.status[0]);
-                }
-                if (errors.birth_certificate) {
-                    $('#editBirth_certificate' + id).addClass('is-invalid');
-                    $('#editBirthCertificateError' + id).text(errors.birth_certificate[0]);
-                }
-                if (errors.family_card) {
-                    $('#editFamily_card' + id).addClass('is-invalid');
-                    $('#editFamilyCardError' + id).text(errors.family_card[0]);
-                }
-                if (errors.ktp) {
-                    $('#editKtp' + id).addClass('is-invalid');
-                    $('#editKtpError' + id).text(errors.ktp[0]);
+                if (errors.description) {
+                    $('#editDescription' + id).addClass('is-invalid');
+                    $('#editDescriptionError' + id).text(errors.description[0]);
                 }
             }
 
             function clearUpdateErrors(id) {
                 // Clear previous errors
-                $('#editName' + id).removeClass('is-invalid');
-                $('#editPlace_of_birth' + id).removeClass('is-invalid');
-                $('#editDate_of_birth' + id).removeClass('is-invalid');
-                $('#editGender' + id).removeClass('is-invalid');
-                $('#editReligion' + id).removeClass('is-invalid');
-                $('#editStatus' + id).removeClass('is-invalid');
-                $('#editBirth_certificate' + id).removeClass('is-invalid');
-                $('#editFamily_card' + id).removeClass('is-invalid');
-                $('#editKtp' + id).removeClass('is-invalid');
+                $('#editChildren_id' + id).removeClass('is-invalid');
+                $('#editDisease_id' + id).removeClass('is-invalid');
+                $('#editMedicine' + id).removeClass('is-invalid');
+                $('#editDate_of_illness' + id).removeClass('is-invalid');
+                $('#editDescription' + id).removeClass('is-invalid');
 
                 // Clear error messages
-                $('#editNameError' + id).text('');
-                $('#editPlaceOfBirthError' + id).text('');
-                $('#editDateOfBirthError' + id).text('');
-                $('#editGenderError' + id).text('');
-                $('#editReligionError' + id).text('');
-                $('#editStatusError' + id).text('');
-                $('#editBirthCertificateError' + id).text('');
-                $('#editFamilyCardError' + id).text('');
-                $('#editKtpError' + id).text('');
+                $('#editChildrenError' + id).text('');
+                $('#editDiseaseError' + id).text('');
+                $('#editMedicineError' + id).text('');
+                $('#editDateOfIllnessError' + id).text('');
+                $('#editDescriptionError' + id).text('');
             }
-
         });
     </script>
-
-
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

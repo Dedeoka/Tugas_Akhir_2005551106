@@ -9,4 +9,9 @@ class Disease extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+
+    public function childHealths()
+    {
+        return $this->hasMany(ChildHealth::class);
+    }
 }
