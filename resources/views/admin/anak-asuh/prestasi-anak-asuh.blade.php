@@ -156,7 +156,7 @@
                 <div data-i18n="Support">Data Anak Asuh</div>
             </a>
         </li>
-        <li class="menu-item active">
+        <li class="menu-item">
             <a href="{{ route('pendidikan-anak.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-school"></i>
                 <div data-i18n="Documentation">Pendidikan Anak Asuh</div>
@@ -168,7 +168,7 @@
                 <div data-i18n="Documentation">Kesehatan Anak Asuh</div>
             </a>
         </li>
-        <li class="menu-item">
+        <li class="menu-item active">
             <a href="{{ route('prestasi-anak.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-medal"></i>
                 <div data-i18n="Documentation">Prestasi Anak Asuh</div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Children;
 use App\Http\Requests\StoreKategoriRequest;
+use App\Models\ChildrenDetail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
@@ -40,29 +41,63 @@ class DataAnakController extends Controller
             'gender' => 'required',
             'religion' => 'required',
             'status' => 'required',
+            'identity_card' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'image' => 'required|file|mimes:jpg,jpeg,png|max:2048',
+
+
+            'father_name' => 'required',
+            'mother_name' => 'required',
+            'reason_for_leaving' => 'required',
+            'guardian_name' => 'required',
+            'guardian_relationship' => 'required',
+            'guardian_address' => 'required',
+            'guardian_phone_number' => 'required|regex:/^[0-9]+$/|min:10|max:15',
+            'guardian_email' => 'required|email',
+            'guardian_identity_card' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
             'birth_certificate' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048', // maksimal 2MB
             'family_card' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'ktp' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
         ], [
-            'name.required' => 'Data wajib diisi',
-            'place_of_birth.required' => 'Tempat lahir wajib diisi',
-            'date_of_birth.required' => 'Tanggal lahir wajib diisi',
+            'name.required' => 'Nama anak asuh wajib diisi',
+            'place_of_birth.required' => 'Tempat lahir anak asuh wajib diisi',
+            'date_of_birth.required' => 'Tanggal lahir anak asuh wajib diisi',
             'date_of_birth.date' => 'Format tanggal lahir tidak valid',
-            'gender.required' => 'Jenis kelamin wajib diisi',
-            'religion.required' => 'Agama wajib diisi',
-            'status.required' => 'Status wajib diisi',
-            'birth_certificate.required' => 'Nomor Akta Kelahiran wajib diisi',
-            'family_card.required' => 'Nomor Kartu Keluarga wajib diisi',
-            'ktp.required' => 'Nomor KTP wajib diisi',
-            'birth_certificate.file' => 'Berkas Akta Kelahiran harus berupa file',
-            'birth_certificate.mimes' => 'Format file Akta Kelahiran tidak valid. Pilih format pdf, jpg, jpeg, atau png',
-            'birth_certificate.max' => 'Ukuran file Akta Kelahiran tidak boleh lebih dari 2MB',
-            'family_card.file' => 'Berkas Kartu Keluarga harus berupa file',
-            'family_card.mimes' => 'Format file Kartu Keluarga tidak valid. Pilih format pdf, jpg, jpeg, atau png',
-            'family_card.max' => 'Ukuran file Kartu Keluarga tidak boleh lebih dari 2MB',
-            'ktp.file' => 'Berkas KTP harus berupa file',
-            'ktp.mimes' => 'Format file KTP tidak valid. Pilih format pdf, jpg, jpeg, atau png',
-            'ktp.max' => 'Ukuran file KTP tidak boleh lebih dari 2MB',
+            'gender.required' => 'Jenis kelamin anak asuh wajib diisi',
+            'religion.required' => 'Agama anak asuh wajib diisi',
+            'status.required' => 'Status anak asuh wajib diisi',
+            'identity_card.required' => 'Berkas kartu identitas anak asuh wajib diisi',
+            'identity_card.file' => 'Berkas kartu identitas anak asuh harus berupa file',
+            'identity_card.mimes' => 'Format file kartu identitas tidak valid. Pilih format pdf, jpg, jpeg, atau png',
+            'identity_card.max' => 'Ukuran file kartu identitas tidak boleh lebih dari 2MB',
+            'image.required' => 'Foto anak asuh wajib diisi',
+            'image.file' => 'Berkas foto anak asuh harus berupa file',
+            'image.mimes' => 'Format file foto tidak valid. Pilih format jpg, jpeg, atau png',
+            'image.max' => 'Ukuran file foto tidak boleh lebih dari 2MB',
+
+
+            'father_name.required' => 'Nama ayah anak asuh wajib diisi',
+            'mother_name.required' => 'Nama ibu anak asuh wajib diisi',
+            'reason_for_leaving.required' => 'Alasan menitipkan anak wajib diisi',
+            'guardian_name.required' => 'Nama wali anak asuh wajib diisi',
+            'guardian_relationship.required' => 'Hubungan wali dengan anak asuh wajib diisi',
+            'guardian_address.required' => 'Alamat wali anak asuh wajib diisi',
+            'guardian_phone_number.required' => 'Nomor telepon wali anak asuh harus diisi.',
+            'guardian_phone_number.regex' => 'Nomor telepon wali hanya boleh berisi angka.',
+            'guardian_phone_number.min' => 'Nomor telepon wali minimal harus 10 karakter.',
+            'guardian_phone_number.max' => 'Nomor telepon wali maksimal harus 15 karakter.',
+            'guardian_email.required' => 'Alamat email wali anak asuh harus diisi.',
+            'guardian_email.email' => 'Alamat email wali harus berupa alamat email yang valid.',
+            'guardian_identity_card.required' => 'Berkas kartu identitas wali anak asuh wajib diisi',
+            'guardian_identity_card.file' => 'Berkas kartu identitas wali anak asuh harus berupa file',
+            'guardian_identity_card.mimes' => 'Format file kartu identitas wali tidak valid. Pilih format pdf, jpg, jpeg, atau png',
+            'guardian_identity_card.max' => 'Ukuran file kartu identitas wali tidak boleh lebih dari 2MB',
+            'birth_certificate.required' => 'Berkas akta kelahiran wajib diisi',
+            'birth_certificate.file' => 'Berkas akta kelahiran anak asuh harus berupa file',
+            'birth_certificate.mimes' => 'Format file akta kelahiran tidak valid. Pilih format pdf, jpg, jpeg, atau png',
+            'birth_certificate.max' => 'Ukuran file akta kelahiran tidak boleh lebih dari 2MB',
+            'family_card.required' => 'Berkas kartu keluarga anak asuh wajib diisi',
+            'family_card.file' => 'Berkas kartu keluarga harus berupa file',
+            'family_card.mimes' => 'Format berkas kartu keluarga tidak valid. Pilih format pdf, jpg, jpeg, atau png',
+            'family_card.max' => 'Ukuran berkas kartu keluarga tidak boleh lebih dari 2MB',
         ]);
 
         if ($validasi->fails()) {
@@ -70,7 +105,9 @@ class DataAnakController extends Controller
         } else {
             $birthCertificatePath = $request->file('birth_certificate')->store('uploads/akta-kelahiran');
             $familyCardPath = $request->file('family_card')->store('uploads/kartu-keluarga');
-            $ktpPath = $request->file('ktp')->store('uploads/kartu-pengenal');
+            $identityCardPath = $request->file('identity_card')->store('uploads/kartu-pengenal');
+            $imagePath = $request->file('image')->store('uploads/foto-anak');
+            $guardianIdentityPath = $request->file('guardian_identity_card')->store('uploads/kartu-pengenal-wali');
 
             $data = [
                 'name' => $request->name,
@@ -79,12 +116,29 @@ class DataAnakController extends Controller
                 'gender' => $request->gender,
                 'religion' => $request->religion,
                 'status' => $request->status,
-                'birth_certificate' => $birthCertificatePath,
-                'family_card' => $familyCardPath,
-                'ktp' => $ktpPath,
+                'congenital_disease' => $request->congenital_disease ? $request->congenital_disease : 'tidak ada',
+                'identity_card' => $identityCardPath,
+                'image' => $imagePath,
             ];
 
-            Children::create($data);
+            $newChildren = Children::create($data);
+
+            $dataDetail = [
+                'children_id' => $newChildren->id,
+                'father_name' => $request->father_name,
+                'mother_name' => $request->mother_name,
+                'reason_for_leaving' => $request->reason_for_leaving,
+                'guardian_name' => $request->guardian_name,
+                'guardian_relationship' => $request->guardian_relationship,
+                'guardian_address' => $request->guardian_address,
+                'guardian_phone_number' => $request->guardian_phone_number,
+                'guardian_email' => $request->guardian_email,
+                'birth_certificate' => $birthCertificatePath,
+                'family_card' => $familyCardPath,
+                'guardian_identity_card' => $guardianIdentityPath,
+            ];
+
+            ChildrenDetail::create($dataDetail);
 
             return response()->json(['success' => "Berhasil menyimpan data"]);
         }

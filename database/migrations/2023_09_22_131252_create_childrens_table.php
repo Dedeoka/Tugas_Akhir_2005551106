@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('gender');
             $table->string('religion');
             $table->string('status');
-            $table->string('birth_certificate');
-            $table->string('family_card');
-            $table->string('ktp');
+            $table->string('congenital_disease');
+            $table->string('image');
+            $table->string('identity_card');
             $table->timestamps();
         });
     }

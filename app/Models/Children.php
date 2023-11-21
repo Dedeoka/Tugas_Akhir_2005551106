@@ -20,8 +20,13 @@ class Children extends Model
         return $this->hasMany(ChildEducation::class);
     }
 
-    public function childAchievement()
+    public function childAchievements()
     {
         return $this->hasMany(ChildAchievement::class);
+    }
+
+    public function childDetails()
+    {
+        return $this->hasMany(childDetails::class);
     }
 }

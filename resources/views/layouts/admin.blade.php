@@ -61,6 +61,11 @@
             padding-left: 8px;
             padding-right: 8px;
         }
+
+        .swal2-container {
+            z-index: 9999;
+            /* Atur nilai z-index sesuai kebutuhan */
+        }
     </style>
 </head>
 

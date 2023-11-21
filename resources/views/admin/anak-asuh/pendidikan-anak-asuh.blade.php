@@ -163,15 +163,13 @@
             </a>
         </li>
         <li class="menu-item">
-            <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/documentation/"
-                class="menu-link">
+            <a href="{{ route('kesehatan-anak.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-heart"></i>
                 <div data-i18n="Documentation">Kesehatan Anak Asuh</div>
             </a>
         </li>
         <li class="menu-item">
-            <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/documentation/"
-                class="menu-link">
+            <a href="{{ route('prestasi-anak.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-medal"></i>
                 <div data-i18n="Documentation">Prestasi Anak Asuh</div>
             </a>

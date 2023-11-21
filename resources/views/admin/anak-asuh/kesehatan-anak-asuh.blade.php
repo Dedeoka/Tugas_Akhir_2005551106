@@ -158,8 +158,7 @@
             </a>
         </li>
         <li class="menu-item">
-            <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/documentation/"
-                class="menu-link">
+            <a href="{{ route('pendidikan-anak.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-school"></i>
                 <div data-i18n="Documentation">Pendidikan Anak Asuh</div>
             </a>
@@ -171,8 +170,7 @@
             </a>
         </li>
         <li class="menu-item">
-            <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/documentation/"
-                class="menu-link">
+            <a href="{{ route('prestasi-anak.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-medal"></i>
                 <div data-i18n="Documentation">Prestasi Anak Asuh</div>
             </a>

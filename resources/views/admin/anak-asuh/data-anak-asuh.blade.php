@@ -157,22 +157,19 @@
             </a>
         </li>
         <li class="menu-item">
-            <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/documentation/"
-                class="menu-link">
+            <a href="{{ route('pendidikan-anak.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-school"></i>
                 <div data-i18n="Documentation">Pendidikan Anak Asuh</div>
             </a>
         </li>
         <li class="menu-item">
-            <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/documentation/"
-                class="menu-link">
+            <a href="{{ route('kesehatan-anak.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-heart"></i>
                 <div data-i18n="Documentation">Kesehatan Anak Asuh</div>
             </a>
         </li>
         <li class="menu-item">
-            <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/documentation/"
-                class="menu-link">
+            <a href="{{ route('prestasi-anak.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-medal"></i>
                 <div data-i18n="Documentation">Prestasi Anak Asuh</div>
             </a>
@@ -197,132 +194,376 @@
                         Tabel Data Anak Asuh
                     </h3>
                 </div>
-                {{-- <div class="col-lg-3 col-md-6">
-                    <div class="mt-3 mb-3">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                <i class='bx bx-export m-1'></i>
-                                Export</button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="javascript:void(0);">Action</a></li>
-                                <li><a class="dropdown-item" href="javascript:void(0);">Another action</a></li>
-                                <li><a class="dropdown-item" href="javascript:void(0);">Something else here</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="javascript:void(0);">Separated link</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div> --}}
                 <div class="col-lg-3 col-md-6 quick-sand">
                     <div class="mt-3 mb-3">
                         <div class="d-flex">
                             <div class="side-content">
-
                             </div>
                             <div class="">
-                                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                                    data-bs-target="#offcanvasEnd" aria-controls="offcanvasEnd">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#exLargeModal">
                                     <i class='bx bx-plus m-1'></i>
                                     Tambah Data
                                 </button>
-                                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEnd"
-                                    aria-labelledby="offcanvasEndLabel">
-                                    <div class="offcanvas-header">
-                                        <h5 id="offcanvasEndLabel" class="offcanvas-title">Tambah Data Anak Asuh</h5>
-                                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="offcanvas-body my-auto mx-0 flex-grow-0">
-                                        <form id="dataAnakForm" action="{{ route('data-anak.store') }}" method="POST"
-                                            enctype="multipart/form-data">
-                                            <div class="card mb-4">
-                                                <div class="card-body">
-                                                    @csrf
-                                                    <div class="mb-3">
-                                                        <label for="name" class="form-label">Nama Anak</label>
-                                                        <input type="text" class="form-control" id="name"
-                                                            name="name" placeholder="Nama Anak..." />
-                                                        <div id="nameError" class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="place_of_birth" class="form-label">Tempat
-                                                            Lahir</label>
-                                                        <input type="text" class="form-control" id="place_of_birth"
-                                                            name="place_of_birth" placeholder="Tempat Lahir..." />
-                                                        <div id="placeOfBirthError" class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="date_of_birth" class="form-label">Tanggal
-                                                            Lahir</label>
-                                                        <input class="form-control" type="date" id="date_of_birth"
-                                                            name="date_of_birth" />
-                                                        <div id="dateOfBirthError" class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="gender" class="form-label">Jenis Kelamin</label>
-                                                        <select class="form-select" id="gender" name="gender"
-                                                            aria-label="Default select example">
-                                                            <option value="" hidden>Pilih Jenis Kelamin
-                                                            </option>
-                                                            <option value="Laki-Laki">Laki-Laki</option>
-                                                            <option value="Perempuan">Perempuan</option>
-                                                        </select>
-                                                        <div id="genderError" class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="religion" class="form-label">Agama</label>
-                                                        <select class="form-select" id="religion" name="religion"
-                                                            aria-label="Default select example">
-                                                            <option value="" hidden>Pilih Agama</option>
-                                                            <option value="Islam">Islam</option>
-                                                            <option value="Hindu">Hindu</option>
-                                                            <option value="Kristen Protestan">Kristen Protestan</option>
-                                                            <option value="Kristen Katolik">Kristen Katolik</option>
-                                                            <option value="Budha">Budha</option>
-                                                            <option value="Konghucu">Konghucu</option>
-                                                        </select>
-                                                        <div id="religionError" class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="status" class="form-label">Status</label>
-                                                        <select class="form-select" id="status" name="status"
-                                                            aria-label="Default select example">
-                                                            <option value="" hidden>Status Anak Asuh</option>
-                                                            <option value="Aktif">Aktif</option>
-                                                            <option value="Non-Aktif">Non-Aktif</option>
-                                                        </select>
-                                                        <div id="statusError" class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="birth_certificate" class="form-label">Akta
-                                                            Kelahiran</label>
-                                                        <input class="form-control" type="file" id="birth_certificate"
-                                                            name="birth_certificate" />
-                                                        <div id="birthCertificateError" class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="family_card" class="form-label">Kartu Keluarga</label>
-                                                        <input class="form-control" type="file" id="family_card"
-                                                            name="family_card" />
-                                                        <div id="familyCardError" class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="ktp" class="form-label">Kartu Tanda Pengenal (KTP
-                                                            atau Tanda Pengenal Lainnya)</label>
-                                                        <input class="form-control" type="file" id="ktp"
-                                                            name="ktp" />
-                                                        <div id="ktpError" class="invalid-feedback"></div>
-                                                    </div>
-                                                </div>
+                                <div class="modal fade" id="exLargeModal" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h3 class="text-center">Tambah Data Anak Asuh</h3>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                             </div>
-                                            <button type="submit"
-                                                class="btn btn-primary mb-2 d-grid w-100">Simpan</button>
-                                            <button type="button" class="btn btn-outline-secondary d-grid w-100"
-                                                data-bs-dismiss="offcanvas">Cancel</button>
-                                        </form>
+                                            <div class="modal-header">
+                                                <ul class="nav nav-tabs nav-fill w-100" role="tablist">
+                                                    <li class="nav-item">
+                                                        <button type="button" id="tab-justified-home"
+                                                            class="nav-link active" role="tab" data-bs-toggle="tab"
+                                                            data-bs-target="#navs-justified-home"
+                                                            aria-controls="navs-justified-home" aria-selected="true"
+                                                            disabled>
+                                                            <span class="d-none d-sm-block">
+                                                                Data Anak</span>
+                                                        </button>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <button type="button" id="tab-justified-profile"
+                                                            class="nav-link" role="tab" data-bs-toggle="tab"
+                                                            data-bs-target="#navs-justified-profile"
+                                                            aria-controls="navs-justified-profile" aria-selected="false"
+                                                            disabled>
+                                                            <span class="d-none d-sm-block">
+                                                                Data Lainnya</span>
+                                                        </button>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <button type="button" id="tab-justified-messages"
+                                                            class="nav-link" role="tab" data-bs-toggle="tab"
+                                                            data-bs-target="#ss" aria-controls="ss" aria-selected="false"
+                                                            disabled>
+                                                            <span class="d-none d-sm-block">
+                                                                Data Wali</span>
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form id="dataAnakForm" action="{{ route('data-anak.store') }}"
+                                                    method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                    <div class="row">
+                                                        <div class="">
+                                                            <div class="nav-align-top mb-4">
+                                                                <div class="tab-content">
+                                                                    <div class="tab-pane fade show active"
+                                                                        id="navs-justified-home" role="tabpanel">
+                                                                        <div class="card mb-4">
+                                                                            <div class="card-body">
+                                                                                <div class="mb-3">
+                                                                                    <label for="name"
+                                                                                        class="form-label">Nama
+                                                                                        Anak</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        id="name" name="name"
+                                                                                        placeholder="Nama Anak..." />
+                                                                                    <div id="nameError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="place_of_birth"
+                                                                                        class="form-label">Tempat
+                                                                                        Lahir</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        id="place_of_birth"
+                                                                                        name="place_of_birth"
+                                                                                        placeholder="Tempat Lahir..." />
+                                                                                    <div id="placeOfBirthError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="date_of_birth"
+                                                                                        class="form-label">Tanggal
+                                                                                        Lahir</label>
+                                                                                    <input class="form-control"
+                                                                                        type="date" id="date_of_birth"
+                                                                                        name="date_of_birth" />
+                                                                                    <div id="dateOfBirthError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="gender"
+                                                                                        class="form-label">Jenis
+                                                                                        Kelamin</label>
+                                                                                    <select class="form-select"
+                                                                                        id="gender" name="gender"
+                                                                                        aria-label="Default select example">
+                                                                                        <option value="" hidden>Pilih
+                                                                                            Jenis Kelamin
+                                                                                        </option>
+                                                                                        <option value="Laki-Laki">Laki-Laki
+                                                                                        </option>
+                                                                                        <option value="Perempuan">Perempuan
+                                                                                        </option>
+                                                                                    </select>
+                                                                                    <div id="genderError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="religion"
+                                                                                        class="form-label">Agama</label>
+                                                                                    <select class="form-select"
+                                                                                        id="religion" name="religion"
+                                                                                        aria-label="Default select example">
+                                                                                        <option value="" hidden>Pilih
+                                                                                            Agama</option>
+                                                                                        <option value="Islam">Islam
+                                                                                        </option>
+                                                                                        <option value="Hindu">Hindu
+                                                                                        </option>
+                                                                                        <option value="Kristen Protestan">
+                                                                                            Kristen Protestan</option>
+                                                                                        <option value="Kristen Katolik">
+                                                                                            Kristen Katolik</option>
+                                                                                        <option value="Budha">Budha
+                                                                                        </option>
+                                                                                        <option value="Konghucu">Konghucu
+                                                                                        </option>
+                                                                                    </select>
+                                                                                    <div id="religionError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="congenital_disease"
+                                                                                        class="form-label">Penyakit
+                                                                                        Bawaan (Kosongkan Bila Tidak
+                                                                                        Ada)</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        id="congenital_disease"
+                                                                                        name="congenital_disease"
+                                                                                        placeholder="Penaykit Bawaan..." />
+                                                                                    <div id="congenital_diseaseError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="status"
+                                                                                        class="form-label">Status</label>
+                                                                                    <select class="form-select"
+                                                                                        id="status" name="status"
+                                                                                        aria-label="Default select example">
+                                                                                        <option value="" hidden>
+                                                                                            Status Anak Asuh</option>
+                                                                                        <option value="Aktif">Aktif
+                                                                                        </option>
+                                                                                        <option value="Non-Aktif">Non-Aktif
+                                                                                        </option>
+                                                                                    </select>
+                                                                                    <div id="statusError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="image"
+                                                                                        class="form-label">Foto
+                                                                                        Anak</label>
+                                                                                    <input class="form-control"
+                                                                                        type="file" id="image"
+                                                                                        name="image" />
+                                                                                    <div id="imageError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="identity_card"
+                                                                                        class="form-label">Kartu
+                                                                                        Pengenal (KTP
+                                                                                        atau Kartu Pengenal Lainnya)</label>
+                                                                                    <input class="form-control"
+                                                                                        type="file" id="identity_card"
+                                                                                        name="identity_card" />
+                                                                                    <div id="identity_cardError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <button type="button" id="btnNextProfile"
+                                                                            class="btn btn-primary mb-2 d-grid w-100">Berikutnya</button>
+                                                                        <button type="button"
+                                                                            class="btn btn-outline-secondary d-grid w-100"
+                                                                            data-bs-dismiss="modal"
+                                                                            aria-label="Close">Cancel</button>
+                                                                    </div>
+                                                                    <div class="tab-pane fade" id="navs-justified-profile"
+                                                                        role="tabpanel">
+                                                                        <div class="card mb-4">
+                                                                            <div class="card-body">
+                                                                                <div class="mb-3">
+                                                                                    <label for="father_name"
+                                                                                        class="form-label">Nama
+                                                                                        Ayah Anak</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        id="father_name"
+                                                                                        name="father_name"
+                                                                                        placeholder="Nama Ayah Anak..." />
+                                                                                    <div id="father_nameError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="mother_name"
+                                                                                        class="form-label">Nama
+                                                                                        Ibu Anak</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        id="mother_name"
+                                                                                        name="mother_name"
+                                                                                        placeholder="Nama Ibu Anak..." />
+                                                                                    <div id="mother_nameError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="birth_certificate"
+                                                                                        class="form-label">Akta
+                                                                                        Kelahiran Anak</label>
+                                                                                    <input class="form-control"
+                                                                                        type="file"
+                                                                                        id="birth_certificate"
+                                                                                        name="birth_certificate" />
+                                                                                    <div id="birthCertificateError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="family_card"
+                                                                                        class="form-label">Kartu
+                                                                                        Keluarga</label>
+                                                                                    <input class="form-control"
+                                                                                        type="file" id="family_card"
+                                                                                        name="family_card" />
+                                                                                    <div id="family_cardError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="reason_for_leaving"
+                                                                                        class="form-label">Alasan
+                                                                                        Menitipkan</label>
+                                                                                    <textarea class="form-control" id="reason_for_leaving" name="reason_for_leaving" rows="3"></textarea>
+                                                                                    <div id="reason_for_leavingError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <button type="button" id="btnNextMessages"
+                                                                            class="btn btn-primary mb-2 next-tab d-grid w-100">Berikutnya</button>
+                                                                        <button type="button"
+                                                                            class="btn btn-outline-secondary d-grid w-100"
+                                                                            id="btnPrevHome">Sebelumnya</button>
+                                                                    </div>
+                                                                    <div class="tab-pane fade"
+                                                                        id="navs-justified-messages" role="tabpanel">
+                                                                        <div class="card mb-4">
+                                                                            <div class="card-body">
+                                                                                <div class="mb-3">
+                                                                                    <label for="guardian_name"
+                                                                                        class="form-label">Nama
+                                                                                        Wali Anak</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        id="guardian_name"
+                                                                                        name="guardian_name"
+                                                                                        placeholder="Nama Wali Anak..." />
+                                                                                    <div id="guardian_nameError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="guardian_relationship"
+                                                                                        class="form-label">Jenis
+                                                                                        Kelamin</label>
+                                                                                    <select class="form-select"
+                                                                                        id="guardian_relationship"
+                                                                                        name="guardian_relationship"
+                                                                                        aria-label="Default select example">
+                                                                                        <option value="" hidden>
+                                                                                            Hubungan Wali Dengan Anak
+                                                                                        </option>
+                                                                                        <option value="Ayah">Ayah
+                                                                                        </option>
+                                                                                        <option value="Ibu">Ibu
+                                                                                        </option>
+                                                                                        <option value="Kerabat">Kerabat
+                                                                                        </option>
+                                                                                        <option value="Teman">Teman
+                                                                                        </option>
+                                                                                        <option value="Lainnya">Lainnya
+                                                                                        </option>
+                                                                                    </select>
+                                                                                    <div id="guardian_relationshipError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="guardian_address"
+                                                                                        class="form-label">Alamat
+                                                                                        Wali Anak</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        id="guardian_address"
+                                                                                        name="guardian_address"
+                                                                                        placeholder="Alamat Wali Anak..." />
+                                                                                    <div id="guardian_addressError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="guardian_phone_number"
+                                                                                        class="form-label">Nomor Telepon
+                                                                                        Wali Anak</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        id="guardian_phone_number"
+                                                                                        name="guardian_phone_number"
+                                                                                        placeholder="Nomor Telepon Wali Anak..." />
+                                                                                    <div id="guardian_phone_numberError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="guardian_email"
+                                                                                        class="form-label">Email
+                                                                                        Wali Anak</label>
+                                                                                    <input type="email"
+                                                                                        class="form-control"
+                                                                                        id="guardian_email"
+                                                                                        name="guardian_email"
+                                                                                        placeholder="Email Wali Anak..." />
+                                                                                    <div id="guardian_emailError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="guardian_identity_card"
+                                                                                        class="form-label">Kartu Pengenal
+                                                                                        Wali Anak (KTP
+                                                                                        atau Kartu Pengenal Lainnya)</label>
+                                                                                    <input class="form-control"
+                                                                                        type="file"
+                                                                                        id="guardian_identity_card"
+                                                                                        name="guardian_identity_card" />
+                                                                                    <div id="guardian_identity_cardError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <button type="submit"
+                                                                            class="btn btn-primary mb-2 d-grid w-100">Simpan</button>
+                                                                        <button type="button"
+                                                                            class="btn btn-outline-secondary d-grid w-100"
+                                                                            id="btnPrevProfile">Sebelumnya</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -336,14 +577,12 @@
                         <thead>
                             <tr>
                                 <th class="col-md-1 text-center fw-bold">No</th>
+                                <th class="col-md-1 text-center fw-bold">Foto Anak</th>
                                 <th class="col-md-1 text-center fw-bold">Nama</th>
                                 <th class="col-md-1 text-center fw-bold">Tanggal Lahir</th>
                                 <th class="col-md-1 text-center fw-bold">Tempat Lahir</th>
                                 <th class="col-md-1 text-center fw-bold">Jenis Kelamin</th>
                                 <th class="col-md-1 text-center fw-bold">Agama</th>
-                                <th class="col-md-2 text-center fw-bold">Akta Kelahiran</th>
-                                <th class="col-md-2 text-center fw-bold">Kartu Keluarga</th>
-                                <th class="col-md-2 text-center fw-bold">Kartu Pengenal</th>
                                 <th class="col-md-1 text-center fw-bold">Status</th>
                                 <th class="col-md-1 text-center fw-bold">Action</th>
                             </tr>
@@ -355,101 +594,44 @@
                             @foreach ($datas as $data)
                                 <tr>
                                     <td>{{ $loop->iteration + $initialNumber }}</td>
+                                    <td>
+                                        <ul
+                                            class="list-unstyled users-list m-0 avatar-group align-items-center text-center">
+                                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom"
+                                                data-bs-placement="top" class="avatar avatar-xl pull-up"
+                                                title="Foto {{ $data->name }}">
+                                                <img src="{{ asset('storage/' . $data->image) }}" alt=""
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modalCenterFoto_{{ $loop->index }}">
+                                            </li>
+                                            <div class="modal fade" id="modalCenterFoto_{{ $loop->index }}"
+                                                tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="modalCenterTitle">Foto
+                                                                {{ $data->name }}</h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <img src="{{ asset('storage/' . $data->image) }}"
+                                                                    alt="" class="mx-auto d-block"
+                                                                    style="max-width: 100%; height: auto;">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ul>
+                                    </td>
+
                                     <td>{{ $data->name }}</td>
                                     <td>{{ $data->date_of_birth }}</td>
                                     <td>{{ $data->place_of_birth }}</td>
                                     <td>{{ $data->gender }}</td>
                                     <td>{{ $data->religion }}</td>
-                                    <td>
-                                        <ul class="list-unstyled users-list m-0 avatar-group align-items-center">
-                                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom"
-                                                data-bs-placement="top" class="avatar avatar-xl pull-up"
-                                                title="Akta Kelahiran {{ $data->name }}">
-                                                <img src="{{ asset('storage/' . $data->birth_certificate) }}"
-                                                    alt="" data-bs-toggle="modal"
-                                                    data-bs-target="#modalCenterAkta_{{ $loop->index }}">
-                                            </li>
-                                            <div class="modal fade" id="modalCenterAkta_{{ $loop->index }}"
-                                                tabindex="-1" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalCenterTitle">Akta Kelahiran
-                                                                {{ $data->name }}</h5>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="row">
-                                                                <img src="{{ asset('storage/' . $data->birth_certificate) }}"
-                                                                    alt="" width="700px" height="450px">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </ul>
-                                    </td>
-                                    <td>
-                                        <ul class="list-unstyled users-list m-0 avatar-group align-items-center">
-                                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom"
-                                                data-bs-placement="top" class="avatar avatar-xl pull-up"
-                                                title="Kartu Keluarga {{ $data->name }}">
-                                                <img src="{{ asset('storage/' . $data->family_card) }}" alt=""
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#modalCenterKk_{{ $loop->index }}">
-                                            </li>
-                                            <div class="modal fade" id="modalCenterKk_{{ $loop->index }}"
-                                                tabindex="-1" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalCenterTitle">Kartu Keluarga
-                                                                {{ $data->name }}</h5>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="row">
-                                                                <img src="{{ asset('storage/' . $data->family_card) }}"
-                                                                    alt="" width="700px" height="450px">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </ul>
-                                    </td>
-                                    <td>
-                                        <ul class="list-unstyled users-list m-0 avatar-group align-items-center">
-                                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom"
-                                                data-bs-placement="top" class="avatar avatar-xl pull-up"
-                                                title="Tanda Pengenal {{ $data->name }}">
-                                                <img src="{{ asset('storage/' . $data->ktp) }}" alt=""
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#modalCenterKtp_{{ $loop->index }}">
-                                            </li>
-                                            <div class="modal fade" id="modalCenterKtp_{{ $loop->index }}"
-                                                tabindex="-1" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalCenterTitle">Tanda Pengenal
-                                                                {{ $data->name }}</h5>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="row">
-                                                                <img src="{{ asset('storage/' . $data->ktp) }}"
-                                                                    alt="" width="700px" height="450px">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </ul>
-                                    </td>
                                     <td>{{ $data->status }}</td>
                                     <td>
                                         <div class="dropdown">
@@ -556,22 +738,26 @@
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="editPlace_of_birth{{ $data->id }}"
-                                                        class="form-label">Tempat Lahir</label>
+                                                        class="form-label">Tempat
+                                                        Lahir</label>
                                                     <input type="text" class="form-control"
                                                         id="editPlace_of_birth{{ $data->id }}" name="place_of_birth"
                                                         value="{{ $data->place_of_birth }}"
                                                         placeholder="Tempat Lahir..." />
                                                     <div id="editPlaceOfBirthError{{ $data->id }}"
-                                                        class="invalid-feedback"></div>
+                                                        class="invalid-feedback">
+                                                    </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="editDate_of_birth{{ $data->id }}"
-                                                        class="form-label">Tanggal Lahir</label>
+                                                        class="form-label">Tanggal
+                                                        Lahir</label>
                                                     <input class="form-control" type="date"
                                                         id="editDate_of_birth{{ $data->id }}" name="date_of_birth"
                                                         value="{{ $data->date_of_birth }}" />
                                                     <div id="editDateOfBirthError{{ $data->id }}"
-                                                        class="invalid-feedback"></div>
+                                                        class="invalid-feedback">
+                                                    </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="editGender{{ $data->id }}" class="form-label">Jenis
@@ -597,10 +783,12 @@
                                                         name="religion" aria-label="Default select example">
                                                         <option value="" hidden>Pilih Agama</option>
                                                         <option value="Islam"
-                                                            {{ $data->religion == 'Islam' ? 'selected' : '' }}>Islam
+                                                            {{ $data->religion == 'Islam' ? 'selected' : '' }}>
+                                                            Islam
                                                         </option>
                                                         <option value="Hindu"
-                                                            {{ $data->religion == 'Hindu' ? 'selected' : '' }}>Hindu
+                                                            {{ $data->religion == 'Hindu' ? 'selected' : '' }}>
+                                                            Hindu
                                                         </option>
                                                         <option value="Kristen Protestan"
                                                             {{ $data->religion == 'Kristen Protestan' ? 'selected' : '' }}>
@@ -609,7 +797,8 @@
                                                             {{ $data->religion == 'Kristen Katolik' ? 'selected' : '' }}>
                                                             Kristen Katolik</option>
                                                         <option value="Budha"
-                                                            {{ $data->religion == 'Budha' ? 'selected' : '' }}>Budha
+                                                            {{ $data->religion == 'Budha' ? 'selected' : '' }}>
+                                                            Budha
                                                         </option>
                                                         <option value="Konghucu"
                                                             {{ $data->religion == 'Konghucu' ? 'selected' : '' }}>Konghucu
@@ -626,7 +815,8 @@
                                                         name="status" aria-label="Default select example">
                                                         <option value="" hidden>Status Anak Asuh</option>
                                                         <option value="Aktif"
-                                                            {{ $data->status == 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                                                            {{ $data->status == 'Aktif' ? 'selected' : '' }}>
+                                                            Aktif</option>
                                                         <option value="Non-Aktif"
                                                             {{ $data->status == 'Non-Aktif' ? 'selected' : '' }}>Non-Aktif
                                                         </option>
@@ -652,7 +842,8 @@
                                                     <input class="form-control" type="file"
                                                         id="editFamily_card{{ $data->id }}" name="family_card" />
                                                     <div id="editFamilyCardError{{ $data->id }}"
-                                                        class="invalid-feedback"></div>
+                                                        class="invalid-feedback">
+                                                    </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="editKtp{{ $data->id }}" class="form-label">Kartu
@@ -691,6 +882,71 @@
 
     <script>
         $(document).ready(function() {
+            function nextProfile() {
+                const nextNav = document.getElementById('navs-justified-profile');
+                const nextTab = document.getElementById('tab-justified-profile');
+                const thisNav = document.getElementById('navs-justified-home');
+                const thisTab = document.getElementById('tab-justified-home');
+
+                thisNav.classList.remove('show', 'active');
+                nextNav.classList.add('show', 'active');
+                thisTab.classList.remove('active');
+                nextTab.classList.add('active');
+            }
+
+            function nextMessages() {
+                const nextNav = document.getElementById('navs-justified-messages');
+                const nextTab = document.getElementById('tab-justified-messages');
+                const thisNav = document.getElementById('navs-justified-profile');
+                const thisTab = document.getElementById('tab-justified-profile');
+
+                thisNav.classList.remove('show', 'active');
+                nextNav.classList.add('show', 'active');
+                thisTab.classList.remove('active');
+                nextTab.classList.add('active');
+            }
+
+            function prevProfile() {
+                const prevNav = document.getElementById('navs-justified-profile');
+                const prevTab = document.getElementById('tab-justified-profile');
+                const thisNav = document.getElementById('navs-justified-messages');
+                const thisTab = document.getElementById('tab-justified-messages');
+
+                thisNav.classList.remove('show', 'active');
+                prevNav.classList.add('show', 'active');
+                thisTab.classList.remove('active');
+                prevTab.classList.add('active');
+            }
+
+            function prevHome() {
+                const prevNav = document.getElementById('navs-justified-home');
+                const prevTab = document.getElementById('tab-justified-home');
+                const thisNav = document.getElementById('navs-justified-profile');
+                const thisTab = document.getElementById('tab-justified-profile');
+
+                thisNav.classList.remove('show', 'active');
+                prevNav.classList.add('show', 'active');
+                thisTab.classList.remove('active');
+                prevTab.classList.add('active');
+            }
+
+            // Panggil fungsi nextProfile() pada klik tombol
+            $('#btnNextProfile').on('click', function() {
+                nextProfile();
+            });
+            $('#btnNextMessages').on('click', function() {
+                nextMessages();
+            });
+            $('#btnPrevProfile').on('click', function() {
+                prevProfile();
+            });
+            $('#btnPrevHome').on('click', function() {
+                prevHome();
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
             // Setup CSRF token for all AJAX requests
             $.ajaxSetup({
                 headers: {
@@ -705,10 +961,21 @@
                 $('#date_of_birth').val('');
                 $('#gender').val('');
                 $('#religion').val('');
+                $('#congenital_disease').val('');
                 $('#status').val('');
+                $('#image').val('');
                 $('#birth_certificate').val('');
                 $('#family_card').val('');
-                $('#ktp').val('');
+                $('#identity_card').val('');
+                $('#father_name').val('');
+                $('#mother_name').val('');
+                $('#guardian_name').val('');
+                $('#guardian_relationship').val('');
+                $('#guardian_address').val('');
+                $('#guardian_phone_number').val('');
+                $('#guardian_email').val('');
+                $('#guardian_identity_card').val('');
+                $('#reason_for_leaving').val('');
                 $('.form-control').removeClass('is-invalid');
                 $('.invalid-feedback').text('');
             }
@@ -749,11 +1016,11 @@
                     success: function(response) {
                         if (response.errors) {
                             handleErrors(response.errors);
+                            showErrorMessage(
+                                'Terdapat kesalahan pada inputan. Silahkan cek kembali semua form.');
                         } else {
-                            // Menghapus kelas is-invalid dari semua elemen input
                             $('.form-control').removeClass('is-invalid');
 
-                            // Menggunakan sweetalert
                             Swal.fire({
                                 icon: 'success',
                                 title: response.success,
@@ -763,7 +1030,7 @@
                                     window.location.reload();
                                 }
                             });
-                            $('#offcanvasEnd').offcanvas('hide');
+                            $('#exLargeModal').modal('hide');
                         }
                     }
                 });
@@ -819,11 +1086,51 @@
                 }
                 if (errors.family_card) {
                     $('#family_card').addClass('is-invalid');
-                    $('#familyCardError').text(errors.family_card[0]);
+                    $('#family_cardError').text(errors.family_card[0]);
                 }
-                if (errors.ktp) {
-                    $('#ktp').addClass('is-invalid');
-                    $('#ktpError').text(errors.ktp[0]);
+                if (errors.identity_card) {
+                    $('#identity_card').addClass('is-invalid');
+                    $('#identity_cardError').text(errors.identity_card[0]);
+                }
+                if (errors.guardian_identity_card) {
+                    $('#guardian_identity_card').addClass('is-invalid');
+                    $('#guardian_identity_cardError').text(errors.guardian_identity_card[0]);
+                }
+                if (errors.father_name) {
+                    $('#father_name').addClass('is-invalid');
+                    $('#father_nameError').text(errors.father_name[0]);
+                }
+                if (errors.mother_name) {
+                    $('#mother_name').addClass('is-invalid');
+                    $('#mother_nameError').text(errors.mother_name[0]);
+                }
+                if (errors.guardian_name) {
+                    $('#guardian_name').addClass('is-invalid');
+                    $('#guardian_nameError').text(errors.guardian_name[0]);
+                }
+                if (errors.guardian_relationship) {
+                    $('#guardian_relationship').addClass('is-invalid');
+                    $('#guardian_relationshipError').text(errors.guardian_relationship[0]);
+                }
+                if (errors.guardian_address) {
+                    $('#guardian_address').addClass('is-invalid');
+                    $('#guardian_addressError').text(errors.guardian_address[0]);
+                }
+                if (errors.guardian_phone_number) {
+                    $('#guardian_phone_number').addClass('is-invalid');
+                    $('#guardian_phone_numberError').text(errors.guardian_phone_number[0]);
+                }
+                if (errors.guardian_email) {
+                    $('#guardian_email').addClass('is-invalid');
+                    $('#guardian_emailError').text(errors.guardian_email[0]);
+                }
+                if (errors.reason_for_leaving) {
+                    $('#reason_for_leaving').addClass('is-invalid');
+                    $('#reason_for_leavingError').text(errors.reason_for_leaving[0]);
+                }
+                if (errors.image) {
+                    $('#image').addClass('is-invalid');
+                    $('#imageError').text(errors.image[0]);
                 }
             }
         });
@@ -1062,3 +1369,114 @@
         });
     </script>
 @endsection
+
+
+{{-- component --}}
+
+{{-- <div class="col-lg-3 col-md-6">
+    <div class="mt-3 mb-3">
+        <div class="btn-group">
+            <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class='bx bx-export m-1'></i>
+                Export</button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="javascript:void(0);">Action</a></li>
+                <li><a class="dropdown-item" href="javascript:void(0);">Another action</a></li>
+                <li><a class="dropdown-item" href="javascript:void(0);">Something else here</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="javascript:void(0);">Separated link</a></li>
+            </ul>
+        </div>
+    </div>
+</div> --}}
+
+
+{{-- <th class="col-md-2 text-center fw-bold">Akta Kelahiran</th>
+<th class="col-md-2 text-center fw-bold">Kartu Keluarga</th>
+<th class="col-md-2 text-center fw-bold">Kartu Pengenal</th> --}}
+
+
+{{-- <td>
+    <ul class="list-unstyled users-list m-0 avatar-group align-items-center">
+        <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
+            class="avatar avatar-xl pull-up" title="Akta Kelahiran {{ $data->name }}">
+            <img src="{{ asset('storage/' . $data->birth_certificate) }}" alt="" data-bs-toggle="modal"
+                data-bs-target="#modalCenterAkta_{{ $loop->index }}">
+        </li>
+        <div class="modal fade" id="modalCenterAkta_{{ $loop->index }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalCenterTitle">Akta Kelahiran
+                            {{ $data->name }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <img src="{{ asset('storage/' . $data->birth_certificate) }}" alt=""
+                                width="700px" height="450px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ul>
+</td> --}}
+{{-- <td>
+    <ul class="list-unstyled users-list m-0 avatar-group align-items-center">
+        <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
+            class="avatar avatar-xl pull-up" title="Kartu Keluarga {{ $data->name }}">
+            <img src="{{ asset('storage/' . $data->family_card) }}" alt="" data-bs-toggle="modal"
+                data-bs-target="#modalCenterKk_{{ $loop->index }}">
+        </li>
+        <div class="modal fade" id="modalCenterKk_{{ $loop->index }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalCenterTitle">Kartu Keluarga
+                            {{ $data->name }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <img src="{{ asset('storage/' . $data->family_card) }}" alt="" width="700px"
+                                height="450px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ul>
+</td>
+<td>
+    <ul class="list-unstyled users-list m-0 avatar-group align-items-center">
+        <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
+            class="avatar avatar-xl pull-up" title="Tanda Pengenal {{ $data->name }}">
+            <img src="{{ asset('storage/' . $data->ktp) }}" alt="" data-bs-toggle="modal"
+                data-bs-target="#modalCenterKtp_{{ $loop->index }}">
+        </li>
+        <div class="modal fade" id="modalCenterKtp_{{ $loop->index }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalCenterTitle">Tanda Pengenal
+                            {{ $data->name }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <img src="{{ asset('storage/' . $data->ktp) }}" alt="" width="700px"
+                                height="450px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ul>
+</td> --}}
