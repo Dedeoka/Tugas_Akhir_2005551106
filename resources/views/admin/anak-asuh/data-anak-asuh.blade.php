@@ -1271,7 +1271,6 @@
             });
 
             function clearForm() {
-                // Ganti ID sesuai dengan form Anda
                 $('#name').val('');
                 $('#place_of_birth').val('');
                 $('#date_of_birth').val('');
@@ -1513,6 +1512,8 @@
                     success: function(response) {
                         if (response.errors) {
                             handleUpdateErrors(response.errors, id);
+                            showErrorMessage(
+                                'Terdapat kesalahan pada inputan. Silahkan cek kembali semua form.');
                             console.log('Error Response:', response);
                         } else {
                             // Handle success
@@ -1532,57 +1533,87 @@
             function handleUpdateErrors(errors, id) {
                 // Clear previous errors
                 clearUpdateErrors(id);
-
-                // Display new errors
                 if (errors.name) {
-                    $('#editName' + id).addClass('is-invalid');
+                    $('#name' + id).addClass('is-invalid');
                     $('#editNameError' + id).text(errors.name[0]);
                 }
                 if (errors.place_of_birth) {
-                    $('#editPlace_of_birth' + id).addClass('is-invalid');
+                    $('#place_of_birth' + id).addClass('is-invalid');
                     $('#editPlaceOfBirthError' + id).text(errors.place_of_birth[0]);
                 }
                 if (errors.date_of_birth) {
-                    $('#editDate_of_birth' + id).addClass('is-invalid');
+                    $('#date_of_birth' + id).addClass('is-invalid');
                     $('#editDateOfBirthError' + id).text(errors.date_of_birth[0]);
                 }
                 if (errors.gender) {
-                    $('#editGender' + id).addClass('is-invalid');
+                    $('#gender' + id).addClass('is-invalid');
                     $('#editGenderError' + id).text(errors.gender[0]);
                 }
                 if (errors.religion) {
-                    $('#editReligion' + id).addClass('is-invalid');
+                    $('#religion' + id).addClass('is-invalid');
                     $('#editReligionError' + id).text(errors.religion[0]);
                 }
                 if (errors.status) {
-                    $('#editStatus' + id).addClass('is-invalid');
+                    $('#status' + id).addClass('is-invalid');
                     $('#editStatusError' + id).text(errors.status[0]);
                 }
                 if (errors.birth_certificate) {
-                    $('#editBirth_certificate' + id).addClass('is-invalid');
+                    $('#birth_certificate' + id).addClass('is-invalid');
                     $('#editBirthCertificateError' + id).text(errors.birth_certificate[0]);
                 }
                 if (errors.family_card) {
-                    $('#editFamily_card' + id).addClass('is-invalid');
-                    $('#editFamilyCardError' + id).text(errors.family_card[0]);
+                    $('#family_card' + id).addClass('is-invalid');
+                    $('#editFamily_cardError' + id).text(errors.family_card[0]);
                 }
-                if (errors.ktp) {
-                    $('#editKtp' + id).addClass('is-invalid');
-                    $('#editKtpError' + id).text(errors.ktp[0]);
+                if (errors.identity_card) {
+                    $('#identity_card' + id).addClass('is-invalid');
+                    $('#editIdentity_cardError' + id).text(errors.identity_card[0]);
+                }
+                if (errors.guardian_identity_card) {
+                    $('#guardian_identity_card' + id).addClass('is-invalid');
+                    $('#editGuardian_identity_cardError' + id).text(errors.guardian_identity_card[0]);
+                }
+                if (errors.father_name) {
+                    $('#father_name' + id).addClass('is-invalid');
+                    $('#editFather_nameError' + id).text(errors.father_name[0]);
+                }
+                if (errors.mother_name) {
+                    $('#mother_name' + id).addClass('is-invalid');
+                    $('#editMother_nameError' + id).text(errors.mother_name[0]);
+                }
+                if (errors.guardian_name) {
+                    $('#guardian_name' + id).addClass('is-invalid');
+                    $('#editGuardian_nameError' + id).text(errors.guardian_name[0]);
+                }
+                if (errors.guardian_relationship) {
+                    $('#guardian_relationship' + id).addClass('is-invalid');
+                    $('#editGuardian_relationshipError' + id).text(errors.guardian_relationship[0]);
+                }
+                if (errors.guardian_address) {
+                    $('#guardian_address' + id).addClass('is-invalid');
+                    $('#editGuardian_addressError' + id).text(errors.guardian_address[0]);
+                }
+                if (errors.guardian_phone_number) {
+                    $('#guardian_phone_number' + id).addClass('is-invalid');
+                    $('#editGuardian_phone_numberError' + id).text(errors.guardian_phone_number[0]);
+                }
+                if (errors.guardian_email) {
+                    $('#guardian_email' + id).addClass('is-invalid');
+                    $('#editGuardian_emailError' + id).text(errors.guardian_email[0]);
+                }
+                if (errors.reason_for_leaving) {
+                    $('#reason_for_leaving' + id).addClass('is-invalid');
+                    $('#editReason_for_leavingError' + id).text(errors.reason_for_leaving[0]);
+                }
+                if (errors.image) {
+                    $('#image' + id).addClass('is-invalid');
+                    $('#editImageError' + id).text(errors.image[0]);
                 }
             }
 
             function clearUpdateErrors(id) {
-                // Clear previous errors
-                $('#editName' + id).removeClass('is-invalid');
-                $('#editPlace_of_birth' + id).removeClass('is-invalid');
-                $('#editDate_of_birth' + id).removeClass('is-invalid');
-                $('#editGender' + id).removeClass('is-invalid');
-                $('#editReligion' + id).removeClass('is-invalid');
-                $('#editStatus' + id).removeClass('is-invalid');
-                $('#editBirth_certificate' + id).removeClass('is-invalid');
-                $('#editFamily_card' + id).removeClass('is-invalid');
-                $('#editKtp' + id).removeClass('is-invalid');
+                $('.form-control').removeClass('is-invalid');
+                $('.invalid-feedback').text('');
 
                 // Clear error messages
                 $('#editNameError' + id).text('');
@@ -1591,9 +1622,19 @@
                 $('#editGenderError' + id).text('');
                 $('#editReligionError' + id).text('');
                 $('#editStatusError' + id).text('');
-                $('#editBirthCertificateError' + id).text('');
-                $('#editFamilyCardError' + id).text('');
-                $('#editKtpError' + id).text('');
+                $('#editBirth_certificateError' + id).text('');
+                $('#editFamily_cardError' + id).text('');
+                $('#editIdentity_cardError' + id).text('');
+                $('#editGuardian_identity_cardError' + id).text('');
+                $('#editFather_nameError' + id).text('');
+                $('#editMother_nameError' + id).text('');
+                $('#editGuardian_nameError' + id).text('');
+                $('#editGuardian_relationshipError' + id).text('');
+                $('#editGuardian_addressError' + id).text('');
+                $('#editGuardian_phone_numberError' + id).text('');
+                $('#editGuardian_emailError' + id).text('');
+                $('#editReason_for_leavingError' + id).text('');
+                $('#editImageError' + id).text('');
             }
         });
     </script>
