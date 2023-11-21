@@ -712,160 +712,404 @@
             <!-- Modal Edit -->
             @foreach ($datas as $data)
                 <div class="modal fade" id="editModal{{ $data->id }}" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
+                    <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel1">Edit Data Anak Asuh</h5>
+                                <h3 class="text-center">Edit Data Anak Asuh {{ $data->name }}</h3>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <form action="{{ route('data-anak.update', $data->id) }}" data-id="{{ $data->id }}"
-                                method="POST" enctype="multipart/form-data">
-                                @csrf
-                                @method('PATCH')
-                                <div class="modal-body">
+                            <div class="modal-header">
+                                <ul class="nav nav-tabs nav-fill w-100" role="tablist">
+                                    <li class="nav-item">
+                                        <button type="button" id="tab-justified-home{{ $data->id }}"
+                                            class="nav-link active" role="tab" data-bs-toggle="tab"
+                                            data-bs-target="#navs-justified-home" aria-controls="navs-justified-home"
+                                            aria-selected="true" disabled>
+                                            <span class="d-none d-sm-block">
+                                                Data Anak</span>
+                                        </button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button type="button" id="tab-justified-profile{{ $data->id }}"
+                                            class="nav-link" role="tab" data-bs-toggle="tab"
+                                            data-bs-target="#navs-justified-profile"
+                                            aria-controls="navs-justified-profile" aria-selected="false" disabled>
+                                            <span class="d-none d-sm-block">
+                                                Data Lainnya</span>
+                                        </button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button type="button" id="tab-justified-messages{{ $data->id }}"
+                                            class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#ss"
+                                            aria-controls="ss" aria-selected="false" disabled>
+                                            <span class="d-none d-sm-block">
+                                                Data Wali</span>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="modal-body">
+                                <form id="editDataAnakForm{{ $data->id }}"
+                                    action="{{ route('data-anak.update', $data->id) }}" data-id="{{ $data->id }}"
+                                    method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('PATCH')
                                     <div class="row">
-                                        <div class="card mb-4">
-                                            <div class="card-body">
-                                                <div class="mb-3">
-                                                    <label for="editName{{ $data->id }}" class="form-label">Nama
-                                                        Anak</label>
-                                                    <input type="text" class="form-control"
-                                                        id="editName{{ $data->id }}" name="name"
-                                                        value="{{ $data->name }}" placeholder="Nama Anak..." />
-                                                    <div id="editNameError{{ $data->id }}" class="invalid-feedback">
+                                        <div class="">
+                                            <div class="nav-align-top mb-4">
+                                                <div class="tab-content">
+                                                    <div class="tab-pane fade show active"
+                                                        id="navs-justified-home{{ $data->id }}" role="tabpanel">
+                                                        <div class="card mb-4">
+                                                            <div class="card-body">
+                                                                <div class="mb-3">
+                                                                    <label for="name{{ $data->id }}"
+                                                                        class="form-label">Nama
+                                                                        Anak</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="name{{ $data->id }}" name="name"
+                                                                        placeholder="Nama Anak..."
+                                                                        value="{{ $data->name }}" />
+                                                                    <div id="editNameError{{ $data->id }}"
+                                                                        class="invalid-feedback">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="place_of_birth{{ $data->id }}"
+                                                                        class="form-label">Tempat
+                                                                        Lahir</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="place_of_birth{{ $data->id }}"
+                                                                        name="place_of_birth"
+                                                                        placeholder="Tempat Lahir..."
+                                                                        value="{{ $data->place_of_birth }}" />
+                                                                    <div id="editPlaceOfBirthError{{ $data->id }}"
+                                                                        class="invalid-feedback">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="date_of_birth{{ $data->id }}"
+                                                                        class="form-label">Tanggal
+                                                                        Lahir</label>
+                                                                    <input class="form-control" type="date"
+                                                                        id="date_of_birth{{ $data->id }}"
+                                                                        name="date_of_birth"
+                                                                        value="{{ $data->date_of_birth }}" />
+                                                                    <div id="editDateOfBirthError{{ $data->id }}"
+                                                                        class="invalid-feedback">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="gender{{ $data->id }}"
+                                                                        class="form-label">Jenis
+                                                                        Kelamin</label>
+                                                                    <select class="form-select"
+                                                                        id="gender{{ $data->id }}" name="gender"
+                                                                        aria-label="Default select example">
+                                                                        <option value="" hidden>Pilih Jenis Kelamin
+                                                                        </option>
+                                                                        <option value="Laki-Laki"
+                                                                            {{ $data->gender == 'Laki-Laki' ? 'selected' : '' }}>
+                                                                            Laki-Laki
+                                                                        </option>
+                                                                        <option value="Perempuan"
+                                                                            {{ $data->gender == 'Perempuan' ? 'selected' : '' }}>
+                                                                            Perempuan
+                                                                        </option>
+                                                                    </select>
+                                                                    <div id="editGenderError{{ $data->id }}"
+                                                                        class="invalid-feedback"></div>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="religion{{ $data->id }}"
+                                                                        class="form-label">Agama</label>
+                                                                    <select class="form-select"
+                                                                        id="religion{{ $data->id }}" name="religion"
+                                                                        aria-label="Default select example">
+                                                                        <option value="" hidden>Pilih Agama</option>
+                                                                        <option value="Islam"
+                                                                            {{ $data->religion == 'Islam' ? 'selected' : '' }}>
+                                                                            Islam
+                                                                        </option>
+                                                                        <option value="Hindu"
+                                                                            {{ $data->religion == 'Hindu' ? 'selected' : '' }}>
+                                                                            Hindu
+                                                                        </option>
+                                                                        <option value="Kristen Protestan"
+                                                                            {{ $data->religion == 'Kristen Protestan' ? 'selected' : '' }}>
+                                                                            Kristen Protestan</option>
+                                                                        <option value="Kristen Katolik"
+                                                                            {{ $data->religion == 'Kristen Katolik' ? 'selected' : '' }}>
+                                                                            Kristen Katolik</option>
+                                                                        <option value="Budha"
+                                                                            {{ $data->religion == 'Budha' ? 'selected' : '' }}>
+                                                                            Budha
+                                                                        </option>
+                                                                        <option value="Konghucu"
+                                                                            {{ $data->religion == 'Konghucu' ? 'selected' : '' }}>
+                                                                            Konghucu
+                                                                        </option>
+                                                                    </select>
+                                                                    <div id="editReligionError{{ $data->id }}"
+                                                                        class="invalid-feedback">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="congenital_disease{{ $data->id }}"
+                                                                        class="form-label">Penyakit
+                                                                        Bawaan (Kosongkan Bila Tidak
+                                                                        Ada)</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="congenital_disease{{ $data->id }}"
+                                                                        name="congenital_disease"
+                                                                        placeholder="Penaykit Bawaan..."
+                                                                        value="{{ $data->congenital_disease }}" />
+                                                                    <div id="editCongenital_diseaseError"
+                                                                        class="invalid-feedback"></div>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="status{{ $data->id }}"
+                                                                        class="form-label">Status</label>
+                                                                    <select class="form-select"
+                                                                        id="status{{ $data->id }}" name="status"
+                                                                        aria-label="Default select example">
+                                                                        <option value="" hidden>Status Anak Asuh
+                                                                        </option>
+                                                                        <option value="Aktif"
+                                                                            {{ $data->status == 'Aktif' ? 'selected' : '' }}>
+                                                                            Aktif</option>
+                                                                        <option value="Non-Aktif"
+                                                                            {{ $data->status == 'Non-Aktif' ? 'selected' : '' }}>
+                                                                            Non-Aktif
+                                                                        </option>
+                                                                    </select>
+                                                                    <div id="editStatusError{{ $data->id }}"
+                                                                        class="invalid-feedback"></div>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="image{{ $data->id }}"
+                                                                        class="form-label">Foto
+                                                                        Anak</label>
+                                                                    <input class="form-control" type="file"
+                                                                        id="image{{ $data->id }}" name="image" />
+                                                                    <div id="editImageError{{ $data->id }}"
+                                                                        class="invalid-feedback"></div>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="identity_card{{ $data->id }}"
+                                                                        class="form-label">Kartu
+                                                                        Pengenal (KTP
+                                                                        atau Kartu Pengenal Lainnya)</label>
+                                                                    <input class="form-control" type="file"
+                                                                        id="identity_card{{ $data->id }}"
+                                                                        name="identity_card" />
+                                                                    <div id="editIdentity_cardError{{ $data->id }}"
+                                                                        class="invalid-feedback">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <button type="button"
+                                                            class="btn btn-primary mb-2 d-grid w-100 btnNextProfile"
+                                                            data-id="{{ $data->id }}">Berikutnya</button>
+                                                        <button type="button"
+                                                            class="btn btn-outline-secondary d-grid w-100"
+                                                            data-bs-dismiss="modal" aria-label="Close">Cancel</button>
                                                     </div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="editPlace_of_birth{{ $data->id }}"
-                                                        class="form-label">Tempat
-                                                        Lahir</label>
-                                                    <input type="text" class="form-control"
-                                                        id="editPlace_of_birth{{ $data->id }}" name="place_of_birth"
-                                                        value="{{ $data->place_of_birth }}"
-                                                        placeholder="Tempat Lahir..." />
-                                                    <div id="editPlaceOfBirthError{{ $data->id }}"
-                                                        class="invalid-feedback">
-                                                    </div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="editDate_of_birth{{ $data->id }}"
-                                                        class="form-label">Tanggal
-                                                        Lahir</label>
-                                                    <input class="form-control" type="date"
-                                                        id="editDate_of_birth{{ $data->id }}" name="date_of_birth"
-                                                        value="{{ $data->date_of_birth }}" />
-                                                    <div id="editDateOfBirthError{{ $data->id }}"
-                                                        class="invalid-feedback">
-                                                    </div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="editGender{{ $data->id }}" class="form-label">Jenis
-                                                        Kelamin</label>
-                                                    <select class="form-select" id="editGender{{ $data->id }}"
-                                                        name="gender" aria-label="Default select example">
-                                                        <option value="" hidden>Pilih Jenis Kelamin</option>
-                                                        <option value="Laki-Laki"
-                                                            {{ $data->gender == 'Laki-Laki' ? 'selected' : '' }}>Laki-Laki
-                                                        </option>
-                                                        <option value="Perempuan"
-                                                            {{ $data->gender == 'Perempuan' ? 'selected' : '' }}>Perempuan
-                                                        </option>
-                                                    </select>
-                                                    <div id="editGenderError{{ $data->id }}"
-                                                        class="invalid-feedback">
-                                                    </div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="editReligion{{ $data->id }}"
-                                                        class="form-label">Agama</label>
-                                                    <select class="form-select" id="editReligion{{ $data->id }}"
-                                                        name="religion" aria-label="Default select example">
-                                                        <option value="" hidden>Pilih Agama</option>
-                                                        <option value="Islam"
-                                                            {{ $data->religion == 'Islam' ? 'selected' : '' }}>
-                                                            Islam
-                                                        </option>
-                                                        <option value="Hindu"
-                                                            {{ $data->religion == 'Hindu' ? 'selected' : '' }}>
-                                                            Hindu
-                                                        </option>
-                                                        <option value="Kristen Protestan"
-                                                            {{ $data->religion == 'Kristen Protestan' ? 'selected' : '' }}>
-                                                            Kristen Protestan</option>
-                                                        <option value="Kristen Katolik"
-                                                            {{ $data->religion == 'Kristen Katolik' ? 'selected' : '' }}>
-                                                            Kristen Katolik</option>
-                                                        <option value="Budha"
-                                                            {{ $data->religion == 'Budha' ? 'selected' : '' }}>
-                                                            Budha
-                                                        </option>
-                                                        <option value="Konghucu"
-                                                            {{ $data->religion == 'Konghucu' ? 'selected' : '' }}>Konghucu
-                                                        </option>
-                                                    </select>
-                                                    <div id="editReligionError{{ $data->id }}"
-                                                        class="invalid-feedback">
-                                                    </div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="editStatus{{ $data->id }}"
-                                                        class="form-label">Status</label>
-                                                    <select class="form-select" id="editStatus{{ $data->id }}"
-                                                        name="status" aria-label="Default select example">
-                                                        <option value="" hidden>Status Anak Asuh</option>
-                                                        <option value="Aktif"
-                                                            {{ $data->status == 'Aktif' ? 'selected' : '' }}>
-                                                            Aktif</option>
-                                                        <option value="Non-Aktif"
-                                                            {{ $data->status == 'Non-Aktif' ? 'selected' : '' }}>Non-Aktif
-                                                        </option>
-                                                    </select>
-                                                    <div id="editStatusError{{ $data->id }}"
-                                                        class="invalid-feedback">
-                                                    </div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="editBirth_certificate{{ $data->id }}"
-                                                        class="form-label">Akta
-                                                        Kelahiran</label>
-                                                    <input class="form-control" type="file"
-                                                        id="editBirth_certificate{{ $data->id }}"
-                                                        name="birth_certificate" />
-                                                    <div id="editBirthCertificateError{{ $data->id }}"
-                                                        class="invalid-feedback"></div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="editFamily_card{{ $data->id }}"
-                                                        class="form-label">Kartu
-                                                        Keluarga</label>
-                                                    <input class="form-control" type="file"
-                                                        id="editFamily_card{{ $data->id }}" name="family_card" />
-                                                    <div id="editFamilyCardError{{ $data->id }}"
-                                                        class="invalid-feedback">
-                                                    </div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="editKtp{{ $data->id }}" class="form-label">Kartu
-                                                        Tanda
-                                                        Pengenal (KTP
-                                                        atau Tanda Pengenal Lainnya)</label>
-                                                    <input class="form-control" type="file"
-                                                        id="editKtp{{ $data->id }}" name="ktp" />
-                                                    <div id="editKtpError{{ $data->id }}" class="invalid-feedback">
-                                                    </div>
+                                                    @foreach ($data->childDetails as $detail)
+                                                        <div class="tab-pane fade"
+                                                            id="navs-justified-profile{{ $data->id }}"
+                                                            role="tabpanel">
+                                                            <div class="card mb-4">
+                                                                <div class="card-body">
+                                                                    <div class="mb-3">
+                                                                        <label for="father_name{{ $data->id }}"
+                                                                            class="form-label">Nama
+                                                                            Ayah Anak</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="father_name {{ $data->id }}"
+                                                                            name="father_name"
+                                                                            placeholder="Nama Ayah Anak..."
+                                                                            value="{{ $detail->father_name }}" />
+                                                                        <div id="editFather_nameError{{ $data->id }}"
+                                                                            class="invalid-feedback">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="mother_name{{ $data->id }}"
+                                                                            class="form-label">Nama
+                                                                            Ibu Anak</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="mother_name{{ $data->id }}"
+                                                                            name="mother_name"
+                                                                            placeholder="Nama Ibu Anak..."
+                                                                            value="{{ $detail->mother_name }}" />
+                                                                        <div id="editMother_nameError{{ $data->id }}"
+                                                                            class="invalid-feedback">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="birth_certificate{{ $data->id }}"
+                                                                            class="form-label">Akta
+                                                                            Kelahiran Anak</label>
+                                                                        <input class="form-control" type="file"
+                                                                            id="birth_certificate{{ $data->id }}"
+                                                                            name="birth_certificate" />
+                                                                        <div id="editBirthCertificateError{{ $data->id }}"
+                                                                            class="invalid-feedback"></div>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="family_card{{ $data->id }}"
+                                                                            class="form-label">Kartu
+                                                                            Keluarga</label>
+                                                                        <input class="form-control" type="file"
+                                                                            id="family_card{{ $data->id }}"
+                                                                            name="family_card" />
+                                                                        <div id="editFamily_cardError"
+                                                                            class="invalid-feedback">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label
+                                                                            for="reason_for_leaving{{ $data->id }}"
+                                                                            class="form-label">Alasan
+                                                                            Menitipkan</label>
+                                                                        <textarea class="form-control" id="reason_for_leaving{{ $data->id }}" name="reason_for_leaving"
+                                                                            rows="3">{{ $detail->reason_for_leaving }}</textarea>
+                                                                        <div id="editReason_for_leavingError{{ $data->id }}"
+                                                                            class="invalid-feedback"></div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <button type="button" data-id="{{ $data->id }}"
+                                                                class="btn btn-primary mb-2 next-tab d-grid w-100 btnNextMessages">Berikutnya</button>
+                                                            <button type="button"
+                                                                class="btn btn-outline-secondary d-grid w-100 btnPrevHome"
+                                                                data-id="{{ $data->id }}">Sebelumnya</button>
+                                                        </div>
+                                                        <div class="tab-pane fade"
+                                                            id="navs-justified-messages{{ $data->id }}"
+                                                            role="tabpanel">
+                                                            <div class="card mb-4">
+                                                                <div class="card-body">
+                                                                    <div class="mb-3">
+                                                                        <label for="guardian_name{{ $data->id }}"
+                                                                            class="form-label">Nama
+                                                                            Wali Anak</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="guardian_name{{ $data->id }}"
+                                                                            name="guardian_name"
+                                                                            placeholder="Nama Wali Anak..."
+                                                                            value="{{ $detail->guardian_name }}" />
+                                                                        <div id="editGuardian_nameError{{ $data->id }}"
+                                                                            class="invalid-feedback">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label
+                                                                            for="guardian_relationship{{ $data->id }}"
+                                                                            class="form-label">Jenis
+                                                                            Kelamin</label>
+                                                                        <select class="form-select"
+                                                                            id="guardian_relationship{{ $data->id }}"
+                                                                            name="guardian_relationship"
+                                                                            aria-label="Default select example">
+                                                                            <option value="" hidden>Hubungan Wali
+                                                                                Dengan Anak</option>
+                                                                            <option value="Ayah"
+                                                                                {{ $detail->guardian_relationship == 'Ayah' ? 'selected' : '' }}>
+                                                                                Ayah</option>
+                                                                            <option value="Ibu"
+                                                                                {{ $detail->guardian_relationship == 'Ibu' ? 'selected' : '' }}>
+                                                                                Ibu</option>
+                                                                            <option value="Kerabat"
+                                                                                {{ $detail->guardian_relationship == 'Kerabat' ? 'selected' : '' }}>
+                                                                                Kerabat</option>
+                                                                            <option value="Teman"
+                                                                                {{ $detail->guardian_relationship == 'Teman' ? 'selected' : '' }}>
+                                                                                Teman</option>
+                                                                            <option value="Lainnya"
+                                                                                {{ $detail->guardian_relationship == 'Lainnya' ? 'selected' : '' }}>
+                                                                                Lainnya</option>
+                                                                        </select>
+                                                                        <div id="editGuardian_relationshipError{{ $data->id }}"
+                                                                            class="invalid-feedback">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="guardian_address{{ $data->id }}"
+                                                                            class="form-label">Alamat
+                                                                            Wali Anak</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="guardian_address{{ $data->id }}"
+                                                                            name="guardian_address"
+                                                                            placeholder="Alamat Wali Anak..."
+                                                                            value="{{ $detail->guardian_address }}" />
+                                                                        <div id="editGuardian_addressError{{ $data->id }}"
+                                                                            class="invalid-feedback">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label
+                                                                            for="guardian_phone_number{{ $data->id }}"
+                                                                            class="form-label">Nomor
+                                                                            Telepon
+                                                                            Wali Anak</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="guardian_phone_number{{ $data->id }}"
+                                                                            name="guardian_phone_number"
+                                                                            placeholder="Nomor Telepon Wali Anak..."
+                                                                            value="{{ $detail->guardian_phone_number }}" />
+                                                                        <div id="editGuardian_phone_numberError{{ $data->id }}"
+                                                                            class="invalid-feedback">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="guardian_email{{ $data->id }}"
+                                                                            class="form-label">Email
+                                                                            Wali Anak</label>
+                                                                        <input type="email" class="form-control"
+                                                                            id="guardian_email{{ $data->id }}"
+                                                                            name="guardian_email"
+                                                                            placeholder="Email Wali Anak..."
+                                                                            value="{{ $detail->guardian_email }}" />
+                                                                        <div id="editGuardian_emailError{{ $data->id }}"
+                                                                            class="invalid-feedback"></div>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label
+                                                                            for="guardian_identity_card{{ $data->id }}"
+                                                                            class="form-label">Kartu
+                                                                            Pengenal
+                                                                            Wali Anak (KTP
+                                                                            atau Kartu Pengenal Lainnya)</label>
+                                                                        <input class="form-control" type="file"
+                                                                            id="guardian_identity_card{{ $data->id }}"
+                                                                            name="guardian_identity_card" />
+                                                                        <div id="editGuardian_identity_cardError"
+                                                                            class="invalid-feedback"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <button type="button"
+                                                                class="btn btn-primary mb-2 d-grid w-100 updateSubmit"
+                                                                data-id="{{ $data->id }}">Simpan</button>
+                                                            <button type="button"
+                                                                class="btn btn-outline-secondary d-grid w-100 btnPrevProfile"
+                                                                data-id="{{ $data->id }}">Sebelumnya</button>
+                                                        </div>
+                                                    @endforeach
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-outline-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary updateSubmit"
-                                        data-id="{{ $data->id }}">Save Changes</button>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+
                         </div>
                     </div>
                 </div>
@@ -879,6 +1123,77 @@
 
     <!-- Tambahkan ini ke head tag HTML Anda jika belum ada -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
+
+    <script>
+        $(document).ready(function() {
+            function nextProfile(dataId) {
+                console.log('test');
+                const nextNav = document.getElementById('navs-justified-profile' + dataId);
+                const nextTab = document.getElementById('tab-justified-profile' + dataId);
+                const thisNav = document.getElementById('navs-justified-home' + dataId);
+                const thisTab = document.getElementById('tab-justified-home' + dataId);
+
+                thisNav.classList.remove('show', 'active');
+                nextNav.classList.add('show', 'active');
+                thisTab.classList.remove('active');
+                nextTab.classList.add('active');
+            }
+
+            function nextMessages(dataId) {
+                const nextNav = document.getElementById('navs-justified-messages' + dataId);
+                const nextTab = document.getElementById('tab-justified-messages' + dataId);
+                const thisNav = document.getElementById('navs-justified-profile' + dataId);
+                const thisTab = document.getElementById('tab-justified-profile' + dataId);
+
+                thisNav.classList.remove('show', 'active');
+                nextNav.classList.add('show', 'active');
+                thisTab.classList.remove('active');
+                nextTab.classList.add('active');
+            }
+
+            function prevProfile(dataId) {
+                const prevNav = document.getElementById('navs-justified-profile' + dataId);
+                const prevTab = document.getElementById('tab-justified-profile' + dataId);
+                const thisNav = document.getElementById('navs-justified-messages' + dataId);
+                const thisTab = document.getElementById('tab-justified-messages' + dataId);
+
+                thisNav.classList.remove('show', 'active');
+                prevNav.classList.add('show', 'active');
+                thisTab.classList.remove('active');
+                prevTab.classList.add('active');
+            }
+
+            function prevHome(dataId) {
+                const prevNav = document.getElementById('navs-justified-home' + dataId);
+                const prevTab = document.getElementById('tab-justified-home' + dataId);
+                const thisNav = document.getElementById('navs-justified-profile' + dataId);
+                const thisTab = document.getElementById('tab-justified-profile' + dataId);
+
+                thisNav.classList.remove('show', 'active');
+                prevNav.classList.add('show', 'active');
+                thisTab.classList.remove('active');
+                prevTab.classList.add('active');
+            }
+
+            // Panggil fungsi nextProfile() pada klik tombol
+            $('.btnNextProfile').on('click', function() {
+                var dataId = $(this).data('id');
+                nextProfile(dataId);
+            });
+            $('.btnNextMessages').on('click', function() {
+                var dataId = $(this).data('id');
+                nextMessages(dataId);
+            });
+            $('.btnPrevProfile').on('click', function() {
+                var dataId = $(this).data('id');
+                prevProfile(dataId);
+            });
+            $('.btnPrevHome').on('click', function() {
+                var dataId = $(this).data('id');
+                prevHome(dataId);
+            });
+        });
+    </script>
 
     <script>
         $(document).ready(function() {
@@ -945,6 +1260,7 @@
             });
         });
     </script>
+
     <script>
         $(document).ready(function() {
             // Setup CSRF token for all AJAX requests
@@ -1171,44 +1487,25 @@
             }
 
             function update(id) {
-                var formData = new FormData();
+                // Inisialisasi FormData
+                var formData = new FormData($('#editDataAnakForm' + id)[0]);
 
-                // Add text data to FormData
-                formData.append('_token', '{{ csrf_token() }}');
-                formData.append('name', $('#editName' + id).val());
-                formData.append('place_of_birth', $('#editPlace_of_birth' + id).val());
-                formData.append('date_of_birth', $('#editDate_of_birth' + id).val());
-                formData.append('gender', $('#editGender' + id).val());
-                formData.append('religion', $('#editReligion' + id).val());
-                formData.append('status', $('#editStatus' + id).val());
-
-                // Add file data to FormData if available
-                var birthCertificateFile = $('#editBirth_certificate' + id)[0].files[0];
-                var familyCardFile = $('#editFamily_card' + id)[0].files[0];
-                var ktpFile = $('#editKtp' + id)[0].files[0];
-
-                if (birthCertificateFile) {
-                    formData.append('birth_certificate', birthCertificateFile);
-                }
-
-                if (familyCardFile) {
-                    formData.append('family_card', familyCardFile);
-                }
-
-                if (ktpFile) {
-                    formData.append('ktp', ktpFile);
-                }
-
+                // Tambahkan metode HTTP ke FormData
                 formData.append('_method', 'patch');
+
+                // URL untuk permintaan Ajax
                 var url = "{{ url('anak-asuh/data-anak') }}" + '/' + id;
                 console.log('URL:', url);
+
+                // Tampilkan data FormData pada konsol
                 for (var pair of formData.entries()) {
                     console.log(pair[0] + ', ' + pair[1]);
                 }
 
+                // Lakukan permintaan Ajax
                 $.ajax({
                     url: url,
-                    type: 'POST',
+                    type: 'POST', // Tetap gunakan POST karena metode Laravel yang digunakan adalah "method spoofing"
                     data: formData,
                     cache: false,
                     contentType: false,
@@ -1230,6 +1527,7 @@
                     }
                 });
             }
+
 
             function handleUpdateErrors(errors, id) {
                 // Clear previous errors
@@ -1480,3 +1778,162 @@
         </div>
     </ul>
 </td> --}}
+
+{{-- <div class="modal fade" id="editModal{{ $data->id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel1">Edit Data Anak Asuh</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('data-anak.update', $data->id) }}" data-id="{{ $data->id }}"
+                        method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PATCH')
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label for="editName{{ $data->id }}" class="form-label">Nama
+                                                Anak</label>
+                                            <input type="text" class="form-control"
+                                                id="editName{{ $data->id }}" name="name"
+                                                value="{{ $data->name }}" placeholder="Nama Anak..." />
+                                            <div id="editNameError{{ $data->id }}" class="invalid-feedback">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editPlace_of_birth{{ $data->id }}"
+                                                class="form-label">Tempat
+                                                Lahir</label>
+                                            <input type="text" class="form-control"
+                                                id="editPlace_of_birth{{ $data->id }}" name="place_of_birth"
+                                                value="{{ $data->place_of_birth }}"
+                                                placeholder="Tempat Lahir..." />
+                                            <div id="editPlaceOfBirthError{{ $data->id }}"
+                                                class="invalid-feedback">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editDate_of_birth{{ $data->id }}"
+                                                class="form-label">Tanggal
+                                                Lahir</label>
+                                            <input class="form-control" type="date"
+                                                id="editDate_of_birth{{ $data->id }}" name="date_of_birth"
+                                                value="{{ $data->date_of_birth }}" />
+                                            <div id="editDateOfBirthError{{ $data->id }}"
+                                                class="invalid-feedback">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editGender{{ $data->id }}" class="form-label">Jenis
+                                                Kelamin</label>
+                                            <select class="form-select" id="editGender{{ $data->id }}"
+                                                name="gender" aria-label="Default select example">
+                                                <option value="" hidden>Pilih Jenis Kelamin</option>
+                                                <option value="Laki-Laki"
+                                                    {{ $data->gender == 'Laki-Laki' ? 'selected' : '' }}>Laki-Laki
+                                                </option>
+                                                <option value="Perempuan"
+                                                    {{ $data->gender == 'Perempuan' ? 'selected' : '' }}>Perempuan
+                                                </option>
+                                            </select>
+                                            <div id="editGenderError{{ $data->id }}"
+                                                class="invalid-feedback">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editReligion{{ $data->id }}"
+                                                class="form-label">Agama</label>
+                                            <select class="form-select" id="editReligion{{ $data->id }}"
+                                                name="religion" aria-label="Default select example">
+                                                <option value="" hidden>Pilih Agama</option>
+                                                <option value="Islam"
+                                                    {{ $data->religion == 'Islam' ? 'selected' : '' }}>
+                                                    Islam
+                                                </option>
+                                                <option value="Hindu"
+                                                    {{ $data->religion == 'Hindu' ? 'selected' : '' }}>
+                                                    Hindu
+                                                </option>
+                                                <option value="Kristen Protestan"
+                                                    {{ $data->religion == 'Kristen Protestan' ? 'selected' : '' }}>
+                                                    Kristen Protestan</option>
+                                                <option value="Kristen Katolik"
+                                                    {{ $data->religion == 'Kristen Katolik' ? 'selected' : '' }}>
+                                                    Kristen Katolik</option>
+                                                <option value="Budha"
+                                                    {{ $data->religion == 'Budha' ? 'selected' : '' }}>
+                                                    Budha
+                                                </option>
+                                                <option value="Konghucu"
+                                                    {{ $data->religion == 'Konghucu' ? 'selected' : '' }}>Konghucu
+                                                </option>
+                                            </select>
+                                            <div id="editReligionError{{ $data->id }}"
+                                                class="invalid-feedback">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editStatus{{ $data->id }}"
+                                                class="form-label">Status</label>
+                                            <select class="form-select" id="editStatus{{ $data->id }}"
+                                                name="status" aria-label="Default select example">
+                                                <option value="" hidden>Status Anak Asuh</option>
+                                                <option value="Aktif"
+                                                    {{ $data->status == 'Aktif' ? 'selected' : '' }}>
+                                                    Aktif</option>
+                                                <option value="Non-Aktif"
+                                                    {{ $data->status == 'Non-Aktif' ? 'selected' : '' }}>Non-Aktif
+                                                </option>
+                                            </select>
+                                            <div id="editStatusError{{ $data->id }}"
+                                                class="invalid-feedback">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editBirth_certificate{{ $data->id }}"
+                                                class="form-label">Akta
+                                                Kelahiran</label>
+                                            <input class="form-control" type="file"
+                                                id="editBirth_certificate{{ $data->id }}"
+                                                name="birth_certificate" />
+                                            <div id="editBirthCertificateError{{ $data->id }}"
+                                                class="invalid-feedback"></div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editFamily_card{{ $data->id }}"
+                                                class="form-label">Kartu
+                                                Keluarga</label>
+                                            <input class="form-control" type="file"
+                                                id="editFamily_card{{ $data->id }}" name="family_card" />
+                                            <div id="editFamilyCardError{{ $data->id }}"
+                                                class="invalid-feedback">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editKtp{{ $data->id }}" class="form-label">Kartu
+                                                Tanda
+                                                Pengenal (KTP
+                                                atau Tanda Pengenal Lainnya)</label>
+                                            <input class="form-control" type="file"
+                                                id="editKtp{{ $data->id }}" name="ktp" />
+                                            <div id="editKtpError{{ $data->id }}" class="invalid-feedback">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary"
+                                data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary updateSubmit"
+                                data-id="{{ $data->id }}">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div> --}}
