@@ -17,6 +17,11 @@ return new class extends Migration
             $table->foreignId('disease_id')->constrained('diseases')->onDelete('cascade')->onUpdate('cascade');
             $table->string('medicine');
             $table->date('date_of_illness');
+            $table->date('recovery_date')->nullable();
+            $table->string('status');
+            $table->string('payment_method');
+            $table->string('drug_cost');
+            $table->string('medical_check_cost');
             $table->string('description');
             $table->timestamps();
         });

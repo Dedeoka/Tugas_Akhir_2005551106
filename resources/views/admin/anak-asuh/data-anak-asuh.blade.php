@@ -475,8 +475,8 @@
                                                                                 </div>
                                                                                 <div class="mb-3">
                                                                                     <label for="guardian_relationship"
-                                                                                        class="form-label">Jenis
-                                                                                        Kelamin</label>
+                                                                                        class="form-label">Hubungan Wali
+                                                                                        Dengan Anak</label>
                                                                                     <select class="form-select"
                                                                                         id="guardian_relationship"
                                                                                         name="guardian_relationship"

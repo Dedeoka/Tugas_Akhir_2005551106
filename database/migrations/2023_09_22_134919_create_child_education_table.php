@@ -14,10 +14,13 @@ return new class extends Migration
         Schema::create('child_education', function (Blueprint $table) {
             $table->id();
             $table->foreignId('children_id')->constrained('childrens')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('name');
+            $table->string('educational level');
             $table->string('school_name');
+            $table->date('entry_date');
             $table->date('graduation_date');
             $table->string('certificate');
+            $table->string('status');
+            $table->string('total_cost');
             $table->string('description');
             $table->timestamps();
         });

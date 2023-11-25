@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('child_achievements', function (Blueprint $table) {
+        Schema::create('child_academic_achievements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('children_id')->constrained('childrens')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('child_education_id')->constrained('child_education')->onDelete('cascade')->onUpdate('cascade');
             $table->string('title');
             $table->string('competition_level');
             $table->date('competition_date');
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('child_achievements');
+        Schema::dropIfExists('child_academic_achievements');
     }
 };

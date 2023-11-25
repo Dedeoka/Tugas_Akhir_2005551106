@@ -195,25 +195,6 @@
                         Tabel Data Kesehatan Anak Asuh
                     </h3>
                 </div>
-                {{-- <div class="col-lg-3 col-md-6">
-                    <div class="mt-3 mb-3">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                <i class='bx bx-export m-1'></i>
-                                Export</button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="javascript:void(0);">Action</a></li>
-                                <li><a class="dropdown-item" href="javascript:void(0);">Another action</a></li>
-                                <li><a class="dropdown-item" href="javascript:void(0);">Something else here</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="javascript:void(0);">Separated link</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div> --}}
                 <div class="col-lg-3 col-md-6 quick-sand">
                     <div class="mt-3 mb-3">
                         <div class="d-flex">
@@ -221,77 +202,240 @@
 
                             </div>
                             <div class="">
-                                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                                    data-bs-target="#offcanvasEnd" aria-controls="offcanvasEnd">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#exLargeModal">
                                     <i class='bx bx-plus m-1'></i>
                                     Tambah Data
                                 </button>
-                                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEnd"
-                                    aria-labelledby="offcanvasEndLabel">
-                                    <div class="offcanvas-header">
-                                        <h5 id="offcanvasEndLabel" class="offcanvas-title">Tambah Data Kesehatan Anak Asuh
-                                        </h5>
-                                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="offcanvas-body my-auto mx-0 flex-grow-0">
-                                        <form id="dataAnakForm" action="{{ route('kesehatan-anak.store') }}"
-                                            method="POST">
-                                            <div class="card mb-4">
-                                                <div class="card-body">
-                                                    @csrf
-                                                    <div class="mb-3">
-                                                        <label for="children_id" class="form-label">Nama Anak</label>
-                                                        <select class="form-select" id="children_id" name="children_id"
-                                                            aria-label="Default select example">
-                                                            <option value="" hidden>Pilih Nama Anak Asuh
-                                                            </option>
-                                                            @foreach ($childs as $child)
-                                                                <option value="{{ $child->id }}">{{ $child->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                        <div id="childrenError" class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="disease_id" class="form-label">Nama Penyakit</label>
-                                                        <select class="form-select" id="disease_id" name="disease_id"
-                                                            aria-label="Default select example">
-                                                            <option value="" hidden>Pilih Nama Penyakit
-                                                            </option>
-                                                            @foreach ($diseases as $disease)
-                                                                <option value="{{ $disease->id }}">{{ $disease->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                        <div id="diseaseError" class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="medicine" class="form-label">Nama Obat</label>
-                                                        <input type="text" class="form-control" id="medicine"
-                                                            name="medicine" placeholder="Nama Obat..." />
-                                                        <div id="medicineError" class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="date_of_illness" class="form-label">Tanggal
-                                                            Sakit</label>
-                                                        <input class="form-control" type="date" id="date_of_illness"
-                                                            name="date_of_illness" />
-                                                        <div id="dateOfIllnessError" class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="description" class="form-label">Deskripsi
-                                                            Kesehatan</label>
-                                                        <textarea class="form-control" id="description" rows="3"></textarea>
-                                                        <div id="descriptionError" class="invalid-feedback"></div>
-                                                    </div>
-                                                </div>
+                                <div class="modal fade" id="exLargeModal" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h3 class="text-center">Tambah Data Anak Asuh</h3>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                             </div>
-                                            <button type="submit"
-                                                class="btn btn-primary mb-2 d-grid w-100">Simpan</button>
-                                            <button type="button" class="btn btn-outline-secondary d-grid w-100"
-                                                data-bs-dismiss="offcanvas">Cancel</button>
-                                        </form>
+                                            <div class="modal-header">
+                                                <ul class="nav nav-tabs nav-fill w-100" role="tablist">
+                                                    <li class="nav-item">
+                                                        <button type="button" id="tab-justified-home" class="nav-link"
+                                                            role="tab" data-bs-toggle="tab"
+                                                            data-bs-target="#navs-justified-home"
+                                                            aria-controls="navs-justified-home" aria-selected="true"
+                                                            disabled>
+                                                            <span class="d-none d-sm-block">
+                                                                Data Kesehatan Anak</span>
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form id="dataAnakForm" action="{{ route('kesehatan-anak.store') }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <div class="row">
+                                                        <div class="">
+                                                            <div class="nav-align-top mb-4">
+                                                                <div class="tab-content">
+                                                                    <div class="tab-pane fade show active"
+                                                                        id="navs-justified-home" role="tabpanel">
+                                                                        <div class="card mb-4">
+                                                                            <div class="card-body">
+                                                                                <div class="mb-3">
+                                                                                    <label for="children_id"
+                                                                                        class="form-label">Nama
+                                                                                        Anak</label>
+                                                                                    <select class="form-select"
+                                                                                        id="children_id"
+                                                                                        name="children_id"
+                                                                                        aria-label="Default select example">
+                                                                                        <option value="" hidden>
+                                                                                            Pilih Nama Anak Asuh
+                                                                                        </option>
+                                                                                        @foreach ($childs as $child)
+                                                                                            <option
+                                                                                                value="{{ $child->id }}">
+                                                                                                {{ $child->name }}
+                                                                                            </option>
+                                                                                        @endforeach
+                                                                                    </select>
+                                                                                    <div id="childrenError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="disease_id"
+                                                                                        class="form-label">Nama
+                                                                                        Penyakit</label>
+                                                                                    <select class="form-select"
+                                                                                        id="disease_id" name="disease_id"
+                                                                                        aria-label="Default select example">
+                                                                                        <option value="" hidden>
+                                                                                            Pilih Nama Penyakit
+                                                                                        </option>
+                                                                                        @foreach ($diseases as $disease)
+                                                                                            <option
+                                                                                                value="{{ $disease->id }}">
+                                                                                                {{ $disease->name }}
+                                                                                            </option>
+                                                                                        @endforeach
+                                                                                    </select>
+                                                                                    <div id="diseaseError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="medicine"
+                                                                                        class="form-label">Nama
+                                                                                        Obat</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        id="medicine" name="medicine"
+                                                                                        placeholder="Nama Obat..." />
+                                                                                    <div id="medicineError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label
+                                                                                        class="form-label d-block">Status
+                                                                                        Kesehatan</label>
+                                                                                    <div
+                                                                                        class="form-check form-check-inline">
+                                                                                        <input class="form-check-input"
+                                                                                            type="radio" name="status"
+                                                                                            id="sedangSakit"
+                                                                                            value="Sedang Sakit" />
+                                                                                        <label class="form-check-label"
+                                                                                            for="sedangSakit">Sedang
+                                                                                            Sakit</label>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="form-check form-check-inline">
+                                                                                        <input class="form-check-input"
+                                                                                            type="radio" name="status"
+                                                                                            id="sudahSembuh"
+                                                                                            value="Sudah Sembuh" />
+                                                                                        <label class="form-check-label"
+                                                                                            for="sudahSembuh">Sudah
+                                                                                            Sembuh</label>
+                                                                                    </div>
+                                                                                    <div id="statusError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="date_of_illness"
+                                                                                        class="form-label">Tanggal
+                                                                                        Sakit</label>
+                                                                                    <input class="form-control"
+                                                                                        type="date"
+                                                                                        id="date_of_illness"
+                                                                                        name="date_of_illness" />
+                                                                                    <div id="date_of_illnessError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3"
+                                                                                    id="recoveryDateInput">
+                                                                                    <label for="recovery_date"
+                                                                                        class="form-label">Tanggal
+                                                                                        Sembuh</label>
+                                                                                    <input class="form-control"
+                                                                                        type="date" id="recovery_date"
+                                                                                        name="recovery_date" />
+                                                                                    <div id="recovery_dateError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label
+                                                                                        class="form-label d-block">Pembayaran
+                                                                                        Pemeriksaan dan Obat
+                                                                                        Menggunakan</label>
+                                                                                    <div
+                                                                                        class="form-check form-check-inline">
+                                                                                        <input class="form-check-input"
+                                                                                            type="radio"
+                                                                                            name="payment_method"
+                                                                                            id="biayaPanti"
+                                                                                            value="Biaya Panti Asuhan"
+                                                                                            onchange="handlePaymentMethodChange()" />
+                                                                                        <label class="form-check-label"
+                                                                                            for="biayaPanti">Biaya Panti
+                                                                                            Asuhan</label>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="form-check form-check-inline">
+                                                                                        <input class="form-check-input"
+                                                                                            type="radio"
+                                                                                            name="payment_method"
+                                                                                            id="bpjs"
+                                                                                            value="KIS/BPJS"
+                                                                                            onchange="handlePaymentMethodChange()" />
+                                                                                        <label class="form-check-label"
+                                                                                            for="bpjs">KIS/BPJS</label>
+                                                                                    </div>
+                                                                                    <div id="paymentError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3" id="medicalCostInput">
+                                                                                    <label for="medical_check_cost"
+                                                                                        class="form-label">Biaya
+                                                                                        Pemeriksaan</label>
+                                                                                    <div
+                                                                                        class="input-group input-group-merge">
+                                                                                        <span
+                                                                                            class="input-group-text">Rp</span>
+                                                                                        <input type="text"
+                                                                                            class="form-control"
+                                                                                            id="medical_check_cost"
+                                                                                            name="medical_check_cost"
+                                                                                            placeholder="5,000"
+                                                                                            oninput="formatAmount(this)" />
+                                                                                        <div id="medicalCostError"
+                                                                                            class="invalid-feedback"></div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="mb-3" id="drugCostInput">
+                                                                                    <label for="drug_cost"
+                                                                                        class="form-label">Biaya
+                                                                                        Obat</label>
+                                                                                    <div
+                                                                                        class="input-group input-group-merge">
+                                                                                        <span
+                                                                                            class="input-group-text">Rp</span>
+                                                                                        <input type="text"
+                                                                                            class="form-control"
+                                                                                            id="drug_cost"
+                                                                                            name="drug_cost"
+                                                                                            placeholder="5,000"
+                                                                                            oninput="formatAmount(this)" />
+                                                                                        <div id="drugCostError"
+                                                                                            class="invalid-feedback"></div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="description"
+                                                                                        class="form-label">Deskripsi
+                                                                                        Kesehatan</label>
+                                                                                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                                                                                    <div id="descriptionError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <button type="submit" id="btnNextProfile"
+                                                                            class="btn btn-primary mb-2 d-grid w-100">Simpan</button>
+                                                                        <button type="button"
+                                                                            class="btn btn-outline-secondary d-grid w-100"
+                                                                            data-bs-dismiss="modal"
+                                                                            aria-label="Close">Cancel</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -310,6 +454,7 @@
                                 <th class="col-md-1 text-center fw-bold">Obat Penyakit</th>
                                 <th class="col-md-1 text-center fw-bold">Tanggal Sakit</th>
                                 <th class="col-md-1 text-center fw-bold">Deskripsi</th>
+                                <th class="col-md-1 text-center fw-bold">Status</th>
                                 <th class="col-md-1 text-center fw-bold">Action</th>
                             </tr>
                         </thead>
@@ -325,6 +470,18 @@
                                     <td>{{ $data->medicine }}</td>
                                     <td>{{ $data->date_of_illness }}</td>
                                     <td>{{ $data->description }}</td>
+                                    <td>
+                                        @if ($data->status == 'Sudah Sembuh')
+                                            <button type="button" class="btn rounded-pill btn-success"
+                                                style="width: 100px;">
+                                                Sembuh</button>
+                                        @else
+                                            <button type="button" class="btn rounded-pill btn-danger sakitBtn"
+                                                style="width: 100px;" data-bs-toggle="modal"
+                                                data-bs-target="#editModal{{ $data->id }}">
+                                                Sakit</button>
+                                        @endif
+                                    </td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -404,10 +561,10 @@
             <!-- Modal Edit -->
             @foreach ($datas as $data)
                 <div class="modal fade" id="editModal{{ $data->id }}" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
+                    <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel1">Edit Data Data Anak Asuh</h5>
+                                <h5 class="modal-title" id="exampleModalLabel1">Data Data Anak Asuh</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
@@ -420,69 +577,73 @@
                                         <div class="card mb-4">
                                             <div class="card-body">
                                                 <div class="mb-3">
-                                                    <label for="editChildren_id{{ $data->id }}"
-                                                        class="form-label">Nama
-                                                        Anak</label>
-                                                    <select class="form-select" id="editChildren_id{{ $data->id }}"
-                                                        name="editChildren_id{{ $data->id }}"
-                                                        aria-label="Default select example">
-                                                        <option value="" hidden>Pilih Nama Anak Asuh</option>
-                                                        @foreach ($childs as $child)
-                                                            <option value="{{ $child->id }}"
-                                                                @if ($child->id == $data->children_id) selected @endif>
-                                                                {{ $child->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                    <div id="editChildrenError{{ $data->id }}"
-                                                        class="invalid-feedback"></div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="editDisease_id{{ $data->id }}"
-                                                        class="form-label">Nama Penyakit</label>
-                                                    <select class="form-select" id="editDisease_id{{ $data->id }}"
-                                                        name="editDisease_id{{ $data->id }}"
-                                                        aria-label="Default select example">
-                                                        <option value="" hidden>Pilih Nama Penyakit
-                                                        </option>
-                                                        @foreach ($diseases as $disease)
-                                                            <option value="{{ $disease->id }}"
-                                                                @if ($disease->id == $data->disease_id) selected @endif>
-                                                                {{ $disease->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                    <div id="editDiseaseError{{ $data->id }}"
-                                                        class="invalid-feedback"></div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="editMedicine{{ $data->id }}" class="form-label">Nama
-                                                        Obat</label>
-                                                    <input type="text" class="form-control"
-                                                        id="editMedicine{{ $data->id }}"
-                                                        name="editMedicine{{ $data->id }}" placeholder="Nama Obat..."
-                                                        value="{{ $data->medicine }}" />
-                                                    <div id="editMedicineError{{ $data->id }}"
-                                                        class="invalid-feedback"></div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="editDate_of_illness{{ $data->id }}"
+                                                    <label for="recovery_date{{ $data->id }}"
                                                         class="form-label">Tanggal
-                                                        Sakit</label>
+                                                        Sembuh</label>
                                                     <input class="form-control" type="date"
-                                                        id="editDate_of_illness{{ $data->id }}"
-                                                        name="editDate_of_illness{{ $data->id }}"
-                                                        value="{{ $data->date_of_illness }}" />
-                                                    <div id="editDateOfIllnessError{{ $data->id }}"
+                                                        id="recovery_date{{ $data->id }}" name="recovery_date" />
+                                                    <div id="recovery_dateError{{ $data->id }}"
                                                         class="invalid-feedback"></div>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="editDescription{{ $data->id }}"
-                                                        class="form-label">Deskripsi
-                                                        Kesehatan</label>
-                                                    <textarea class="form-control" id="editDescription{{ $data->id }}" rows="3">{{ $data->description }}</textarea>
-                                                    <div id="editDescriptionError{{ $data->id }}"
-                                                        class="invalid-feedback"></div>
+                                                    <label for="medicine{{ $data->id }}" class="form-label">
+                                                        Obat Tambahan</label>
+                                                    <input type="text" class="form-control"
+                                                        id="medicine{{ $data->id }}" name="medicine"
+                                                        placeholder="Obat Tambahan..." />
+                                                    <div id="medicineError{{ $data->id }}" class="invalid-feedback">
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label d-block">Pembayaran
+                                                        Pemeriksaan dan Obat
+                                                        Tambahan Menggunakan</label>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="payment_method" id="biayaPanti{{ $data->id }}"
+                                                            value="Biaya Panti Asuhan"
+                                                            onchange="handlePaymentEditChange({{ $data->id }})" />
+                                                        <label class="form-check-label"
+                                                            for="biayaPanti{{ $data->id }}">Biaya Panti
+                                                            Asuhan</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="payment_method" id="bpjs{{ $data->id }}"
+                                                            value="KIS/BPJS"
+                                                            onchange="handlePaymentEditChange({{ $data->id }})" />
+                                                        <label class="form-check-label"
+                                                            for="bpjs{{ $data->id }}">KIS/BPJS/Tidak Ada Biaya
+                                                            Tambahan</label>
+                                                    </div>
+                                                    <div id="paymentError" class="invalid-feedback"></div>
+                                                </div>
+                                                <div class="mb-3" id="medicalCostInput{{ $data->id }}">
+                                                    <label for="medical_check_cost{{ $data->id }}"
+                                                        class="form-label">Biaya
+                                                        Tambahan Pemeriksaan</label>
+                                                    <div class="input-group input-group-merge">
+                                                        <span class="input-group-text">Rp</span>
+                                                        <input type="text" class="form-control"
+                                                            id="medical_check_cost{{ $data->id }}"
+                                                            name="medical_check_cost" placeholder="5,000"
+                                                            oninput="formatAmount(this)" />
+                                                        <div id="medicalCostError{{ $data->id }}"
+                                                            class="invalid-feedback"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3" id="drugCostInput{{ $data->id }}">
+                                                    <label for="drug_cost{{ $data->id }}" class="form-label">Biaya
+                                                        Tambahan
+                                                        Obat</label>
+                                                    <div class="input-group input-group-merge">
+                                                        <span class="input-group-text">Rp</span>
+                                                        <input type="text" class="form-control"
+                                                            id="drug_cost{{ $data->id }}" name="drug_cost"
+                                                            placeholder="5,000" oninput="formatAmount(this)" />
+                                                        <div id="drugCostError{{ $data->id }}"
+                                                            class="invalid-feedback"></div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -508,6 +669,92 @@
 
     <!-- Tambahkan ini ke head tag HTML Anda jika belum ada -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
+
+    <script>
+        function handlePaymentEditChange(id) {
+            // Mendapatkan nilai radio button yang dipilih
+            const selectedPaymentMethod = document.querySelector(`input[name="payment_method"]:checked`);
+
+            // Mendapatkan elemen form input cost
+            const medicalCheckCostInput = document.getElementById(`medicalCostInput` + id);
+            const drugCostInput = document.getElementById(`drugCostInput` + id);
+
+            // Memeriksa nilai radio button yang dipilih
+            if (selectedPaymentMethod && selectedPaymentMethod.value === 'KIS/BPJS') {
+                // Jika memilih BPJS, menyembunyikan form input cost dan mengatur nilainya menjadi 0
+                medicalCheckCostInput.style.display = 'none';
+                drugCostInput.style.display = 'none';
+
+            } else {
+                // Jika memilih Biaya Panti, menampilkan kembali form input cost
+                medicalCheckCostInput.style.display = 'block';
+                drugCostInput.style.display = 'block';
+            }
+        }
+    </script>
+
+    <script>
+        function handlePaymentMethodChange() {
+            // Mendapatkan nilai radio button yang dipilih
+            const selectedPaymentMethod = document.querySelector('input[name="payment_method"]:checked');
+
+            // Mendapatkan elemen form input cost
+            const medicalCheckCostInput = document.getElementById('medicalCostInput');
+            const drugCostInput = document.getElementById('drugCostInput');
+            const medicalCost = document.getElementById('medical_cost');
+            const drugCost = document.getElementById('drug_cost');
+
+            // Memeriksa nilai radio button yang dipilih
+            if (selectedPaymentMethod && selectedPaymentMethod.value === 'KIS/BPJS') {
+                // Jika memilih BPJS, menyembunyikan form input cost dan mengatur nilainya menjadi 0
+                medicalCheckCostInput.style.display = 'none';
+                drugCostInput.style.display = 'none';
+            } else {
+                // Jika memilih Biaya Panti, menampilkan kembali form input cost
+                medicalCheckCostInput.style.display = 'block';
+                drugCostInput.style.display = 'block';
+            }
+        }
+    </script>
+
+    <script>
+        function formatAmount(inputElement) {
+            // Mendapatkan nilai input
+            let inputValue = inputElement.value;
+
+            // Menghapus karakter selain digit (misalnya, strip, titik, dll.)
+            inputValue = inputValue.replace(/[^\d]/g, '');
+
+            // Memformat angka dengan menambahkan titik sebagai pemisah ribuan
+            inputValue = new Intl.NumberFormat().format(inputValue);
+
+            // Menetapkan kembali nilai input yang sudah diformat
+            inputElement.value = inputValue;
+        }
+    </script>
+
+    <script>
+        // Mendapatkan elemen radio button dan input tanggal
+        const sedangSakitRadio = document.getElementById('sedangSakit');
+        const sudahSembuhRadio = document.getElementById('sudahSembuh');
+        const recoveryDateInput = document.getElementById('recoveryDateInput');
+
+        // Menambahkan event listener untuk mendeteksi perubahan pada radio button
+        sedangSakitRadio.addEventListener('change', function() {
+            // Menonaktifkan input recovery_date dan mengatur nilai null jika sedangSakit dipilih
+            if (sedangSakitRadio.checked) {
+                recoveryDateInput.style.display = 'none';
+                recoveryDateInput.value = null;
+            }
+        });
+
+        sudahSembuhRadio.addEventListener('change', function() {
+            // Mengaktifkan input recovery_date jika sudahSembuh dipilih
+            if (sudahSembuhRadio.checked) {
+                recoveryDateInput.style.display = 'block';
+            }
+        });
+    </script>
 
     <script>
         $(document).ready(function() {
@@ -556,13 +803,31 @@
             });
 
             function simpan() {
-                var formData = new FormData();
+                const formData = new FormData();
                 formData.append('_token', '{{ csrf_token() }}');
                 formData.append('children_id', $('#children_id').val());
                 formData.append('disease_id', $('#disease_id').val());
                 formData.append('medicine', $('#medicine').val());
                 formData.append('date_of_illness', $('#date_of_illness').val());
+                formData.append('recovery_date', $('#recovery_date').val());
+                const status = $('input[name="status"]:checked').val();
+                formData.append('status', status);
                 formData.append('description', $('#description').val());
+                const paymentMethod = $('input[name="payment_method"]:checked').val();
+                formData.append('payment_method', paymentMethod);
+
+                const drugCost = $('#drug_cost').val();
+                const medicalCheckCost = $('#medical_check_cost').val();
+
+                if (paymentMethod === 'KIS/BPJS') {
+                    formData.append('drug_cost', '0');
+                    formData.append('medical_check_cost', '0');
+                } else {
+                    formData.append('drug_cost', drugCost);
+                    formData.append('medical_check_cost', medicalCheckCost);
+                }
+
+                console.log("Data yang dikirim:", Object.fromEntries(formData.entries()));
 
                 $.ajax({
                     url: "{{ route('kesehatan-anak.store') }}",
@@ -587,7 +852,7 @@
                                     window.location.reload();
                                 }
                             });
-                            $('#offcanvasEnd').offcanvas('hide');
+                            $('#exLargeModal').modal('hide');
                         }
                     },
                     error: function(xhr, textStatus, errorThrown) {
@@ -681,11 +946,14 @@
 
                 // Add text data to FormData
                 formData.append('_token', '{{ csrf_token() }}');
-                formData.append('children_id', $('#editChildren_id' + id).val());
-                formData.append('disease_id', $('#editDisease_id' + id).val());
-                formData.append('medicine', $('#editMedicine' + id).val());
-                formData.append('date_of_illness', $('#editDate_of_illness' + id).val());
-                formData.append('description', $('#editDescription' + id).val());
+                formData.append('recovery_date', $('#recovery_date' + id).val());
+                formData.append('medicine', $('#medicine' + id).val());
+                const paymentMethod = $('input[name="payment_method"]:checked').val();
+                formData.append('payment_method', paymentMethod);
+                var medicalCheckCost = $('#medical_check_cost' + id).val() || '0';
+                var drugCost = $('#drug_cost' + id).val() || '0';
+                formData.append('medical_check_cost', medicalCheckCost);
+                formData.append('drug_cost', drugCost);
                 formData.append('_method', 'patch');
 
                 for (var pair of formData.entries()) {
@@ -843,3 +1111,77 @@
         });
     </script>
 @endsection
+
+
+{{-- <div class="">
+    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasEnd"
+        aria-controls="offcanvasEnd">
+        <i class='bx bx-plus m-1'></i>
+        Tambah Data
+    </button>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEnd" aria-labelledby="offcanvasEndLabel">
+        <div class="offcanvas-header">
+            <h5 id="offcanvasEndLabel" class="offcanvas-title">Tambah Data Kesehatan Anak Asuh
+            </h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body my-auto mx-0 flex-grow-0">
+            <form id="dataAnakForm" action="{{ route('kesehatan-anak.store') }}" method="POST">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="children_id" class="form-label">Nama Anak</label>
+                            <select class="form-select" id="children_id" name="children_id"
+                                aria-label="Default select example">
+                                <option value="" hidden>Pilih Nama Anak Asuh
+                                </option>
+                                @foreach ($childs as $child)
+                                    <option value="{{ $child->id }}">{{ $child->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <div id="childrenError" class="invalid-feedback"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="disease_id" class="form-label">Nama Penyakit</label>
+                            <select class="form-select" id="disease_id" name="disease_id"
+                                aria-label="Default select example">
+                                <option value="" hidden>Pilih Nama Penyakit
+                                </option>
+                                @foreach ($diseases as $disease)
+                                    <option value="{{ $disease->id }}">{{ $disease->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <div id="diseaseError" class="invalid-feedback"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="medicine" class="form-label">Nama Obat</label>
+                            <input type="text" class="form-control" id="medicine" name="medicine"
+                                placeholder="Nama Obat..." />
+                            <div id="medicineError" class="invalid-feedback"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="date_of_illness" class="form-label">Tanggal
+                                Sakit</label>
+                            <input class="form-control" type="date" id="date_of_illness"
+                                name="date_of_illness" />
+                            <div id="dateOfIllnessError" class="invalid-feedback"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Deskripsi
+                                Kesehatan</label>
+                            <textarea class="form-control" id="description" rows="3"></textarea>
+                            <div id="descriptionError" class="invalid-feedback"></div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary mb-2 d-grid w-100">Simpan</button>
+                <button type="button" class="btn btn-outline-secondary d-grid w-100"
+                    data-bs-dismiss="offcanvas">Cancel</button>
+            </form>
+        </div>
+    </div>
+</div> --}}

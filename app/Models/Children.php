@@ -27,6 +27,6 @@ class Children extends Model
 
     public function childDetails()
     {
-        return $this->hasMany(childrenDetail::class);
+        return $this->hasMany(childDetail::class);
     }
 }

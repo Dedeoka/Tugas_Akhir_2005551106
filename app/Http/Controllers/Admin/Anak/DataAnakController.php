@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Children;
 use App\Http\Requests\StoreKategoriRequest;
-use App\Models\ChildrenDetail;
+use App\Models\ChildDetail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
@@ -142,7 +142,7 @@ class DataAnakController extends Controller
                 'guardian_identity_card' => $guardianIdentityPath,
             ];
 
-            ChildrenDetail::create($dataDetail);
+            ChildDetail::create($dataDetail);
 
             return response()->json(['success' => "Berhasil menyimpan data"]);
         }
@@ -263,7 +263,7 @@ class DataAnakController extends Controller
         $data->save();
 
 
-        $childDetail = ChildrenDetail::where('children_id', $data->id)->first();
+        $childDetail = ChildDetail::where('children_id', $data->id)->first();
 
         $childDetail->father_name = $request->father_name;
         $childDetail->mother_name = $request->mother_name;

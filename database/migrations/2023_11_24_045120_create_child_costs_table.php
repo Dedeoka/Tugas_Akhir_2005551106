@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('costs', function (Blueprint $table) {
+        Schema::create('child_costs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cost_type_id')->constrained('cost_types')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('reference_table');
+            $table->string('reference_table_id');
             $table->string('title');
-            $table->string('total_amount');
+            $table->string('total_cost');
             $table->string('status');
             $table->timestamps();
         });
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('costs');
+        Schema::dropIfExists('child_costs');
     }
 };
