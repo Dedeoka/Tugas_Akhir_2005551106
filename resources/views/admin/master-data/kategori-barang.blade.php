@@ -70,6 +70,12 @@
             <span class="menu-header-text">Master Data</span>
         </li>
         <!-- Apps -->
+        <li class="menu-item">
+            <a href="{{ route('daftar-sekolah.index') }}" class="menu-link">
+                <i class='menu-icon tf-icons bx bxs-school'></i>
+                <div data-i18n="Email">Daftar Sekolah</div>
+            </a>
+        </li>
         <li class="menu-item active">
             <a href="{{ route('kategori-barang.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-shopping-bags"></i>
@@ -89,15 +95,15 @@
             </a>
         </li>
         <li class="menu-item">
-            <a href="{{ route('kategori-program.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bxs-party"></i>
-                <div data-i18n="Email">Kategori Program Panti</div>
-            </a>
-        </li>
-        <li class="menu-item">
             <a href="{{ route('kategori-penyakit.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-virus"></i>
                 <div data-i18n="Email">Kategori Penyakit</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="{{ route('kategori-program.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bxs-party"></i>
+                <div data-i18n="Email">Kategori Program Panti</div>
             </a>
         </li>
         <!-- Components -->

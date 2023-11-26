@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Children;
 use App\Models\ChildEducation;
 use App\Http\Requests\StoreKategoriRequest;
+use App\Models\ChildEducationDetail;
+use App\Models\School;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
@@ -25,7 +27,8 @@ class PendidikanAnakController extends Controller
         ->paginate(10)
         ->withQueryString();
         $childs = Children::all();
-        return view('admin.anak-asuh.pendidikan-anak-asuh', compact('datas', 'keyword', 'childs'));
+        $schools = School::all();
+        return view('admin.anak-asuh.pendidikan-anak-asuh', compact('datas', 'keyword', 'childs', 'schools'));
     }
 
     /**
@@ -43,39 +46,57 @@ class PendidikanAnakController extends Controller
     {
         $validasi = Validator::make($request->all(), [
             'children_id' => 'required',
-            'name' => 'required',
-            'school_name' => 'required',
-            'graduation_date' => 'required|date',
-            'certificate' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'description' => 'required',
+            'school_id' => 'required',
+            'education_level' => 'required',
+            'class' => 'required',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+            'status' => 'required',
+
+            'guardian_name' => 'required',
+            'guardian_address' => 'required',
+            'guardian_phone' => 'required',
         ], [
             'children_id.required' => 'Data wajib diisi',
-            'name.required' => 'Nama jenjang wajib diisi',
-            'school_name.required' => 'Nama sekolah wajib diisi',
-            'graduation_date.required' => 'Tanggal kelulusan wajib diisi',
-            'graduation_date.date' => 'Format tanggal tidak valid',
-            'certificate.required' => 'Berkas bukti kelulusan wajib diisi',
-            'certificate.file' => 'Berkas bukti kelulusan harus berupa file',
-            'certificate.mimes' => 'Format file bukti kelulusan tidak valid. Pilih format pdf, jpg, jpeg, atau png',
-            'certificate.max' => 'Ukuran file bukti kelulusan tidak boleh lebih dari 2MB',
-            'description' => 'Deskripsi wajib diisi',
+            'school_id.required' => 'Nama sekolah wajib diisi',
+            'education_level.required' => 'Nama jenjang wajib diisi',
+            'class.required' => 'Nama kelas wajib diisi',
+            'start_date.required' => 'Tanggal masuk wajib diisi',
+            'start_date.date' => 'Format tanggal tidak valid',
+            'end_date.required' => 'Tanggal berakhir wajib diisi',
+            'end_date.date' => 'Format tanggal tidak valid',
+            'status' => 'Deskripsi wajib diisi',
+
+            'guardian_name.required' => 'Nama wali kelas wajib diisi',
+            'guardian_address.required' => 'Alamat wali kelas wajib diisi',
+            'guardian_phone.required' => 'Nomor telepon wali kelas wajib diisi',
         ]);
 
         if ($validasi->fails()) {
-            return response()->json(['errors' => $validasi->errors()]);
+            return response()->json(['errors' => $validasi->errors()], 400);
         } else {
-            $certificatePath = $request->file('certificate')->store('uploads/bukti-kelulusan');
 
             $data = [
                 'children_id' => $request->children_id,
-                'name' => $request->name,
-                'school_name' => $request->school_name,
-                'graduation_date' => $request->graduation_date,
-                'certificate' => $certificatePath,
-                'description' => $request->description,
+                'school_id' => $request->school_id,
+                'education_level' => $request->education_level,
+                'class' => $request->class,
+                'class_name' => $request->class_name,
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
+                'status' => $request->status,
             ];
 
-            ChildEducation::create($data);
+            $childEducation = ChildEducation::create($data);
+
+            $detailData = [
+                'child_education_id' => $childEducation->id,
+                'guardian_name' => $request->guardian_name,
+                'guardian_address' => $request->guardian_address,
+                'guardian_phone' => $request->guardian_phone,
+            ];
+
+            ChildEducationDetail::create($detailData);
 
             return response()->json(['success' => "Berhasil menyimpan data"]);
         }

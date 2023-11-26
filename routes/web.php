@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\Anak\DataAnakController;
 use App\Http\Controllers\Admin\Anak\KesehatanAnakController;
 use App\Http\Controllers\Admin\Anak\PendidikanAnakController;
 use App\Http\Controllers\Admin\Anak\PrestasiAnakController;
+use App\Http\Controllers\Admin\Master\SekolahController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,11 +28,12 @@ Route::get('/', function () {
 });
 
 Route::prefix('master-data')->group(function () {
+    Route::resource('daftar-sekolah', SekolahController::class);
     Route::resource('kategori-barang', KategoriBarangController::class);
     Route::resource('kategori-pemasukan', KategoriPemasukanController::class);
     Route::resource('kategori-pengeluaran', KategoriPengeluaranController::class);
-    Route::resource('kategori-program', KategoriProgramController::class);
     Route::resource('kategori-penyakit', KategoriPenyakitController::class);
+    Route::resource('kategori-program', KategoriProgramController::class);
 });
 
 Route::prefix('anak-asuh')->group(function () {

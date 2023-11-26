@@ -210,7 +210,7 @@
                                     <div class="modal-dialog modal-lg" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h3 class="text-center">Tambah Data Anak Asuh</h3>
+                                                <h3 class="text-center">Tambah Data Pendidikan Anak</h3>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
                                             </div>
@@ -233,13 +233,13 @@
                                                             aria-controls="navs-justified-profile" aria-selected="false"
                                                             disabled>
                                                             <span class="d-none d-sm-block">
-                                                                Data Sekolah</span>
+                                                                Data Wali Kelas</span>
                                                         </button>
                                                     </li>
                                                 </ul>
                                             </div>
                                             <div class="modal-body">
-                                                <form id="dataAnakForm" action="{{ route('data-anak.store') }}"
+                                                <form id="dataAnakForm" action="{{ route('pendidikan-anak.store') }}"
                                                     method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     <div class="row">
@@ -251,91 +251,142 @@
                                                                         <div class="card mb-4">
                                                                             <div class="card-body">
                                                                                 <div class="mb-3">
-                                                                                    <label for="name"
+                                                                                    <label for="children_id"
                                                                                         class="form-label">Nama
                                                                                         Anak</label>
-                                                                                    <input type="text"
-                                                                                        class="form-control"
-                                                                                        id="name" name="name"
-                                                                                        placeholder="Nama Anak..." />
-                                                                                    <div id="nameError"
+                                                                                    <select class="form-select"
+                                                                                        id="children_id"
+                                                                                        name="children_id"
+                                                                                        aria-label="Default select example">
+                                                                                        <option value="" hidden>
+                                                                                            Pilih Nama Anak Asuh
+                                                                                        </option>
+                                                                                        @foreach ($childs as $child)
+                                                                                            <option
+                                                                                                value="{{ $child->id }}">
+                                                                                                {{ $child->name }}
+                                                                                            </option>
+                                                                                        @endforeach
+                                                                                    </select>
+                                                                                    <div id="childrenError"
                                                                                         class="invalid-feedback"></div>
                                                                                 </div>
                                                                                 <div class="mb-3">
-                                                                                    <label for="place_of_birth"
-                                                                                        class="form-label">Tempat
-                                                                                        Lahir</label>
-                                                                                    <input type="text"
-                                                                                        class="form-control"
-                                                                                        id="place_of_birth"
-                                                                                        name="place_of_birth"
-                                                                                        placeholder="Tempat Lahir..." />
-                                                                                    <div id="placeOfBirthError"
+                                                                                    <label
+                                                                                        class="form-label d-block">Jenjang
+                                                                                        Pendidikan</label>
+                                                                                    <div
+                                                                                        class="form-check form-check-inline">
+                                                                                        <input class="form-check-input"
+                                                                                            type="radio"
+                                                                                            name="education_level"
+                                                                                            id="tk"
+                                                                                            value="TK" />
+                                                                                        <label class="form-check-label"
+                                                                                            for="tk">TK</label>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="form-check form-check-inline">
+                                                                                        <input class="form-check-input"
+                                                                                            type="radio"
+                                                                                            name="education_level"
+                                                                                            id="sd"
+                                                                                            value="SD" />
+                                                                                        <label class="form-check-label"
+                                                                                            for="sd">SD</label>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="form-check form-check-inline">
+                                                                                        <input class="form-check-input"
+                                                                                            type="radio"
+                                                                                            name="education_level"
+                                                                                            id="smp"
+                                                                                            value="SMP" />
+                                                                                        <label class="form-check-label"
+                                                                                            for="smp">SMP</label>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="form-check form-check-inline">
+                                                                                        <input class="form-check-input"
+                                                                                            type="radio"
+                                                                                            name="education_level"
+                                                                                            id="sma"
+                                                                                            value="SMA/SMK" />
+                                                                                        <label class="form-check-label"
+                                                                                            for="sma">SMA/SMK</label>
+                                                                                    </div>
+                                                                                    <div id="education_leveError"
                                                                                         class="invalid-feedback"></div>
                                                                                 </div>
                                                                                 <div class="mb-3">
-                                                                                    <label for="date_of_birth"
+                                                                                    <label for="school_id"
+                                                                                        class="form-label">Nama
+                                                                                        Sekolah</label>
+                                                                                    <select class="form-select"
+                                                                                        id="school_id" name="school_id"
+                                                                                        aria-label="Default select example">
+                                                                                        <option value="" hidden>
+                                                                                            Pilih Nama Sekolah
+                                                                                        </option>
+                                                                                    </select>
+                                                                                    <div id="schoolError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="class"
+                                                                                        class="form-label">Kelas
+                                                                                    </label>
+                                                                                    <select class="form-select"
+                                                                                        id="class" name="class"
+                                                                                        aria-label="Default select example">
+                                                                                        <option value="" hidden>
+                                                                                            Pilih Kelas
+                                                                                        </option>
+                                                                                        <option value="1">1</option>
+                                                                                        <option value="2">2</option>
+                                                                                        <option value="3">3</option>
+                                                                                        <option value="4">4</option>
+                                                                                        <option value="5">5</option>
+                                                                                        <option value="6">6</option>
+                                                                                        <option value="7">7</option>
+                                                                                        <option value="8">8</option>
+                                                                                        <option value="9">9</option>
+                                                                                        <option value="10">10</option>
+                                                                                        <option value="11">11</option>
+                                                                                        <option value="12">12</option>
+                                                                                    </select>
+                                                                                    <div id="classError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="class_name"
+                                                                                        class="form-label">Nama
+                                                                                        Kelas(Contoh : A)</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        id="class_name" name="class_name"
+                                                                                        placeholder="Nama Kelas..." />
+                                                                                    <div id="class_nameError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="start_date"
                                                                                         class="form-label">Tanggal
-                                                                                        Lahir</label>
+                                                                                        Mulai</label>
                                                                                     <input class="form-control"
-                                                                                        type="date" id="date_of_birth"
-                                                                                        name="date_of_birth" />
-                                                                                    <div id="dateOfBirthError"
+                                                                                        type="date" id="start_date"
+                                                                                        name="start_date" />
+                                                                                    <div id="start_dateError"
                                                                                         class="invalid-feedback"></div>
                                                                                 </div>
                                                                                 <div class="mb-3">
-                                                                                    <label for="gender"
-                                                                                        class="form-label">Jenis
-                                                                                        Kelamin</label>
-                                                                                    <select class="form-select"
-                                                                                        id="gender" name="gender"
-                                                                                        aria-label="Default select example">
-                                                                                        <option value="" hidden>Pilih
-                                                                                            Jenis Kelamin
-                                                                                        </option>
-                                                                                        <option value="Laki-Laki">Laki-Laki
-                                                                                        </option>
-                                                                                        <option value="Perempuan">Perempuan
-                                                                                        </option>
-                                                                                    </select>
-                                                                                    <div id="genderError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="religion"
-                                                                                        class="form-label">Agama</label>
-                                                                                    <select class="form-select"
-                                                                                        id="religion" name="religion"
-                                                                                        aria-label="Default select example">
-                                                                                        <option value="" hidden>Pilih
-                                                                                            Agama</option>
-                                                                                        <option value="Islam">Islam
-                                                                                        </option>
-                                                                                        <option value="Hindu">Hindu
-                                                                                        </option>
-                                                                                        <option value="Kristen Protestan">
-                                                                                            Kristen Protestan</option>
-                                                                                        <option value="Kristen Katolik">
-                                                                                            Kristen Katolik</option>
-                                                                                        <option value="Budha">Budha
-                                                                                        </option>
-                                                                                        <option value="Konghucu">Konghucu
-                                                                                        </option>
-                                                                                    </select>
-                                                                                    <div id="religionError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="congenital_disease"
-                                                                                        class="form-label">Penyakit
-                                                                                        Bawaan (Kosongkan Bila Tidak
-                                                                                        Ada)</label>
-                                                                                    <input type="text"
-                                                                                        class="form-control"
-                                                                                        id="congenital_disease"
-                                                                                        name="congenital_disease"
-                                                                                        placeholder="Penaykit Bawaan..." />
-                                                                                    <div id="congenital_diseaseError"
+                                                                                    <label for="end_date"
+                                                                                        class="form-label">Tanggal
+                                                                                        Berakhir</label>
+                                                                                    <input class="form-control"
+                                                                                        type="date" id="end_date"
+                                                                                        name="end_date" />
+                                                                                    <div id="end_dateError"
                                                                                         class="invalid-feedback"></div>
                                                                                 </div>
                                                                                 <div class="mb-3">
@@ -345,34 +396,13 @@
                                                                                         id="status" name="status"
                                                                                         aria-label="Default select example">
                                                                                         <option value="" hidden>
-                                                                                            Status Anak Asuh</option>
+                                                                                            Status Pendidikan</option>
                                                                                         <option value="Aktif">Aktif
                                                                                         </option>
                                                                                         <option value="Non-Aktif">Non-Aktif
                                                                                         </option>
                                                                                     </select>
                                                                                     <div id="statusError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="image"
-                                                                                        class="form-label">Foto
-                                                                                        Anak</label>
-                                                                                    <input class="form-control"
-                                                                                        type="file" id="image"
-                                                                                        name="image" />
-                                                                                    <div id="imageError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="identity_card"
-                                                                                        class="form-label">Kartu
-                                                                                        Pengenal (KTP
-                                                                                        atau Kartu Pengenal Lainnya)</label>
-                                                                                    <input class="form-control"
-                                                                                        type="file" id="identity_card"
-                                                                                        name="identity_card" />
-                                                                                    <div id="identity_cardError"
                                                                                         class="invalid-feedback"></div>
                                                                                 </div>
                                                                             </div>
@@ -389,153 +419,39 @@
                                                                         <div class="card mb-4">
                                                                             <div class="card-body">
                                                                                 <div class="mb-3">
-                                                                                    <label for="father_name"
-                                                                                        class="form-label">Nama
-                                                                                        Ayah Anak</label>
-                                                                                    <input type="text"
-                                                                                        class="form-control"
-                                                                                        id="father_name"
-                                                                                        name="father_name"
-                                                                                        placeholder="Nama Ayah Anak..." />
-                                                                                    <div id="father_nameError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="mother_name"
-                                                                                        class="form-label">Nama
-                                                                                        Ibu Anak</label>
-                                                                                    <input type="text"
-                                                                                        class="form-control"
-                                                                                        id="mother_name"
-                                                                                        name="mother_name"
-                                                                                        placeholder="Nama Ibu Anak..." />
-                                                                                    <div id="mother_nameError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="birth_certificate"
-                                                                                        class="form-label">Akta
-                                                                                        Kelahiran Anak</label>
-                                                                                    <input class="form-control"
-                                                                                        type="file"
-                                                                                        id="birth_certificate"
-                                                                                        name="birth_certificate" />
-                                                                                    <div id="birthCertificateError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="family_card"
-                                                                                        class="form-label">Kartu
-                                                                                        Keluarga</label>
-                                                                                    <input class="form-control"
-                                                                                        type="file" id="family_card"
-                                                                                        name="family_card" />
-                                                                                    <div id="family_cardError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="reason_for_leaving"
-                                                                                        class="form-label">Alasan
-                                                                                        Menitipkan</label>
-                                                                                    <textarea class="form-control" id="reason_for_leaving" name="reason_for_leaving" rows="3"></textarea>
-                                                                                    <div id="reason_for_leavingError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <button type="button" id="btnNextMessages"
-                                                                            class="btn btn-primary mb-2 next-tab d-grid w-100">Berikutnya</button>
-                                                                        <button type="button"
-                                                                            class="btn btn-outline-secondary d-grid w-100"
-                                                                            id="btnPrevHome">Sebelumnya</button>
-                                                                    </div>
-                                                                    <div class="tab-pane fade"
-                                                                        id="navs-justified-messages" role="tabpanel">
-                                                                        <div class="card mb-4">
-                                                                            <div class="card-body">
-                                                                                <div class="mb-3">
                                                                                     <label for="guardian_name"
                                                                                         class="form-label">Nama
-                                                                                        Wali Anak</label>
+                                                                                        Wali Kelas</label>
                                                                                     <input type="text"
                                                                                         class="form-control"
                                                                                         id="guardian_name"
                                                                                         name="guardian_name"
-                                                                                        placeholder="Nama Wali Anak..." />
+                                                                                        placeholder="Nama Wali Kelas..." />
                                                                                     <div id="guardian_nameError"
                                                                                         class="invalid-feedback"></div>
                                                                                 </div>
                                                                                 <div class="mb-3">
-                                                                                    <label for="guardian_relationship"
-                                                                                        class="form-label">Jenis
-                                                                                        Kelamin</label>
-                                                                                    <select class="form-select"
-                                                                                        id="guardian_relationship"
-                                                                                        name="guardian_relationship"
-                                                                                        aria-label="Default select example">
-                                                                                        <option value="" hidden>
-                                                                                            Hubungan Wali Dengan Anak
-                                                                                        </option>
-                                                                                        <option value="Ayah">Ayah
-                                                                                        </option>
-                                                                                        <option value="Ibu">Ibu
-                                                                                        </option>
-                                                                                        <option value="Kerabat">Kerabat
-                                                                                        </option>
-                                                                                        <option value="Teman">Teman
-                                                                                        </option>
-                                                                                        <option value="Lainnya">Lainnya
-                                                                                        </option>
-                                                                                    </select>
-                                                                                    <div id="guardian_relationshipError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
                                                                                     <label for="guardian_address"
-                                                                                        class="form-label">Alamat
-                                                                                        Wali Anak</label>
+                                                                                        class="form-label">Alamat Wali
+                                                                                        Kelas</label>
                                                                                     <input type="text"
                                                                                         class="form-control"
                                                                                         id="guardian_address"
                                                                                         name="guardian_address"
-                                                                                        placeholder="Alamat Wali Anak..." />
+                                                                                        placeholder="Alamat Wali Kelas..." />
                                                                                     <div id="guardian_addressError"
                                                                                         class="invalid-feedback"></div>
                                                                                 </div>
                                                                                 <div class="mb-3">
-                                                                                    <label for="guardian_phone_number"
-                                                                                        class="form-label">Nomor Telepon
-                                                                                        Wali Anak</label>
+                                                                                    <label for="guardian_phone"
+                                                                                        class="form-label">Nomor Wali
+                                                                                        Kelas</label>
                                                                                     <input type="text"
                                                                                         class="form-control"
-                                                                                        id="guardian_phone_number"
-                                                                                        name="guardian_phone_number"
-                                                                                        placeholder="Nomor Telepon Wali Anak..." />
-                                                                                    <div id="guardian_phone_numberError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="guardian_email"
-                                                                                        class="form-label">Email
-                                                                                        Wali Anak</label>
-                                                                                    <input type="email"
-                                                                                        class="form-control"
-                                                                                        id="guardian_email"
-                                                                                        name="guardian_email"
-                                                                                        placeholder="Email Wali Anak..." />
-                                                                                    <div id="guardian_emailError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="guardian_identity_card"
-                                                                                        class="form-label">Kartu Pengenal
-                                                                                        Wali Anak (KTP
-                                                                                        atau Kartu Pengenal Lainnya)</label>
-                                                                                    <input class="form-control"
-                                                                                        type="file"
-                                                                                        id="guardian_identity_card"
-                                                                                        name="guardian_identity_card" />
-                                                                                    <div id="guardian_identity_cardError"
+                                                                                        id="guardian_phone"
+                                                                                        name="guardian_phone"
+                                                                                        placeholder="Nomor Wali Kelas..." />
+                                                                                    <div id="guardian_phoneError"
                                                                                         class="invalid-feedback"></div>
                                                                                 </div>
                                                                             </div>
@@ -544,7 +460,7 @@
                                                                             class="btn btn-primary mb-2 d-grid w-100">Simpan</button>
                                                                         <button type="button"
                                                                             class="btn btn-outline-secondary d-grid w-100"
-                                                                            id="btnPrevProfile">Sebelumnya</button>
+                                                                            id="btnPrevHome">Sebelumnya</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -827,6 +743,87 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var educationLevelRadios = document.querySelectorAll('input[name="education_level"]');
+            var schoolSelect = document.getElementById('school_id');
+            var classSelect = document.getElementById('class');
+            var allSchools = {!! json_encode($schools) !!};
+
+            educationLevelRadios.forEach(function(radio) {
+                radio.addEventListener('change', function() {
+                    handleEducationLevelChange(this.value);
+                });
+            });
+
+            function handleEducationLevelChange(selectedEducationLevel) {
+                // Reset options
+                schoolSelect.innerHTML = '<option value="" hidden>Pilih Nama Sekolah</option>';
+                classSelect.innerHTML = '<option value="" hidden>Pilih Kelas</option>';
+
+                // Filter schools based on selected education level
+                var filteredSchools = allSchools.filter(function(school) {
+                    if (selectedEducationLevel === 'TK' && school.name.includes('TK')) {
+                        return true;
+                    } else if (selectedEducationLevel === 'SD' && school.name.includes('SD')) {
+                        return true;
+                    } else if (selectedEducationLevel === 'SMP' && school.name.includes('SMP')) {
+                        return true;
+                    } else if (selectedEducationLevel === 'SMA/SMK' && (school.name.includes('SMA') ||
+                            school.name.includes('SMK'))) {
+                        return true;
+                    }
+                    return false;
+                });
+
+                // Populate the school dropdown with filtered schools
+                filteredSchools.forEach(function(school) {
+                    var option = document.createElement('option');
+                    option.value = school.id;
+                    option.textContent = school.name;
+                    schoolSelect.appendChild(option);
+                });
+
+                // Set class options based on selected education level
+                if (selectedEducationLevel === 'TK') {
+                    setTKOptions();
+                } else if (selectedEducationLevel === 'SD') {
+                    setClassOptions(1, 6);
+                } else if (selectedEducationLevel === 'SMP') {
+                    setClassOptions(7, 9);
+                } else if (selectedEducationLevel === 'SMA/SMK') {
+                    setClassOptions(10, 12);
+                }
+            }
+
+            function setClassOptions(start, end) {
+                for (var i = start; i <= end; i++) {
+                    var option = document.createElement('option');
+                    option.value = i;
+                    option.textContent = i;
+                    classSelect.appendChild(option);
+                }
+            }
+
+            function setTKOptions() {
+                // Clear previous options
+                classSelect.innerHTML = '<option value="" hidden>Pilih Kelas</option>';
+
+                // Add TK options
+                var option = document.createElement('option');
+                option.value = 'TK Kecil';
+                option.textContent = 'TK Kecil';
+                classSelect.appendChild(option);
+
+                option = document.createElement('option');
+                option.value = 'TK Besar';
+                option.textContent = 'TK Besar';
+                classSelect.appendChild(option);
+            }
+        });
+    </script>
+
+
+    <script>
         $(document).ready(function() {
             function nextProfile(dataId) {
                 console.log('test');
@@ -1011,7 +1008,6 @@
             });
 
             function simpan() {
-
                 const formData = new FormData($('#dataAnakForm')[0])
                 for (var pair of formData.entries()) {
                     console.log(pair[0] + ', ' + pair[1]);

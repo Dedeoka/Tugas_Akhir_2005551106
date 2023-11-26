@@ -18,4 +18,9 @@ class ChildEducation extends Model
     {
         return $this->hasMany(ChildAcademicAchievement::class);
     }
+
+    public function childEducationDetails()
+    {
+        return $this->hasMany(ChildEducationDetail::class);
+    }
 }

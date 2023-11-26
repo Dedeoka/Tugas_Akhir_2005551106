@@ -70,7 +70,7 @@
             <span class="menu-header-text">Master Data</span>
         </li>
         <!-- Apps -->
-        <li class="menu-item">
+        <li class="menu-item active">
             <a href="{{ route('daftar-sekolah.index') }}" class="menu-link">
                 <i class='menu-icon tf-icons bx bxs-school'></i>
                 <div data-i18n="Email">Daftar Sekolah</div>
@@ -88,7 +88,7 @@
                 <div data-i18n="Email">Kategori Pemasukan</div>
             </a>
         </li>
-        <li class="menu-item active">
+        <li class="menu-item">
             <a href="{{ route('kategori-pengeluaran.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-category-alt"></i>
                 <div data-i18n="Email">Kategori Pengeluaran</div>
@@ -188,7 +188,7 @@
 
 
         <h4 class="py-3 mb-4">
-            <span class="text-muted fw-light">Master Data /</span> <b>Kategori Pengeluaran</b>
+            <span class="text-muted fw-light">Master Data /</span> <b>Daftar Sekolah</b>
         </h4>
 
 
@@ -197,28 +197,9 @@
             <div class="d-flex">
                 <div class="w-75 m-3 quick-sand">
                     <h3>
-                        Tabel Data Kategori Pengeluaran
+                        Tabel Data Daftar Sekolah
                     </h3>
                 </div>
-                {{-- <div class="col-lg-3 col-md-6">
-                    <div class="mt-3 mb-3">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                <i class='bx bx-export m-1'></i>
-                                Export</button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="javascript:void(0);">Action</a></li>
-                                <li><a class="dropdown-item" href="javascript:void(0);">Another action</a></li>
-                                <li><a class="dropdown-item" href="javascript:void(0);">Something else here</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="javascript:void(0);">Separated link</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div> --}}
                 <div class="col-lg-3 col-md-6 quick-sand">
                     <div class="mt-3 mb-3">
                         <div class="d-flex">
@@ -236,22 +217,38 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel1">Tambah Data Kategori Pengeluaran
+                                        <h5 class="modal-title" id="exampleModalLabel1">Tambah Data Daftar Sekolah
                                         </h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
-                                    <form id="categoryPengeluaranForm" action="{{ route('kategori-pengeluaran.store') }}"
+                                    <form id="categoryBarangForm" action="{{ route('daftar-sekolah.store') }}"
                                         method="POST">
                                         @csrf
                                         <div class="modal-body">
                                             <div class="row">
                                                 <div class="col mb-3">
-                                                    <label for="nameBasic" class="form-label">Nama Kategori
-                                                        Pengeluaran</label>
+                                                    <label for="nameBasic" class="form-label">Nama Sekolah</label>
                                                     <input type="text" id="nameBasic" name="name"
                                                         class="form-control" placeholder="Enter Name" />
                                                     <div id="nameError" class="invalid-feedback"></div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col mb-3">
+                                                    <label for="address" class="form-label">Alamat Sekolah</label>
+                                                    <input type="text" id="address" name="address"
+                                                        class="form-control" placeholder="Alamat Sekolah..." />
+                                                    <div id="addressError" class="invalid-feedback"></div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col mb-3">
+                                                    <label for="phone" class="form-label">No Telepon
+                                                        Sekolah</label>
+                                                    <input type="text" id="phone" name="phone"
+                                                        class="form-control" placeholder="No Telepon Sekolah..." />
+                                                    <div id="phoneError" class="invalid-feedback"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -274,7 +271,9 @@
                         <thead>
                             <tr>
                                 <th class="col-md-1 text-center fw-bold">No</th>
-                                <th class="col-md-5 text-center fw-bold">Nama</th>
+                                <th class="col-md-3 text-center fw-bold">Nama</th>
+                                <th class="col-md-3 text-center fw-bold">Alamat</th>
+                                <th class="col-md-3 text-center fw-bold">No Telepon</th>
                                 <th class="col-md-3 text-center fw-bold">Action</th>
                             </tr>
                         </thead>
@@ -286,6 +285,8 @@
                                 <tr>
                                     <td>{{ $loop->iteration + $initialNumber }}</td>
                                     <td>{{ $data->name }}</td>
+                                    <td>{{ $data->address }}</td>
+                                    <td>{{ $data->phone }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -368,18 +369,18 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel1">Edit Data Kategori Pengeluaran</h5>
+                                <h5 class="modal-title" id="exampleModalLabel1">Edit Data Daftar Sekolah</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <form action="{{ route('kategori-pengeluaran.update', $data->id) }}" method="POST">
+                            <form action="{{ route('daftar-sekolah.update', $data->id) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="col mb-3">
                                             <label for="editName{{ $data->id }}" class="form-label">Nama Kategori
-                                                Pemasukan</label>
+                                                Donasi Barang</label>
                                             <input type="text" id="editName{{ $data->id }}" name="name"
                                                 class="form-control" value="{{ $data->name }}" />
                                             <div id="editNameError{{ $data->id }}" class="invalid-feedback"></div>
@@ -418,6 +419,8 @@
 
             function clearForm() {
                 $('#nameBasic').val('');
+                $('#address').val('');
+                $('#phone').val('');
                 $('.form-control').removeClass('is-invalid');
                 $('.invalid-feedback').text('');
             }
@@ -453,16 +456,22 @@
 
             function simpan() {
                 $.ajax({
-                    url: "{{ route('kategori-pengeluaran.store') }}",
+                    url: "{{ route('daftar-sekolah.store') }}",
                     type: 'POST',
                     data: {
                         name: $('#nameBasic').val(),
+                        address: $('#address').val(),
+                        phone: $('#phone').val(),
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
                         if (response.errors) {
                             $('#nameBasic').addClass('is-invalid');
                             $('#nameError').text(response.errors.name[0]);
+                            $('#address').addClass('is-invalid');
+                            $('#addressError').text(response.errors.name[0]);
+                            $('#phone').addClass('is-invalid');
+                            $('#phoneError').text(response.errors.name[0]);
                         } else {
                             showSuccessMessage(response.success);
                             $('#basicModal').modal('hide');
@@ -480,7 +489,7 @@
 
             function update(id) {
                 $.ajax({
-                    url: "{{ url('master-data/kategori-pengeluaran') }}/" + id,
+                    url: "{{ url('master-data/daftar-sekolah') }}/" + id,
                     type: 'PATCH',
                     data: {
                         name: $('#editName' + id).val(),
@@ -541,7 +550,7 @@
 
             function deleteData(dataId) {
                 // Kirim permintaan Ajax ke server
-                fetch(`/master-data/kategori-pengeluaran/${dataId}`, {
+                fetch(`/master-data/daftar-sekolah/${dataId}`, {
                         method: 'DELETE',
                         headers: {
                             'X-CSRF-TOKEN': '{{ csrf_token() }}',
