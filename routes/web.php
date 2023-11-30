@@ -6,11 +6,12 @@ use App\Http\Controllers\Admin\Master\KategoriPemasukanController;
 use App\Http\Controllers\Admin\Master\KategoriPengeluaranController;
 use App\Http\Controllers\Admin\Master\KategoriProgramController;
 use App\Http\Controllers\Admin\Master\KategoriPenyakitController;
+use App\Http\Controllers\Admin\Master\SekolahController;
 use App\Http\Controllers\Admin\Anak\DataAnakController;
 use App\Http\Controllers\Admin\Anak\KesehatanAnakController;
 use App\Http\Controllers\Admin\Anak\PendidikanAnakController;
 use App\Http\Controllers\Admin\Anak\PrestasiAnakController;
-use App\Http\Controllers\Admin\Master\SekolahController;
+use App\Http\Controllers\Admin\Pengeluaran\PengeluaranAnakController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,3 +44,11 @@ Route::prefix('anak-asuh')->group(function () {
     Route::resource('prestasi-anak', PrestasiAnakController::class);
 });
 
+Route::prefix('keuangan')->group(function () {
+    Route::resource('pengeluaran-anak', PengeluaranAnakController::class);
+});
+
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

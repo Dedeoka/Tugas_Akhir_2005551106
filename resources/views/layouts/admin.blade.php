@@ -196,11 +196,16 @@
                             </li>
                         </ul>
                     </li>
-
                     <li class="menu-header small text-uppercase">
                         <span class="menu-header-text">Master Data</span>
                     </li>
                     <!-- Apps -->
+                    <li class="menu-item {{ request()->is('master-data/daftar-sekolah') ? 'active' : '' }}">
+                        <a href="{{ route('daftar-sekolah.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bxs-school"></i>
+                            <div data-i18n="Email">Daftar Sekolah</div>
+                        </a>
+                    </li>
                     <li class="menu-item {{ request()->is('master-data/kategori-barang') ? 'active' : '' }}">
                         <a href="{{ route('kategori-barang.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bxs-shopping-bags"></i>
@@ -219,21 +224,19 @@
                             <div data-i18n="Email">Kategori Pengeluaran</div>
                         </a>
                     </li>
-                    <li class="menu-item {{ request()->is('master-data/kategori-program') ? 'active' : '' }}">
-                        <a href="{{ route('kategori-program.index') }}" class="menu-link">
-                            <i class="menu-icon tf-icons bx bxs-party"></i>
-                            <div data-i18n="Email">Kategori Program Panti</div>
-                        </a>
-                    </li>
                     <li class="menu-item {{ request()->is('master-data/kategori-penyakit') ? 'active' : '' }}">
                         <a href="{{ route('kategori-penyakit.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bxs-virus"></i>
                             <div data-i18n="Email">Kategori Penyakit</div>
                         </a>
                     </li>
-                    <!-- Components -->
+                    <li class="menu-item {{ request()->is('master-data/kategori-program') ? 'active' : '' }}">
+                        <a href="{{ route('kategori-program.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bxs-party"></i>
+                            <div data-i18n="Email">Kategori Program Panti</div>
+                        </a>
+                    </li>
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">Donasi</span></li>
-                    <!-- Cards -->
                     <li class="menu-item">
                         <a href="cards-basic.html" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-money"></i>
@@ -261,11 +264,29 @@
                             <div data-i18n="Tables">Pemasukan</div>
                         </a>
                     </li>
-                    <li class="menu-item">
-                        <a href="tables-basic.html" class="menu-link">
+                    <li class="menu-item {{ request()->is('keuangan/pengeluaran*') ? 'active open' : '' }}">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
                             <i class="menu-icon tf-icons bx bx-money-withdraw"></i>
-                            <div data-i18n="Tables">Pengularan</div>
+                            <div data-i18n="Profile">Pengularan</div>
                         </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/dashboards-crm.html"
+                                    class="menu-link">
+                                    <div data-i18n="CRM">Data Pengeluaran Total</div>
+                                </a>
+                            </li>
+                            <li class="menu-item {{ request()->is('keuangan/pengeluaran-anak') ? 'active' : '' }}">
+                                <a href="{{ route('pengeluaran-anak.index') }}" class="menu-link">
+                                    <div data-i18n="CRM">Pengluaran Anak Asuh</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="index.html" class="menu-link">
+                                    <div data-i18n="Analytics">Pengeluaran Panti Asuhan</div>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="menu-item">
                         <a href="tables-basic.html" class="menu-link">
