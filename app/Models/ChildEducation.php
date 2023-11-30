@@ -23,4 +23,8 @@ class ChildEducation extends Model
     {
         return $this->hasMany(ChildEducationDetail::class);
     }
+
+    public function schools(){
+        return $this->belongsTo(School::class, 'school_id');
+    }
 }
