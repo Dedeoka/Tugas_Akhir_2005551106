@@ -9,4 +9,9 @@ class CostType extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+
+    public function costs()
+    {
+        return $this->hasMany(Cost::class);
+    }
 }

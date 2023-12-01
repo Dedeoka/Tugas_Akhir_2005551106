@@ -11,7 +11,8 @@ use App\Http\Controllers\Admin\Anak\DataAnakController;
 use App\Http\Controllers\Admin\Anak\KesehatanAnakController;
 use App\Http\Controllers\Admin\Anak\PendidikanAnakController;
 use App\Http\Controllers\Admin\Anak\PrestasiAnakController;
-use App\Http\Controllers\Admin\Pengeluaran\PengeluaranAnakController;
+use App\Http\Controllers\Admin\Keuangan\PengeluaranAnakController;
+use App\Http\Controllers\Admin\Keuangan\PengeluaranPantiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +47,7 @@ Route::prefix('anak-asuh')->group(function () {
 
 Route::prefix('keuangan')->group(function () {
     Route::resource('pengeluaran-anak', PengeluaranAnakController::class);
+    Route::resource('pengeluaran-panti', PengeluaranPantiController::class);
 });
 
 

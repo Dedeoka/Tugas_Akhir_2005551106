@@ -281,8 +281,8 @@
                                     <div data-i18n="CRM">Pengluaran Anak Asuh</div>
                                 </a>
                             </li>
-                            <li class="menu-item">
-                                <a href="index.html" class="menu-link">
+                            <li class="menu-item {{ request()->is('keuangan/pengeluaran-panti') ? 'active' : '' }}"">
+                                <a href="{{ route('pengeluaran-panti.index') }}" class="menu-link">
                                     <div data-i18n="Analytics">Pengeluaran Panti Asuhan</div>
                                 </a>
                             </li>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Pengeluaran;
+namespace App\Http\Controllers\Admin\Keuangan;
 
 use App\Http\Controllers\Controller;
 use App\Models\ChildCost;
@@ -55,11 +55,8 @@ class PengeluaranAnakController extends Controller
         } else {
 
             $data_id = $request->data_id;
-            $childHealth = ChildHealth::with(['childrens', 'diseases'])->find($data_id);
-            $childEducation = ChildEducation::with(['childrens'])->find($data_id);
-            $childAchievements = ChildAchievements::with(['childrens'])->find($data_id);
             if ($request->type_cost == 'Kesehatan'){
-
+                $childHealth = ChildHealth::with(['childrens', 'diseases'])->find($data_id);
                 $childCost = ChildCost::where('reference_table', 'child_health_table')->where('reference_table_id', $data_id)->first();
 
                 if ($childCost) {
@@ -94,7 +91,7 @@ class PengeluaranAnakController extends Controller
                 }
             }
             elseif ($request->type_cost == 'Pendidikan'){
-
+                $childEducation = ChildEducation::with(['childrens'])->find($data_id);
                 $childCost = ChildCost::where('reference_table', 'child_education_table')->where('reference_table_id', $data_id)->first();
 
                 if ($childCost) {
@@ -129,7 +126,7 @@ class PengeluaranAnakController extends Controller
                 }
             }
             elseif ($request->type_cost == 'Prestasi'){
-
+                $childAchievements = ChildAchievement::with(['childrens'])->find($data_id);
                 $childCost = ChildCost::where('reference_table', 'child_education_table')->where('reference_table_id', $data_id)->first();
 
                 if ($childCost) {
@@ -165,7 +162,6 @@ class PengeluaranAnakController extends Controller
             }
             return response()->json(['success' => "Berhasil memperbarui data"]);
         }
-        dd($request);
     }
 
     /**
@@ -173,7 +169,7 @@ class PengeluaranAnakController extends Controller
      */
     public function show(string $id)
     {
-        //
+
     }
 
     /**
@@ -197,6 +193,7 @@ class PengeluaranAnakController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        ChildCost::find($id)->delete();
+        return response()->json(['success'=>'Record deleted successfully.'], 200);
     }
 }
