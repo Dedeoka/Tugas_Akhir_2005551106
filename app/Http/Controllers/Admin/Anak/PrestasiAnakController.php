@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Children;
 use App\Models\ChildAchievement;
+use App\Models\ChildEducation;
 use App\Http\Requests\StoreKategoriRequest;
+use App\Models\ChildAcademicAchievement;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
@@ -25,7 +27,8 @@ class PrestasiAnakController extends Controller
         ->paginate(10)
         ->withQueryString();
         $childs = Children::all();
-        return view('admin.anak-asuh.prestasi-anak-asuh', compact('datas', 'keyword', 'childs'));
+        $childEducations = ChildEducation::with(['childrens'])->paginate(10)->withQueryString();
+        return view('admin.anak-asuh.prestasi-anak-asuh', compact('datas', 'keyword', 'childs', 'childEducations'));
     }
 
     /**
@@ -42,18 +45,18 @@ class PrestasiAnakController extends Controller
     public function store(Request $request)
     {
         $validasi = Validator::make($request->all(), [
-            'children_id' => 'required',
             'title' => 'required',
-            'ranking' => 'required',
+            'competition_level' => 'required',
             'competition_date' => 'required|date',
+            'ranking' => 'required',
             'certificate' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
             'description' => 'required',
         ], [
-            'children_id.required' => 'Data wajib diisi',
             'title.required' => 'Judul wajib diisi',
-            'ranking.required' => 'Peringkat wajib diisi',
+            'competition_level.required' => 'Tingkat perlombaan wajib diisi',
             'competition_date.required' => 'Tanggal perlombaan wajib diisi',
             'competition_date.date' => 'Format tanggal tidak valid',
+            'ranking.required' => 'Peringkat wajib diisi',
             'certificate.required' => 'Berkas bukti perlombaan wajib diisi',
             'certificate.file' => 'Berkas bukti perlombaan harus berupa file',
             'certificate.mimes' => 'Format file bukti perlombaan tidak valid. Pilih format pdf, jpg, jpeg, atau png',
@@ -64,18 +67,41 @@ class PrestasiAnakController extends Controller
         if ($validasi->fails()) {
             return response()->json(['errors' => $validasi->errors()]);
         } else {
-            $certificatePath = $request->file('certificate')->store('uploads/bukti-perlombaan');
 
-            $data = [
+            if($request->achievement_type == 'Panti') {
+                $certificate = $request->file('certificate')->store('uploads/sertifikat-perlombaan/mewakili-panti');
+
+                $data = [
                 'children_id' => $request->children_id,
                 'title' => $request->title,
-                'ranking' => $request->ranking,
+                'competition_level' => $request->competition_level,
                 'competition_date' => $request->competition_date,
-                'certificate' => $certificatePath,
+                'ranking' => $request->ranking,
+                'prize_money' => str_replace(',', '', $request->prize_money)? $request->prize_money : 'tidak ada',
+                'prize_item' => $request->prize_item? $request->prize_item : 'tidak ada',
                 'description' => $request->description,
-            ];
+                'certificate' => $certificate,
+                ];
 
-            ChildAchievement::create($data);
+                ChildAchievement::create($data);
+            }
+            else if($request->achievement_type == 'Sekolah') {
+                $certificate = $request->file('certificate')->store('uploads/sertifikat-perlombaan/mewakili-sekolah');
+
+                $data = [
+                'child_education_id' => $request->child_education_id,
+                'title' => $request->title,
+                'competition_level' => $request->competition_level,
+                'competition_date' => $request->competition_date,
+                'ranking' => $request->ranking,
+                'prize_money' => str_replace(',', '', $request->prize_money)? $request->prize_money : 'tidak ada',
+                'prize_item' => $request->prize_item? $request->prize_item : 'tidak ada',
+                'description' => $request->description,
+                'certificate' => $certificate,
+                ];
+
+                ChildAcademicAchievement::create($data);
+            }
 
             return response()->json(['success' => "Berhasil menyimpan data"]);
         }

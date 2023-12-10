@@ -20,89 +20,602 @@
                 <div class="col-lg-3 col-md-6 quick-sand">
                     <div class="mt-3 mb-3">
                         <div class="d-flex">
-                            <div class="side-content">
+                            <div class="side-content-30">
 
                             </div>
                             <div class="">
-                                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                                    data-bs-target="#offcanvasEnd" aria-controls="offcanvasEnd">
-                                    <i class='bx bx-plus m-1'></i>
-                                    Tambah Data
-                                </button>
-                                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEnd"
-                                    aria-labelledby="offcanvasEndLabel">
-                                    <div class="offcanvas-header">
-                                        <h5 id="offcanvasEndLabel" class="offcanvas-title">Tambah Data Prestasi Anak
-                                            Asuh</h5>
-                                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="offcanvas-body my-auto mx-0 flex-grow-0">
-                                        <form id="dataAnakForm" action="{{ route('prestasi-anak.store') }}" method="POST"
-                                            enctype="multipart/form-data">
-                                            <div class="card mb-4">
-                                                <div class="card-body">
-                                                    @csrf
-                                                    <div class="mb-3">
-                                                        <label for="children_id" class="form-label">Nama Anak</label>
-                                                        <select class="form-select" id="children_id" name="children_id"
-                                                            aria-label="Default select example">
-                                                            <option value="" hidden>Pilih Nama Anak Asuh
-                                                            </option>
-                                                            @foreach ($childs as $child)
-                                                                <option value="{{ $child->id }}">{{ $child->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                        <div id="children_idError" class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="title" class="form-label">Nama Perlombaan</label>
-                                                        <input type="text" class="form-control" id="title"
-                                                            name="title" placeholder="Nama Perlombaan..." />
-                                                        <div id="titleError" class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="competition_date" class="form-label">Tanggal
-                                                            Kelulusan</label>
-                                                        <input class="form-control" type="date" id="competition_date"
-                                                            name="competition_date" />
-                                                        <div id="competition_dateError" class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="ranking" class="form-label">Peringkat</label>
-                                                        <select class="form-select" id="ranking" name="ranking"
-                                                            aria-label="Default select example">
-                                                            <option value="" hidden>Pilih Peringkat
-                                                            </option>
-                                                            <option value="1">1</option>
-                                                            <option value="2">2</option>
-                                                            <option value="3">3</option>
-                                                            <option value="Peserta">Peserta</option>
-                                                        </select>
-                                                        <div id="rankingError" class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="certificate" class="form-label">Bukti
-                                                            Perlombaan</label>
-                                                        <input class="form-control" type="file" id="certificate"
-                                                            name="certificate" />
-                                                        <div id="certificateError" class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="description" class="form-label">Deskripsi
-                                                            Prestasi</label>
-                                                        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
-                                                        <div id="descriptionError" class="invalid-feedback"></div>
+                                <div class="btn-group" id="dropdown-icon-demo">
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        <i class="bx bx-plus m-1"></i> Tambah Data
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="javascript:void(0);" data-bs-toggle="modal"
+                                                data-bs-target="#modalPrestasiAnakSekolah"
+                                                class="dropdown-item d-flex align-items-center"><i
+                                                    class="bx bx-plus scaleX-n1-rtl"></i>Prestasi Sekolah</a>
+                                        </li>
+                                        <li>
+                                            <hr class="dropdown-divider" />
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);" data-bs-toggle="modal"
+                                                data-bs-target="#modalPrestasiAnakPanti"
+                                                class="dropdown-item d-flex align-items-center"><i
+                                                    class="bx bx-plus scaleX-n1-rtl"></i>Prestasi di Luar Sekolah</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="modal fade" id="modalPrestasiAnakSekolah" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-xl" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h3 class="text-center">Pilih Data Pendidikan</h3>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-header">
+                                                <ul class="nav nav-tabs nav-fill w-100" role="tablist">
+                                                    <li class="nav-item">
+                                                        <button type="button" id="tab-justified-home" class="nav-link"
+                                                            role="tab" data-bs-toggle="tab"
+                                                            data-bs-target="#navs-justified-home"
+                                                            aria-controls="navs-justified-home" aria-selected="true"
+                                                            disabled>
+                                                            <span class="d-none d-sm-block">
+                                                                Tabel Data Pendidikan Anak</span>
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="card-datatable table-responsive">
+                                                    @if ($childEducations->count() > 0)
+                                                        <table class="datatables-basic table border-top quick-sand"
+                                                            id="kategoriBarangTable">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="col-md-1 text-center fw-bold">No</th>
+                                                                    <th class="col-md-1 text-center fw-bold">Nama Anak</th>
+                                                                    <th class="col-md-1 text-center fw-bold">Jenjang
+                                                                        Pendidikan
+                                                                    </th>
+                                                                    <th class="col-md-1 text-center fw-bold">Nama Sekolah
+                                                                    </th>
+                                                                    <th class="col-md-1 text-center fw-bold">Kelas</th>
+                                                                    <th class="col-md-1 text-center fw-bold">Status</th>
+                                                                    <th class="col-md-1 text-center fw-bold">Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody class="text-center">
+                                                                @php
+                                                                    $initialNumber = $childEducations->firstItem() - 1;
+                                                                @endphp
+                                                                @foreach ($childEducations as $data)
+                                                                    <tr>
+                                                                        <td>{{ $loop->iteration + $initialNumber }}</td>
+                                                                        <td>{{ $data->childrens->name }}</td>
+                                                                        <td>{{ $data->education_level }}</td>
+                                                                        <td>{{ $data->schools->name }}</td>
+                                                                        <td>{{ $data->class }} ({{ $data->class_name }})
+                                                                        </td>
+                                                                        <td>
+                                                                            @if ($data->status == 'Aktif')
+                                                                                <button type="button"
+                                                                                    class="btn rounded-pill btn-success"
+                                                                                    style="width: 100px;">
+                                                                                    Aktif</button>
+                                                                            @else
+                                                                                <button type="button"
+                                                                                    class="btn rounded-pill btn-danger sakitBtn"
+                                                                                    style="width: 100px;">
+                                                                                    Non-aktif</button>
+                                                                            @endif
+                                                                        </td>
+                                                                        <td>
+                                                                            <button type="button"
+                                                                                class="btn rounded-pill btn-warning"
+                                                                                data-bs-toggle="modal"
+                                                                                data-bs-target="#dataPrestasiSekolah{{ $data->id }}"
+                                                                                style="width: 100px;"
+                                                                                data-id="{{ $data->id }}">
+                                                                                Pilih</button>
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                    @else
+                                                        <h3 class="text-center">Data Tidak Ditemukan</h3>
+                                                    @endif
+                                                    <div class="d-flex mt-4">
+                                                        <div class="pagination-side-content"></div>
+                                                        <nav aria-label="Page navigation">
+                                                            <ul class="pagination pagination-round pagination-primary">
+                                                                <!-- First Page -->
+                                                                <li
+                                                                    class="page-item first {{ $datas->onFirstPage() ? 'disabled' : '' }}">
+                                                                    <a class="page-link" href="{{ $datas->url(1) }}">
+                                                                        <i class="tf-icon bx bx-chevrons-left"></i>
+                                                                    </a>
+                                                                </li>
+                                                                <!-- Previous Page -->
+                                                                <li
+                                                                    class="page-item prev {{ $datas->onFirstPage() ? 'disabled' : '' }}">
+                                                                    <a class="page-link"
+                                                                        href="{{ $datas->previousPageUrl() }}">
+                                                                        <i class="tf-icon bx bx-chevron-left"></i>
+                                                                    </a>
+                                                                </li>
+                                                                <!-- Pagination Pages -->
+                                                                @php
+                                                                    $currentPage = $datas->currentPage();
+                                                                    $lastPage = $datas->lastPage();
+                                                                    $startPage = max(1, $currentPage - 1);
+                                                                    $endPage = min($lastPage, $startPage + 3);
+
+                                                                    if ($endPage - $startPage < 3) {
+                                                                        $startPage = max(1, $lastPage - 3);
+                                                                        $endPage = $lastPage;
+                                                                    }
+                                                                @endphp
+                                                                @for ($i = $startPage; $i <= $endPage; $i++)
+                                                                    <li
+                                                                        class="page-item {{ $datas->currentPage() == $i ? 'active' : '' }}">
+                                                                        <a class="page-link"
+                                                                            href="{{ $datas->url($i) }}">{{ $i }}</a>
+                                                                    </li>
+                                                                @endfor
+                                                                <!-- Next Page -->
+                                                                <li
+                                                                    class="page-item next {{ $datas->hasMorePages() ? '' : 'disabled' }}">
+                                                                    <a class="page-link"
+                                                                        href="{{ $datas->nextPageUrl() }}">
+                                                                        <i class="tf-icon bx bx-chevron-right"></i>
+                                                                    </a>
+                                                                </li>
+                                                                <!-- Last Page -->
+                                                                <li
+                                                                    class="page-item last {{ $datas->currentPage() == $datas->lastPage() ? 'disabled' : '' }}">
+                                                                    <a class="page-link"
+                                                                        href="{{ $datas->url($lastPage) }}">
+                                                                        <i class="tf-icon bx bx-chevrons-right"></i>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </nav>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button type="submit" class="btn btn-primary mb-2 d-grid w-100">Simpan</button>
-                                            <button type="button" class="btn btn-outline-secondary d-grid w-100"
-                                                data-bs-dismiss="offcanvas">Cancel</button>
-                                        </form>
+                                        </div>
+                                        <div class="modal-footer">
+
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="modal fade" id="modalPrestasiAnakPanti" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h3 class="text-center">Tambah Data Prestasi Anak Asuh</h3>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-header">
+                                                <ul class="nav nav-tabs nav-fill w-100" role="tablist">
+                                                    <li class="nav-item">
+                                                        <button type="button" id="tab-justified-home" class="nav-link"
+                                                            role="tab" data-bs-toggle="tab"
+                                                            data-bs-target="#navs-justified-home"
+                                                            aria-controls="navs-justified-home" aria-selected="true"
+                                                            disabled>
+                                                            <span class="d-none d-sm-block">
+                                                                Tambah Data Prestasi Anak Asuh</span>
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form id="dataPrestasiAnakPanti"
+                                                    action="{{ route('prestasi-anak.store') }}"
+                                                    enctype="multipart/form-data" method="POST">
+                                                    @csrf
+                                                    <div class="row">
+                                                        <div class="">
+                                                            <div class="nav-align-top mb-4">
+                                                                <div class="tab-content">
+                                                                    <div class="tab-pane fade show active"
+                                                                        id="navs-justified-home" role="tabpanel">
+                                                                        <div class="card mb-4">
+                                                                            <div class="card-body">
+                                                                                <input type="text"
+                                                                                    name="achievement_type" value="Panti"
+                                                                                    hidden>
+                                                                                <div class="mb-3">
+                                                                                    <label for="children_id"
+                                                                                        class="form-label">Nama
+                                                                                        Anak</label>
+                                                                                    <select class="form-select"
+                                                                                        id="children_id"
+                                                                                        name="children_id"
+                                                                                        aria-label="Default select example">
+                                                                                        <option value="" hidden>
+                                                                                            Pilih Nama Anak Asuh
+                                                                                        </option>
+                                                                                        @foreach ($childs as $child)
+                                                                                            <option
+                                                                                                value="{{ $child->id }}">
+                                                                                                {{ $child->name }}
+                                                                                            </option>
+                                                                                        @endforeach
+                                                                                    </select>
+                                                                                    <div id="childrenError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="title"
+                                                                                        class="form-label">Nama
+                                                                                        Perlombaan</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        id="title" name="title"
+                                                                                        placeholder="Nama Perlombaan..." />
+                                                                                    <div id="titleError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="competition_level"
+                                                                                        class="form-label">Tingkat
+                                                                                        Perlombaan</label>
+                                                                                    <select class="form-select"
+                                                                                        id="competition_level"
+                                                                                        name="competition_level"
+                                                                                        aria-label="Default select example">
+                                                                                        <option value="" hidden>
+                                                                                            Pilih Tingkat Perlombaan
+                                                                                        </option>
+                                                                                        <option value="Tingkat Sekolah">
+                                                                                            Tingkat Sekolah
+                                                                                        </option>
+                                                                                        <option value="Tingkat Desa">
+                                                                                            Tingkat Desa
+                                                                                        </option>
+                                                                                        <option
+                                                                                            value="Tingkat Kabupaten/Kota">
+                                                                                            Tingkat Kabupaten/Kota
+                                                                                        </option>
+                                                                                        <option value="Tingkat Regional">
+                                                                                            Tingkat Regional
+                                                                                        </option>
+                                                                                        <option value="Tingkat Nasional">
+                                                                                            Tingkat Nasional
+                                                                                        </option>
+                                                                                        <option
+                                                                                            value="Tingkat Internasional">
+                                                                                            Tingkat Internasional
+                                                                                        </option>
+                                                                                        <option value="Tingkat Lainnya">
+                                                                                            Tingkat Lainnya
+                                                                                        </option>
+                                                                                    </select>
+                                                                                    <div id="competition_levelError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="competition_date"
+                                                                                        class="form-label">Tanggal
+                                                                                        Perlombaan</label>
+                                                                                    <input class="form-control"
+                                                                                        type="date"
+                                                                                        id="competition_date"
+                                                                                        name="competition_date" />
+                                                                                    <div id="competition_dateError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="ranking"
+                                                                                        class="form-label">Tingkat
+                                                                                        Perlombaan</label>
+                                                                                    <select class="form-select"
+                                                                                        id="ranking" name="ranking"
+                                                                                        aria-label="Default select example">
+                                                                                        <option value="" hidden>
+                                                                                            Pilih Peringkat Perlombaan
+                                                                                        </option>
+                                                                                        <option value="Juara 1">
+                                                                                            Juara 1
+                                                                                        </option>
+                                                                                        <option value="Juara 2">
+                                                                                            Juara 2
+                                                                                        </option>
+                                                                                        <option value="Juara 3">
+                                                                                            Juara 3
+                                                                                        </option>
+                                                                                        <option value="Juara Harapan 1">
+                                                                                            Juara Harapan 1
+                                                                                        </option>
+                                                                                        <option value="Juara Harapan 2">
+                                                                                            Juara Harapan 2
+                                                                                        </option>
+                                                                                        <option value="Juara Harapan 3">
+                                                                                            Juara Harapan 3
+                                                                                        </option>
+                                                                                        <option value="Juara Favorit">
+                                                                                            Juara Favorit
+                                                                                        </option>
+                                                                                        <option value="Peserta">
+                                                                                            Peserta
+                                                                                        </option>
+                                                                                    </select>
+                                                                                    <div id="rankingError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="prize_money"
+                                                                                        class="form-label">Hadiah
+                                                                                        Uang (Hadiah Berupa
+                                                                                        Uang,
+                                                                                        Kosongkan Bila Tidak Ada)</label>
+                                                                                    <div
+                                                                                        class="input-group input-group-merge">
+                                                                                        <span
+                                                                                            class="input-group-text">Rp</span>
+                                                                                        <input type="text"
+                                                                                            class="form-control"
+                                                                                            id="prize_money"
+                                                                                            name="prize_money"
+                                                                                            placeholder="1,000,000"
+                                                                                            oninput="formatAmount(this)" />
+                                                                                        <div id="prize_moneyError"
+                                                                                            class="invalid-feedback"></div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="prize_item"
+                                                                                        class="form-label">Nama
+                                                                                        Hadiah (Hadiah Berupa Barang,
+                                                                                        Kosongkan Bila Tidak Ada)</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        id="prize_item" name="prize_item"
+                                                                                        placeholder="Nama Hadiah..." />
+                                                                                    <div id="prize_itemError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="description"
+                                                                                        class="form-label">Deskripsi
+                                                                                        Perlombaan</label>
+                                                                                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                                                                                    <div id="descriptionError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="certificate"
+                                                                                        class="form-label">Sertifikat
+                                                                                        Perlombaan</label>
+                                                                                    <input class="form-control"
+                                                                                        type="file" id="certificate"
+                                                                                        name="certificate" />
+                                                                                    <div id="certificateError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <button type="submit" id="submitNonakademik"
+                                                                            class="btn btn-primary mb-2 d-grid w-100">Simpan</button>
+                                                                        <button type="button"
+                                                                            class="btn btn-outline-secondary d-grid w-100"
+                                                                            data-bs-dismiss="modal"
+                                                                            aria-label="Close">Cancel</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                @foreach ($childEducations as $data)
+                                    <div class="modal fade modal-pengeluaran" id="dataPrestasiSekolah{{ $data->id }}"
+                                        tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h3 class="text-center">Tambah Data Prestasi di Sekolah</h3>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-header">
+                                                    <ul class="nav nav-tabs nav-fill w-100" role="tablist">
+                                                        <li class="nav-item">
+                                                            <button type="button" class="nav-link" role="tab"
+                                                                data-bs-toggle="tab" data-bs-target="#navs-justified-home"
+                                                                aria-controls="navs-justified-home" aria-selected="true"
+                                                                disabled>
+                                                                <span class="d-none d-sm-block">
+                                                                    Tambah Data Prestasi di Sekolah</span>
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form id="dataPrestasiAnakSekolah{{ $data->id }}"
+                                                        action="{{ route('prestasi-anak.store') }}"
+                                                        enctype="multipart/form-data" method="POST">
+                                                        @csrf
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <div class="card mb-4">
+                                                                    <div class="card-body">
+                                                                        <input type="text" name="achievement_type"
+                                                                            value="Sekolah" hidden>
+                                                                        <input type="text" name="child_education_id"
+                                                                            value="{{ $data->id }}" hidden>
+                                                                        <div class="mb-3">
+                                                                            <label for="title" class="form-label">Nama
+                                                                                Perlombaan</label>
+                                                                            <input type="text" class="form-control"
+                                                                                id="title" name="title"
+                                                                                placeholder="Nama Perlombaan..." />
+                                                                            <div id="titleError" class="invalid-feedback">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <label for="competition_level"
+                                                                                class="form-label">Tingkat
+                                                                                Perlombaan</label>
+                                                                            <select class="form-select"
+                                                                                id="competition_level"
+                                                                                name="competition_level"
+                                                                                aria-label="Default select example">
+                                                                                <option value="" hidden>
+                                                                                    Pilih Tingkat Perlombaan
+                                                                                </option>
+                                                                                <option value="Tingkat Sekolah">
+                                                                                    Tingkat Sekolah
+                                                                                </option>
+                                                                                <option value="Tingkat Desa">
+                                                                                    Tingkat Desa
+                                                                                </option>
+                                                                                <option value="Tingkat Kabupaten/Kota">
+                                                                                    Tingkat Kabupaten/Kota
+                                                                                </option>
+                                                                                <option value="Tingkat Regional">
+                                                                                    Tingkat Regional
+                                                                                </option>
+                                                                                <option value="Tingkat Nasional">
+                                                                                    Tingkat Nasional
+                                                                                </option>
+                                                                                <option value="Tingkat Internasional">
+                                                                                    Tingkat Internasional
+                                                                                </option>
+                                                                                <option value="Tingkat Lainnya">
+                                                                                    Tingkat Lainnya
+                                                                                </option>
+                                                                            </select>
+                                                                            <div id="competition_levelError"
+                                                                                class="invalid-feedback"></div>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <label for="competition_date"
+                                                                                class="form-label">Tanggal
+                                                                                Perlombaan</label>
+                                                                            <input class="form-control" type="date"
+                                                                                id="competition_date"
+                                                                                name="competition_date" />
+                                                                            <div id="competition_dateError"
+                                                                                class="invalid-feedback"></div>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <label for="ranking"
+                                                                                class="form-label">Tingkat
+                                                                                Perlombaan</label>
+                                                                            <select class="form-select" id="ranking"
+                                                                                name="ranking"
+                                                                                aria-label="Default select example">
+                                                                                <option value="" hidden>
+                                                                                    Pilih Peringkat Perlombaan
+                                                                                </option>
+                                                                                <option value="Juara 1">
+                                                                                    Juara 1
+                                                                                </option>
+                                                                                <option value="Juara 2">
+                                                                                    Juara 2
+                                                                                </option>
+                                                                                <option value="Juara 3">
+                                                                                    Juara 3
+                                                                                </option>
+                                                                                <option value="Juara Harapan 1">
+                                                                                    Juara Harapan 1
+                                                                                </option>
+                                                                                <option value="Juara Harapan 2">
+                                                                                    Juara Harapan 2
+                                                                                </option>
+                                                                                <option value="Juara Harapan 3">
+                                                                                    Juara Harapan 3
+                                                                                </option>
+                                                                                <option value="Juara Favorit">
+                                                                                    Juara Favorit
+                                                                                </option>
+                                                                                <option value="Peserta">
+                                                                                    Peserta
+                                                                                </option>
+                                                                            </select>
+                                                                            <div id="rankingError"
+                                                                                class="invalid-feedback"></div>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <label for="prize_money"
+                                                                                class="form-label">Hadiah
+                                                                                Uang (Hadiah Berupa
+                                                                                Uang,
+                                                                                Kosongkan Bila Tidak Ada)</label>
+                                                                            <div class="input-group input-group-merge">
+                                                                                <span class="input-group-text">Rp</span>
+                                                                                <input type="text" class="form-control"
+                                                                                    id="prize_money" name="prize_money"
+                                                                                    placeholder="1,000,000"
+                                                                                    oninput="formatAmount(this)" />
+                                                                                <div id="prize_moneyError"
+                                                                                    class="invalid-feedback"></div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <label for="prize_item"
+                                                                                class="form-label">Nama
+                                                                                Hadiah (Hadiah Berupa Barang,
+                                                                                Kosongkan Bila Tidak Ada)</label>
+                                                                            <input type="text" class="form-control"
+                                                                                id="prize_item" name="prize_item"
+                                                                                placeholder="Nama Hadiah..." />
+                                                                            <div id="prize_itemError"
+                                                                                class="invalid-feedback"></div>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <label for="description"
+                                                                                class="form-label">Deskripsi
+                                                                                Perlombaan</label>
+                                                                            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                                                                            <div id="descriptionError"
+                                                                                class="invalid-feedback"></div>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <label for="certificate"
+                                                                                class="form-label">Sertifikat
+                                                                                Perlombaan</label>
+                                                                            <input class="form-control" type="file"
+                                                                                id="certificate" name="certificate" />
+                                                                            <div id="certificateError"
+                                                                                class="invalid-feedback"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-outline-secondary"
+                                                                data-bs-dismiss="modal">Close</button>
+                                                            <button type="button"
+                                                                class="btn btn-primary submitPrestasiSekolah"
+                                                                data-id="{{ $data->id }}">Save
+                                                                Changes</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -261,7 +774,8 @@
                                             <div class="card-body">
                                                 <div class="mb-3">
                                                     <label for="editChildren_id{{ $data->id }}"
-                                                        class="form-label">Nama Anak</label>
+                                                        class="form-label">Nama
+                                                        Anak</label>
                                                     <select class="form-select" id="editChildren_id{{ $data->id }}"
                                                         name="editChildren_id{{ $data->id }}"
                                                         aria-label="Default select example">
@@ -304,11 +818,14 @@
                                                         aria-label="Default select example">
                                                         <option value="" hidden>Pilih Peringkat</option>
                                                         <option value="1"
-                                                            {{ $data->ranking == 1 ? 'selected' : '' }}>1</option>
+                                                            {{ $data->ranking == 1 ? 'selected' : '' }}>1
+                                                        </option>
                                                         <option value="2"
-                                                            {{ $data->ranking == 2 ? 'selected' : '' }}>2</option>
+                                                            {{ $data->ranking == 2 ? 'selected' : '' }}>2
+                                                        </option>
                                                         <option value="3"
-                                                            {{ $data->ranking == 3 ? 'selected' : '' }}>3</option>
+                                                            {{ $data->ranking == 3 ? 'selected' : '' }}>3
+                                                        </option>
                                                         <option value="Peserta"
                                                             {{ $data->ranking == 'Peserta' ? 'selected' : '' }}>Peserta
                                                         </option>
@@ -318,7 +835,8 @@
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="editCertificate{{ $data->id }}"
-                                                        class="form-label">Bukti Perlombaan</label>
+                                                        class="form-label">Bukti
+                                                        Perlombaan</label>
                                                     <input class="form-control" type="file"
                                                         id="editCertificate{{ $data->id }}"
                                                         name="editCertificate{{ $data->id }}" />
@@ -361,6 +879,22 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
 
     <script>
+        function formatAmount(inputElement) {
+            // Mendapatkan nilai input
+            let inputValue = inputElement.value;
+
+            // Menghapus karakter selain digit (misalnya, strip, titik, dll.)
+            inputValue = inputValue.replace(/[^\d]/g, '');
+
+            // Memformat angka dengan menambahkan titik sebagai pemisah ribuan
+            inputValue = new Intl.NumberFormat().format(inputValue);
+
+            // Menetapkan kembali nilai input yang sudah diformat
+            inputElement.value = inputValue;
+        }
+    </script>
+
+    <script>
         $(document).ready(function() {
             // Setup CSRF token for all AJAX requests
             $.ajaxSetup({
@@ -400,16 +934,22 @@
                 });
             }
 
-            $('#dataAnakForm').on('submit', function(e) {
+            $('#dataPrestasiAnakPanti').on('submit', function(e) {
                 e.preventDefault();
                 clearErrors();
                 simpan();
                 return false;
             });
 
-            function simpan() {
+            $('.submitPrestasiSekolah').click(function(e) {
+                e.preventDefault();
+                var id = $(this).data('id');
+                simpanPrestasiSekolah(id);
+                return false;
+            });
 
-                const formData = new FormData($('#dataAnakForm')[0])
+            function simpan() {
+                const formData = new FormData($('#dataPrestasiAnakPanti')[0]);
                 for (var pair of formData.entries()) {
                     console.log(pair[0] + ', ' + pair[1]);
                 }
@@ -417,8 +957,9 @@
                     url: "{{ route('prestasi-anak.store') }}",
                     type: 'POST',
                     data: formData,
-                    processData: false,
+                    cache: false,
                     contentType: false,
+                    processData: false,
                     success: function(response) {
                         if (response.errors) {
                             handleErrors(response.errors);
@@ -436,8 +977,61 @@
                                     window.location.reload();
                                 }
                             });
-                            $('#offcanvasEnd').offcanvas('hide');
+                            $('#modalPrestasiAnakPanti').modal('hide');
                         }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('XHR Response:', xhr.responseText);
+                        var errorMessage = "An error occurred while updating data.";
+                        if (xhr.responseJSON && xhr.responseJSON.errors) {
+                            errorMessage = "Validation error: " + JSON.stringify(xhr.responseJSON
+                                .errors);
+                        }
+                        console.log(errorMessage);
+                    }
+                });
+            }
+
+            function simpanPrestasiSekolah(id) {
+                const formData = new FormData($('#dataPrestasiAnakSekolah' + id)[0]);
+                for (var pair of formData.entries()) {
+                    console.log(pair[0] + ', ' + pair[1]);
+                }
+                $.ajax({
+                    url: "{{ route('prestasi-anak.store') }}",
+                    type: 'POST',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        if (response.errors) {
+                            handleErrors(response.errors);
+                        } else {
+                            // Menghapus kelas is-invalid dari semua elemen input
+                            $('.form-control').removeClass('is-invalid');
+
+                            // Menggunakan sweetalert
+                            Swal.fire({
+                                icon: 'success',
+                                title: response.success,
+                                confirmButtonText: 'OK',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.reload();
+                                }
+                            });
+                            $('#modalPrestasiAnakSekolah').modal('hide');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('XHR Response:', xhr.responseText);
+                        var errorMessage = "An error occurred while updating data.";
+                        if (xhr.responseJSON && xhr.responseJSON.errors) {
+                            errorMessage = "Validation error: " + JSON.stringify(xhr.responseJSON
+                                .errors);
+                        }
+                        console.log(errorMessage);
                     }
                 });
             }

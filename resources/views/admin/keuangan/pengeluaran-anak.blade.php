@@ -20,40 +20,38 @@
                 <div class="col-lg-3 col-md-6 quick-sand">
                     <div class="mt-3 mb-3">
                         <div class="d-flex">
-                            <div class="side-content-pengeluaran">
+                            <div class="side-content-30">
 
                             </div>
-                            <div class="demo-inline-spacing">
-                                <div class="btn-group" id="dropdown-icon-demo">
-                                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        <i class="bx bx-plus m-1"></i> Tambah Data
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a href="javascript:void(0);" data-bs-toggle="modal"
-                                                data-bs-target="#pengeluaranKesehatan"
-                                                class="dropdown-item d-flex align-items-center"><i
-                                                    class="bx bx-plus scaleX-n1-rtl"></i>Pengeluaran Kesehatan Anak</a>
-                                        </li>
-                                        <li>
-                                            <hr class="dropdown-divider" />
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0);" data-bs-toggle="modal"
-                                                data-bs-target="#pengeluaranPendidikan"
-                                                class="dropdown-item d-flex align-items-center"><i
-                                                    class="bx bx-plus scaleX-n1-rtl"></i>Pengeluaran Pendidikan Anak</a>
-                                        </li>
-                                        <li>
-                                            <hr class="dropdown-divider" />
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0);" class="dropdown-item d-flex align-items-center"><i
-                                                    class="bx bx-plus scaleX-n1-rtl"></i>Pengeluaran Prestasi Anak</a>
-                                        </li>
-                                    </ul>
-                                </div>
+                            <div class="btn-group" id="dropdown-icon-demo">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <i class="bx bx-plus m-1"></i> Tambah Data
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="javascript:void(0);" data-bs-toggle="modal"
+                                            data-bs-target="#pengeluaranKesehatan"
+                                            class="dropdown-item d-flex align-items-center"><i
+                                                class="bx bx-plus scaleX-n1-rtl"></i>Pengeluaran Kesehatan Anak</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider" />
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" data-bs-toggle="modal"
+                                            data-bs-target="#pengeluaranPendidikan"
+                                            class="dropdown-item d-flex align-items-center"><i
+                                                class="bx bx-plus scaleX-n1-rtl"></i>Pengeluaran Pendidikan Anak</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider" />
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" class="dropdown-item d-flex align-items-center"><i
+                                                class="bx bx-plus scaleX-n1-rtl"></i>Pengeluaran Prestasi Anak</a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                         <!-- Modal -->

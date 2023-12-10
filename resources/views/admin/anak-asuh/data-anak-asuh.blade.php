@@ -49,8 +49,8 @@
                                                         </button>
                                                     </li>
                                                     <li class="nav-item">
-                                                        <button type="button" id="tab-justified-profile"
-                                                            class="nav-link" role="tab" data-bs-toggle="tab"
+                                                        <button type="button" id="tab-justified-profile" class="nav-link"
+                                                            role="tab" data-bs-toggle="tab"
                                                             data-bs-target="#navs-justified-profile"
                                                             aria-controls="navs-justified-profile" aria-selected="false"
                                                             disabled>
@@ -59,10 +59,9 @@
                                                         </button>
                                                     </li>
                                                     <li class="nav-item">
-                                                        <button type="button" id="tab-justified-messages"
-                                                            class="nav-link" role="tab" data-bs-toggle="tab"
-                                                            data-bs-target="#ss" aria-controls="ss" aria-selected="false"
-                                                            disabled>
+                                                        <button type="button" id="tab-justified-messages" class="nav-link"
+                                                            role="tab" data-bs-toggle="tab" data-bs-target="#ss"
+                                                            aria-controls="ss" aria-selected="false" disabled>
                                                             <span class="d-none d-sm-block">
                                                                 Data Wali</span>
                                                         </button>
@@ -86,8 +85,8 @@
                                                                                         class="form-label">Nama
                                                                                         Anak</label>
                                                                                     <input type="text"
-                                                                                        class="form-control"
-                                                                                        id="name" name="name"
+                                                                                        class="form-control" id="name"
+                                                                                        name="name"
                                                                                         placeholder="Nama Anak..." />
                                                                                     <div id="nameError"
                                                                                         class="invalid-feedback"></div>
@@ -794,12 +793,10 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="mb-3">
-                                                                        <label
-                                                                            for="reason_for_leaving{{ $data->id }}"
+                                                                        <label for="reason_for_leaving{{ $data->id }}"
                                                                             class="form-label">Alasan
                                                                             Menitipkan</label>
-                                                                        <textarea class="form-control" id="reason_for_leaving{{ $data->id }}" name="reason_for_leaving"
-                                                                            rows="3">{{ $detail->reason_for_leaving }}</textarea>
+                                                                        <textarea class="form-control" id="reason_for_leaving{{ $data->id }}" name="reason_for_leaving" rows="3">{{ $detail->reason_for_leaving }}</textarea>
                                                                         <div id="editReason_for_leavingError{{ $data->id }}"
                                                                             class="invalid-feedback"></div>
                                                                     </div>
@@ -1327,7 +1324,7 @@
                 // Lakukan permintaan Ajax
                 $.ajax({
                     url: url,
-                    type: 'POST', // Tetap gunakan POST karena metode Laravel yang digunakan adalah "method spoofing"
+                    type: 'PUT', // Tetap gunakan POST karena metode Laravel yang digunakan adalah "method spoofing"
                     data: formData,
                     cache: false,
                     contentType: false,

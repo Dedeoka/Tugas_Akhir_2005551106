@@ -114,7 +114,7 @@ class DataAnakController extends Controller
             $guardianIdentityPath = $request->file('guardian_identity_card')->store('uploads/kartu-pengenal-wali');
 
             $data = [
-                'name' => $request->name,
+                'name' => ucwords($request->name),
                 'place_of_birth' => $request->place_of_birth,
                 'date_of_birth' => $request->date_of_birth,
                 'gender' => $request->gender,

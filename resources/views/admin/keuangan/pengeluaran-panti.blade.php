@@ -20,123 +20,114 @@
                 <div class="col-lg-3 col-md-6 quick-sand">
                     <div class="mt-3 mb-3">
                         <div class="d-flex">
-                            <div class="side-content-pengeluaran">
+                            <div class="side-content">
 
                             </div>
-                            <div class="demo-inline-spacing">
-                                <div class="btn-group" id="dropdown-icon-demo">
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#modalPengeluaranPanti">
-                                        <i class='bx bx-plus m-1'></i>
-                                        Tambah Data
-                                    </button>
-                                    <div class="modal fade" id="modalPengeluaranPanti" tabindex="-1" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h3 class="text-center">Tambah Pengeluaran Panti</h3>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-header">
-                                                    <ul class="nav nav-tabs nav-fill w-100" role="tablist">
-                                                        <li class="nav-item">
-                                                            <button type="button" id="tab-justified-home" class="nav-link"
-                                                                role="tab" data-bs-toggle="tab"
-                                                                data-bs-target="#navs-justified-home"
-                                                                aria-controls="navs-justified-home" aria-selected="true"
-                                                                disabled>
-                                                                <span class="d-none d-sm-block">
-                                                                    Tambah Data Pengeluaran Panti</span>
-                                                            </button>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form id="pengeluaranPantiForm"
-                                                        action="{{ route('pengeluaran-panti.store') }}" method="POST">
-                                                        @csrf
-                                                        <div class="row">
-                                                            <div class="">
-                                                                <div class="nav-align-top mb-4">
-                                                                    <div class="tab-content">
-                                                                        <div class="tab-pane fade show active"
-                                                                            id="navs-justified-home" role="tabpanel">
-                                                                            <div class="card mb-4">
-                                                                                <div class="card-body">
-                                                                                    <div class="mb-3">
-                                                                                        <label for="cost_type_id"
-                                                                                            class="form-label">Jenis
-                                                                                            Pengeluaran</label>
-                                                                                        <select class="form-select"
-                                                                                            id="cost_type_id"
-                                                                                            name="cost_type_id"
-                                                                                            aria-label="Default select example">
-                                                                                            <option value="" hidden>
-                                                                                                Pilih Jenis Pengeluaran
-                                                                                            </option>
-                                                                                            @foreach ($costTypes as $type)
-                                                                                                <option
-                                                                                                    value="{{ $type->id }}">
-                                                                                                    {{ $type->name }}
-                                                                                                </option>
-                                                                                            @endforeach
-                                                                                        </select>
-                                                                                        <div id="cost_type_idError"
-                                                                                            class="invalid-feedback"></div>
-                                                                                    </div>
-                                                                                    <div class="mb-3">
-                                                                                        <label for="title"
-                                                                                            class="form-label">Nama
-                                                                                            Pengeluaran</label>
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            id="title" name="title"
-                                                                                            placeholder="Nama Pengeluaran..." />
-                                                                                        <div id="titleError"
-                                                                                            class="invalid-feedback"></div>
-                                                                                    </div>
-                                                                                    <div class="mb-3"
-                                                                                        id="totalAmountInput">
-                                                                                        <label for="total_amount"
-                                                                                            class="form-label">Biaya
-                                                                                            Pemeriksaan</label>
-                                                                                        <div
-                                                                                            class="input-group input-group-merge">
-                                                                                            <span
-                                                                                                class="input-group-text">Rp</span>
-                                                                                            <input type="text"
-                                                                                                class="form-control"
-                                                                                                id="total_amount"
-                                                                                                name="total_amount"
-                                                                                                placeholder="10,000"
-                                                                                                oninput="formatAmount(this)" />
-                                                                                            <div id="total_amountError"
-                                                                                                class="invalid-feedback">
-                                                                                            </div>
-                                                                                        </div>
+                            <div class="">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#modalPengeluaranPanti">
+                                    <i class='bx bx-plus m-1'></i>
+                                    Tambah Data
+                                </button>
+                            </div>
+                            <div class="modal fade" id="modalPengeluaranPanti" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h3 class="text-center">Tambah Pengeluaran Panti</h3>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-header">
+                                            <ul class="nav nav-tabs nav-fill w-100" role="tablist">
+                                                <li class="nav-item">
+                                                    <button type="button" id="tab-justified-home" class="nav-link"
+                                                        role="tab" data-bs-toggle="tab"
+                                                        data-bs-target="#navs-justified-home"
+                                                        aria-controls="navs-justified-home" aria-selected="true" disabled>
+                                                        <span class="d-none d-sm-block">
+                                                            Tambah Data Pengeluaran Panti</span>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="pengeluaranPantiForm" action="{{ route('pengeluaran-panti.store') }}"
+                                                method="POST">
+                                                @csrf
+                                                <div class="row">
+                                                    <div class="">
+                                                        <div class="nav-align-top mb-4">
+                                                            <div class="tab-content">
+                                                                <div class="tab-pane fade show active"
+                                                                    id="navs-justified-home" role="tabpanel">
+                                                                    <div class="card mb-4">
+                                                                        <div class="card-body">
+                                                                            <div class="mb-3">
+                                                                                <label for="cost_type_id"
+                                                                                    class="form-label">Jenis
+                                                                                    Pengeluaran</label>
+                                                                                <select class="form-select"
+                                                                                    id="cost_type_id" name="cost_type_id"
+                                                                                    aria-label="Default select example">
+                                                                                    <option value="" hidden>
+                                                                                        Pilih Jenis Pengeluaran
+                                                                                    </option>
+                                                                                    @foreach ($costTypes as $type)
+                                                                                        <option value="{{ $type->id }}">
+                                                                                            {{ $type->name }}
+                                                                                        </option>
+                                                                                    @endforeach
+                                                                                </select>
+                                                                                <div id="cost_type_idError"
+                                                                                    class="invalid-feedback"></div>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="title"
+                                                                                    class="form-label">Nama
+                                                                                    Pengeluaran</label>
+                                                                                <input type="text" class="form-control"
+                                                                                    id="title" name="title"
+                                                                                    placeholder="Nama Pengeluaran..." />
+                                                                                <div id="titleError"
+                                                                                    class="invalid-feedback"></div>
+                                                                            </div>
+                                                                            <div class="mb-3" id="totalAmountInput">
+                                                                                <label for="total_amount"
+                                                                                    class="form-label">Biaya
+                                                                                    Pemeriksaan</label>
+                                                                                <div class="input-group input-group-merge">
+                                                                                    <span class="input-group-text">Rp</span>
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        id="total_amount"
+                                                                                        name="total_amount"
+                                                                                        placeholder="10,000"
+                                                                                        oninput="formatAmount(this)" />
+                                                                                    <div id="total_amountError"
+                                                                                        class="invalid-feedback">
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                            <button type="submit"
-                                                                                class="btn btn-primary mb-2 d-grid w-100"
-                                                                                id="submit">Simpan</button>
-                                                                            <button type="button"
-                                                                                class="btn btn-outline-secondary d-grid w-100"
-                                                                                data-bs-dismiss="modal"
-                                                                                aria-label="Close">Cancel</button>
                                                                         </div>
                                                                     </div>
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary mb-2 d-grid w-100"
+                                                                        id="submit">Simpan</button>
+                                                                    <button type="button"
+                                                                        class="btn btn-outline-secondary d-grid w-100"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close">Cancel</button>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </form>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="modal-footer">
-
-                                            </div>
+                                            </form>
                                         </div>
+                                    </div>
+                                    <div class="modal-footer">
+
                                     </div>
                                 </div>
                             </div>
@@ -399,7 +390,7 @@
 
             function deleteData(dataId) {
                 // Kirim permintaan Ajax ke server
-                fetch(`/keuangan/pengeluaran-anak/${dataId}`, {
+                fetch(`/keuangan/pengeluaran-panti/${dataId}`, {
                         method: 'DELETE',
                         headers: {
                             'X-CSRF-TOKEN': '{{ csrf_token() }}',

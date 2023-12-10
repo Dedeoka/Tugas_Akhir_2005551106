@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('competition_level');
             $table->date('competition_date');
             $table->string('ranking');
-            $table->string('rewards');
+            $table->string('prize_money');
+            $table->string('prize_item');
             $table->string('description');
             $table->string('certificate');
             $table->timestamps();

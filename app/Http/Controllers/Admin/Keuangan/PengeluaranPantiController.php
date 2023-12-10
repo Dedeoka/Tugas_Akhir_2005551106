@@ -89,6 +89,7 @@ class PengeluaranPantiController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Cost::find($id)->delete();
+        return response()->json(['success'=>'Data Berhasil Dihapus.'], 200);
     }
 }
