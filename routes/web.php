@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\Anak\PendidikanAnakController;
 use App\Http\Controllers\Admin\Anak\PrestasiAnakController;
 use App\Http\Controllers\Admin\Keuangan\PengeluaranAnakController;
 use App\Http\Controllers\Admin\Keuangan\PengeluaranPantiController;
+use App\Http\Controllers\Admin\Keuangan\PengeluaranTotalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,10 @@ use App\Http\Controllers\Admin\Keuangan\PengeluaranPantiController;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Route::get('/test', function () {
+//     return view('admin.keuangan.pengeluaran-total');
+// });
 
 Route::prefix('master-data')->group(function () {
     Route::resource('daftar-sekolah', SekolahController::class);
@@ -48,6 +53,7 @@ Route::prefix('anak-asuh')->group(function () {
 Route::prefix('keuangan')->group(function () {
     Route::resource('pengeluaran-anak', PengeluaranAnakController::class);
     Route::resource('pengeluaran-panti', PengeluaranPantiController::class);
+    Route::get('pengeluaran-total', [PengeluaranTotalController::class, 'index'])->name('pengeluaran-total.index');
 });
 
 

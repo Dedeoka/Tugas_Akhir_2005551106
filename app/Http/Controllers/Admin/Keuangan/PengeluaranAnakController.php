@@ -144,7 +144,7 @@ class PengeluaranAnakController extends Controller
                     $costDataNew = [
                     'reference_table' => 'child_education_table',
                     'reference_table_id' => $data_id,
-                    'title' => 'Pengeluaran Pendidikan ' . ' ' . $childEducation->childrens->name . ' ' . $childEducation->education_level . '/Kelas ' . $childEducation->class ,
+                    'title' => 'Pengeluaran Prestasi ' . ' ' . $childAchievements->childrens->name . ' ' . $childAchievements->education_level . '/Kelas ' . $childAchievements->class ,
                     'total_cost' => str_replace(',', '', $request->total_cost),
                     'status' => 'Lunas',
                     ];
@@ -153,7 +153,7 @@ class PengeluaranAnakController extends Controller
 
                     $costDetailDataNew = [
                         'child_cost_id' => $childCostCreate->id,
-                        'title' => 'Pengeluaran Pendidikan ' . $request->title,
+                        'title' => 'Pengeluaran Prestasi ' . $request->title,
                         'cost' => str_replace(',', '', $request->total_cost),
                     ];
 
