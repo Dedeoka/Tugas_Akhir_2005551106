@@ -101,35 +101,6 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 mb-4">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between">
-                    <div>
-                        <h5 class="card-title mb-0">Pengeluaran Anak</h5>
-                        <small class="text-muted">Pengeluaran Anak</small>
-                    </div>
-                    <div class="d-sm-flex d-none align-items-center">
-                        <h5 class="mb-0 me-3">$ 100,000</h5>
-                        <span class="badge bg-label-secondary">
-                            <i class='bx bx-down-arrow-alt bx-xs text-danger'></i>
-                            <span class="align-middle">20%</span>
-                        </span>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div id="chartAnak"></div>
-                    <div class="mt-3">
-                        <label for="yearSelect">Select Year:</label>
-                        <select id="yearSelect" class="form-select" onchange="updateChart()">
-                            @foreach ($distinctYears as $year)
-                                <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>
-                                    {{ $year }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 @endsection
 

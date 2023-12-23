@@ -134,3 +134,8 @@
 .pagination-side-content{
     width: 1%;
 }
+
+.chartjs{
+    width: 100% !important;
+    height: 550px !important;
+}

@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\Anak\DataAnakController;
 use App\Http\Controllers\Admin\Anak\KesehatanAnakController;
 use App\Http\Controllers\Admin\Anak\PendidikanAnakController;
 use App\Http\Controllers\Admin\Anak\PrestasiAnakController;
+use App\Http\Controllers\Admin\Keuangan\ChartPengeluaranAnakController;
 use App\Http\Controllers\Admin\Keuangan\PengeluaranAnakController;
 use App\Http\Controllers\Admin\Keuangan\PengeluaranPantiController;
 use App\Http\Controllers\Admin\Keuangan\PengeluaranTotalController;
@@ -54,6 +55,7 @@ Route::prefix('keuangan')->group(function () {
     Route::resource('pengeluaran-anak', PengeluaranAnakController::class);
     Route::resource('pengeluaran-panti', PengeluaranPantiController::class);
     Route::get('pengeluaran-total', [PengeluaranTotalController::class, 'index'])->name('pengeluaran-total.index');
+    Route::get('pengeluaran-anak-chart', [ChartPengeluaranAnakController::class, 'index'])->name('pengeluaran-anak-chart.index');
 });
 
 

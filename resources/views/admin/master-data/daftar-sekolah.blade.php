@@ -194,11 +194,29 @@
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="col mb-3">
-                                            <label for="editName{{ $data->id }}" class="form-label">Nama Kategori
-                                                Donasi Barang</label>
+                                            <label for="editName{{ $data->id }}" class="form-label">Nama
+                                                Sekolah</label>
                                             <input type="text" id="editName{{ $data->id }}" name="name"
                                                 class="form-control" value="{{ $data->name }}" />
                                             <div id="editNameError{{ $data->id }}" class="invalid-feedback"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col mb-3">
+                                            <label for="editAddress{{ $data->id }}" class="form-label">Alamat
+                                                Sekolah</label>
+                                            <input type="text" id="editAddress{{ $data->id }}" name="address"
+                                                class="form-control" value="{{ $data->address }}" />
+                                            <div id="editAddressError{{ $data->id }}" class="invalid-feedback"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col mb-3">
+                                            <label for="editPhone{{ $data->id }}" class="form-label">No Telepon
+                                                Sekolah</label>
+                                            <input type="text" id="editPhone{{ $data->id }}" name="phone"
+                                                class="form-control" value="{{ $data->phone }}" />
+                                            <div id="editPhoneError{{ $data->id }}" class="invalid-feedback"></div>
                                         </div>
                                     </div>
                                 </div>

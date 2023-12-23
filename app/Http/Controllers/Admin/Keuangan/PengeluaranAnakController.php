@@ -19,6 +19,16 @@ class PengeluaranAnakController extends Controller
     public function index(Request $request)
     {
         $keyword = $request->query('q','');
+        $childCostDetail = ChildCostDetail::get();
+        if ($childCostDetail->isNotEmpty()) {
+            $years = range(
+                $childCostDetail->min('created_at')->year,
+                now()->year
+            );
+            arsort($years);
+        } else {
+            $years = [];
+        }
         $datas = ChildCost::where('title', 'LIKE', "%{$keyword}%")->paginate(10)->withQueryString();
         $childHealths = ChildHealth::with(['childrens', 'diseases'])->paginate(10)
         ->withQueryString();
@@ -26,7 +36,7 @@ class PengeluaranAnakController extends Controller
         ->withQueryString();
         $childAchievements = ChildAchievement::with(['childrens'])->paginate(10)
         ->withQueryString();
-        return view('admin.keuangan.pengeluaran-anak', compact('datas', 'keyword', 'childHealths', 'childEducations', 'childAchievements'));
+        return view('admin.keuangan.pengeluaran-anak', compact('datas', 'keyword', 'childHealths', 'childEducations', 'childAchievements', 'years'));
     }
 
     /**

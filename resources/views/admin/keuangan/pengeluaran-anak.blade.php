@@ -8,8 +8,107 @@
             <span class="text-muted fw-light">Keuangan /</span> <b>Pengeluaran Anak Asuh</b>
         </h4>
 
-
-        <!-- DataTable with Buttons -->
+        <div class="row">
+            <div class="col-sm-6 col-lg-3 mb-4">
+                <div class="card card-border-shadow-primary h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-2 pb-1">
+                            <div class="avatar me-2">
+                                <span class="avatar-initial rounded bg-label-primary"><i class='bx bx-child fs-2'></i></span>
+                            </div>
+                            <h4 class="ms-1 mb-0">42</h4>
+                        </div>
+                        <p class="mb-1">Pengeluaran Anak</p>
+                        <p class="mb-0">
+                            <span class="fw-medium me-1">+18.2%</span>
+                            <small class="text-muted">than last week</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 mb-4">
+                <div class="card card-border-shadow-warning h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-2 pb-1">
+                            <div class="avatar me-2">
+                                <span class="avatar-initial rounded bg-label-warning"><i
+                                        class='bx bx-building-house fs-3'></i></span>
+                            </div>
+                            <h4 class="ms-1 mb-0">8</h4>
+                        </div>
+                        <p class="mb-1">Pengeluaran Panti</p>
+                        <p class="mb-0">
+                            <span class="fw-medium me-1">-8.7%</span>
+                            <small class="text-muted">than last week</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 mb-4">
+                <div class="card card-border-shadow-danger h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-2 pb-1">
+                            <div class="avatar me-2">
+                                <span class="avatar-initial rounded bg-label-danger"><i
+                                        class='bx bx-git-repo-forked'></i></span>
+                            </div>
+                            <h4 class="ms-1 mb-0">27</h4>
+                        </div>
+                        <p class="mb-1">Pengeluaran </p>
+                        <p class="mb-0">
+                            <span class="fw-medium me-1">+4.3%</span>
+                            <small class="text-muted">than last week</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 mb-4">
+                <div class="card card-border-shadow-info h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-2 pb-1">
+                            <div class="avatar me-2">
+                                <span class="avatar-initial rounded bg-label-info"><img
+                                        src="{{ asset('assets/img/icons/unicons/cc-primary.png') }}" alt="Credit Card"
+                                        class="rounded" /></span>
+                            </div>
+                            <h4 class="ms-1 mb-0">13</h4>
+                        </div>
+                        <p class="mb-1">Pengeluaran Total Bulan Ini</p>
+                        <p class="mb-0">
+                            <span class="fw-medium me-1">-2.5%</span>
+                            <small class="text-muted">than last month</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <div>
+                        <h5 class="card-title mb-0">Pengeluaran Anak</h5>
+                        <small class="text-muted">Pengeluaran Anak</small>
+                    </div>
+                    <div class="d-sm-flex d-none align-items-center">
+                        <h5 class="mb-0 me-3">$ 100,000</h5>
+                        <span class="badge bg-label-secondary">
+                            <i class='bx bx-down-arrow-alt bx-xs text-danger'></i>
+                            <span class="align-middle">20%</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <select class="form-select" id="yearSelector" name="year" aria-label="Default select example">
+                        @foreach ($years as $year)
+                            <option value="{{ $year }}">
+                                {{ $year }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <canvas id="myChart" class="chartjs mx-auto"></canvas>
+                </div>
+            </div>
+        </div>
         <div class="card">
             <div class="d-flex">
                 <div class="w-75 m-3 quick-sand">
@@ -121,7 +220,8 @@
                                                                         class="btn rounded-pill btn-warning"
                                                                         data-bs-toggle="modal"
                                                                         data-bs-target="#dataPengeluaranKesehatan{{ $data->id }}"
-                                                                        style="width: 100px;" data-id="{{ $data->id }}">
+                                                                        style="width: 100px;"
+                                                                        data-id="{{ $data->id }}">
                                                                         Pilih</button>
                                                                 </td>
                                                             </tr>
@@ -135,21 +235,18 @@
                                                 <div class="pagination-side-content"></div>
                                                 <nav aria-label="Page navigation">
                                                     <ul class="pagination pagination-round pagination-primary">
-                                                        <!-- First Page -->
                                                         <li
                                                             class="page-item first {{ $datas->onFirstPage() ? 'disabled' : '' }}">
                                                             <a class="page-link" href="{{ $datas->url(1) }}">
                                                                 <i class="tf-icon bx bx-chevrons-left"></i>
                                                             </a>
                                                         </li>
-                                                        <!-- Previous Page -->
                                                         <li
                                                             class="page-item prev {{ $datas->onFirstPage() ? 'disabled' : '' }}">
                                                             <a class="page-link" href="{{ $datas->previousPageUrl() }}">
                                                                 <i class="tf-icon bx bx-chevron-left"></i>
                                                             </a>
                                                         </li>
-                                                        <!-- Pagination Pages -->
                                                         @php
                                                             $currentPage = $datas->currentPage();
                                                             $lastPage = $datas->lastPage();
@@ -168,14 +265,12 @@
                                                                     href="{{ $datas->url($i) }}">{{ $i }}</a>
                                                             </li>
                                                         @endfor
-                                                        <!-- Next Page -->
                                                         <li
                                                             class="page-item next {{ $datas->hasMorePages() ? '' : 'disabled' }}">
                                                             <a class="page-link" href="{{ $datas->nextPageUrl() }}">
                                                                 <i class="tf-icon bx bx-chevron-right"></i>
                                                             </a>
                                                         </li>
-                                                        <!-- Last Page -->
                                                         <li
                                                             class="page-item last {{ $datas->currentPage() == $datas->lastPage() ? 'disabled' : '' }}">
                                                             <a class="page-link" href="{{ $datas->url($lastPage) }}">
@@ -275,21 +370,18 @@
                                                 <div class="pagination-side-content"></div>
                                                 <nav aria-label="Page navigation">
                                                     <ul class="pagination pagination-round pagination-primary">
-                                                        <!-- First Page -->
                                                         <li
                                                             class="page-item first {{ $datas->onFirstPage() ? 'disabled' : '' }}">
                                                             <a class="page-link" href="{{ $datas->url(1) }}">
                                                                 <i class="tf-icon bx bx-chevrons-left"></i>
                                                             </a>
                                                         </li>
-                                                        <!-- Previous Page -->
                                                         <li
                                                             class="page-item prev {{ $datas->onFirstPage() ? 'disabled' : '' }}">
                                                             <a class="page-link" href="{{ $datas->previousPageUrl() }}">
                                                                 <i class="tf-icon bx bx-chevron-left"></i>
                                                             </a>
                                                         </li>
-                                                        <!-- Pagination Pages -->
                                                         @php
                                                             $currentPage = $datas->currentPage();
                                                             $lastPage = $datas->lastPage();
@@ -308,14 +400,12 @@
                                                                     href="{{ $datas->url($i) }}">{{ $i }}</a>
                                                             </li>
                                                         @endfor
-                                                        <!-- Next Page -->
                                                         <li
                                                             class="page-item next {{ $datas->hasMorePages() ? '' : 'disabled' }}">
                                                             <a class="page-link" href="{{ $datas->nextPageUrl() }}">
                                                                 <i class="tf-icon bx bx-chevron-right"></i>
                                                             </a>
                                                         </li>
-                                                        <!-- Last Page -->
                                                         <li
                                                             class="page-item last {{ $datas->currentPage() == $datas->lastPage() ? 'disabled' : '' }}">
                                                             <a class="page-link" href="{{ $datas->url($lastPage) }}">
@@ -551,19 +641,16 @@
                     <div class="pagination-side-content"></div>
                     <nav aria-label="Page navigation">
                         <ul class="pagination pagination-round pagination-primary">
-                            <!-- First Page -->
                             <li class="page-item first {{ $datas->onFirstPage() ? 'disabled' : '' }}">
                                 <a class="page-link" href="{{ $datas->url(1) }}">
                                     <i class="tf-icon bx bx-chevrons-left"></i>
                                 </a>
                             </li>
-                            <!-- Previous Page -->
                             <li class="page-item prev {{ $datas->onFirstPage() ? 'disabled' : '' }}">
                                 <a class="page-link" href="{{ $datas->previousPageUrl() }}">
                                     <i class="tf-icon bx bx-chevron-left"></i>
                                 </a>
                             </li>
-                            <!-- Pagination Pages -->
                             @php
                                 $currentPage = $datas->currentPage();
                                 $lastPage = $datas->lastPage();
@@ -580,13 +667,11 @@
                                     <a class="page-link" href="{{ $datas->url($i) }}">{{ $i }}</a>
                                 </li>
                             @endfor
-                            <!-- Next Page -->
                             <li class="page-item next {{ $datas->hasMorePages() ? '' : 'disabled' }}">
                                 <a class="page-link" href="{{ $datas->nextPageUrl() }}">
                                     <i class="tf-icon bx bx-chevron-right"></i>
                                 </a>
                             </li>
-                            <!-- Last Page -->
                             <li
                                 class="page-item last {{ $datas->currentPage() == $datas->lastPage() ? 'disabled' : '' }}">
                                 <a class="page-link" href="{{ $datas->url($lastPage) }}">
@@ -597,7 +682,6 @@
                     </nav>
                 </div>
             </div>
-            <!-- Modal Edit -->
         </div>
     </div>
 @endsection
@@ -605,28 +689,17 @@
 @section('scripts')
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-    <!-- Tambahkan ini ke head tag HTML Anda jika belum ada -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
-
     <script>
         function formatAmount(inputElement) {
-            // Mendapatkan nilai input
             let inputValue = inputElement.value;
-
-            // Menghapus karakter selain digit (misalnya, strip, titik, dll.)
             inputValue = inputValue.replace(/[^\d]/g, '');
-
-            // Memformat angka dengan menambahkan titik sebagai pemisah ribuan
             inputValue = new Intl.NumberFormat().format(inputValue);
-
-            // Menetapkan kembali nilai input yang sudah diformat
             inputElement.value = inputValue;
         }
     </script>
 
     <script>
         $(document).ready(function() {
-            // Setup CSRF token for all AJAX requests
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -722,7 +795,6 @@
                 });
             }
 
-            // Event click pada tombol "Save Changes" pada modal edit
             $('.updateSubmit').click(function(e) {
                 e.preventDefault();
                 var id = $(this).data('id');
@@ -740,7 +812,6 @@
                                 $('#editName' + id).addClass('is-invalid');
                                 $('#editNameError' + id).text(response.errors.name[0]);
                             }
-                            // Penanganan error lainnya jika diperlukan
                         } else {
                             showSuccessMessage(response.success);
                             $('#editModal' + id).modal('hide');
@@ -751,6 +822,213 @@
         });
     </script>
 
+    {{-- <script>
+        $(document).ready(function() {
+            // Inisialisasi dengan tahun saat ini
+            const currentYear = new Date().getFullYear();
+            fetchData(currentYear);
+
+            // Tangani perubahan tahun (Anda dapat menggunakan dropdown atau elemen UI lainnya)
+            $('#yearSelector').change(function() {
+                const selectedYear = $(this).val();
+                console.log(selectedYear);
+                fetchData(selectedYear);
+            });
+
+            function fetchData(year) {
+                // Ambil data menggunakan AJAX untuk tahun yang dipilih dari backend
+                $.ajax({
+                    url: "{{ route('pengeluaran-anak-chart.index') }}",
+                    method: 'GET',
+                    data: {
+                        year: year
+                    },
+                    success: function(response) {
+                        const monthlyData = response.monthlyData;
+                        console.log(monthlyData);
+
+                        // Perbarui grafik dengan data yang diambil
+                        updateChart(monthlyData);
+                    },
+                    error: function(error) {
+                        console.error('Error fetching data:', error);
+                    }
+                });
+            }
+
+            function updateChart(monthlyData) {
+                const options = {
+                    series: [{
+                        name: "Total Cost",
+                        data: monthlyData
+                    }],
+                    chart: {
+                        height: 350,
+                        type: 'line',
+                        zoom: {
+                            enabled: false
+                        }
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    stroke: {
+                        curve: 'straight'
+                    },
+                    title: {
+                        text: 'Tren Total Biaya per Bulan',
+                        align: 'left'
+                    },
+                    grid: {
+                        row: {
+                            colors: ['#f3f3f3', 'transparent'],
+                            opacity: 0.5
+                        },
+                    },
+                    xaxis: {
+                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt',
+                            'Nov', 'Des'
+                        ],
+                    },
+                    yaxis: {
+                        labels: {
+                            formatter: function(val) {
+                                return 'Rp ' + val.toLocaleString('id-ID');
+                            }
+                        }
+                    }
+                };
+                var chart = new ApexCharts(document.querySelector("#chart"), options);
+                chart.render();
+            }
+        });
+    </script> --}}
+
+    <script>
+        $(document).ready(function() {
+            let myChart;
+            $('#yearSelector').change(function() {
+                fetchChildCostData($(this).val());
+            });
+
+            fetchChildCostData();
+
+            function fetchChildCostData(selectedYear = null) {
+                let url = "{{ route('pengeluaran-anak-chart.index') }}";
+                if (selectedYear) {
+                    url += "?year=" + selectedYear;
+                }
+
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    success: function(data) {
+                        renderChart(data);
+                    },
+                    error: function(error) {
+                        console.error('Error:', error);
+                    }
+                });
+            }
+
+            function renderChart(data) {
+                const labels = Object.keys(data.data);
+                const values = Object.values(data.data);
+                const year = data.selectedYear;
+                const total = formatCurrency(data.totalCost);
+                const formattedValues = values.map(value => formatCurrency(value));
+
+                const ctx = document.getElementById('myChart').getContext('2d');
+
+                // Destroy existing chart if it exists
+                if (myChart && myChart instanceof Chart) {
+                    myChart.destroy();
+                }
+
+                const additionalConfig = {
+                    options: {
+                        plugins: {
+                            filler: {
+                                propagate: false,
+                            },
+                            title: {
+                                display: true,
+                                text: (ctx) => 'Total Pengeluaran Anak Tahun ' + year + ' : ' + total
+                            }
+                        },
+                        interaction: {
+                            intersect: false,
+                        },
+                        tooltips: {
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                label: function(tooltipItem, data) {
+                                    const datasetLabel = data.datasets[tooltipItem.datasetIndex].label ||
+                                        '';
+                                    const value = formatCurrency(tooltipItem.yLabel);
+                                    return datasetLabel + ': ' + value;
+                                }
+                            }
+                        },
+                        hover: {
+                            mode: 'index',
+                            intersect: false,
+                        },
+                        scales: {
+                            x: {
+                                display: true,
+                                title: {
+                                    display: true,
+                                    text: 'Label'
+                                }
+                            },
+                            y: {
+                                display: true,
+                                title: {
+                                    display: true,
+                                    text: 'Value (IDR)'
+                                },
+                                beginAtZero: true,
+                                skipNull: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return formatCurrency(value);
+                                    }
+                                }
+                            }
+                        }
+                    },
+                };
+
+                const mergedConfig = Object.assign({}, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: ' Pengeluaran',
+                            data: values,
+                            borderColor: 'rgb(255, 99, 132)',
+                            borderWidth: 4,
+                            pointBackgroundColor: 'rgb(255, 99, 132)',
+                            pointBorderWidth: 5,
+                            pointRadius: 3,
+                            pointHoverRadius: 5,
+                        }]
+                    },
+                }, additionalConfig);
+
+                myChart = new Chart(ctx, mergedConfig);
+            }
+        });
+
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR'
+            }).format(value);
+        }
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
