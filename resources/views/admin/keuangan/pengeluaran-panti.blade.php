@@ -9,7 +9,117 @@
         </h4>
 
 
-        
+        <div class="row">
+            <div class="col-sm-6 col-lg-3 mb-4">
+                <div class="card card-border-shadow-primary h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-2 pb-1">
+                            <div class="avatar me-2">
+                                <span class="avatar-initial rounded bg-label-warning"><i
+                                        class='bx bx-building-house fs-3'></i></span>
+                            </div>
+                            <h4 class="ms-1 mb-0">{{ $currentMonthTotalCostFormatted }}</h4>
+                        </div>
+                        <p class="mb-1">Total Pengeluaran Panti Bulan Ini</p>
+                        <p class="mb-0">
+                            <span class="text-{{ $percentageTotalCost >= 0 ? 'danger' : 'success' }} fw-medium">
+                                <i class="bx {{ $percentageTotalCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
+                                {{ $percentageTotalCost }}%
+                            </span>
+                            <small class="text-muted">Dari Bulan Lalu</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 mb-4">
+                <div class="card card-border-shadow-warning h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-2 pb-1">
+                            <div class="avatar me-2">
+                                <span class="avatar-initial rounded bg-label-success"><i
+                                        class='bx bx-category-alt fs-3'></i></span>
+                            </div>
+                            <h4 class="ms-1 mb-0">{{ $highestTotalCostByTypeFormat }}</h4>
+                        </div>
+                        <p class="mb-1">Kategori Pengeluaran Terbesar</p>
+                        <small class="mb-0 text-muted">
+                            Kategori {{ $highestCostTypeName }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 mb-4">
+                <div class="card card-border-shadow-danger h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-2 pb-1">
+                            <div class="avatar me-2">
+                                <span class="avatar-initial rounded bg-label-danger"><i
+                                        class='bx bxs-school fs-3'></i></span>
+                            </div>
+                            <h4 class="ms-1 mb-0"></h4>
+                        </div>
+                        <p class="mb-1">Pengeluaran Pendidikan Bulan Ini </p>
+                        <p class="mb-0">
+                            <span class="text-{{ $percentageTotalCost >= 0 ? 'danger' : 'success' }} fw-medium">
+                                <i class="bx {{ $percentageTotalCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
+                                {{ $percentageTotalCost }}%
+                            </span>
+                            <small class="text-muted">Dari Bulan Lalu</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 mb-4">
+                <div class="card card-border-shadow-info h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-2 pb-1">
+                            <div class="avatar me-2">
+                                <span class="avatar-initial rounded bg-label-danger"><i class='bx bx-medal fs-3'></i></span>
+                            </div>
+                            <h4 class="ms-1 mb-0"></h4>
+                        </div>
+                        <p class="mb-1">Pengeluaran Total Bulan Ini</p>
+                        <p class="mb-0">
+                            <span class="text-{{ $percentageTotalCost >= 0 ? 'danger' : 'success' }} fw-medium">
+                                <i
+                                    class="bx {{ $percentageTotalCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
+                                {{ $percentageTotalCost }}%
+                            </span>
+                            <small class="text-muted">Dari Bulan Lalu</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <div>
+                        <h5 class="card-title mb-0">Pengeluaran Anak</h5>
+                        <small class="text-muted">Statistik Pengeluaran Anak</small>
+                    </div>
+                    <div class="d-sm-flex d-none align-items-center">
+                        <h5 class="me-2 mt-3">Year</h5>
+                        <h5 class="me-3 mt-3">Month</h5>
+                        <select class="form-select me-4 border-0" id="yearSelector" name="year"
+                            aria-label="Default select example">
+                            @foreach ($years as $year)
+                                <option value="{{ $year }}">
+                                    {{ $year }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <h5 class="mb-0 me-2" id="yearCost"></h5>
+                        <span class="badge bg-label-secondary">
+                            <span class="align-middle" id="yearPercentage"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <canvas id="myChart" class="chartjs mx-auto"></canvas>
+                </div>
+            </div>
+        </div>
         <!-- DataTable with Buttons -->
         <div class="card">
             <div class="d-flex">
@@ -53,8 +163,8 @@
                                             </ul>
                                         </div>
                                         <div class="modal-body">
-                                            <form id="pengeluaranPantiForm" action="{{ route('pengeluaran-panti.store') }}"
-                                                method="POST">
+                                            <form id="pengeluaranPantiForm"
+                                                action="{{ route('pengeluaran-panti.store') }}" method="POST">
                                                 @csrf
                                                 <div class="row">
                                                     <div class="">
@@ -75,7 +185,8 @@
                                                                                         Pilih Jenis Pengeluaran
                                                                                     </option>
                                                                                     @foreach ($costTypes as $type)
-                                                                                        <option value="{{ $type->id }}">
+                                                                                        <option
+                                                                                            value="{{ $type->id }}">
                                                                                             {{ $type->name }}
                                                                                         </option>
                                                                                     @endforeach
@@ -94,18 +205,18 @@
                                                                                     class="invalid-feedback"></div>
                                                                             </div>
                                                                             <div class="mb-3" id="totalAmountInput">
-                                                                                <label for="total_amount"
+                                                                                <label for="total_cost"
                                                                                     class="form-label">Biaya
                                                                                     Pemeriksaan</label>
                                                                                 <div class="input-group input-group-merge">
-                                                                                    <span class="input-group-text">Rp</span>
+                                                                                    <span
+                                                                                        class="input-group-text">Rp</span>
                                                                                     <input type="text"
                                                                                         class="form-control"
-                                                                                        id="total_amount"
-                                                                                        name="total_amount"
+                                                                                        id="total_cost" name="total_cost"
                                                                                         placeholder="10,000"
                                                                                         oninput="formatAmount(this)" />
-                                                                                    <div id="total_amountError"
+                                                                                    <div id="total_costError"
                                                                                         class="invalid-feedback">
                                                                                     </div>
                                                                                 </div>
@@ -158,7 +269,7 @@
                                     <td>{{ $loop->iteration + $initialNumber }}</td>
                                     <td>{{ $data->costTypes->name }}</td>
                                     <td>{{ $data->title }}</td>
-                                    <td>{{ 'RP ' . number_format($data->total_amount, 0, ',', '.') }}</td>
+                                    <td>{{ 'RP ' . number_format($data->total_cost, 0, ',', '.') }}</td>
                                     <td>{{ $data->status }}</td>
                                     <td>
                                         <div class="dropdown">
@@ -260,6 +371,285 @@
 
     <script>
         $(document).ready(function() {
+            let myChart;
+            $('#yearSelector').change(function() {
+                fetchChildCostData($(this).val());
+            });
+
+            fetchChildCostData();
+
+            function fetchChildCostData(selectedYear = null) {
+                let url = "{{ route('pengeluaran-panti-chart.index') }}";
+                if (selectedYear) {
+                    url += "?year=" + selectedYear;
+                }
+
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    success: function(data) {
+                        renderChart(data);
+                        const cost = document.getElementById('yearCost');
+                        const percentage = document.getElementById('yearPercentage');
+                        cost.innerHTML = formatCurrency(data.totalCost);
+
+                        // Menambahkan ikon panah dan warna berdasarkan perubahan persentase
+                        const arrowIcon = data.percentage >= 0 ? 'bx-up-arrow-alt' :
+                            'bx-down-arrow-alt';
+                        const textColor = data.percentage >= 0 ? 'text-danger' : 'text-success';
+
+                        percentage.innerHTML = `<i class="bx ${arrowIcon}"></i> ${data.percentage}%`;
+                        percentage.classList.add(textColor);
+                    },
+                    error: function(error) {
+                        console.error('Error:', error);
+                    }
+                });
+            }
+
+
+            function renderChart(data) {
+                const labels = Object.keys(data.data);
+                const values = Object.values(data.data);
+                const year = data.selectedYear;
+                const total = formatCurrency(data.totalCost);
+                const formattedValues = values.map(value => formatCurrency(value));
+
+                const ctx = document.getElementById('myChart').getContext('2d');
+
+                // Destroy existing chart if it exists
+                if (myChart && myChart instanceof Chart) {
+                    myChart.destroy();
+                }
+
+                const additionalConfig = {
+                    options: {
+                        plugins: {
+                            filler: {
+                                propagate: false,
+                            },
+                            title: {
+                                display: true,
+                                text: (ctx) => 'Total Pengeluaran Anak Tahun ' + year + ' : ' + total
+                            }
+                        },
+                        interaction: {
+                            intersect: false,
+                        },
+                        tooltips: {
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                label: function(tooltipItem, data) {
+                                    const datasetLabel = data.datasets[tooltipItem.datasetIndex].label ||
+                                        '';
+                                    const value = formatCurrency(tooltipItem.yLabel);
+                                    return datasetLabel + ': ' + value;
+                                }
+                            }
+                        },
+                        hover: {
+                            mode: 'index',
+                            intersect: false,
+                        },
+                        scales: {
+                            x: {
+                                display: true,
+                                title: {
+                                    display: true,
+                                    text: 'Bulan'
+                                }
+                            },
+                            y: {
+                                display: true,
+                                title: {
+                                    display: true,
+                                    text: 'Value (IDR)'
+                                },
+                                beginAtZero: true,
+                                skipNull: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return formatCurrency(value);
+                                    }
+                                }
+                            }
+                        }
+                    },
+                };
+
+                const mergedConfig = Object.assign({}, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: ' Pengeluaran',
+                            data: values,
+                            borderColor: 'rgb(255, 99, 132)',
+                            borderWidth: 4,
+                            pointBackgroundColor: 'rgb(255, 99, 132)',
+                            pointBorderWidth: 5,
+                            pointRadius: 3,
+                            pointHoverRadius: 5,
+                        }]
+                    },
+                }, additionalConfig);
+
+                myChart = new Chart(ctx, mergedConfig);
+            }
+        });
+
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR'
+            }).format(value);
+        }
+    </script>
+
+    {{-- <script>
+        $(document).ready(function() {
+            let myChart;
+            $('#monthSelector, #yearSelector').change(function() {
+                fetchChildCostData($('#monthSelector').val(), $('#yearSelector').val());
+            });
+
+            fetchChildCostData();
+
+            function fetchChildCostData(selectedMonth = null, selectedYear = null) {
+                let url = "{{ route('pengeluaran-panti-chart.index') }}";
+                if (selectedMonth && selectedYear) {
+                    url += `?month=${selectedMonth}&year=${selectedYear}`;
+                }
+
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    success: function(data) {
+                        renderChart(data);
+                        const cost = document.getElementById('monthCost');
+                        const percentage = document.getElementById('monthPercentage');
+                        cost.innerHTML = formatCurrency(data.totalCost);
+
+                        // Adding arrow icon and color based on percentage change
+                        const arrowIcon = data.percentage >= 0 ? 'bx-up-arrow-alt' :
+                            'bx-down-arrow-alt';
+                        const textColor = data.percentage >= 0 ? 'text-danger' : 'text-success';
+
+                        percentage.innerHTML = `<i class="bx ${arrowIcon}"></i> ${data.percentage}%`;
+                        percentage.classList.add(textColor);
+                    },
+                    error: function(error) {
+                        console.error('Error:', error);
+                    }
+                });
+            }
+
+            function renderChart(data) {
+                const labels = Object.keys(data.data);
+                const values = Object.values(data.data);
+                const month = data.selectedMonth;
+                const year = data.selectedYear;
+                const total = formatCurrency(data.totalCost);
+                const formattedValues = values.map((value) => formatCurrency(value));
+
+                const ctx = document.getElementById('myChart').getContext('2d');
+
+                // Destroy existing chart if it exists
+                if (myChart && myChart instanceof Chart) {
+                    myChart.destroy();
+                }
+
+                const additionalConfig = {
+                    options: {
+                        plugins: {
+                            filler: {
+                                propagate: false,
+                            },
+                            title: {
+                                display: true,
+                                text: (ctx) => 'Total Pengeluaran Anak Bulan ' + month + ' Tahun ' + year +
+                                    ' : ' +
+                                    total
+                            },
+                        },
+                        interaction: {
+                            intersect: false,
+                        },
+                        tooltips: {
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                label: function(tooltipItem, data) {
+                                    const datasetLabel = data.datasets[tooltipItem.datasetIndex]
+                                        .label ||
+                                        '';
+                                    const value = formatCurrency(tooltipItem.yLabel);
+                                    return datasetLabel + ': ' + value;
+                                }
+                            }
+                        },
+                        hover: {
+                            mode: 'index',
+                            intersect: false,
+                        },
+                        scales: {
+                            x: {
+                                display: true,
+                                title: {
+                                    display: true,
+                                    text: 'Tanggal'
+                                }
+                            },
+                            y: {
+                                display: true,
+                                title: {
+                                    display: true,
+                                    text: 'Value (IDR)'
+                                },
+                                beginAtZero: true,
+                                skipNull: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return formatCurrency(value);
+                                    }
+                                }
+                            }
+                        }
+                    },
+                };
+
+                const mergedConfig = Object.assign({}, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: ' Pengeluaran',
+                            data: values,
+                            borderColor: 'rgb(255, 99, 132)',
+                            borderWidth: 4,
+                            pointBackgroundColor: 'rgb(255, 99, 132)',
+                            pointBorderWidth: 5,
+                            pointRadius: 3,
+                            pointHoverRadius: 5,
+                        }]
+                    },
+                }, additionalConfig);
+
+                myChart = new Chart(ctx, mergedConfig);
+            }
+        });
+
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR'
+            }).format(value);
+        }
+    </script> --}}
+
+    <script>
+        $(document).ready(function() {
             // Setup CSRF token for all AJAX requests
             $.ajaxSetup({
                 headers: {
@@ -269,7 +659,7 @@
 
             function clearForm() {
                 $('#title').val('');
-                $('#total_amount').val('');
+                $('#total_cost').val('');
                 $('#cost_type_id').val('');
                 $('.form-control').removeClass('is-invalid');
                 $('.invalid-feedback').text('');

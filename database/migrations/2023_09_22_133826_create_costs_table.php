@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('cost_type_id')->constrained('cost_types')->onDelete('cascade')->onUpdate('cascade');
             $table->string('title');
-            $table->string('total_amount');
+            $table->string('total_cost');
             $table->string('status');
             $table->timestamps();
         });

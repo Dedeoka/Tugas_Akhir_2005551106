@@ -12,10 +12,8 @@ class ChartPengeluaranAnakController extends Controller
 {
     public function index(Request $request)
     {
-        // Ambil tahun dari permintaan HTTP atau gunakan tahun saat ini
         $selectedYear = $request->input('year', Carbon::now()->year);
 
-        // Ambil data dari database berdasarkan tahun yang dipilih
         $childCost = ChildCostDetail::whereYear('created_at', $selectedYear)
             ->get()
             ->groupBy(function ($item) {
@@ -39,6 +37,18 @@ class ChartPengeluaranAnakController extends Controller
             $orderedMonths[$monthName] = $allMonths[$monthName] ?? 0;
         }
 
-        return response()->json(['data' => $orderedMonths, 'selectedYear' => $selectedYear, 'totalCost' => $totalCost]);
+        // Menghitung total pengeluaran untuk tahun lalu
+        $lastYearTotalCost = ChildCostDetail::whereYear('created_at', $selectedYear - 1)
+            ->sum('cost');
+
+        // Menghitung persentase perbandingan dengan tahun lalu
+        $percentageChange = 0;
+        if ($lastYearTotalCost > 0) {
+            $percentageChange = number_format((($totalCost - $lastYearTotalCost) / $lastYearTotalCost) * 100, 2);
+        }
+
+        
+
+        return response()->json(['data' => $orderedMonths, 'selectedYear' => $selectedYear, 'totalCost' => $totalCost, 'percentage' => $percentageChange]);
     }
 }

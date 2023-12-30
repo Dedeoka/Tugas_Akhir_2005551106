@@ -16,6 +16,7 @@ class PengeluaranAnakController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function index(Request $request)
     {
         $keyword = $request->query('q','');
@@ -29,6 +30,7 @@ class PengeluaranAnakController extends Controller
         } else {
             $years = [];
         }
+
         $datas = ChildCost::where('title', 'LIKE', "%{$keyword}%")->paginate(10)->withQueryString();
         $childHealths = ChildHealth::with(['childrens', 'diseases'])->paginate(10)
         ->withQueryString();
@@ -36,7 +38,82 @@ class PengeluaranAnakController extends Controller
         ->withQueryString();
         $childAchievements = ChildAchievement::with(['childrens'])->paginate(10)
         ->withQueryString();
-        return view('admin.keuangan.pengeluaran-anak', compact('datas', 'keyword', 'childHealths', 'childEducations', 'childAchievements', 'years'));
+
+        //total pengeluaran anak bulan ini dan bulan lalu
+        $currentMonthTotalCost = ChildCostDetail::whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->sum('cost');
+        $currentMonthTotalCostFormatted = 'Rp ' . number_format($currentMonthTotalCost, 0, ',', '.');
+        $lastMonthTotalCost = ChildCostDetail::whereMonth('created_at', now()->subMonth()->month)
+            ->whereYear('created_at', now()->subMonth()->year)
+            ->sum('cost');
+        $lastMonthTotalCostFormatted = 'Rp ' . number_format($lastMonthTotalCost, 0, ',', '.');
+        $percentageTotalCost = 0;
+        if ($lastMonthTotalCost > 0) {
+            $percentageTotalCost = number_format((($currentMonthTotalCost - $lastMonthTotalCost) / $lastMonthTotalCost) * 100, 2);
+        }
+
+        //pengeluaran kesehatan bulan ini dan bulan lalu
+        $currentMonthHealthCost = ChildCostDetail::whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->whereHas('childCosts', function ($query) {
+                $query->where('reference_table', 'child_health_table');
+            })
+            ->sum('cost');
+        $currentMonthHealthCostFormatted = 'Rp ' . number_format($currentMonthHealthCost, 0, ',', '.');
+        $lastMonthHealthCost = ChildCostDetail::whereMonth('created_at', now()->subMonth()->month)
+            ->whereYear('created_at', now()->subMonth()->year)
+            ->whereHas('childCosts', function ($query) {
+            $query->where('reference_table', 'child_health_table');
+            })
+            ->sum('cost');
+        $lastMonthHealthCostFormatted = 'Rp ' . number_format($lastMonthHealthCost, 0, ',', '.');
+        $percentageHealthCost = 0;
+        if ($lastMonthHealthCost > 0) {
+            $percentageHealthCost = number_format((($currentMonthHealthCost - $lastMonthHealthCost) / $lastMonthHealthCost) * 100, 2);
+        }
+
+        //pengeluaran Pendidikan bulan ini dan bulan lalu
+        $currentMonthEducationCost = ChildCostDetail::whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->whereHas('childCosts', function ($query) {
+                $query->where('reference_table', 'child_education_table');
+            })
+            ->sum('cost');
+        $currentMonthEducationCostFormatted = 'Rp ' . number_format($currentMonthEducationCost, 0, ',', '.');
+        $lastMonthEducationCost = ChildCostDetail::whereMonth('created_at', now()->subMonth()->month)
+            ->whereYear('created_at', now()->subMonth()->year)
+            ->whereHas('childCosts', function ($query) {
+            $query->where('reference_table', 'child_education_table');
+            })
+            ->sum('cost');
+        $lastMonthEducationCostFormatted = 'Rp ' . number_format($lastMonthEducationCost, 0, ',', '.');
+        $percentageEducationCost = 0;
+        if ($lastMonthEducationCost > 0) {
+            $percentageEducationCost = number_format((($currentMonthEducationCost - $lastMonthEducationCost) / $lastMonthEducationCost) * 100, 2);
+        }
+
+        //pengeluaran Prestasi bulan ini dan bulan lalu
+        $currentMonthAchievementCost = ChildCostDetail::whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->whereHas('childCosts', function ($query) {
+                $query->where('reference_table', 'child_achievement_table');
+            })
+            ->sum('cost');
+        $currentMonthAchievementCostFormatted = 'Rp ' . number_format($currentMonthAchievementCost, 0, ',', '.');
+        $lastMonthAchievementCost = ChildCostDetail::whereMonth('created_at', now()->subMonth()->month)
+            ->whereYear('created_at', now()->subMonth()->year)
+            ->whereHas('childCosts', function ($query) {
+            $query->where('reference_table', 'child_achievement_table');
+            })
+            ->sum('cost');
+        $lastMonthAchievementCostFormatted = 'Rp ' . number_format($lastMonthAchievementCost, 0, ',', '.');
+        $percentageAchievementCost = 0;
+        if ($lastMonthAchievementCost > 0) {
+            $percentageAchievementCost = number_format((($currentMonthAchievementCost - $lastMonthAchievementCost) / $lastMonthAchievementCost) * 100, 2);
+        }
+
+        return view('admin.keuangan.pengeluaran-anak', compact('datas', 'keyword', 'childHealths', 'childEducations', 'childAchievements', 'years', 'currentMonthTotalCostFormatted', 'currentMonthHealthCostFormatted', 'currentMonthEducationCostFormatted','currentMonthAchievementCostFormatted', 'percentageTotalCost', 'percentageHealthCost', 'percentageEducationCost', 'percentageAchievementCost'));
     }
 
     /**

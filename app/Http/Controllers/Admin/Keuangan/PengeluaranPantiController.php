@@ -7,6 +7,7 @@ use App\Models\Cost;
 use App\Models\CostType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class PengeluaranPantiController extends Controller
 {
@@ -18,7 +19,44 @@ class PengeluaranPantiController extends Controller
         $keyword = $request->query('q','');
         $datas = Cost::with(['costTypes'])->where('title', 'LIKE', "%{$keyword}%")->paginate(10)->withQueryString();
         $costTypes = CostType::all();
-        return view('admin.keuangan.pengeluaran-panti', compact('datas', 'keyword', 'costTypes'));
+        $cost = Cost::get();
+        if ($cost->isNotEmpty()) {
+            $years = range(
+                $cost->min('created_at')->year,
+                now()->year
+            );
+            arsort($years);
+        } else {
+            $years = [];
+        }
+
+        //total pengeluaran anak bulan ini dan bulan lalu
+        $currentMonthTotalCost = Cost::whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->sum('total_cost');
+        $currentMonthTotalCostFormatted = 'Rp ' . number_format($currentMonthTotalCost, 0, ',', '.');
+        $lastMonthTotalCost = Cost::whereMonth('created_at', now()->subMonth()->month)
+            ->whereYear('created_at', now()->subMonth()->year)
+            ->sum('total_cost');
+        $lastMonthTotalCostFormatted = 'Rp ' . number_format($lastMonthTotalCost, 0, ',', '.');
+        $percentageTotalCost = 0;
+        if ($lastMonthTotalCost > 0) {
+            $percentageTotalCost = number_format((($currentMonthTotalCost - $lastMonthTotalCost) / $lastMonthTotalCost) * 100, 2);
+        }
+
+        $highestTotalCostByType = Cost::select('cost_type_id', \DB::raw('SUM(total_cost) as total_cost'))
+            ->groupBy('cost_type_id')
+            ->orderByDesc('total_cost')
+            ->first();
+
+        $highestTotalCostByTypeFormat = 'Rp ' . number_format($highestTotalCostByType->total_cost, 0, ',', '.');
+
+        // Get the cost type name for the highest total cost
+        $highestCostTypeName = $highestTotalCostByType
+            ? CostType::find($highestTotalCostByType->cost_type_id)->name
+            : 'Unknown';
+
+        return view('admin.keuangan.pengeluaran-panti', compact('datas', 'keyword', 'costTypes', 'years', 'currentMonthTotalCostFormatted', 'percentageTotalCost', 'highestTotalCostByTypeFormat', 'highestCostTypeName'));
     }
 
     /**
@@ -37,11 +75,11 @@ class PengeluaranPantiController extends Controller
         $validasi = Validator::make($request->all(), [
             'cost_type_id' => 'required',
             'title' => 'required',
-            'total_amount' => 'required',
+            'total_cost' => 'required',
         ], [
             'cost_type_id.required' => 'Nama anak asuh wajib diisi',
             'title.required' => 'Tempat lahir anak asuh wajib diisi',
-            'total_amount.required' => 'Tanggal lahir anak asuh wajib diisi',
+            'total_cost.required' => 'Tanggal lahir anak asuh wajib diisi',
         ]);
 
         if ($validasi->fails()) {
@@ -50,7 +88,7 @@ class PengeluaranPantiController extends Controller
             $data = [
                 'cost_type_id' => $request->cost_type_id,
                 'title' => $request->title,
-                'total_amount' => str_replace(',', '', $request->total_amount),
+                'total_cost' => str_replace(',', '', $request->total_cost),
                 'status' => 'Lunas',
             ];
 

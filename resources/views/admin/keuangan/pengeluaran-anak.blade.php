@@ -14,14 +14,17 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-2 pb-1">
                             <div class="avatar me-2">
-                                <span class="avatar-initial rounded bg-label-primary"><i class='bx bx-child fs-2'></i></span>
+                                <span class="avatar-initial rounded bg-label-warning"><i class='bx bx-child fs-1'></i></span>
                             </div>
-                            <h4 class="ms-1 mb-0">42</h4>
+                            <h4 class="ms-1 mb-0">{{ $currentMonthTotalCostFormatted }}</h4>
                         </div>
-                        <p class="mb-1">Pengeluaran Anak</p>
+                        <p class="mb-1">Total Pengeluaran Anak Bulan Ini</p>
                         <p class="mb-0">
-                            <span class="fw-medium me-1">+18.2%</span>
-                            <small class="text-muted">than last week</small>
+                            <span class="text-{{ $percentageTotalCost >= 0 ? 'danger' : 'success' }} fw-medium">
+                                <i class="bx {{ $percentageTotalCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
+                                {{ $percentageTotalCost }}%
+                            </span>
+                            <small class="text-muted">Dari Bulan Lalu</small>
                         </p>
                     </div>
                 </div>
@@ -31,15 +34,19 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-2 pb-1">
                             <div class="avatar me-2">
-                                <span class="avatar-initial rounded bg-label-warning"><i
-                                        class='bx bx-building-house fs-3'></i></span>
+                                <span class="avatar-initial rounded bg-label-success"><i
+                                        class='bx bxs-heart fs-3'></i></span>
                             </div>
-                            <h4 class="ms-1 mb-0">8</h4>
+                            <h4 class="ms-1 mb-0">{{ $currentMonthHealthCostFormatted }}</h4>
                         </div>
-                        <p class="mb-1">Pengeluaran Panti</p>
+                        <p class="mb-1">Pengeluaran Kesehatan Bulan Ini</p>
                         <p class="mb-0">
-                            <span class="fw-medium me-1">-8.7%</span>
-                            <small class="text-muted">than last week</small>
+                            <span class="text-{{ $percentageHealthCost >= 0 ? 'danger' : 'success' }} fw-medium">
+                                <i
+                                    class="bx {{ $percentageHealthCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
+                                {{ $percentageHealthCost }}%
+                            </span>
+                            <small class="text-muted">Dari Bulan Lalu</small>
                         </p>
                     </div>
                 </div>
@@ -50,14 +57,18 @@
                         <div class="d-flex align-items-center mb-2 pb-1">
                             <div class="avatar me-2">
                                 <span class="avatar-initial rounded bg-label-danger"><i
-                                        class='bx bx-git-repo-forked'></i></span>
+                                        class='bx bxs-school fs-3'></i></span>
                             </div>
-                            <h4 class="ms-1 mb-0">27</h4>
+                            <h4 class="ms-1 mb-0">{{ $currentMonthEducationCostFormatted }}</h4>
                         </div>
-                        <p class="mb-1">Pengeluaran </p>
+                        <p class="mb-1">Pengeluaran Pendidikan Bulan Ini </p>
                         <p class="mb-0">
-                            <span class="fw-medium me-1">+4.3%</span>
-                            <small class="text-muted">than last week</small>
+                            <span class="text-{{ $percentageEducationCost >= 0 ? 'danger' : 'success' }} fw-medium">
+                                <i
+                                    class="bx {{ $percentageEducationCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
+                                {{ $percentageEducationCost }}%
+                            </span>
+                            <small class="text-muted">Dari Bulan Lalu</small>
                         </p>
                     </div>
                 </div>
@@ -67,16 +78,19 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-2 pb-1">
                             <div class="avatar me-2">
-                                <span class="avatar-initial rounded bg-label-info"><img
-                                        src="{{ asset('assets/img/icons/unicons/cc-primary.png') }}" alt="Credit Card"
-                                        class="rounded" /></span>
+                                <span class="avatar-initial rounded bg-label-primary"><i
+                                        class='bx bx-medal fs-3'></i></span>
                             </div>
-                            <h4 class="ms-1 mb-0">13</h4>
+                            <h4 class="ms-1 mb-0">{{ $currentMonthAchievementCostFormatted }}</h4>
                         </div>
                         <p class="mb-1">Pengeluaran Total Bulan Ini</p>
                         <p class="mb-0">
-                            <span class="fw-medium me-1">-2.5%</span>
-                            <small class="text-muted">than last month</small>
+                            <span class="text-{{ $percentageAchievementCost >= 0 ? 'danger' : 'success' }} fw-medium">
+                                <i
+                                    class="bx {{ $percentageAchievementCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
+                                {{ $percentageAchievementCost }}%
+                            </span>
+                            <small class="text-muted">Dari Bulan Lalu</small>
                         </p>
                     </div>
                 </div>
@@ -87,24 +101,26 @@
                 <div class="card-header d-flex justify-content-between">
                     <div>
                         <h5 class="card-title mb-0">Pengeluaran Anak</h5>
-                        <small class="text-muted">Pengeluaran Anak</small>
+                        <small class="text-muted">Statistik Pengeluaran Anak</small>
                     </div>
                     <div class="d-sm-flex d-none align-items-center">
-                        <h5 class="mb-0 me-3">$ 100,000</h5>
+                        <h5 class="me-2 mt-3">Year</h5>
+                        <h5 class="me-1 mt-3">Month</h5>
+                        <select class="form-select me-4 border-0" id="yearSelector" name="year"
+                            aria-label="Default select example">
+                            @foreach ($years as $year)
+                                <option value="{{ $year }}">
+                                    {{ $year }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <h5 class="mb-0 me-2" id="yearCost"></h5>
                         <span class="badge bg-label-secondary">
-                            <i class='bx bx-down-arrow-alt bx-xs text-danger'></i>
-                            <span class="align-middle">20%</span>
+                            <span class="align-middle" id="yearPercentage"></span>
                         </span>
                     </div>
                 </div>
                 <div class="card-body">
-                    <select class="form-select" id="yearSelector" name="year" aria-label="Default select example">
-                        @foreach ($years as $year)
-                            <option value="{{ $year }}">
-                                {{ $year }}
-                            </option>
-                        @endforeach
-                    </select>
                     <canvas id="myChart" class="chartjs mx-auto"></canvas>
                 </div>
             </div>
@@ -924,12 +940,24 @@
                     method: 'GET',
                     success: function(data) {
                         renderChart(data);
+                        const cost = document.getElementById('yearCost');
+                        const percentage = document.getElementById('yearPercentage');
+                        cost.innerHTML = formatCurrency(data.totalCost);
+
+                        // Menambahkan ikon panah dan warna berdasarkan perubahan persentase
+                        const arrowIcon = data.percentage >= 0 ? 'bx-up-arrow-alt' :
+                            'bx-down-arrow-alt';
+                        const textColor = data.percentage >= 0 ? 'text-danger' : 'text-success';
+
+                        percentage.innerHTML = `<i class="bx ${arrowIcon}"></i> ${data.percentage}%`;
+                        percentage.classList.add(textColor);
                     },
                     error: function(error) {
                         console.error('Error:', error);
                     }
                 });
             }
+
 
             function renderChart(data) {
                 const labels = Object.keys(data.data);
@@ -980,7 +1008,7 @@
                                 display: true,
                                 title: {
                                     display: true,
-                                    text: 'Label'
+                                    text: 'Bulan'
                                 }
                             },
                             y: {

@@ -1,4 +1,4 @@
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exLargeModal">
+{{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exLargeModal">
     Extra Large
 </button>
 <div class="modal fade" id="exLargeModal" tabindex="-1" aria-hidden="true">
@@ -119,4 +119,274 @@
     <div class="offcanvas-body my-auto mx-0 flex-grow-0">
 
     </div>
-</div>
+</div> --}}
+
+
+{{-- component --}}
+
+{{-- <div class="col-lg-3 col-md-6">
+    <div class="mt-3 mb-3">
+        <div class="btn-group">
+            <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class='bx bx-export m-1'></i>
+                Export</button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="javascript:void(0);">Action</a></li>
+                <li><a class="dropdown-item" href="javascript:void(0);">Another action</a></li>
+                <li><a class="dropdown-item" href="javascript:void(0);">Something else here</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="javascript:void(0);">Separated link</a></li>
+            </ul>
+        </div>
+    </div>
+</div> --}}
+
+
+{{-- <th class="col-md-2 text-center fw-bold">Akta Kelahiran</th>
+<th class="col-md-2 text-center fw-bold">Kartu Keluarga</th>
+<th class="col-md-2 text-center fw-bold">Kartu Pengenal</th> --}}
+
+
+{{-- <td>
+    <ul class="list-unstyled users-list m-0 avatar-group align-items-center">
+        <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
+            class="avatar avatar-xl pull-up" title="Akta Kelahiran {{ $data->name }}">
+            <img src="{{ asset('storage/' . $data->birth_certificate) }}" alt="" data-bs-toggle="modal"
+                data-bs-target="#modalCenterAkta_{{ $loop->index }}">
+        </li>
+        <div class="modal fade" id="modalCenterAkta_{{ $loop->index }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalCenterTitle">Akta Kelahiran
+                            {{ $data->name }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <img src="{{ asset('storage/' . $data->birth_certificate) }}" alt=""
+                                width="700px" height="450px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ul>
+</td> --}}
+{{-- <td>
+    <ul class="list-unstyled users-list m-0 avatar-group align-items-center">
+        <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
+            class="avatar avatar-xl pull-up" title="Kartu Keluarga {{ $data->name }}">
+            <img src="{{ asset('storage/' . $data->family_card) }}" alt="" data-bs-toggle="modal"
+                data-bs-target="#modalCenterKk_{{ $loop->index }}">
+        </li>
+        <div class="modal fade" id="modalCenterKk_{{ $loop->index }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalCenterTitle">Kartu Keluarga
+                            {{ $data->name }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <img src="{{ asset('storage/' . $data->family_card) }}" alt="" width="700px"
+                                height="450px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ul>
+</td>
+<td>
+    <ul class="list-unstyled users-list m-0 avatar-group align-items-center">
+        <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
+            class="avatar avatar-xl pull-up" title="Tanda Pengenal {{ $data->name }}">
+            <img src="{{ asset('storage/' . $data->ktp) }}" alt="" data-bs-toggle="modal"
+                data-bs-target="#modalCenterKtp_{{ $loop->index }}">
+        </li>
+        <div class="modal fade" id="modalCenterKtp_{{ $loop->index }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalCenterTitle">Tanda Pengenal
+                            {{ $data->name }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <img src="{{ asset('storage/' . $data->ktp) }}" alt="" width="700px"
+                                height="450px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ul>
+</td> --}}
+
+{{-- <div class="modal fade" id="editModal{{ $data->id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel1">Edit Data Anak Asuh</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('data-anak.update', $data->id) }}" data-id="{{ $data->id }}"
+                        method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PATCH')
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label for="editName{{ $data->id }}" class="form-label">Nama
+                                                Anak</label>
+                                            <input type="text" class="form-control"
+                                                id="editName{{ $data->id }}" name="name"
+                                                value="{{ $data->name }}" placeholder="Nama Anak..." />
+                                            <div id="editNameError{{ $data->id }}" class="invalid-feedback">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editPlace_of_birth{{ $data->id }}"
+                                                class="form-label">Tempat
+                                                Lahir</label>
+                                            <input type="text" class="form-control"
+                                                id="editPlace_of_birth{{ $data->id }}" name="place_of_birth"
+                                                value="{{ $data->place_of_birth }}"
+                                                placeholder="Tempat Lahir..." />
+                                            <div id="editPlaceOfBirthError{{ $data->id }}"
+                                                class="invalid-feedback">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editDate_of_birth{{ $data->id }}"
+                                                class="form-label">Tanggal
+                                                Lahir</label>
+                                            <input class="form-control" type="date"
+                                                id="editDate_of_birth{{ $data->id }}" name="date_of_birth"
+                                                value="{{ $data->date_of_birth }}" />
+                                            <div id="editDateOfBirthError{{ $data->id }}"
+                                                class="invalid-feedback">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editGender{{ $data->id }}" class="form-label">Jenis
+                                                Kelamin</label>
+                                            <select class="form-select" id="editGender{{ $data->id }}"
+                                                name="gender" aria-label="Default select example">
+                                                <option value="" hidden>Pilih Jenis Kelamin</option>
+                                                <option value="Laki-Laki"
+                                                    {{ $data->gender == 'Laki-Laki' ? 'selected' : '' }}>Laki-Laki
+                                                </option>
+                                                <option value="Perempuan"
+                                                    {{ $data->gender == 'Perempuan' ? 'selected' : '' }}>Perempuan
+                                                </option>
+                                            </select>
+                                            <div id="editGenderError{{ $data->id }}"
+                                                class="invalid-feedback">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editReligion{{ $data->id }}"
+                                                class="form-label">Agama</label>
+                                            <select class="form-select" id="editReligion{{ $data->id }}"
+                                                name="religion" aria-label="Default select example">
+                                                <option value="" hidden>Pilih Agama</option>
+                                                <option value="Islam"
+                                                    {{ $data->religion == 'Islam' ? 'selected' : '' }}>
+                                                    Islam
+                                                </option>
+                                                <option value="Hindu"
+                                                    {{ $data->religion == 'Hindu' ? 'selected' : '' }}>
+                                                    Hindu
+                                                </option>
+                                                <option value="Kristen Protestan"
+                                                    {{ $data->religion == 'Kristen Protestan' ? 'selected' : '' }}>
+                                                    Kristen Protestan</option>
+                                                <option value="Kristen Katolik"
+                                                    {{ $data->religion == 'Kristen Katolik' ? 'selected' : '' }}>
+                                                    Kristen Katolik</option>
+                                                <option value="Budha"
+                                                    {{ $data->religion == 'Budha' ? 'selected' : '' }}>
+                                                    Budha
+                                                </option>
+                                                <option value="Konghucu"
+                                                    {{ $data->religion == 'Konghucu' ? 'selected' : '' }}>Konghucu
+                                                </option>
+                                            </select>
+                                            <div id="editReligionError{{ $data->id }}"
+                                                class="invalid-feedback">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editStatus{{ $data->id }}"
+                                                class="form-label">Status</label>
+                                            <select class="form-select" id="editStatus{{ $data->id }}"
+                                                name="status" aria-label="Default select example">
+                                                <option value="" hidden>Status Anak Asuh</option>
+                                                <option value="Aktif"
+                                                    {{ $data->status == 'Aktif' ? 'selected' : '' }}>
+                                                    Aktif</option>
+                                                <option value="Non-Aktif"
+                                                    {{ $data->status == 'Non-Aktif' ? 'selected' : '' }}>Non-Aktif
+                                                </option>
+                                            </select>
+                                            <div id="editStatusError{{ $data->id }}"
+                                                class="invalid-feedback">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editBirth_certificate{{ $data->id }}"
+                                                class="form-label">Akta
+                                                Kelahiran</label>
+                                            <input class="form-control" type="file"
+                                                id="editBirth_certificate{{ $data->id }}"
+                                                name="birth_certificate" />
+                                            <div id="editBirthCertificateError{{ $data->id }}"
+                                                class="invalid-feedback"></div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editFamily_card{{ $data->id }}"
+                                                class="form-label">Kartu
+                                                Keluarga</label>
+                                            <input class="form-control" type="file"
+                                                id="editFamily_card{{ $data->id }}" name="family_card" />
+                                            <div id="editFamilyCardError{{ $data->id }}"
+                                                class="invalid-feedback">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editKtp{{ $data->id }}" class="form-label">Kartu
+                                                Tanda
+                                                Pengenal (KTP
+                                                atau Tanda Pengenal Lainnya)</label>
+                                            <input class="form-control" type="file"
+                                                id="editKtp{{ $data->id }}" name="ktp" />
+                                            <div id="editKtpError{{ $data->id }}" class="invalid-feedback">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary"
+                                data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary updateSubmit"
+                                data-id="{{ $data->id }}">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div> --}}
