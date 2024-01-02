@@ -3,7 +3,6 @@
 <script>
     $(document).ready(function() {
         function nextProfile(dataId) {
-            console.log('test');
             const nextNav = document.getElementById('navs-justified-profile' + dataId);
             const nextTab = document.getElementById('tab-justified-profile' + dataId);
             const thisNav = document.getElementById('navs-justified-home' + dataId);
@@ -51,7 +50,6 @@
             prevTab.classList.add('active');
         }
 
-        // Panggil fungsi nextProfile() pada klik tombol
         $('.btnNextProfile').on('click', function() {
             var dataId = $(this).data('id');
             nextProfile(dataId);
@@ -121,7 +119,6 @@
             prevTab.classList.add('active');
         }
 
-        // Panggil fungsi nextProfile() pada klik tombol
         $('#btnNextProfile').on('click', function() {
             nextProfile();
         });
@@ -362,25 +359,19 @@
         }
 
         function update(id) {
-            // Inisialisasi FormData
             var formData = new FormData($('#editDataAnakForm' + id)[0]);
 
-            // Tambahkan metode HTTP ke FormData
             formData.append('_method', 'patch');
 
-            // URL untuk permintaan Ajax
             var url = "{{ url('anak-asuh/data-anak') }}" + '/' + id;
             console.log('URL:', url);
 
-            // Tampilkan data FormData pada konsol
             for (var pair of formData.entries()) {
                 console.log(pair[0] + ', ' + pair[1]);
             }
-
-            // Lakukan permintaan Ajax
             $.ajax({
                 url: url,
-                type: 'PUT', // Tetap gunakan POST karena metode Laravel yang digunakan adalah "method spoofing"
+                type: 'POST',
                 data: formData,
                 cache: false,
                 contentType: false,
@@ -392,13 +383,11 @@
                             'Terdapat kesalahan pada inputan. Silahkan cek kembali semua form.');
                         console.log('Error Response:', response);
                     } else {
-                        // Handle success
                         showSuccessMessage(response.success);
                         $('#editModal' + id).modal('hide');
                     }
                 },
                 error: function(xhr, status, error) {
-                    // Handle other types of errors (e.g., server errors)
                     console.error('XHR Response:', xhr.responseText);
                     showErrorMessage("An error occurred while updating data.");
                 }
@@ -407,7 +396,6 @@
 
 
         function handleUpdateErrors(errors, id) {
-            // Clear previous errors
             clearUpdateErrors(id);
             if (errors.name) {
                 $('#name' + id).addClass('is-invalid');
@@ -491,7 +479,6 @@
             $('.form-control').removeClass('is-invalid');
             $('.invalid-feedback').text('');
 
-            // Clear error messages
             $('#editNameError' + id).text('');
             $('#editPlaceOfBirthError' + id).text('');
             $('#editDateOfBirthError' + id).text('');
@@ -538,20 +525,18 @@
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Ya, Hapus!',
                 cancelButtonText: 'Batal',
-                allowOutsideClick: false, // Menonaktifkan interaksi dengan elemen di luar popup
-                allowEscapeKey: false, // Menonaktifkan tombol escape
-                backdrop: 'rgba(0,0,0,0.5)', // Menonaktifkan klik di belakang popup
-                clickToClose: false, // Tidak mengizinkan pengguna menutup dengan mengklik
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                backdrop: 'rgba(0,0,0,0.5)',
+                clickToClose: false,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Kirim permintaan Ajax untuk menghapus data
                     deleteData(dataId);
                 }
             });
         }
 
         function deleteData(dataId) {
-            // Kirim permintaan Ajax ke server
             fetch(`/anak-asuh/data-anak/${dataId}`, {
                     method: 'DELETE',
                     headers: {

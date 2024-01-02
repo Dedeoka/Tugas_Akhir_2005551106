@@ -939,5 +939,5 @@
 @endsection
 
 @section('scripts')
-    @include('admin.anak-asuh.js.data-anak');
+    @include('admin.anak-asuh.js.data-anak-asuh');
 @endsection

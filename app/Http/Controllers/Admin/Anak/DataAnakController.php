@@ -189,7 +189,7 @@ class DataAnakController extends Controller
             'guardian_phone_number' => 'required|regex:/^[0-9]+$/|min:10|max:15',
             'guardian_email' => 'required|email',
             'guardian_identity_card' => 'file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'birth_certificate' => 'file|mimes:pdf,jpg,jpeg,png|max:2048', // maksimal 2MB
+            'birth_certificate' => 'file|mimes:pdf,jpg,jpeg,png|max:2048',
             'family_card' => 'file|mimes:pdf,jpg,jpeg,png|max:2048',
         ], [
             'name.required' => 'Nama anak asuh wajib diisi',
@@ -230,19 +230,16 @@ class DataAnakController extends Controller
             'family_card.max' => 'Ukuran berkas kartu keluarga tidak boleh lebih dari 2MB',
         ]);
 
-        // Cek jika validasi gagal
         if ($validasi->fails()) {
             return response()->json(['errors' => $validasi->errors()]);
         }
 
         $data = Children::find($id);
 
-        // Cek jika data anak tidak ditemukan
         if (!$data) {
             return response()->json(['errors' => ['Anak tidak ditemukan']]);
         }
 
-        // Update data anak
         $data->name = $request->name;
         $data->place_of_birth = $request->place_of_birth;
         $data->date_of_birth = $request->date_of_birth;

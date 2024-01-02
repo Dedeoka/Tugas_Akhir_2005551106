@@ -49,9 +49,16 @@ class PendidikanAnakController extends Controller
             'school_id' => 'required',
             'education_level' => 'required',
             'class' => 'required',
+            'class_name' => 'required',
             'start_date' => 'required|date',
-            'end_date' => 'required|date',
-            'status' => 'required',
+            'end_date' => 'nullable|date',
+            'status' => [
+                'required',
+                Rule::unique('child_education')->where(function ($query) use ($request) {
+                        return $query->where('children_id', $request->children_id)
+                        ->where('status', 'aktif');
+                }),
+            ],
 
             'guardian_name' => 'required',
             'guardian_address' => 'required',
@@ -60,12 +67,12 @@ class PendidikanAnakController extends Controller
             'children_id.required' => 'Data wajib diisi',
             'school_id.required' => 'Nama sekolah wajib diisi',
             'education_level.required' => 'Nama jenjang wajib diisi',
-            'class.required' => 'Nama kelas wajib diisi',
+            'class.required' => 'Kelas wajib diisi',
+            'class_name.required' => 'Nama kelas wajib diisi',
             'start_date.required' => 'Tanggal masuk wajib diisi',
             'start_date.date' => 'Format tanggal tidak valid',
-            'end_date.required' => 'Tanggal berakhir wajib diisi',
-            'end_date.date' => 'Format tanggal tidak valid',
-            'status' => 'Deskripsi wajib diisi',
+            'status.required' => 'Status wajib diisi',
+            'status.unique' => 'Anak ini sudah memiliki data pendidikan dengan status aktif',
 
             'guardian_name.required' => 'Nama wali kelas wajib diisi',
             'guardian_address.required' => 'Alamat wali kelas wajib diisi',
@@ -75,7 +82,6 @@ class PendidikanAnakController extends Controller
         if ($validasi->fails()) {
             return response()->json(['errors' => $validasi->errors()], 400);
         } else {
-
             $data = [
                 'children_id' => $request->children_id,
                 'school_id' => $request->school_id,
@@ -97,7 +103,7 @@ class PendidikanAnakController extends Controller
             ];
 
             ChildEducationDetail::create($detailData);
-
+            dd(response());
             return response()->json(['success' => "Berhasil menyimpan data"]);
         }
     }

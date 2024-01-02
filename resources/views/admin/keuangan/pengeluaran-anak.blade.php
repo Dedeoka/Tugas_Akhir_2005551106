@@ -83,7 +83,7 @@
                             </div>
                             <h4 class="ms-1 mb-0">{{ $currentMonthAchievementCostFormatted }}</h4>
                         </div>
-                        <p class="mb-1">Pengeluaran Total Bulan Ini</p>
+                        <p class="mb-1">Pengeluaran Prestasi\ Bulan Ini</p>
                         <p class="mb-0">
                             <span class="text-{{ $percentageAchievementCost >= 0 ? 'danger' : 'success' }} fw-medium">
                                 <i
@@ -104,7 +104,7 @@
                         <small class="text-muted">Statistik Pengeluaran Anak</small>
                     </div>
                     <div class="d-sm-flex d-none align-items-center">
-                        <h5 class="me-2 mt-3">Year</h5>
+                        <h5 class="me-2 mt-3 selected">Year</h5>
                         <h5 class="me-1 mt-3">Month</h5>
                         <select class="form-select me-4 border-0" id="yearSelector" name="year"
                             aria-label="Default select example">
@@ -930,7 +930,7 @@
             fetchChildCostData();
 
             function fetchChildCostData(selectedYear = null) {
-                let url = "{{ route('pengeluaran-anak-chart.index') }}";
+                let url = "{{ route('pengeluaran-anak-chart.chartTahunan') }}";
                 if (selectedYear) {
                     url += "?year=" + selectedYear;
                 }

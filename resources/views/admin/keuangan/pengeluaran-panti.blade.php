@@ -99,8 +99,47 @@
                         <small class="text-muted">Statistik Pengeluaran Anak</small>
                     </div>
                     <div class="d-sm-flex d-none align-items-center">
-                        <h5 class="me-2 mt-3">Year</h5>
-                        <h5 class="me-3 mt-3">Month</h5>
+                        <h5 class="me-2 mt-3 cursor-pointer" id="yearChart">Year</h5>
+                        <h5 class="me-3 mt-3 cursor-pointer" id="monthChart">Month</h5>
+                        <select class="form-select me-2 border-0" id="monthSelector" name="month"
+                            aria-label="Default select example">
+                            <option value="01">
+                                Januari
+                            </option>
+                            <option value="02">
+                                Februari
+                            </option>
+                            <option value="03">
+                                Maret
+                            </option>
+                            <option value="04">
+                                April
+                            </option>
+                            <option value="05">
+                                Mei
+                            </option>
+                            <option value="06">
+                                Juni
+                            </option>
+                            <option value="07">
+                                Juli
+                            </option>
+                            <option value="08">
+                                Agustus
+                            </option>
+                            <option value="09">
+                                September
+                            </option>
+                            <option value="10">
+                                Oktober
+                            </option>
+                            <option value="11">
+                                November
+                            </option>
+                            <option value="12">
+                                Desember
+                            </option>
+                        </select>
                         <select class="form-select me-4 border-0" id="yearSelector" name="year"
                             aria-label="Default select example">
                             @foreach ($years as $year)
@@ -109,9 +148,9 @@
                                 </option>
                             @endforeach
                         </select>
-                        <h5 class="mb-0 me-2" id="yearCost"></h5>
+                        <h5 class="mb-0 me-2" id="beforeCost"></h5>
                         <span class="badge bg-label-secondary">
-                            <span class="align-middle" id="yearPercentage"></span>
+                            <span class="align-middle" id="beforePercentage"></span>
                         </span>
                     </div>
                 </div>
@@ -369,7 +408,7 @@
         }
     </script>
 
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             let myChart;
             $('#yearSelector').change(function() {
@@ -379,7 +418,7 @@
             fetchChildCostData();
 
             function fetchChildCostData(selectedYear = null) {
-                let url = "{{ route('pengeluaran-panti-chart.index') }}";
+                let url = "{{ route('pengeluaran-panti-chart.chartTahunan') }}";
                 if (selectedYear) {
                     url += "?year=" + selectedYear;
                 }
@@ -505,9 +544,9 @@
                 currency: 'IDR'
             }).format(value);
         }
-    </script>
+    </script> --}}
 
-    {{-- <script>
+    <script>
         $(document).ready(function() {
             let myChart;
             $('#monthSelector, #yearSelector').change(function() {
@@ -517,7 +556,7 @@
             fetchChildCostData();
 
             function fetchChildCostData(selectedMonth = null, selectedYear = null) {
-                let url = "{{ route('pengeluaran-panti-chart.index') }}";
+                let url = "{{ route('pengeluaran-panti-chart.chartBulanan') }}";
                 if (selectedMonth && selectedYear) {
                     url += `?month=${selectedMonth}&year=${selectedYear}`;
                 }
@@ -526,9 +565,10 @@
                     url: url,
                     method: 'GET',
                     success: function(data) {
+                        console.log(data);
                         renderChart(data);
-                        const cost = document.getElementById('monthCost');
-                        const percentage = document.getElementById('monthPercentage');
+                        const cost = document.getElementById('beforeCost');
+                        const percentage = document.getElementById('beforePercentage');
                         cost.innerHTML = formatCurrency(data.totalCost);
 
                         // Adding arrow icon and color based on percentage change
@@ -546,12 +586,12 @@
             }
 
             function renderChart(data) {
-                const labels = Object.keys(data.data);
-                const values = Object.values(data.data);
+                const labels = data.labels.map(day => `${day}`);
+                const values = data.values;
                 const month = data.selectedMonth;
                 const year = data.selectedYear;
                 const total = formatCurrency(data.totalCost);
-                const formattedValues = values.map((value) => formatCurrency(value));
+                const percentage = data.percentage;
 
                 const ctx = document.getElementById('myChart').getContext('2d');
 
@@ -580,13 +620,9 @@
                             mode: 'index',
                             intersect: false,
                             callbacks: {
-                                label: function(tooltipItem, data) {
-                                    const datasetLabel = data.datasets[tooltipItem.datasetIndex]
-                                        .label ||
-                                        '';
-                                    const value = formatCurrency(tooltipItem.yLabel);
-                                    return datasetLabel + ': ' + value;
-                                }
+                                title: (tooltipItem) => `${tooltipItem[0].label}`,
+                                label: (tooltipItem) =>
+                                    `Total Pengeluaran: ${formatCurrency(tooltipItem.raw)}`,
                             }
                         },
                         hover: {
@@ -646,7 +682,7 @@
                 currency: 'IDR'
             }).format(value);
         }
-    </script> --}}
+    </script>
 
     <script>
         $(document).ready(function() {

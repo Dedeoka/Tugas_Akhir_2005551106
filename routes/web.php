@@ -56,8 +56,9 @@ Route::prefix('keuangan')->group(function () {
     Route::resource('pengeluaran-anak', PengeluaranAnakController::class);
     Route::resource('pengeluaran-panti', PengeluaranPantiController::class);
     Route::get('pengeluaran-total', [PengeluaranTotalController::class, 'index'])->name('pengeluaran-total.index');
-    Route::get('pengeluaran-anak-chart', [ChartPengeluaranAnakController::class, 'index'])->name('pengeluaran-anak-chart.index');
-    Route::get('pengeluaran-panti-chart', [ChartPengeluaranPantiController::class, 'index'])->name('pengeluaran-panti-chart.index');
+    Route::get('pengeluaran-anak-chart-tahunan', [ChartPengeluaranAnakController::class, 'chartTahunan'])->name('pengeluaran-anak-chart.chartTahunan');
+    Route::get('pengeluaran-panti-chart-tahunan', [ChartPengeluaranPantiController::class, 'chartTahunan'])->name('pengeluaran-panti-chart.chartTahunan');
+    Route::get('pengeluaran-panti-chart-bulanan', [ChartPengeluaranPantiController::class, 'chartBulanan'])->name('pengeluaran-panti-chart.chartBulanan');
 });
 
 

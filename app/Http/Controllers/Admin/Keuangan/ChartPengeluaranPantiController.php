@@ -9,7 +9,7 @@ use App\Models\Cost;
 
 class ChartPengeluaranPantiController extends Controller
 {
-    public function index(Request $request)
+    public function chartTahunan(Request $request)
     {
         $selectedYear = $request->input('year', Carbon::now()->year);
 
@@ -46,49 +46,47 @@ class ChartPengeluaranPantiController extends Controller
         return response()->json(['data' => $orderedMonths, 'selectedYear' => $selectedYear, 'totalCost' => $totalCost, 'percentage' => $percentageChange]);
     }
 
-    // public function index(Request $request)
-    // {
-    //     $selectedMonth = $request->input('month', Carbon::now()->format('m'));
-    //     $selectedYear = $request->input('year', Carbon::now()->year);
+    public function chartBulanan(Request $request)
+    {
+        $selectedMonth = $request->input('month', Carbon::now()->format('m'));
+        $selectedYear = $request->input('year', Carbon::now()->year);
 
-    //     $firstDayOfMonth = Carbon::createFromDate($selectedYear, $selectedMonth, 1);
-    //     $lastDayOfMonth = $firstDayOfMonth->copy()->endOfMonth();
+        $firstDayOfMonth = Carbon::createFromDate($selectedYear, $selectedMonth, 1);
+        $lastDayOfMonth = $firstDayOfMonth->copy()->endOfMonth();
 
-    //     $childCost = Cost::whereBetween('created_at', [$firstDayOfMonth, $lastDayOfMonth])
-    //         ->get()
-    //         ->groupBy(function ($item) {
-    //             return Carbon::parse($item->created_at)->format('d');
-    //         })
-    //         ->map(function ($group) {
-    //             return $group->sum('total_cost');
-    //         });
+        $childCost = Cost::whereYear('created_at', $selectedYear)
+            ->whereMonth('created_at', $selectedMonth)
+            ->get();
 
-    //     $totalCost = $childCost->sum();
-    //     $allDays = array_fill(1, $lastDayOfMonth->day, 0);
+        $allDays = array_fill(1, $lastDayOfMonth->day, 0);
 
-    //     foreach ($childCost as $day => $cost) {
-    //         $allDays[$day] = $cost;
-    //     }
+        foreach ($childCost as $cost) {
+            $day = Carbon::parse($cost->created_at)->day;
+            $allDays[$day] += $cost->total_cost;
+        }
 
-    //     $orderedDays = [];
-    //     for ($i = 1; $i <= $lastDayOfMonth->day; $i++) {
-    //         $orderedDays[$i] = $allDays[$i] ?? 0;
-    //     }
+        $values = array_values($allDays);
 
-    //     $lastYearTotalCost = Cost::whereYear('created_at', $selectedYear - 1)
-    //         ->sum('total_cost');
-    //     $percentageChange = 0;
-    //     if ($lastYearTotalCost > 0) {
-    //         $percentageChange = number_format((($totalCost - $lastYearTotalCost) / $lastYearTotalCost) * 100, 2);
-    //     }
+        $totalCost = array_sum($values);
 
-    //     return response()->json([
-    //         'data' => $orderedDays,
-    //         'selectedMonth' => $selectedMonth,
-    //         'selectedYear' => $selectedYear,
-    //         'totalCost' => $totalCost,
-    //         'percentage' => $percentageChange,
-    //     ]);
-    // }
+        // Perbandingan dengan bulan sebelumnya
+        $lastMonth = Carbon::createFromDate($selectedYear, $selectedMonth, 1)->subMonth();
+        $lastMonthTotalCost = Cost::whereYear('created_at', $lastMonth->year)
+            ->whereMonth('created_at', $lastMonth->month)
+            ->sum('total_cost');
 
+        $percentageChange = 0;
+        if ($lastMonthTotalCost > 0) {
+            $percentageChange = number_format((($totalCost - $lastMonthTotalCost) / $lastMonthTotalCost) * 100, 2);
+        }
+
+        return response()->json([
+            'labels' => range(1, $lastDayOfMonth->day), // Use range to create an array of day numbers
+            'values' => $values,
+            'selectedMonth' => $selectedMonth,
+            'selectedYear' => $selectedYear,
+            'totalCost' => $totalCost,
+            'percentage' => $percentageChange,
+        ]);
+    }
 }

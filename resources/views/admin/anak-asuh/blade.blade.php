@@ -390,3 +390,88 @@
                 </div>
             </div>
         </div> --}}
+{{-- <div class="">
+    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasEnd"
+        aria-controls="offcanvasEnd">
+        <i class='bx bx-plus m-1'></i>
+        Tambah Data
+    </button>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEnd" aria-labelledby="offcanvasEndLabel">
+        <div class="offcanvas-header">
+            <h5 id="offcanvasEndLabel" class="offcanvas-title">Tambah Data Pendidikan Anak
+                Asuh</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body my-auto mx-0 flex-grow-0">
+            <form id="dataAnakForm" action="{{ route('pendidikan-anak.store') }}" method="POST"
+                enctype="multipart/form-data">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="children_id" class="form-label">Nama Anak</label>
+                            <select class="form-select" id="children_id" name="children_id"
+                                aria-label="Default select example">
+                                <option value="" hidden>Pilih Nama Anak Asuh
+                                </option>
+                                @foreach ($childs as $child)
+                                    <option value="{{ $child->id }}">{{ $child->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <div id="childrenError" class="invalid-feedback"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Jenjang
+                                Pendidikan</label>
+                            <select class="form-select" id="name" name="name"
+                                aria-label="Default select example">
+                                <option value="" hidden>Pilih Jenjang Pendidikan
+                                </option>
+                                <option value="TK">TK</option>
+                                <option value="SD">SD</option>
+                                <option value="SMP">SMP</option>
+                                <option value="SMA/K">SMA/K</option>
+                                <option value="D1">D1</option>
+                                <option value="D2">D2</option>
+                                <option value="D3">D3</option>
+                                <option value="D4">D4</option>
+                                <option value="S1">S1</option>
+                            </select>
+                            <div id="nameError" class="invalid-feedback"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="school_name" class="form-label">Nama Sekolah</label>
+                            <input type="text" class="form-control" id="school_name" name="school_name"
+                                placeholder="Nama Sekolah..." />
+                            <div id="school_nameError" class="invalid-feedback"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="graduation_date" class="form-label">Tanggal
+                                Kelulusan</label>
+                            <input class="form-control" type="date" id="graduation_date"
+                                name="graduation_date" />
+                            <div id="gradution_dateError" class="invalid-feedback"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="certificate" class="form-label">Bukti
+                                Kelulusan</label>
+                            <input class="form-control" type="file" id="certificate" name="certificate" />
+                            <div id="certificateError" class="invalid-feedback"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Deskripsi
+                                Pendidikan</label>
+                            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                            <div id="descriptionError" class="invalid-feedback"></div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary mb-2 d-grid w-100">Simpan</button>
+                <button type="button" class="btn btn-outline-secondary d-grid w-100"
+                    data-bs-dismiss="offcanvas">Cancel</button>
+            </form>
+        </div>
+    </div>
+</div> --}}

@@ -10,7 +10,7 @@ use Carbon\Carbon;
 
 class ChartPengeluaranAnakController extends Controller
 {
-    public function index(Request $request)
+    public function chartTahunan(Request $request)
     {
         $selectedYear = $request->input('year', Carbon::now()->year);
 
@@ -47,7 +47,7 @@ class ChartPengeluaranAnakController extends Controller
             $percentageChange = number_format((($totalCost - $lastYearTotalCost) / $lastYearTotalCost) * 100, 2);
         }
 
-        
+
 
         return response()->json(['data' => $orderedMonths, 'selectedYear' => $selectedYear, 'totalCost' => $totalCost, 'percentage' => $percentageChange]);
     }

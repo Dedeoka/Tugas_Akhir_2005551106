@@ -35,7 +35,7 @@ class SekolahController extends Controller
             'phone' => 'required',
         ], [
             'name.required' => 'Data wajib diisi',
-            'name.unique' => 'Nama kategori pengeluaran sudah digunakan, harap pilih nama yang lain.',
+            'name.unique' => 'Nama sekolah sudah digunakan, harap pilih nama yang lain.',
             'address.required' => 'Data wajib diisi',
             'phone.required' => 'Data wajib diisi',
         ]);
@@ -81,7 +81,7 @@ class SekolahController extends Controller
             'phone' => 'required',
         ], [
             'name.required' => 'Data wajib diisi',
-            'name.unique' => 'Nama kategori pengeluaran sudah digunakan, harap pilih nama yang lain.',
+            'name.unique' => 'Nama sekolah sudah digunakan, harap pilih nama yang lain.',
             'address.required' => 'Data wajib diisi',
             'phone.required' => 'Data wajib diisi',
         ]);
