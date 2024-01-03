@@ -193,6 +193,9 @@
             function renderChart(data) {
                 const labels = data.labels.map(day => `${day}`);
                 const values = data.values;
+                const monthSelector = document.getElementById("monthSelector");
+                const selectedOption = monthSelector.options[monthSelector.selectedIndex];
+                const selectedText = selectedOption.textContent.trim();
                 const month = data.selectedMonth;
                 const year = data.selectedYear;
                 const total = formatCurrency(data.totalCost);
@@ -213,7 +216,8 @@
                             },
                             title: {
                                 display: true,
-                                text: (ctx) => 'Total Pengeluaran Anak Bulan ' + month + ' Tahun ' + year +
+                                text: (ctx) => 'Total Pengeluaran Anak Bulan ' + selectedText + ' Tahun ' +
+                                    year +
                                     ' : ' +
                                     total
                             },
