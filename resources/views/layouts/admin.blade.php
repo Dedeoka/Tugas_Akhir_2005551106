@@ -54,6 +54,17 @@
         .swal2-container {
             z-index: 9999;
         }
+
+        .table-responsive .datatables-basic td {
+            max-width: 50px;
+            /* Atur lebar maksimum */
+            white-space: nowrap;
+            /* Tidak membuat baris baru */
+            overflow: hidden;
+            /* Menyembunyikan konten yang tidak muat */
+            text-overflow: ellipsis;
+            /* Menampilkan titik-titik elipsis jika terlalu lebar */
+        }
     </style>
 </head>
 

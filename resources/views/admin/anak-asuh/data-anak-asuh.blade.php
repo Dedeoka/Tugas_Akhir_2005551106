@@ -194,17 +194,6 @@
                                                                                     <div id="imageError"
                                                                                         class="invalid-feedback"></div>
                                                                                 </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="identity_card"
-                                                                                        class="form-label">Kartu
-                                                                                        Pengenal (KTP
-                                                                                        atau Kartu Pengenal Lainnya)</label>
-                                                                                    <input class="form-control"
-                                                                                        type="file" id="identity_card"
-                                                                                        name="identity_card" />
-                                                                                    <div id="identity_cardError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                         <button type="button" id="btnNextProfile"
@@ -218,6 +207,18 @@
                                                                         role="tabpanel">
                                                                         <div class="card mb-4">
                                                                             <div class="card-body">
+                                                                                <div class="form-check mt-3 mb-3">
+                                                                                    <input class="form-check-input"
+                                                                                        type="checkbox"
+                                                                                        value="tidak_lengkap"
+                                                                                        id="kelengkapanData"
+                                                                                        name="kelengkapan_data" />
+                                                                                    <label class="form-check-label"
+                                                                                        for="kelengkapanData"> Data Anak
+                                                                                        Tidak Lengkap? (Data di Bawah Dapat
+                                                                                        Dikosongkan)
+                                                                                    </label>
+                                                                                </div>
                                                                                 <div class="mb-3">
                                                                                     <label for="father_name"
                                                                                         class="form-label">Nama
@@ -243,6 +244,17 @@
                                                                                         class="invalid-feedback"></div>
                                                                                 </div>
                                                                                 <div class="mb-3">
+                                                                                    <label for="identity_card"
+                                                                                        class="form-label">Kartu
+                                                                                        Pengenal Anak (KTP
+                                                                                        atau Kartu Pengenal Lainnya)</label>
+                                                                                    <input class="form-control"
+                                                                                        type="file" id="identity_card"
+                                                                                        name="identity_card" />
+                                                                                    <div id="identity_cardError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
                                                                                     <label for="birth_certificate"
                                                                                         class="form-label">Akta
                                                                                         Kelahiran Anak</label>
@@ -256,19 +268,11 @@
                                                                                 <div class="mb-3">
                                                                                     <label for="family_card"
                                                                                         class="form-label">Kartu
-                                                                                        Keluarga</label>
+                                                                                        Keluarga Anak</label>
                                                                                     <input class="form-control"
                                                                                         type="file" id="family_card"
                                                                                         name="family_card" />
                                                                                     <div id="family_cardError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="reason_for_leaving"
-                                                                                        class="form-label">Alasan
-                                                                                        Menitipkan</label>
-                                                                                    <textarea class="form-control" id="reason_for_leaving" name="reason_for_leaving" rows="3"></textarea>
-                                                                                    <div id="reason_for_leavingError"
                                                                                         class="invalid-feedback"></div>
                                                                                 </div>
                                                                             </div>
@@ -366,6 +370,14 @@
                                                                                         id="guardian_identity_card"
                                                                                         name="guardian_identity_card" />
                                                                                     <div id="guardian_identity_cardError"
+                                                                                        class="invalid-feedback"></div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="reason_for_leaving"
+                                                                                        class="form-label">Alasan
+                                                                                        Menitipkan</label>
+                                                                                    <textarea class="form-control" id="reason_for_leaving" name="reason_for_leaving" rows="3"></textarea>
+                                                                                    <div id="reason_for_leavingError"
                                                                                         class="invalid-feedback"></div>
                                                                                 </div>
                                                                             </div>
@@ -718,18 +730,6 @@
                                                                     <div id="editImageError{{ $data->id }}"
                                                                         class="invalid-feedback"></div>
                                                                 </div>
-                                                                <div class="mb-3">
-                                                                    <label for="identity_card{{ $data->id }}"
-                                                                        class="form-label">Kartu
-                                                                        Pengenal (KTP
-                                                                        atau Kartu Pengenal Lainnya)</label>
-                                                                    <input class="form-control" type="file"
-                                                                        id="identity_card{{ $data->id }}"
-                                                                        name="identity_card" />
-                                                                    <div id="editIdentity_cardError{{ $data->id }}"
-                                                                        class="invalid-feedback">
-                                                                    </div>
-                                                                </div>
                                                             </div>
                                                         </div>
                                                         <button type="button"
@@ -772,6 +772,18 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="mb-3">
+                                                                        <label for="identity_card{{ $data->id }}"
+                                                                            class="form-label">Kartu
+                                                                            Pengenal (KTP
+                                                                            atau Kartu Pengenal Lainnya)</label>
+                                                                        <input class="form-control" type="file"
+                                                                            id="identity_card{{ $data->id }}"
+                                                                            name="identity_card" />
+                                                                        <div id="editIdentity_cardError{{ $data->id }}"
+                                                                            class="invalid-feedback">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="mb-3">
                                                                         <label for="birth_certificate{{ $data->id }}"
                                                                             class="form-label">Akta
                                                                             Kelahiran Anak</label>
@@ -792,16 +804,7 @@
                                                                             class="invalid-feedback">
                                                                         </div>
                                                                     </div>
-                                                                    <div class="mb-3">
-                                                                        <label for="reason_for_leaving{{ $data->id }}"
-                                                                            class="form-label">Alasan
-                                                                            Menitipkan</label>
-                                                                        <textarea class="form-control" id="reason_for_leaving{{ $data->id }}" name="reason_for_leaving" rows="3">{{ $detail->reason_for_leaving }}</textarea>
-                                                                        <div id="editReason_for_leavingError{{ $data->id }}"
-                                                                            class="invalid-feedback"></div>
-                                                                    </div>
                                                                 </div>
-
                                                             </div>
                                                             <button type="button" data-id="{{ $data->id }}"
                                                                 class="btn btn-primary mb-2 next-tab d-grid w-100 btnNextMessages">Berikutnya</button>
@@ -909,6 +912,16 @@
                                                                             id="guardian_identity_card{{ $data->id }}"
                                                                             name="guardian_identity_card" />
                                                                         <div id="editGuardian_identity_cardError"
+                                                                            class="invalid-feedback"></div>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label
+                                                                            for="reason_for_leaving{{ $data->id }}"
+                                                                            class="form-label">Alasan
+                                                                            Menitipkan</label>
+                                                                        <textarea class="form-control" id="reason_for_leaving{{ $data->id }}" name="reason_for_leaving"
+                                                                            rows="3">{{ $detail->reason_for_leaving }}</textarea>
+                                                                        <div id="editReason_for_leavingError{{ $data->id }}"
                                                                             class="invalid-feedback"></div>
                                                                     </div>
                                                                 </div>

@@ -45,12 +45,12 @@ class DataAnakController extends Controller
             'gender' => 'required',
             'religion' => 'required',
             'status' => 'required',
-            'identity_card' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'identity_card' => 'file|mimes:pdf,jpg,jpeg,png|max:2048',
             'image' => 'required|file|mimes:jpg,jpeg,png|max:2048',
 
 
-            'father_name' => 'required',
-            'mother_name' => 'required',
+            'father_name' => '',
+            'mother_name' => '',
             'reason_for_leaving' => 'required',
             'guardian_name' => 'required',
             'guardian_relationship' => 'required',
@@ -58,8 +58,8 @@ class DataAnakController extends Controller
             'guardian_phone_number' => 'required|regex:/^[0-9]+$/|min:10|max:15',
             'guardian_email' => 'required|email',
             'guardian_identity_card' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'birth_certificate' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048', // maksimal 2MB
-            'family_card' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'birth_certificate' => 'file|mimes:pdf,jpg,jpeg,png|max:2048', // maksimal 2MB
+            'family_card' => 'file|mimes:pdf,jpg,jpeg,png|max:2048',
         ], [
             'name.required' => 'Nama anak asuh wajib diisi',
             'place_of_birth.required' => 'Tempat lahir anak asuh wajib diisi',
@@ -104,14 +104,25 @@ class DataAnakController extends Controller
             'family_card.max' => 'Ukuran berkas kartu keluarga tidak boleh lebih dari 2MB',
         ]);
 
+        $validasi->sometimes(['identity_card', 'birth_certificate', 'family_card', 'father_name', 'mother_name'], 'required', function ($input) use ($request) {
+            return !$request->has('kelengkapan_data');
+        });
+
         if ($validasi->fails()) {
             return response()->json(['errors' => $validasi->errors()]);
         } else {
-            $birthCertificatePath = $request->file('birth_certificate')->store('uploads/akta-kelahiran');
-            $familyCardPath = $request->file('family_card')->store('uploads/kartu-keluarga');
-            $identityCardPath = $request->file('identity_card')->store('uploads/kartu-pengenal');
-            $imagePath = $request->file('image')->store('uploads/foto-anak');
-            $guardianIdentityPath = $request->file('guardian_identity_card')->store('uploads/kartu-pengenal-wali');
+
+            if ($request->has('kelengkapan_data')) {
+                $birthCertificatePath = $request->file('birth_certificate')->store('uploads/akta-kelahiran');
+                $familyCardPath = $request->file('family_card')->store('uploads/kartu-keluarga');
+                $identityCardPath = $request->file('identity_card')->store('uploads/kartu-pengenal');
+                $imagePath = $request->file('image')->store('uploads/foto-anak');
+                $guardianIdentityPath = $request->file('guardian_identity_card')->store('uploads/kartu-pengenal-wali');
+            } else {
+                $identityCardPath = '-';
+                $familyCardPath = '-';
+                $birthCertificatePath = '-';
+            }
 
             $data = [
                 'name' => ucwords($request->name),
@@ -127,20 +138,41 @@ class DataAnakController extends Controller
 
             $newChildren = Children::create($data);
 
-            $dataDetail = [
-                'children_id' => $newChildren->id,
-                'father_name' => $request->father_name,
-                'mother_name' => $request->mother_name,
-                'reason_for_leaving' => $request->reason_for_leaving,
-                'guardian_name' => $request->guardian_name,
-                'guardian_relationship' => $request->guardian_relationship,
-                'guardian_address' => $request->guardian_address,
-                'guardian_phone_number' => $request->guardian_phone_number,
-                'guardian_email' => $request->guardian_email,
-                'birth_certificate' => $birthCertificatePath,
-                'family_card' => $familyCardPath,
-                'guardian_identity_card' => $guardianIdentityPath,
-            ];
+            if ($request->has('kelengkapan_data')) {
+
+                $dataDetail = [
+                    'children_id' => $newChildren->id,
+                    'father_name' => $request->father_name ? $request->father_name : '-',
+                    'mother_name' => $request->mother_name ? $request->mother_name : '-',
+                    'reason_for_leaving' => $request->reason_for_leaving,
+                    'guardian_name' => $request->guardian_name,
+                    'guardian_relationship' => $request->guardian_relationship,
+                    'guardian_address' => $request->guardian_address,
+                    'guardian_phone_number' => $request->guardian_phone_number,
+                    'guardian_email' => $request->guardian_email,
+                    'birth_certificate' => $birthCertificatePath,
+                    'family_card' => $familyCardPath,
+                    'guardian_identity_card' => $guardianIdentityPath,
+                ];
+
+            } else {
+
+                $dataDetail = [
+                    'children_id' => $newChildren->id,
+                    'father_name' => $request->father_name,
+                    'mother_name' => $request->mother_name,
+                    'reason_for_leaving' => $request->reason_for_leaving,
+                    'guardian_name' => $request->guardian_name,
+                    'guardian_relationship' => $request->guardian_relationship,
+                    'guardian_address' => $request->guardian_address,
+                    'guardian_phone_number' => $request->guardian_phone_number,
+                    'guardian_email' => $request->guardian_email,
+                    'birth_certificate' => $birthCertificatePath,
+                    'family_card' => $familyCardPath,
+                    'guardian_identity_card' => $guardianIdentityPath,
+                ];
+
+            }
 
             ChildDetail::create($dataDetail);
 

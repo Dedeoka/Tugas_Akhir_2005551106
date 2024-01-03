@@ -103,7 +103,6 @@ class PendidikanAnakController extends Controller
             ];
 
             ChildEducationDetail::create($detailData);
-            dd(response());
             return response()->json(['success' => "Berhasil menyimpan data"]);
         }
     }

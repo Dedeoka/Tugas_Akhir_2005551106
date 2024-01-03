@@ -195,6 +195,10 @@
         });
 
         function simpan() {
+            const formData = new FormData($('#dataAnakForm')[0])
+            for (var pair of formData.entries()) {
+                console.log(pair[0] + ', ' + pair[1]);
+            }
             $.ajax({
                 url: "{{ route('data-anak.store') }}",
                 type: 'POST',
