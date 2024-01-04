@@ -100,8 +100,8 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <div>
-                        <h5 class="card-title mb-0">Pengeluaran Anak</h5>
-                        <small class="text-muted">Statistik Pengeluaran Anak</small>
+                        <h5 class="card-title mb-0">Pengeluaran Panti</h5>
+                        <small class="text-muted">Statistik Pengeluaran Panti</small>
                     </div>
                     <div class="d-sm-flex d-none align-items-center">
                         <h5 class="me-2 mt-3 cursor-pointer" id="yearChart">Year</h5>
@@ -153,9 +153,9 @@
                                 </option>
                             @endforeach
                         </select>
-                        <h5 class="mb-0 me-2" id="yearCost"></h5>
+                        <h5 class="mb-0 me-2" id="beforeCost"></h5>
                         <span class="badge bg-label-secondary">
-                            <span class="align-middle" id="yearPercentage"></span>
+                            <span class="align-middle" id="beforePercentage"></span>
                         </span>
                     </div>
                 </div>

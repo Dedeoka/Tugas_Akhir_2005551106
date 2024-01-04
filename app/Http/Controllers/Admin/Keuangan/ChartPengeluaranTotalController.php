@@ -3,18 +3,29 @@
 namespace App\Http\Controllers\Admin\Keuangan;
 
 use App\Http\Controllers\Controller;
-use App\Models\ChildCost;
-use App\Models\ChildCostDetail;
 use Illuminate\Http\Request;
+use App\Models\ChildCostDetail;
+use App\Models\Cost;
 use Carbon\Carbon;
 
-class ChartPengeluaranAnakController extends Controller
+class ChartPengeluaranTotalController extends Controller
 {
     public function chartTahunan(Request $request)
     {
         $selectedYear = $request->input('year', Carbon::now()->year);
 
-        $childCost = ChildCostDetail::whereYear('created_at', $selectedYear)
+        // Mengambil data dari model Cost
+        $costData = Cost::whereYear('created_at', $selectedYear)
+            ->get()
+            ->groupBy(function ($item) {
+                return Carbon::parse($item->created_at)->format('m');
+            })
+            ->map(function ($group) {
+                return $group->sum('total_cost');
+            });
+
+        // Mengambil data dari model ChildCostDetail
+        $childCostData = ChildCostDetail::whereYear('created_at', $selectedYear)
             ->get()
             ->groupBy(function ($item) {
                 return Carbon::parse($item->created_at)->format('m');
@@ -23,23 +34,40 @@ class ChartPengeluaranAnakController extends Controller
                 return $group->sum('cost');
             });
 
-        $totalCost = $childCost->sum();
-        $allMonths = array_fill(1, 12, 0);
+        // Menggabungkan data dari kedua model dengan menjumlahkan nilai
+        $mergedData = collect(array_merge_recursive($costData->toArray(), $childCostData->toArray()))
+            ->map(function ($item) {
+                return is_array($item) ? array_sum($item) : $item;
+            });
 
-        foreach ($childCost as $month => $cost) {
-            $monthName = Carbon::create()->month($month)->format('F');
-            $allMonths[$monthName] = $cost;
-        }
+        // Membuat array yang berisi total biaya untuk setiap bulan
+        $allMonths = [];
+        $carbonNow = Carbon::now();
 
-        $orderedMonths = [];
+        // Inisialisasi array bulan dengan nilai 0
         for ($i = 1; $i <= 12; $i++) {
             $monthName = Carbon::create()->month($i)->format('F');
-            $orderedMonths[$monthName] = $allMonths[$monthName] ?? 0;
+            $allMonths[$monthName] = 0;
         }
 
-        // Menghitung total pengeluaran untuk tahun lalu
-        $lastYearTotalCost = ChildCostDetail::whereYear('created_at', $selectedYear - 1)
+        // Isi nilai yang sebenarnya berdasarkan data yang ada
+        foreach ($mergedData as $key => $value) {
+            $allMonths[Carbon::create()->month($key)->format('F')] = $value;
+        }
+
+        $lastYearCostData = Cost::whereYear('created_at', $selectedYear - 1)
+            ->sum('total_cost');
+
+        $lastYearChildCostData = ChildCostDetail::whereYear('created_at', $selectedYear - 1)
             ->sum('cost');
+
+
+
+        // Menghitung total pengeluaran untuk tahun lalu
+        $lastYearTotalCost = $lastYearCostData + $lastYearChildCostData;
+
+        // Menghitung total biaya untuk setiap bulan
+        $totalCost = $mergedData->sum();
 
         // Menghitung persentase perbandingan dengan tahun lalu
         $percentageChange = 0;
@@ -47,8 +75,10 @@ class ChartPengeluaranAnakController extends Controller
             $percentageChange = number_format((($totalCost - $lastYearTotalCost) / $lastYearTotalCost) * 100, 2);
         }
 
-        return response()->json(['data' => $orderedMonths, 'selectedYear' => $selectedYear, 'totalCost' => $totalCost, 'percentage' => $percentageChange]);
+        return response()->json(['data' => $allMonths, 'selectedYear' => $selectedYear, 'totalCost' => $totalCost, 'percentage' => $percentageChange]);
+
     }
+
 
     public function chartBulanan(Request $request)
     {

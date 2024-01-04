@@ -30,7 +30,28 @@ class PengeluaranPantiController extends Controller
             $years = [];
         }
 
-        //total pengeluaran anak bulan ini dan bulan lalu
+        $currentYearCountCost = Cost::whereYear('created_at', now()->year)
+            ->count();
+        $lastYearCountCost = Cost::whereYear('created_at', now()->subMonth()->year)
+            ->count();
+        $percentageYearCountCost = 0;
+        if ($lastYearCountCost > 0) {
+            $percentageYearCountCost = (($currentYearCountCost - $lastYearCountCost) / $lastYearCountCost) * 100;
+        }
+
+        //total pengeluaran panti tahun ini dan tahun lalu
+        $currentYearTotalCost = Cost::whereYear('created_at', now()->year)
+            ->sum('total_cost');
+        $currentYearTotalCostFormatted = 'Rp ' . number_format($currentYearTotalCost, 0, ',', '.');
+        $lastYearTotalCost = Cost::whereYear('created_at', now()->subMonth()->year)
+            ->sum('total_cost');
+        $lastYearTotalCostFormatted = 'Rp ' . number_format($lastYearTotalCost, 0, ',', '.');
+        $percentageYearTotalCost = 0;
+        if ($lastYearTotalCost > 0) {
+            $percentageYearTotalCost = number_format((($currentYearTotalCost - $lastYearTotalCost) / $lastYearTotalCost) * 100, 2);
+        }
+
+        //total pengeluaran panti bulan ini dan bulan lalu
         $currentMonthTotalCost = Cost::whereMonth('created_at', now()->month)
             ->whereYear('created_at', now()->year)
             ->sum('total_cost');
@@ -39,9 +60,9 @@ class PengeluaranPantiController extends Controller
             ->whereYear('created_at', now()->subMonth()->year)
             ->sum('total_cost');
         $lastMonthTotalCostFormatted = 'Rp ' . number_format($lastMonthTotalCost, 0, ',', '.');
-        $percentageTotalCost = 0;
+        $percentageMonthTotalCost = 0;
         if ($lastMonthTotalCost > 0) {
-            $percentageTotalCost = number_format((($currentMonthTotalCost - $lastMonthTotalCost) / $lastMonthTotalCost) * 100, 2);
+            $percentageMonthTotalCost = number_format((($currentMonthTotalCost - $lastMonthTotalCost) / $lastMonthTotalCost) * 100, 2);
         }
 
         $highestTotalCostByType = Cost::select('cost_type_id', \DB::raw('SUM(total_cost) as total_cost'))
@@ -56,7 +77,7 @@ class PengeluaranPantiController extends Controller
             ? CostType::find($highestTotalCostByType->cost_type_id)->name
             : 'Unknown';
 
-        return view('admin.keuangan.pengeluaran-panti', compact('datas', 'keyword', 'costTypes', 'years', 'currentMonthTotalCostFormatted', 'percentageTotalCost', 'highestTotalCostByTypeFormat', 'highestCostTypeName'));
+        return view('admin.keuangan.pengeluaran-panti', compact('datas', 'keyword', 'costTypes', 'years', 'currentYearCountCost','percentageYearCountCost' ,'currentYearTotalCostFormatted', 'percentageYearTotalCost', 'currentMonthTotalCostFormatted', 'percentageMonthTotalCost', 'highestTotalCostByTypeFormat', 'highestCostTypeName'));
     }
 
     /**

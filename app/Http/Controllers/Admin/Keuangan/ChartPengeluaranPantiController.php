@@ -13,7 +13,7 @@ class ChartPengeluaranPantiController extends Controller
     {
         $selectedYear = $request->input('year', Carbon::now()->year);
 
-        $childCost = Cost::whereYear('created_at', $selectedYear)
+        $cost = Cost::whereYear('created_at', $selectedYear)
             ->get()
             ->groupBy(function ($item) {
                 return Carbon::parse($item->created_at)->format('m');
@@ -22,10 +22,10 @@ class ChartPengeluaranPantiController extends Controller
                 return $group->sum('total_cost');
             });
 
-        $totalCost = $childCost->sum();
+        $totalCost = $cost->sum();
         $allMonths = array_fill(1, 12, 0);
 
-        foreach ($childCost as $month => $cost) {
+        foreach ($cost as $month => $cost) {
             $monthName = Carbon::create()->month($month)->format('F');
             $allMonths[$monthName] = $cost;
         }
@@ -54,13 +54,13 @@ class ChartPengeluaranPantiController extends Controller
         $firstDayOfMonth = Carbon::createFromDate($selectedYear, $selectedMonth, 1);
         $lastDayOfMonth = $firstDayOfMonth->copy()->endOfMonth();
 
-        $childCost = Cost::whereYear('created_at', $selectedYear)
+        $cost = Cost::whereYear('created_at', $selectedYear)
             ->whereMonth('created_at', $selectedMonth)
             ->get();
 
         $allDays = array_fill(1, $lastDayOfMonth->day, 0);
 
-        foreach ($childCost as $cost) {
+        foreach ($cost as $cost) {
             $day = Carbon::parse($cost->created_at)->day;
             $allDays[$day] += $cost->total_cost;
         }

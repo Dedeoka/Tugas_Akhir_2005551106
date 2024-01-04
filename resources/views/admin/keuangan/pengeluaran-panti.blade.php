@@ -22,11 +22,34 @@
                         </div>
                         <p class="mb-1">Total Pengeluaran Panti Bulan Ini</p>
                         <p class="mb-0">
-                            <span class="text-{{ $percentageTotalCost >= 0 ? 'danger' : 'success' }} fw-medium">
-                                <i class="bx {{ $percentageTotalCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
-                                {{ $percentageTotalCost }}%
+                            <span class="text-{{ $percentageMonthTotalCost >= 0 ? 'danger' : 'success' }} fw-medium">
+                                <i
+                                    class="bx {{ $percentageMonthTotalCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
+                                {{ $percentageMonthTotalCost }}%
                             </span>
                             <small class="text-muted">Dari Bulan Lalu</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 mb-4">
+                <div class="card card-border-shadow-danger h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-2 pb-1">
+                            <div class="avatar me-2">
+                                <span class="avatar-initial rounded bg-label-danger"><i
+                                        class='bx bxs-school fs-3'></i></span>
+                            </div>
+                            <h4 class="ms-1 mb-0">{{ $currentYearTotalCostFormatted }}</h4>
+                        </div>
+                        <p class="mb-1">Pengeluaran Panti Tahun Ini </p>
+                        <p class="mb-0">
+                            <span class="text-{{ $percentageYearTotalCost >= 0 ? 'danger' : 'success' }} fw-medium">
+                                <i
+                                    class="bx {{ $percentageYearTotalCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
+                                {{ $percentageYearTotalCost }}%
+                            </span>
+                            <small class="text-muted">Dari Tahun Lalu</small>
                         </p>
                     </div>
                 </div>
@@ -49,43 +72,22 @@
                 </div>
             </div>
             <div class="col-sm-6 col-lg-3 mb-4">
-                <div class="card card-border-shadow-danger h-100">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-2 pb-1">
-                            <div class="avatar me-2">
-                                <span class="avatar-initial rounded bg-label-danger"><i
-                                        class='bx bxs-school fs-3'></i></span>
-                            </div>
-                            <h4 class="ms-1 mb-0"></h4>
-                        </div>
-                        <p class="mb-1">Pengeluaran Pendidikan Bulan Ini </p>
-                        <p class="mb-0">
-                            <span class="text-{{ $percentageTotalCost >= 0 ? 'danger' : 'success' }} fw-medium">
-                                <i class="bx {{ $percentageTotalCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
-                                {{ $percentageTotalCost }}%
-                            </span>
-                            <small class="text-muted">Dari Bulan Lalu</small>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-3 mb-4">
                 <div class="card card-border-shadow-info h-100">
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-2 pb-1">
                             <div class="avatar me-2">
                                 <span class="avatar-initial rounded bg-label-danger"><i class='bx bx-medal fs-3'></i></span>
                             </div>
-                            <h4 class="ms-1 mb-0"></h4>
+                            <h4 class="ms-1 mb-0">{{ $currentYearCountCost }} Pengeluaran</h4>
                         </div>
-                        <p class="mb-1">Pengeluaran Total Bulan Ini</p>
+                        <p class="mb-1">Jumlah Pengeluaran Tahun Ini</p>
                         <p class="mb-0">
-                            <span class="text-{{ $percentageTotalCost >= 0 ? 'danger' : 'success' }} fw-medium">
+                            <span class="text-{{ $percentageYearCountCost >= 0 ? 'danger' : 'success' }} fw-medium">
                                 <i
-                                    class="bx {{ $percentageTotalCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
-                                {{ $percentageTotalCost }}%
+                                    class="bx {{ $percentageYearCountCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
+                                {{ $percentageYearCountCost }}%
                             </span>
-                            <small class="text-muted">Dari Bulan Lalu</small>
+                            <small class="text-muted">Dari Tahun Lalu</small>
                         </p>
                     </div>
                 </div>

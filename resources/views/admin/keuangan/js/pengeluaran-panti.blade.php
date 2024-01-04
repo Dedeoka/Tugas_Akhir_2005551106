@@ -24,23 +24,23 @@
         let myChart;
         let isYearlyChart = true;
 
-        fetchYearlyChildCostData($('#yearSelector').val());
+        fetchYearlyCostData($('#yearSelector').val());
 
         $('#yearSelector').change(function() {
             if (isYearlyChart) {
-                fetchYearlyChildCostData($(this).val());
+                fetchYearlyCostData($(this).val());
             } else {
-                fetchMonthlyChildCostData($('#monthSelector').val(), $(this).val());
+                fetchMonthlyCostData($('#monthSelector').val(), $(this).val());
             }
         });
 
         $('#monthSelector, #yearSelector').change(function() {
             if (!isYearlyChart) {
-                fetchMonthlyChildCostData($('#monthSelector').val(), $('#yearSelector').val());
+                fetchMonthlyCostData($('#monthSelector').val(), $('#yearSelector').val());
             }
         });
 
-        function fetchYearlyChildCostData(selectedYear = null) {
+        function fetchYearlyCostData(selectedYear = null) {
             let url = "{{ route('pengeluaran-panti-chart.chartTahunan') }}";
             if (selectedYear) {
                 url += "?year=" + selectedYear;
@@ -90,7 +90,7 @@
                             },
                             title: {
                                 display: true,
-                                text: (ctx) => 'Total Pengeluaran Anak Tahun ' + year + ' : ' + total
+                                text: (ctx) => 'Total Pengeluaran Panti Tahun ' + year + ' : ' + total
                             }
                         },
                         interaction: {
@@ -161,7 +161,7 @@
         }
 
 
-        function fetchMonthlyChildCostData(selectedMonth = null, selectedYear = null) {
+        function fetchMonthlyCostData(selectedMonth = null, selectedYear = null) {
             let url = "{{ route('pengeluaran-panti-chart.chartBulanan') }}";
             if (selectedMonth && selectedYear) {
                 url += `?month=${selectedMonth}&year=${selectedYear}`;
@@ -216,7 +216,7 @@
                             },
                             title: {
                                 display: true,
-                                text: (ctx) => 'Total Pengeluaran Anak Bulan ' + selectedText + ' Tahun ' +
+                                text: (ctx) => 'Total Pengeluaran Panti Bulan ' + selectedText + ' Tahun ' +
                                     year +
                                     ' : ' +
                                     total
@@ -297,7 +297,7 @@
             $(this).removeClass('text-muted');
             $('#monthChart').addClass('text-muted');
             $('#monthSelector').addClass('d-none');
-            fetchYearlyChildCostData($('#yearSelector').val());
+            fetchYearlyCostData($('#yearSelector').val());
         });
 
         $('#monthChart').click(function() {
@@ -305,280 +305,10 @@
             $(this).removeClass('text-muted');
             $('#monthSelector').removeClass('d-none');
             $('#yearChart').addClass('text-muted');
-            fetchMonthlyChildCostData($('#monthSelector').val(), $('#yearSelector').val());
+            fetchMonthlyCostData($('#monthSelector').val(), $('#yearSelector').val());
         });
     });
 </script>
-
-
-{{-- <script>
-    $(document).ready(function() {
-        let myChart;
-        $('#yearSelector').change(function() {
-            fetchChildCostData($(this).val());
-        });
-
-        fetchChildCostData();
-
-        function fetchChildCostData(selectedYear = null) {
-            let url = "{{ route('pengeluaran-panti-chart.chartTahunan') }}";
-            if (selectedYear) {
-                url += "?year=" + selectedYear;
-            }
-
-            $.ajax({
-                url: url,
-                method: 'GET',
-                success: function(data) {
-                    renderChart(data);
-                    const cost = document.getElementById('yearCost');
-                    const percentage = document.getElementById('beforePercentage');
-                    cost.innerHTML = formatCurrency(data.totalCost);
-
-                    // Menambahkan ikon panah dan warna berdasarkan perubahan persentase
-                    const arrowIcon = data.percentage >= 0 ? 'bx-up-arrow-alt' :
-                        'bx-down-arrow-alt';
-                    const textColor = data.percentage >= 0 ? 'text-danger' : 'text-success';
-
-                    percentage.innerHTML = `<i class="bx ${arrowIcon}"></i> ${data.percentage}%`;
-                    percentage.classList.add(textColor);
-                },
-                error: function(error) {
-                    console.error('Error:', error);
-                }
-            });
-        }
-
-
-        function renderChart(data) {
-            const labels = Object.keys(data.data);
-            const values = Object.values(data.data);
-            const year = data.selectedYear;
-            const total = formatCurrency(data.totalCost);
-            const formattedValues = values.map(value => formatCurrency(value));
-
-            const ctx = document.getElementById('myChart').getContext('2d');
-
-            // Destroy existing chart if it exists
-            if (myChart && myChart instanceof Chart) {
-                myChart.destroy();
-            }
-
-            const additionalConfig = {
-                options: {
-                    plugins: {
-                        filler: {
-                            propagate: false,
-                        },
-                        title: {
-                            display: true,
-                            text: (ctx) => 'Total Pengeluaran Anak Tahun ' + year + ' : ' + total
-                        }
-                    },
-                    interaction: {
-                        intersect: false,
-                    },
-                    tooltips: {
-                        mode: 'index',
-                        intersect: false,
-                        callbacks: {
-                            label: function(tooltipItem, data) {
-                                const datasetLabel = data.datasets[tooltipItem.datasetIndex].label ||
-                                    '';
-                                const value = formatCurrency(tooltipItem.yLabel);
-                                return datasetLabel + ': ' + value;
-                            }
-                        }
-                    },
-                    hover: {
-                        mode: 'index',
-                        intersect: false,
-                    },
-                    scales: {
-                        x: {
-                            display: true,
-                            title: {
-                                display: true,
-                                text: 'Bulan'
-                            }
-                        },
-                        y: {
-                            display: true,
-                            title: {
-                                display: true,
-                                text: 'Value (IDR)'
-                            },
-                            beginAtZero: true,
-                            skipNull: true,
-                            ticks: {
-                                callback: function(value) {
-                                    return formatCurrency(value);
-                                }
-                            }
-                        }
-                    }
-                },
-            };
-
-            const mergedConfig = Object.assign({}, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: ' Pengeluaran',
-                        data: values,
-                        borderColor: 'rgb(255, 99, 132)',
-                        borderWidth: 4,
-                        pointBackgroundColor: 'rgb(255, 99, 132)',
-                        pointBorderWidth: 5,
-                        pointRadius: 3,
-                        pointHoverRadius: 5,
-                    }]
-                },
-            }, additionalConfig);
-
-            myChart = new Chart(ctx, mergedConfig);
-        }
-    });
-</script>
-
-<script>
-    $(document).ready(function() {
-        let myChart;
-        $('#monthSelector, #yearSelector').change(function() {
-            fetchChildCostData($('#monthSelector').val(), $('#yearSelector').val());
-        });
-
-        fetchChildCostData();
-
-        function fetchChildCostData(selectedMonth = null, selectedYear = null) {
-            let url = "{{ route('pengeluaran-panti-chart.chartBulanan') }}";
-            if (selectedMonth && selectedYear) {
-                url += `?month=${selectedMonth}&year=${selectedYear}`;
-            }
-
-            $.ajax({
-                url: url,
-                method: 'GET',
-                success: function(data) {
-                    console.log(data);
-                    renderChart(data);
-                    const cost = document.getElementById('beforeCost');
-                    const percentage = document.getElementById('beforePercentage');
-                    cost.innerHTML = formatCurrency(data.totalCost);
-
-                    // Adding arrow icon and color based on percentage change
-                    const arrowIcon = data.percentage >= 0 ? 'bx-up-arrow-alt' :
-                        'bx-down-arrow-alt';
-                    const textColor = data.percentage >= 0 ? 'text-danger' : 'text-success';
-
-                    percentage.innerHTML = `<i class="bx ${arrowIcon}"></i> ${data.percentage}%`;
-                    percentage.classList.add(textColor);
-                },
-                error: function(error) {
-                    console.error('Error:', error);
-                }
-            });
-        }
-
-        function renderChart(data) {
-            const labels = data.labels.map(day => `${day}`);
-            const values = data.values;
-            const month = data.selectedMonth;
-            const year = data.selectedYear;
-            const total = formatCurrency(data.totalCost);
-            const percentage = data.percentage;
-
-            const ctx = document.getElementById('myChart').getContext('2d');
-
-            // Destroy existing chart if it exists
-            if (myChart && myChart instanceof Chart) {
-                myChart.destroy();
-            }
-
-            const additionalConfig = {
-                options: {
-                    plugins: {
-                        filler: {
-                            propagate: false,
-                        },
-                        title: {
-                            display: true,
-                            text: (ctx) => 'Total Pengeluaran Anak Bulan ' + month + ' Tahun ' + year +
-                                ' : ' +
-                                total
-                        },
-                    },
-                    interaction: {
-                        intersect: false,
-                    },
-                    tooltips: {
-                        mode: 'index',
-                        intersect: false,
-                        callbacks: {
-                            title: (tooltipItem) => `${tooltipItem[0].label}`,
-                            label: (tooltipItem) =>
-                                `Total Pengeluaran: ${formatCurrency(tooltipItem.raw)}`,
-                        }
-                    },
-                    hover: {
-                        mode: 'index',
-                        intersect: false,
-                    },
-                    scales: {
-                        x: {
-                            display: true,
-                            title: {
-                                display: true,
-                                text: 'Tanggal'
-                            }
-                        },
-                        y: {
-                            display: true,
-                            title: {
-                                display: true,
-                                text: 'Value (IDR)'
-                            },
-                            beginAtZero: true,
-                            skipNull: true,
-                            ticks: {
-                                callback: function(value) {
-                                    return formatCurrency(value);
-                                }
-                            }
-                        }
-                    }
-                },
-            };
-
-            const mergedConfig = Object.assign({}, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: ' Pengeluaran',
-                        data: values,
-                        borderColor: 'rgb(255, 99, 132)',
-                        borderWidth: 4,
-                        pointBackgroundColor: 'rgb(255, 99, 132)',
-                        pointBorderWidth: 5,
-                        pointRadius: 3,
-                        pointHoverRadius: 5,
-                    }]
-                },
-            }, additionalConfig);
-
-            myChart = new Chart(ctx, mergedConfig);
-        }
-    });
-
-    function formatCurrency(value) {
-        return new Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR'
-        }).format(value);
-    }
-</script> --}}
 
 <script>
     $(document).ready(function() {

@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\Anak\PendidikanAnakController;
 use App\Http\Controllers\Admin\Anak\PrestasiAnakController;
 use App\Http\Controllers\Admin\Keuangan\ChartPengeluaranAnakController;
 use App\Http\Controllers\Admin\Keuangan\ChartPengeluaranPantiController;
+use App\Http\Controllers\Admin\Keuangan\ChartPengeluaranTotalController;
 use App\Http\Controllers\Admin\Keuangan\PengeluaranAnakController;
 use App\Http\Controllers\Admin\Keuangan\PengeluaranPantiController;
 use App\Http\Controllers\Admin\Keuangan\PengeluaranTotalController;
@@ -57,8 +58,11 @@ Route::prefix('keuangan')->group(function () {
     Route::resource('pengeluaran-panti', PengeluaranPantiController::class);
     Route::get('pengeluaran-total', [PengeluaranTotalController::class, 'index'])->name('pengeluaran-total.index');
     Route::get('pengeluaran-anak-chart-tahunan', [ChartPengeluaranAnakController::class, 'chartTahunan'])->name('pengeluaran-anak-chart.chartTahunan');
+    Route::get('pengeluaran-anak-chart-bulanan', [ChartPengeluaranAnakController::class, 'chartBulanan'])->name('pengeluaran-anak-chart.chartBulanan');
     Route::get('pengeluaran-panti-chart-tahunan', [ChartPengeluaranPantiController::class, 'chartTahunan'])->name('pengeluaran-panti-chart.chartTahunan');
     Route::get('pengeluaran-panti-chart-bulanan', [ChartPengeluaranPantiController::class, 'chartBulanan'])->name('pengeluaran-panti-chart.chartBulanan');
+    Route::get('pengeluaran-total-chart-tahunan', [ChartPengeluaranTotalController::class, 'chartTahunan'])->name('pengeluaran-total-chart.chartTahunan');
+    Route::get('pengeluaran-total-chart-bulanan', [ChartPengeluaranTotalController::class, 'chartBulanan'])->name('pengeluaran-total-chart.chartBulanan');
 });
 
 
