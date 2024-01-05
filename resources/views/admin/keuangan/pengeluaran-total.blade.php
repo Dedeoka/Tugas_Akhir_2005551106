@@ -12,32 +12,18 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-2 pb-1">
                             <div class="avatar me-2">
-                                <span class="avatar-initial rounded bg-label-primary"><i class='bx bx-child fs-2'></i></span>
-                            </div>
-                            <h4 class="ms-1 mb-0">42</h4>
-                        </div>
-                        <p class="mb-1">Pengeluaran Anak</p>
-                        <p class="mb-0">
-                            <span class="fw-medium me-1">+18.2%</span>
-                            <small class="text-muted">than last week</small>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-3 mb-4">
-                <div class="card card-border-shadow-warning h-100">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-2 pb-1">
-                            <div class="avatar me-2">
                                 <span class="avatar-initial rounded bg-label-warning"><i
                                         class='bx bx-building-house fs-3'></i></span>
                             </div>
-                            <h4 class="ms-1 mb-0">8</h4>
+                            <h4 class="ms-1 mb-0"></h4>
                         </div>
-                        <p class="mb-1">Pengeluaran Panti</p>
+                        <p class="mb-1">Total Pengeluaran Panti Bulan Ini</p>
                         <p class="mb-0">
-                            <span class="fw-medium me-1">-8.7%</span>
-                            <small class="text-muted">than last week</small>
+                            <span class="text-{{ $selectedYear >= 0 ? 'danger' : 'success' }} fw-medium">
+                                <i class="bx {{ $selectedYear >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
+                                {{ $selectedYear }}%
+                            </span>
+                            <small class="text-muted">Dari Bulan Lalu</small>
                         </p>
                     </div>
                 </div>
@@ -48,15 +34,35 @@
                         <div class="d-flex align-items-center mb-2 pb-1">
                             <div class="avatar me-2">
                                 <span class="avatar-initial rounded bg-label-danger"><i
-                                        class='bx bx-git-repo-forked'></i></span>
+                                        class='bx bxs-school fs-3'></i></span>
                             </div>
-                            <h4 class="ms-1 mb-0">27</h4>
+                            <h4 class="ms-1 mb-0">{{ $selectedYear }}</h4>
                         </div>
-                        <p class="mb-1">Pengeluaran </p>
+                        <p class="mb-1">Pengeluaran Panti Tahun Ini </p>
                         <p class="mb-0">
-                            <span class="fw-medium me-1">+4.3%</span>
-                            <small class="text-muted">than last week</small>
+                            <span class="text-{{ $selectedYear >= 0 ? 'danger' : 'success' }} fw-medium">
+                                <i class="bx {{ $selectedYear >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
+                                {{ $selectedYear }}%
+                            </span>
+                            <small class="text-muted">Dari Tahun Lalu</small>
                         </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 mb-4">
+                <div class="card card-border-shadow-warning h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-2 pb-1">
+                            <div class="avatar me-2">
+                                <span class="avatar-initial rounded bg-label-success"><i
+                                        class='bx bx-category-alt fs-3'></i></span>
+                            </div>
+                            <h4 class="ms-1 mb-0">{{ $selectedYear }}</h4>
+                        </div>
+                        <p class="mb-1">Kategori Pengeluaran Terbesar</p>
+                        <small class="mb-0 text-muted">
+                            Kategori {{ $selectedYear }}
+                        </small>
                     </div>
                 </div>
             </div>
@@ -65,16 +71,17 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-2 pb-1">
                             <div class="avatar me-2">
-                                <span class="avatar-initial rounded bg-label-info"><img
-                                        src="{{ asset('assets/img/icons/unicons/cc-primary.png') }}" alt="Credit Card"
-                                        class="rounded" /></span>
+                                <span class="avatar-initial rounded bg-label-danger"><i class='bx bx-medal fs-3'></i></span>
                             </div>
-                            <h4 class="ms-1 mb-0">13</h4>
+                            <h4 class="ms-1 mb-0">{{ $selectedYear }} Pengeluaran</h4>
                         </div>
-                        <p class="mb-1">Pengeluaran Total Bulan Ini</p>
+                        <p class="mb-1">Jumlah Pengeluaran Tahun Ini</p>
                         <p class="mb-0">
-                            <span class="fw-medium me-1">-2.5%</span>
-                            <small class="text-muted">than last month</small>
+                            <span class="text-{{ $selectedYear >= 0 ? 'danger' : 'success' }} fw-medium">
+                                <i class="bx {{ $selectedYear >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
+                                {{ $selectedYear }}%
+                            </span>
+                            <small class="text-muted">Dari Tahun Lalu</small>
                         </p>
                     </div>
                 </div>
@@ -84,20 +91,67 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <div>
-                        <h5 class="card-title mb-0">Pengeluaran Total</h5>
-                        <small class="text-muted">Pengeluaran Anak & Pengeluaran Panti</small>
+                        <h5 class="card-title mb-0">Pengeluaran Anak</h5>
+                        <small class="text-muted">Statistik Pengeluaran Anak</small>
                     </div>
                     <div class="d-sm-flex d-none align-items-center">
-                        <h5 class="mb-0 me-3">$ 100,000</h5>
+                        <h5 class="me-2 mt-3 cursor-pointer" id="yearChart">Year</h5>
+                        <h5 class="me-3 mt-3 cursor-pointer text-muted" id="monthChart">Month</h5>
+                        <select class="form-select me-2 border-0 d-none" id="monthSelector" name="month"
+                            aria-label="Default select example">
+                            <option value="01">
+                                Januari
+                            </option>
+                            <option value="02">
+                                Februari
+                            </option>
+                            <option value="03">
+                                Maret
+                            </option>
+                            <option value="04">
+                                April
+                            </option>
+                            <option value="05">
+                                Mei
+                            </option>
+                            <option value="06">
+                                Juni
+                            </option>
+                            <option value="07">
+                                Juli
+                            </option>
+                            <option value="08">
+                                Agustus
+                            </option>
+                            <option value="09">
+                                September
+                            </option>
+                            <option value="10">
+                                Oktober
+                            </option>
+                            <option value="11">
+                                November
+                            </option>
+                            <option value="12">
+                                Desember
+                            </option>
+                        </select>
+                        <select class="form-select me-4 border-0" id="yearSelector" name="year"
+                            aria-label="Default select example">
+                            @foreach ($years as $year)
+                                <option value="{{ $year }}">
+                                    {{ $year }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <h5 class="mb-0 me-2" id="beforeCost"></h5>
                         <span class="badge bg-label-secondary">
-                            <i class='bx bx-down-arrow-alt bx-xs text-danger'></i>
-                            <span class="align-middle">20%</span>
+                            <span class="align-middle" id="beforePercentage"></span>
                         </span>
                     </div>
                 </div>
                 <div class="card-body">
-                    <div id="chart">
-                    </div>
+                    <canvas id="myChart" class="chartjs mx-auto"></canvas>
                 </div>
             </div>
         </div>
@@ -105,75 +159,5 @@
 @endsection
 
 @section('scripts')
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script>
-        function updateChart() {
-            var selectedYear = document.getElementById("yearSelect").value;
-
-            // Make an AJAX request to fetch data for the selected year
-            axios.get('/keuangan/pengeluaran-total?year=' + selectedYear)
-                .then(function(response) {
-                    // Create an array to hold data for all months, initialize with zeros
-                    var dataForAllMonths = Array.from({
-                        length: 12
-                    }, () => 0);
-
-                    // Update data for available months
-                    response.data.forEach(function(data) {
-                        // Assuming data contains month and value properties
-                        dataForAllMonths[data.month - 1] = data.value;
-                    });
-
-                    // Update chart data with the new data
-                    chart.updateSeries([{
-                        name: "Pengeluaran Anak",
-                        data: dataForAllMonths,
-                    }]);
-                })
-                .catch(function(error) {
-                    console.error("Error fetching data: " + error);
-                });
-        }
-
-        // Initialize data array with zeros for all months
-        var initialData = Array.from({
-            length: 12
-        }, () => 0);
-
-        var options = {
-            series: [{
-                name: "Pengeluaran Anak",
-                data: initialData,
-            }],
-            chart: {
-                height: 350,
-                type: 'line',
-                zoom: {
-                    enabled: false
-                }
-            },
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                curve: 'straight'
-            },
-            title: {
-                text: 'Product Trends by Month',
-                align: 'left'
-            },
-            grid: {
-                row: {
-                    colors: ['#f3f3f3', 'transparent'],
-                    opacity: 0.5
-                },
-            },
-            xaxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-            }
-        };
-
-        var chart = new ApexCharts(document.querySelector("#chartAnak"), options);
-        chart.render();
-    </script>
+    @include('admin.keuangan.js.pengeluaran-total')
 @endsection

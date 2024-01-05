@@ -1,161 +1,28 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script>
-    function formatAmount(inputElement) {
-        let inputValue = inputElement.value;
-        inputValue = inputValue.replace(/[^\d]/g, '');
-        inputValue = new Intl.NumberFormat().format(inputValue);
-        inputElement.value = inputValue;
-    }
-</script>
-
-<script>
-    $(document).ready(function() {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        function clearForm() {
-            $('#title').val('');
-            $('#total_cost').val('');
-            $('.form-control').removeClass('is-invalid');
-            $('.invalid-feedback').text('');
-        }
-
-        function showSuccessMessage(message) {
-            Swal.fire({
-                icon: 'success',
-                title: message,
-                confirmButtonText: 'OK',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    location.reload();
-                }
-            });
-        }
-
-        function showErrorMessage(message) {
-            Swal.fire({
-                icon: 'error',
-                title: message,
-            });
-        }
-
-        $('.modal-pengeluaran').on('hidden.bs.modal', function() {
-            clearForm();
-        });
-
-        $('.submitKesehatan').click(function(e) {
-            e.preventDefault();
-            var id = $(this).data('id');
-            console.log(id);
-            simpanKesehatan(id);
-            return false;
-        });
-
-        $('.submitPendidikan').click(function(e) {
-            e.preventDefault();
-            var id = $(this).data('id');
-            simpanPendidikan(id);
-            return false;
-        });
-
-        function simpanKesehatan(id) {
-            var formData = new FormData($('#formPengeluaranKesehatan' + id)[0]);
-            formData.append('_token', '{{ csrf_token() }}');
-            $.ajax({
-                url: "{{ route('pengeluaran-anak.store') }}",
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    if (response.errors) {
-                        console.log('Error Response:', response);
-                    } else {
-                        showSuccessMessage(response.success);
-                        $('#dataPengeluaranKesehatan').modal('hide');
-                    }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.error("AJAX Error:", textStatus, errorThrown);
-                    console.log("Response:", jqXHR.responseText);
-                }
-            });
-        }
-
-        function simpanPendidikan(id) {
-            var formData = new FormData($('#pengeluaranPendidikan' + id)[0]);
-            formData.append('_token', '{{ csrf_token() }}');
-            $.ajax({
-                url: "{{ route('pengeluaran-anak.store') }}",
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    if (response.errors) {
-                        console.log('Error Response:', response);
-                    } else {
-                        showSuccessMessage(response.success);
-                        $('#dataPengeluaranPendidikan').modal('hide');
-                    }
-                }
-            });
-        }
-
-        $('.updateSubmit').click(function(e) {
-            e.preventDefault();
-            var id = $(this).data('id');
-            update(id);
-        });
-
-        function update(id) {
-            $.ajax({
-                url: "{{ url('master-data/daftar-sekolah') }}/" + id,
-                type: 'PATCH',
-                data: new FormData($('#dataAnakForm')[0]),
-                success: function(response) {
-                    if (response.errors) {
-                        if (response.errors.name) {
-                            $('#editName' + id).addClass('is-invalid');
-                            $('#editNameError' + id).text(response.errors.name[0]);
-                        }
-                    } else {
-                        showSuccessMessage(response.success);
-                        $('#editModal' + id).modal('hide');
-                    }
-                }
-            });
-        }
-    });
-</script>
-
-<script>
     $(document).ready(function() {
         let myChart;
         let isYearlyChart = true;
 
-        fetchYearlyChildCostData($('#yearSelector').val());
+        fetchYearlyCostData($('#yearSelector').val());
 
         $('#yearSelector').change(function() {
             if (isYearlyChart) {
-                fetchYearlyChildCostData($(this).val());
+                fetchYearlyCostData($(this).val());
             } else {
-                fetchMonthlyChildCostData($('#monthSelector').val(), $(this).val());
+                fetchMonthlyCostData($('#monthSelector').val(), $(this).val());
             }
         });
 
         $('#monthSelector, #yearSelector').change(function() {
             if (!isYearlyChart) {
-                fetchMonthlyChildCostData($('#monthSelector').val(), $('#yearSelector').val());
+                fetchMonthlyCostData($('#monthSelector').val(), $('#yearSelector').val());
             }
         });
 
-        function fetchYearlyChildCostData(selectedYear = null) {
-            let url = "{{ route('pengeluaran-anak-chart.chartTahunan') }}";
+        function fetchYearlyCostData(selectedYear = null) {
+            let url = "{{ route('pengeluaran-total-chart.chartTahunan') }}";
             if (selectedYear) {
                 url += "?year=" + selectedYear;
             }
@@ -204,7 +71,7 @@
                             },
                             title: {
                                 display: true,
-                                text: (ctx) => 'Total Pengeluaran Anak Tahun ' + year + ' : ' + total
+                                text: (ctx) => 'Total Pengeluaran Tahun ' + year + ' : ' + total
                             }
                         },
                         interaction: {
@@ -275,8 +142,8 @@
         }
 
 
-        function fetchMonthlyChildCostData(selectedMonth = null, selectedYear = null) {
-            let url = "{{ route('pengeluaran-anak-chart.chartBulanan') }}";
+        function fetchMonthlyCostData(selectedMonth = null, selectedYear = null) {
+            let url = "{{ route('pengeluaran-total-chart.chartBulanan') }}";
             if (selectedMonth && selectedYear) {
                 url += `?month=${selectedMonth}&year=${selectedYear}`;
             }
@@ -330,7 +197,7 @@
                             },
                             title: {
                                 display: true,
-                                text: (ctx) => 'Total Pengeluaran Anak Bulan ' + selectedText + ' Tahun ' +
+                                text: (ctx) => 'Total Pengeluaran Panti Bulan ' + selectedText + ' Tahun ' +
                                     year +
                                     ' : ' +
                                     total
@@ -411,7 +278,7 @@
             $(this).removeClass('text-muted');
             $('#monthChart').addClass('text-muted');
             $('#monthSelector').addClass('d-none');
-            fetchYearlyChildCostData($('#yearSelector').val());
+            fetchYearlyCostData($('#yearSelector').val());
         });
 
         $('#monthChart').click(function() {
@@ -419,76 +286,7 @@
             $(this).removeClass('text-muted');
             $('#monthSelector').removeClass('d-none');
             $('#yearChart').addClass('text-muted');
-            fetchMonthlyChildCostData($('#monthSelector').val(), $('#yearSelector').val());
+            fetchMonthlyCostData($('#monthSelector').val(), $('#yearSelector').val());
         });
-    });
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const deleteButtons = document.querySelectorAll('.delete-data');
-
-        deleteButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const dataId = this.getAttribute('data-id');
-                if (dataId) {
-                    showDeleteConfirmation(dataId);
-                }
-            });
-        });
-
-        function showDeleteConfirmation(dataId) {
-            Swal.fire({
-                title: 'Konfirmasi',
-                text: 'Apakah Anda yakin ingin menghapus data ini?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Hapus!',
-                cancelButtonText: 'Batal',
-                allowOutsideClick: false, // Menonaktifkan interaksi dengan elemen di luar popup
-                allowEscapeKey: false, // Menonaktifkan tombol escape
-                backdrop: 'rgba(0,0,0,0.5)', // Menonaktifkan klik di belakang popup
-                clickToClose: false, // Tidak mengizinkan pengguna menutup dengan mengklik
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Kirim permintaan Ajax untuk menghapus data
-                    deleteData(dataId);
-                }
-            });
-        }
-
-        function deleteData(dataId) {
-            // Kirim permintaan Ajax ke server
-            fetch(`/keuangan/pengeluaran-anak/${dataId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    }
-                })
-                .then(response => {
-                    if (response.ok) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Sukses!',
-                            text: 'Data berhasil dihapus.',
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                location.reload();
-                            }
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Kesalahan!',
-                            text: 'Terjadi kesalahan saat menghapus data.',
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        }
     });
 </script>

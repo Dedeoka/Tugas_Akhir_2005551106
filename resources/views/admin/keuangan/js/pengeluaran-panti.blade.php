@@ -55,7 +55,7 @@
                     const percentage = document.getElementById('beforePercentage');
                     cost.innerHTML = formatCurrency(data.totalCost);
 
-                    // Menambahkan ikon panah dan warna berdasarkan perubahan persentase
+                    percentage.classList.remove('text-danger', 'text-success');
                     const arrowIcon = data.percentage >= 0 ? 'bx-up-arrow-alt' :
                         'bx-down-arrow-alt';
                     const textColor = data.percentage >= 0 ? 'text-danger' : 'text-success';
@@ -177,7 +177,6 @@
                     const percentage = document.getElementById('beforePercentage');
                     cost.innerHTML = formatCurrency(data.totalCost);
 
-                    // Adding arrow icon and color based on percentage change
                     const arrowIcon = data.percentage >= 0 ? 'bx-up-arrow-alt' :
                         'bx-down-arrow-alt';
                     const textColor = data.percentage >= 0 ? 'text-danger' : 'text-success';

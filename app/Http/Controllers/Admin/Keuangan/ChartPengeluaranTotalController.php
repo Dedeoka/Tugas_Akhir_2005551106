@@ -88,16 +88,57 @@ class ChartPengeluaranTotalController extends Controller
         $firstDayOfMonth = Carbon::createFromDate($selectedYear, $selectedMonth, 1);
         $lastDayOfMonth = $firstDayOfMonth->copy()->endOfMonth();
 
-        $childCost = ChildCostDetail::whereYear('created_at', $selectedYear)
+        // Mengambil data dari model Cost
+        $costData = Cost::whereYear('created_at', $selectedYear)
             ->whereMonth('created_at', $selectedMonth)
-            ->get();
+            ->get()
+            ->groupBy(function ($item) {
+                return Carbon::parse($item->created_at)->day;
+            })
+            ->map(function ($group) {
+                return $group->sum('total_cost');
+            });
+
+
+        // Mengambil data dari model ChildCostDetail
+        $childCostData = ChildCostDetail::whereYear('created_at', $selectedYear)
+            ->whereMonth('created_at', $selectedMonth)
+            ->get()
+            ->groupBy(function ($item) {
+                return Carbon::parse($item->created_at)->day;
+            })
+            ->map(function ($group) {
+                return $group->sum('cost');
+            });
+
+        // Menggabungkan data dari kedua model dengan menjumlahkan nilai
+        $mergedData = collect([]);
+
+        // Menambahkan data dari model Cost
+        foreach ($costData as $key => $value) {
+            if ($mergedData->has($key)) {
+                $mergedData[$key] += $value;
+            } else {
+                $mergedData[$key] = $value;
+            }
+        }
+
+        // Menambahkan data dari model ChildCostDetail
+        foreach ($childCostData as $key => $value) {
+            if ($mergedData->has($key)) {
+                $mergedData[$key] += $value;
+            } else {
+                $mergedData[$key] = $value;
+            }
+        }
 
         $allDays = array_fill(1, $lastDayOfMonth->day, 0);
 
-        foreach ($childCost as $cost) {
-            $day = Carbon::parse($cost->created_at)->day;
-            $allDays[$day] += $cost->cost;
+        // Isi nilai yang sebenarnya berdasarkan data yang ada
+        foreach ($mergedData as $key => $value) {
+            $allDays[$key] = $value;
         }
+
 
         $values = array_values($allDays);
 
@@ -105,7 +146,9 @@ class ChartPengeluaranTotalController extends Controller
 
         // Perbandingan dengan bulan sebelumnya
         $lastMonth = Carbon::createFromDate($selectedYear, $selectedMonth, 1)->subMonth();
-        $lastMonthTotalCost = ChildCostDetail::whereYear('created_at', $lastMonth->year)
+        $lastMonthTotalCost = Cost::whereYear('created_at', $lastMonth->year)
+            ->whereMonth('created_at', $lastMonth->month)
+            ->sum('total_cost') + ChildCostDetail::whereYear('created_at', $lastMonth->year)
             ->whereMonth('created_at', $lastMonth->month)
             ->sum('cost');
 
@@ -122,7 +165,5 @@ class ChartPengeluaranTotalController extends Controller
             'totalCost' => $totalCost,
             'percentage' => $percentageChange,
         ]);
-
-        dd($totalCost);
     }
 }
