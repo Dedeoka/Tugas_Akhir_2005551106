@@ -69,10 +69,19 @@ class ChartPengeluaranTotalController extends Controller
         // Menghitung total biaya untuk setiap bulan
         $totalCost = $mergedData->sum();
 
-        // Menghitung persentase perbandingan dengan tahun lalu
         $percentageChange = 0;
+
         if ($lastYearTotalCost > 0) {
-            $percentageChange = number_format((($totalCost - $lastYearTotalCost) / $lastYearTotalCost) * 100, 2);
+            $rawPercentage = (($totalCost - $lastYearTotalCost) / $lastYearTotalCost) * 100;
+
+            // Format percentage with leading zero if it's less than 1
+            $formattedPercentage = number_format($rawPercentage, 2, ',', '.');
+
+            if ($rawPercentage < 1 && $rawPercentage > -1 && $rawPercentage != 0) {
+                $formattedPercentage = '0' . $formattedPercentage;
+            }
+
+            $percentageChange = $formattedPercentage;
         }
 
         return response()->json(['data' => $allMonths, 'selectedYear' => $selectedYear, 'totalCost' => $totalCost, 'percentage' => $percentageChange]);
@@ -153,9 +162,20 @@ class ChartPengeluaranTotalController extends Controller
             ->sum('cost');
 
         $percentageChange = 0;
+
         if ($lastMonthTotalCost > 0) {
-            $percentageChange = number_format((($totalCost - $lastMonthTotalCost) / $lastMonthTotalCost) * 100, 2);
+            $rawPercentage = (($totalCost - $lastMonthTotalCost) / $lastMonthTotalCost) * 100;
+
+            // Format percentage with leading zero if it's less than 1
+            $formattedPercentage = number_format($rawPercentage, 2, ',', '.');
+
+            if ($rawPercentage < 1 && $rawPercentage > -1 && $rawPercentage != 0) {
+                $formattedPercentage = '0' . $formattedPercentage;
+            }
+
+            $percentageChange = $formattedPercentage;
         }
+
 
         return response()->json([
             'labels' => range(1, $lastDayOfMonth->day),

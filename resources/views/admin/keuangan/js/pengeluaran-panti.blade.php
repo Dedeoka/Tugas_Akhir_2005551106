@@ -50,15 +50,20 @@
                 url: url,
                 method: 'GET',
                 success: function(data) {
+                    console.log(data);
                     renderChart(data);
                     const cost = document.getElementById('beforeCost');
                     const percentage = document.getElementById('beforePercentage');
                     cost.innerHTML = formatCurrency(data.totalCost);
 
+                    percentage.innerHTML = `<i class="bx bx-transfer-alt"></i> 0,00%`;
+
                     percentage.classList.remove('text-danger', 'text-success');
-                    const arrowIcon = data.percentage >= 0 ? 'bx-up-arrow-alt' :
+                    const numericPercentage = parseFloat(data.percentage.replace(',', '.'));
+
+                    const arrowIcon = numericPercentage >= 0 ? 'bx-up-arrow-alt' :
                         'bx-down-arrow-alt';
-                    const textColor = data.percentage >= 0 ? 'text-danger' : 'text-success';
+                    const textColor = numericPercentage >= 0 ? 'text-danger' : 'text-success';
 
                     percentage.innerHTML = `<i class="bx ${arrowIcon}"></i> ${data.percentage}%`;
                     percentage.classList.add(textColor);
@@ -177,9 +182,14 @@
                     const percentage = document.getElementById('beforePercentage');
                     cost.innerHTML = formatCurrency(data.totalCost);
 
-                    const arrowIcon = data.percentage >= 0 ? 'bx-up-arrow-alt' :
+                    percentage.innerHTML = `<i class="bx bx-transfer-alt"></i> 0,00%`;
+
+                    percentage.classList.remove('text-danger', 'text-success');
+                    const numericPercentage = parseFloat(data.percentage.replace(',', '.'));
+
+                    const arrowIcon = numericPercentage >= 0 ? 'bx-up-arrow-alt' :
                         'bx-down-arrow-alt';
-                    const textColor = data.percentage >= 0 ? 'text-danger' : 'text-success';
+                    const textColor = numericPercentage >= 0 ? 'text-danger' : 'text-success';
 
                     percentage.innerHTML = `<i class="bx ${arrowIcon}"></i> ${data.percentage}%`;
                     percentage.classList.add(textColor);
