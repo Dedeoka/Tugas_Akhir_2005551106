@@ -9,4 +9,7 @@ class Income extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+    public function incomeTypes(){
+        return $this->belongsTo(IncomeType::class, 'income_type_id');
+    }
 }

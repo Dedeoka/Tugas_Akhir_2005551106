@@ -15,13 +15,14 @@
                                 <span class="avatar-initial rounded bg-label-warning"><i
                                         class='bx bx-building-house fs-3'></i></span>
                             </div>
-                            <h4 class="ms-1 mb-0"></h4>
+                            <h4 class="ms-1 mb-0">{{ $currentMonthPantiCostFormatted }}</h4>
                         </div>
                         <p class="mb-1">Total Pengeluaran Panti Bulan Ini</p>
                         <p class="mb-0">
-                            <span class="text-{{ $selectedYear >= 0 ? 'danger' : 'success' }} fw-medium">
-                                <i class="bx {{ $selectedYear >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
-                                {{ $selectedYear }}%
+                            <span class="text-{{ $percentageMonthPantiCost >= 0 ? 'danger' : 'success' }} fw-medium">
+                                <i
+                                    class="bx {{ $percentageMonthPantiCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
+                                {{ $percentageMonthPantiCost }}%
                             </span>
                             <small class="text-muted">Dari Bulan Lalu</small>
                         </p>
@@ -36,13 +37,14 @@
                                 <span class="avatar-initial rounded bg-label-danger"><i
                                         class='bx bxs-school fs-3'></i></span>
                             </div>
-                            <h4 class="ms-1 mb-0">{{ $selectedYear }}</h4>
+                            <h4 class="ms-1 mb-0">{{ $currentYearPantiCostFormatted }}</h4>
                         </div>
                         <p class="mb-1">Pengeluaran Panti Tahun Ini </p>
                         <p class="mb-0">
-                            <span class="text-{{ $selectedYear >= 0 ? 'danger' : 'success' }} fw-medium">
-                                <i class="bx {{ $selectedYear >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
-                                {{ $selectedYear }}%
+                            <span class="text-{{ $percentageYearPantiCost >= 0 ? 'danger' : 'success' }} fw-medium">
+                                <i
+                                    class="bx {{ $percentageYearPantiCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
+                                {{ $percentageYearPantiCost }}%
                             </span>
                             <small class="text-muted">Dari Tahun Lalu</small>
                         </p>
@@ -57,12 +59,17 @@
                                 <span class="avatar-initial rounded bg-label-success"><i
                                         class='bx bx-category-alt fs-3'></i></span>
                             </div>
-                            <h4 class="ms-1 mb-0">{{ $selectedYear }}</h4>
+                            <h4 class="ms-1 mb-0">{{ $currentMonthChildCostFormatted }}</h4>
                         </div>
-                        <p class="mb-1">Kategori Pengeluaran Terbesar</p>
-                        <small class="mb-0 text-muted">
-                            Kategori {{ $selectedYear }}
-                        </small>
+                        <p class="mb-1">Pengeluaran Anak Bulan Ini</p>
+                        <p class="mb-0">
+                            <span class="text-{{ $percentageMonthChildCost >= 0 ? 'danger' : 'success' }} fw-medium">
+                                <i
+                                    class="bx {{ $percentageMonthChildCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
+                                {{ $percentageMonthChildCost }}%
+                            </span>
+                            <small class="text-muted">Dari Tahun Lalu</small>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -73,13 +80,14 @@
                             <div class="avatar me-2">
                                 <span class="avatar-initial rounded bg-label-danger"><i class='bx bx-medal fs-3'></i></span>
                             </div>
-                            <h4 class="ms-1 mb-0">{{ $selectedYear }} Pengeluaran</h4>
+                            <h4 class="ms-1 mb-0">{{ $currentYearChildCostFormatted }}</h4>
                         </div>
-                        <p class="mb-1">Jumlah Pengeluaran Tahun Ini</p>
+                        <p class="mb-1">Pengeluaran Anak Tahun Ini</p>
                         <p class="mb-0">
-                            <span class="text-{{ $selectedYear >= 0 ? 'danger' : 'success' }} fw-medium">
-                                <i class="bx {{ $selectedYear >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
-                                {{ $selectedYear }}%
+                            <span class="text-{{ $percentageYearChildCost >= 0 ? 'danger' : 'success' }} fw-medium">
+                                <i
+                                    class="bx {{ $percentageYearChildCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
+                                {{ $percentageYearChildCost }}%
                             </span>
                             <small class="text-muted">Dari Tahun Lalu</small>
                         </p>
@@ -91,8 +99,8 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <div>
-                        <h5 class="card-title mb-0">Pengeluaran Anak</h5>
-                        <small class="text-muted">Statistik Pengeluaran Anak</small>
+                        <h5 class="card-title mb-0">Pengeluaran Total Panti</h5>
+                        <small class="text-muted">Statistik Pengeluaran Total Panti</small>
                     </div>
                     <div class="d-sm-flex d-none align-items-center">
                         <h5 class="me-2 mt-3 cursor-pointer" id="yearChart">Year</h5>

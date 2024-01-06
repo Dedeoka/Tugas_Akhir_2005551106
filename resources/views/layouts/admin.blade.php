@@ -208,8 +208,8 @@
                         </a>
                     </li>
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">Keuangan</span></li>
-                    <li class="menu-item">
-                        <a href="tables-basic.html" class="menu-link">
+                    <li class="menu-item {{ request()->is('keuangan/pemasukan-panti') ? 'active' : '' }}">
+                        <a href="{{ route('pemasukan-panti.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bxs-wallet"></i>
                             <div data-i18n="Tables">Pemasukan</div>
                         </a>

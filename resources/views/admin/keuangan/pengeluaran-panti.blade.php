@@ -5,7 +5,7 @@
 
 
         <h4 class="py-3 mb-4">
-            <span class="text-muted fw-light">Keuangan /</span> <b>Pengeluaran Anak Asuh</b>
+            <span class="text-muted fw-light">Keuangan /</span> <b>Pengeluaran Panti</b>
         </h4>
 
 
@@ -76,7 +76,8 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-2 pb-1">
                             <div class="avatar me-2">
-                                <span class="avatar-initial rounded bg-label-danger"><i class='bx bx-medal fs-3'></i></span>
+                                <span class="avatar-initial rounded bg-label-primary"><i
+                                        class='bx bx-money-withdraw fs-3'></i></span>
                             </div>
                             <h4 class="ms-1 mb-0">{{ $currentYearCountCost }} Pengeluaran</h4>
                         </div>
@@ -97,8 +98,8 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <div>
-                        <h5 class="card-title mb-0">Pengeluaran Anak</h5>
-                        <small class="text-muted">Statistik Pengeluaran Anak</small>
+                        <h5 class="card-title mb-0">Pengeluaran Panti</h5>
+                        <small class="text-muted">Statistik Pengeluaran Panti</small>
                     </div>
                     <div class="d-sm-flex d-none align-items-center">
                         <h5 class="me-2 mt-3 cursor-pointer" id="yearChart">Year</h5>
@@ -166,7 +167,7 @@
             <div class="d-flex">
                 <div class="w-75 m-3 quick-sand">
                     <h3>
-                        Tabel Data Pengeluaran Anak Asuh
+                        Tabel Data Pengeluaran Panti
                     </h3>
                 </div>
                 <div class="col-lg-3 col-md-6 quick-sand">

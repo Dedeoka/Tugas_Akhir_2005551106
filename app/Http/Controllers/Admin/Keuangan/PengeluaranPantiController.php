@@ -43,7 +43,7 @@ class PengeluaranPantiController extends Controller
         $currentYearTotalCost = Cost::whereYear('created_at', now()->year)
             ->sum('total_cost');
         $currentYearTotalCostFormatted = 'Rp ' . number_format($currentYearTotalCost, 0, ',', '.');
-        $lastYearTotalCost = Cost::whereYear('created_at', now()->subMonth()->year)
+        $lastYearTotalCost = Cost::whereYear('created_at', now()->subYear()->year)
             ->sum('total_cost');
         $lastYearTotalCostFormatted = 'Rp ' . number_format($lastYearTotalCost, 0, ',', '.');
         $percentageYearTotalCost = 0;
@@ -98,9 +98,9 @@ class PengeluaranPantiController extends Controller
             'title' => 'required',
             'total_cost' => 'required',
         ], [
-            'cost_type_id.required' => 'Nama anak asuh wajib diisi',
-            'title.required' => 'Tempat lahir anak asuh wajib diisi',
-            'total_cost.required' => 'Tanggal lahir anak asuh wajib diisi',
+            'cost_type_id.required' => 'Kategori pengeluaran wajib diisi',
+            'title.required' => 'Nama pengeluaran wajib diisi',
+            'total_cost.required' => 'Jumlah pengeluaran wajib diisi',
         ]);
 
         if ($validasi->fails()) {

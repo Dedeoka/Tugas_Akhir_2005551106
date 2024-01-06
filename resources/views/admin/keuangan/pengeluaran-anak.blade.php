@@ -83,7 +83,7 @@
                             </div>
                             <h4 class="ms-1 mb-0">{{ $currentMonthAchievementCostFormatted }}</h4>
                         </div>
-                        <p class="mb-1">Pengeluaran Prestasi\ Bulan Ini</p>
+                        <p class="mb-1">Pengeluaran Prestasi Bulan Ini</p>
                         <p class="mb-0">
                             <span class="text-{{ $percentageAchievementCost >= 0 ? 'danger' : 'success' }} fw-medium">
                                 <i
