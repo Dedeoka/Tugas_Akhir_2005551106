@@ -392,8 +392,6 @@
 
 @section('scripts')
     <script>
-        document.getElementById('angka').addEventListener('change', function() {
-            this.form.submit();
-        });
+        
     </script>
 @endsection

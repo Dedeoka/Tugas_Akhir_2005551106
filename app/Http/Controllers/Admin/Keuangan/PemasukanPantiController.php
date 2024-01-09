@@ -70,7 +70,7 @@ class PemasukanPantiController extends Controller
             ->orderByDesc('total_amount')
             ->first();
 
-        $highestTotalIncomeByTypeFormat = 'Rp ' . number_format($highestTotalIncomeByType->total_Income, 0, ',', '.');
+        $highestTotalIncomeByTypeFormat = 'Rp ' . number_format($highestTotalIncomeByType->total_Income ?? 0, 0, ',', '.');
 
         // Get the Income type name for the highest total Income
         $highestIncomeTypeName = $highestTotalIncomeByType

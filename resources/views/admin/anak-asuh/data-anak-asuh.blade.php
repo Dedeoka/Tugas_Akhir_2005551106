@@ -413,8 +413,7 @@
                                 <th class="col-md-1 text-center fw-bold">No</th>
                                 <th class="col-md-1 text-center fw-bold">Foto Anak</th>
                                 <th class="col-md-1 text-center fw-bold">Nama</th>
-                                <th class="col-md-1 text-center fw-bold">Tanggal Lahir</th>
-                                <th class="col-md-1 text-center fw-bold">Tempat Lahir</th>
+                                <th class="col-md-1 text-center fw-bold">Tempat/Tanggal Lahir</th>
                                 <th class="col-md-1 text-center fw-bold">Jenis Kelamin</th>
                                 <th class="col-md-1 text-center fw-bold">Agama</th>
                                 <th class="col-md-1 text-center fw-bold">Status</th>
@@ -462,8 +461,7 @@
                                     </td>
 
                                     <td>{{ $data->name }}</td>
-                                    <td>{{ $data->date_of_birth }}</td>
-                                    <td>{{ $data->place_of_birth }}</td>
+                                    <td>{{ $data->place_of_birth }}, {{ $data->date_of_birth }}</td>
                                     <td>{{ $data->gender }}</td>
                                     <td>{{ $data->religion }}</td>
                                     <td>{{ $data->status }}</td>

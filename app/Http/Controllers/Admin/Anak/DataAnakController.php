@@ -122,6 +122,8 @@ class DataAnakController extends Controller
                 $identityCardPath = '-';
                 $familyCardPath = '-';
                 $birthCertificatePath = '-';
+                $imagePath = '-';
+                $guardianIdentityPath = $request->file('guardian_identity_card')->store('uploads/kartu-pengenal-wali');
             }
 
             $data = [
@@ -131,7 +133,7 @@ class DataAnakController extends Controller
                 'gender' => $request->gender,
                 'religion' => $request->religion,
                 'status' => $request->status,
-                'congenital_disease' => $request->congenital_disease ? $request->congenital_disease : 'tidak ada',
+                'congenital_disease' => $request->congenital_disease ? $request->congenital_disease : 'Tidak Ada',
                 'identity_card' => $identityCardPath,
                 'image' => $imagePath,
             ];

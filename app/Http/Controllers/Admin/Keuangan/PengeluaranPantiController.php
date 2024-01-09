@@ -70,7 +70,7 @@ class PengeluaranPantiController extends Controller
             ->orderByDesc('total_cost')
             ->first();
 
-        $highestTotalCostByTypeFormat = 'Rp ' . number_format($highestTotalCostByType->total_cost, 0, ',', '.');
+        $highestTotalCostByTypeFormat = 'Rp ' . number_format($highestTotalCostByType->total_cost?? 0, 0, ',', '.');
 
         // Get the cost type name for the highest total cost
         $highestCostTypeName = $highestTotalCostByType
