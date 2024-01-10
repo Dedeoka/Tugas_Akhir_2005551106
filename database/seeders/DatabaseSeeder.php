@@ -4,6 +4,13 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\ChildDetail;
+use App\Models\ChildHealth;
+use App\Models\ChildCost;
+use App\Models\ChildCostDetail;
+use App\Models\ChildEducation;
+use App\Models\ChildEducationDetail;
+use App\Models\Children;
 
 class DatabaseSeeder extends Seeder
 {
@@ -73,7 +80,24 @@ class DatabaseSeeder extends Seeder
             ['name' => 'TK Kumara Sari VI', 'address' => 'Gg. Sekar Gn., Penatih Dangin Puri, Kec. Denpasar Tim., Kota Denpasar', 'phone' => '(0361) 461092'],
         ];
         \App\Models\School::insert($school);
-        \App\Models\Children::factory(10)->create();
-        \App\Models\ChildDetail::factory(10)->create();
+
+        Children::factory(10)->create()->each(function ($child) {
+            ChildDetail::factory(1)->create(["children_id" => $child->id]);
+            ChildHealth::factory(1)->create(["children_id" => $child->id])->each(function ($childHealth) {
+                ChildCost::factory(1)->create([
+                    "reference_table_id" => $childHealth->id,
+                    "total_cost" => $childHealth->drug_cost + $childHealth->medical_check_cost,
+                    "title" => 'Pengeluaran Sakit' . $childHealth->diseases->name . ' ' . $childHealth->childrens->name,
+                ])->each(function ($chilCost) {
+                    ChildCostDetail::factory(1)->create([
+                        'child_cost_id' => $chilCost->id,
+                        'cost' => $chilCost->total_cost,
+                    ]);
+                });
+            });
+            ChildEducation::factory(1)->create(["children_id" => $child->id])->each(function ($childEducation) {
+            ChildEducationDetail::factory(1)->create(["child_education_id" => $childEducation->id]);
+            });
+        });
     }
 }

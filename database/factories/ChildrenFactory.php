@@ -17,11 +17,11 @@ class ChildrenFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->firstName(),
-            'place_of_birth' => $this->faker->randomElement(['Denpasar', 'Badung', 'Karangasem', 'Bangli', 'Klungkung', 'Tabanan', 'Buleleng', 'Jembrana', 'Gianyar']),
-            'date_of_birth' => $this->faker->dateTimeBetween($startDate = '-20 years', $endDate = 'now')->format('Y-m-d'),
-            'gender' => $this->faker->randomElement(['Laki-Laki', 'Perempuan']),
-            'religion' => $this->faker->randomElement(['Islam', 'Hindu', 'Kristen Protestan', 'Kristen Katolik', 'Budha', 'Konghucu']),
+            'name' => fake()->firstName(),
+            'place_of_birth' => fake()->randomElement(['Denpasar', 'Badung', 'Karangasem', 'Bangli', 'Klungkung', 'Tabanan', 'Buleleng', 'Jembrana', 'Gianyar']),
+            'date_of_birth' => fake()->dateTimeBetween($startDate = '-20 years', $endDate = 'now')->format('Y-m-d'),
+            'gender' => fake()->randomElement(['Laki-Laki', 'Perempuan']),
+            'religion' => fake()->randomElement(['Islam', 'Hindu', 'Kristen Protestan', 'Kristen Katolik', 'Budha', 'Konghucu']),
             'congenital_disease' => 'Tidak Ada',
             'status' => 'Aktif',
             'image' => '-',

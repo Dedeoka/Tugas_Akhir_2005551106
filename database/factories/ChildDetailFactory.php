@@ -15,11 +15,9 @@ class ChildDetailFactory extends Factory
      */
     public function definition(): array
     {
-        $child = Children::inRandomOrder()->first();
         return [
-            'children_id' => $child->id,
-            'father_name' => $this->faker->name(),
-            'mother_name' => $this->faker->name(),
+            'father_name' => $this->faker->name('id_ID'),
+            'mother_name' => $this->faker->name('id_ID'),
             'reason_for_leaving' => 'Ekonomi',
             'guardian_name' => $this->faker->name(),
             'guardian_relationship' => $this->faker->randomElement(['Ayah', 'Ibu', 'Kerabat', 'Teman', 'Lainnya']),
@@ -32,10 +30,10 @@ class ChildDetailFactory extends Factory
         ];
     }
 
-    public function configure()
-    {
-        return $this->afterCreating(function (ChildDetail $detail) {
-            $detail->update(['children_id' => Children::factory()->create()->id]);
-        });
-    }
+    // public function configure()
+    // {
+    //     return $this->afterMaking(function (ChildDetail $detail) {
+    //         $detail->children_id = Children::factory()->create()->id;
+    //     });
+    // }
 }
