@@ -71,6 +71,7 @@ Route::prefix('keuangan')->group(function () {
     Route::get('pengeluaran-total-chart-bulanan', [ChartPengeluaranTotalController::class, 'chartBulanan'])->name('pengeluaran-total-chart.chartBulanan');
     Route::get('laporan-keuangan-tahunan', [LaporanKeuanganController::class, 'laporanTahunan'])->name('laporan-keuangan.tahunan');
     Route::get('laporan-keuangan-tahunan-report', [LaporanKeuanganController::class, 'laporanTahunanReport'])->name('laporan-keuangan.tahunanReport');
+    Route::get('download-laporan-tahunan-pdf', [LaporanKeuanganController::class, 'laporanTahunanPdf'])->name('download-laporan-tahunan');
     Route::get('laporan-keuangan-bulanan', [LaporanKeuanganController::class, 'laporanBulanan'])->name('laporan-keuangan.bulanan');
 });
 

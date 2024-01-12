@@ -433,9 +433,19 @@
                                             <li data-bs-toggle="tooltip" data-popup="tooltip-custom"
                                                 data-bs-placement="top" class="avatar avatar-xl pull-up"
                                                 title="Foto {{ $data->name }}">
-                                                <img src="{{ asset('storage/' . $data->image) }}" alt=""
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#modalCenterFoto_{{ $loop->index }}">
+                                                @if ($data->image == '-' && $data->gender == 'Laki-Laki')
+                                                    <img src="{{ asset('storage/avatar/avatar-cowok.jpeg') }}"
+                                                        alt="" data-bs-toggle="modal"
+                                                        data-bs-target="#modalCenterFoto_{{ $loop->index }}">
+                                                @elseif ($data->image == '-' && $data->gender == 'Perempuan')
+                                                    <img src="{{ asset('storage/avatar/avatar-cewek.jpeg') }}"
+                                                        alt="" data-bs-toggle="modal"
+                                                        data-bs-target="#modalCenterFoto_{{ $loop->index }}">
+                                                @else()
+                                                    <img src="{{ asset('storage/' . $data->image) }}" alt=""
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#modalCenterFoto_{{ $loop->index }}">
+                                                @endif
                                             </li>
                                             <div class="modal fade" id="modalCenterFoto_{{ $loop->index }}"
                                                 tabindex="-1" aria-hidden="true">
@@ -449,9 +459,19 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="row">
-                                                                <img src="{{ asset('storage/' . $data->image) }}"
-                                                                    alt="" class="mx-auto d-block"
-                                                                    style="max-width: 100%; height: auto;">
+                                                                @if ($data->image == '-' && $data->gender == 'Laki-Laki')
+                                                                    <img src="{{ asset('storage/avatar/avatar-cowok.jpeg') }}"
+                                                                        alt="" class="mx-auto d-block"
+                                                                        style="max-width: 100%; height: auto;">
+                                                                @elseif ($data->image == '-' && $data->gender == 'Perempuan')
+                                                                    <img src="{{ asset('storage/avatar/avatar-cewek.jpeg') }}"
+                                                                        alt="" class="mx-auto d-block"
+                                                                        style="max-width: 100%; height: auto;">
+                                                                @else()
+                                                                    <img src="{{ asset('storage/' . $data->image) }}"
+                                                                        alt="" class="mx-auto d-block"
+                                                                        style="max-width: 100%; height: auto;">
+                                                                @endif
                                                             </div>
                                                         </div>
                                                     </div>

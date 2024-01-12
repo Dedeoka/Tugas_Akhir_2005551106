@@ -16,15 +16,16 @@
                     </option>
                 @endforeach
             </select>
+            <button class="btn btn-primary">Test</button>
             <div class="border border-3 border-dark text-center">
                 <h5 class="fw-bold m-auto mb-2 mt-5 text-dark">PANTI ASUHAN DHARMA JATI II</h5>
                 <h5 class="fw-bold m-auto mb-3 text-dark">LAPORAN KEUANGAN</h5>
 
-                <h5 class="m-auto mb-4 text-dark">PERIODE 1 JANUARI S/D 31 DESEMBER</h5>
+                <h5 class="m-auto mb-4 text-dark" id="laporanPeriode">PERIODE 1 JANUARI S/D 31 DESEMBER</h5>
 
                 <div class="d-flex mb-5 bg-laporan">
-                    <div class="border-start-0 border border-2 border-dark w-50 text-center fw-bold text-dark p-2 fs-5">
-                        Jumlah Saldo Kas Akhir Tahun X
+                    <div class="border-start-0 border border-2 border-dark w-50 text-center fw-bold text-dark p-2 fs-5"
+                        id="kasTahunLalu">
                     </div>
                     <div class="border-top border-bottom border-2 border-dark w-50 text-center fw-bold text-dark p-2 fs-5">
                         Rp 50.000.000,00
@@ -34,7 +35,7 @@
                 <div class="d-flex bg-laporan">
                     <div class="w-50 border-start-0 border border-2  border-dark"></div>
                     <div class="w-50 border-top border-bottom border-2 border-dark">
-                        <h5 class="m-0 p-2 text-dark fw-bold">2018</h5>
+                        <h5 class="m-0 p-2 text-dark fw-bold" id="year"></h5>
                     </div>
                 </div>
 
@@ -404,11 +405,11 @@
                 <div class="d-flex mb-5 bg-laporan">
                     <div class="w-50 border-start-0 border-top-0 border border-2 border-dark">
                         <h5 class="m-0 p-2 text-dark fw-bold">
-                            Jumlah Penerimaan
+                            Jumlah Saldo Kas Akhir Tahun Ini
                         </h5>
                     </div>
                     <div class="w-50">
-                        <h5 class="m-0 p-2 border-bottom border-2 border-dark text-dark fw-bold">Rp 50.000.000,00</h5>
+                        <h5 class="m-0 p-2 border-bottom border-2 border-dark text-dark fw-bold">Rp</h5>
                     </div>
                 </div>
             </div>
@@ -417,84 +418,5 @@
 @endsection
 
 @section('scripts')
-    <script>
-        $(document).ready(function() {
-            fetchYearlyReport();
-
-            $('#yearSelector').change(function() {
-                fetchYearlyReport($(this).val());
-            });
-
-            function fetchYearlyReport(selectedYear = null) {
-                let url = "{{ route('laporan-keuangan.tahunanReport') }}";
-                if (selectedYear) {
-                    url += "?year=" + selectedYear;
-                }
-                $.ajax({
-                    url: url,
-                    method: 'GET',
-                    success: function(data) {
-                        console.log(data);
-                        const bantuanLuar = document.getElementById('bantuanLuar');
-                        bantuanLuar.innerHTML = formatCurrency(data.bantuanLuar);
-                        const bantuanPemerintah = document.getElementById('bantuanPemerintah');
-                        bantuanPemerintah.innerHTML = formatCurrency(data.bantuanPemerintah);
-                        const hasilUsaha = document.getElementById('hasilUsaha');
-                        hasilUsaha.innerHTML = formatCurrency(data.hasilUsaha);
-                        const bungaBank = document.getElementById('bungaBank');
-                        bungaBank.innerHTML = formatCurrency(data.bungaBank);
-                        const otherIncome = document.getElementById('otherIncome');
-                        otherIncome.innerHTML = formatCurrency(data.otherIncome);
-                        const donasiUmum = document.getElementById('donasiUmum');
-                        donasiUmum.innerHTML = formatCurrency(data.donasiUmum);
-                        const donasiBeasiswa = document.getElementById('donasiBeasiswa');
-                        donasiBeasiswa.innerHTML = formatCurrency(data.donasiBeasiswa);
-                        const totalAmount = document.getElementById('totalAmount');
-                        totalAmount.innerHTML = formatCurrency(data.totalAmount);
-                        const biayaPangan = document.getElementById('biayaPangan');
-                        biayaPangan.innerHTML = formatCurrency(data.biayaPangan);
-                        const biayaSandang = document.getElementById('biayaSandang');
-                        biayaSandang.innerHTML = formatCurrency(data.biayaSandang);
-                        const biayaPapan = document.getElementById('biayaPapan');
-                        biayaPapan.innerHTML = formatCurrency(data.biayaPapan);
-                        const biayaHariRaya = document.getElementById('biayaHariRaya');
-                        biayaHariRaya.innerHTML = formatCurrency(data.biayaHariRaya);
-                        const biayaKegiatan = document.getElementById('biayaKegiatan');
-                        biayaKegiatan.innerHTML = formatCurrency(data.biayaKegiatan);
-                        const biayaKesehatan = document.getElementById('biayaKesehatan');
-                        biayaKesehatan.innerHTML = formatCurrency(data.biayaKesehatan);
-                        const biayaPendidikan = document.getElementById('biayaPendidikan');
-                        biayaPendidikan.innerHTML = formatCurrency(data.biayaPendidikan);
-                        const biayaPrestasi = document.getElementById('biayaPrestasi');
-                        biayaPrestasi.innerHTML = formatCurrency(data.biayaPrestasi);
-                        const otherCost = document.getElementById('otherCost');
-                        otherCost.innerHTML = formatCurrency(data.otherCost);
-                        const totalCost = document.getElementById('totalCost');
-                        totalCost.innerHTML = formatCurrency(data.totalCost);
-                        const total = document.getElementById('total');
-                        total.innerHTML = formatCurrency(data.total);
-                        const totalStatus = document.getElementById('totalStatus');
-                        const jumlahTotal = data
-                            .total;
-
-                        if (jumlahTotal < 0) {
-                            totalStatus.innerHTML = `(Defisit) Jumlah Total`;
-                        } else {
-                            totalStatus.innerHTML = `(Surplus) Jumlah Total`;
-                        };
-                    },
-                    error: function(error) {
-                        console.error('Error:', error);
-                    }
-                });
-            }
-
-            function formatCurrency(value) {
-                return new Intl.NumberFormat('id-ID', {
-                    style: 'currency',
-                    currency: 'IDR'
-                }).format(value);
-            }
-        });
-    </script>
+    @include('admin.keuangan.js.laporan-tahunan')
 @endsection

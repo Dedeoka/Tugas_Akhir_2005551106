@@ -9,6 +9,7 @@ use App\Models\Income;
 use App\Models\Cost;
 use App\Models\ChildCostDetail;
 use App\Models\Scholarship;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class LaporanKeuanganController extends Controller
 {
@@ -50,7 +51,7 @@ class LaporanKeuanganController extends Controller
 
     public function laporanTahunanReport(Request $request){
 
-        $year = $request->input('year', now()->year);
+        $year = intval($request->input('year', now()->year));
 
         $bantuanLuar = Income::whereHas('incomeTypes', function ($query) {
             $query->where('name', 'Bantuan Luar Negeri');
@@ -106,15 +107,15 @@ class LaporanKeuanganController extends Controller
 
         $biayaKesehatan = ChildCostDetail::whereHas('childCosts', function ($query) {
                 $query->where('reference_table', 'child_health_table');
-        })->whereYear('created_at', now()->year)->sum('cost');
+        })->whereYear('created_at', $year)->sum('cost');
 
         $biayaPendidikan = ChildCostDetail::whereHas('childCosts', function ($query) {
                 $query->where('reference_table', 'child_education_table');
-        })->whereYear('created_at', now()->year)->sum('cost');
+        })->whereYear('created_at', $year)->sum('cost');
 
         $biayaPrestasi = ChildCostDetail::whereHas('childCosts', function ($query) {
                 $query->where('reference_table', 'child_achievement_table');
-        })->whereYear('created_at', now()->year)->sum('cost');
+        })->whereYear('created_at', $year)->sum('cost');
 
         $excludedCostTypes = [
             'Biaya Kebutuhan Pangan',
@@ -133,6 +134,10 @@ class LaporanKeuanganController extends Controller
 
         $total = $totalAmount - $totalCost;
 
-        return response()->json(['bantuanLuar' => $bantuanLuar, 'bantuanPemerintah' => $bantuanPemerintah, 'hasilUsaha' => $hasilUsaha, 'bungaBank' => $bungaBank, 'otherIncome' => $otherIncome, 'donasiUmum' => $donasiUmum, 'donasiBeasiswa' => $donasiBeasiswa, 'totalAmount' => $totalAmount, 'biayaPangan' => $biayaPangan, 'biayaSandang' => $biayaSandang, 'biayaPapan' => $biayaPapan, 'biayaUsaha' => $biayaUsaha, 'biayaHariRaya' => $biayaHariRaya, 'biayaKegiatan' => $biayaKegiatan, 'biayaKesehatan' => $biayaKesehatan, 'biayaPendidikan' => $biayaPendidikan, 'biayaPrestasi' => $biayaPrestasi, 'otherCost' => $otherCost, 'totalCost' => $totalCost, 'total' => $total]);
+        return response()->json(['year' => $year, 'bantuanLuar' => $bantuanLuar, 'bantuanPemerintah' => $bantuanPemerintah, 'hasilUsaha' => $hasilUsaha, 'bungaBank' => $bungaBank, 'otherIncome' => $otherIncome, 'donasiUmum' => $donasiUmum, 'donasiBeasiswa' => $donasiBeasiswa, 'totalAmount' => $totalAmount, 'biayaPangan' => $biayaPangan, 'biayaSandang' => $biayaSandang, 'biayaPapan' => $biayaPapan, 'biayaUsaha' => $biayaUsaha, 'biayaHariRaya' => $biayaHariRaya, 'biayaKegiatan' => $biayaKegiatan, 'biayaKesehatan' => $biayaKesehatan, 'biayaPendidikan' => $biayaPendidikan, 'biayaPrestasi' => $biayaPrestasi, 'otherCost' => $otherCost, 'totalCost' => $totalCost, 'total' => $total]);
+    }
+
+    public function laporanTahunanPdf(){
+
     }
 }

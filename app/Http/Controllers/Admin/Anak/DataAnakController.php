@@ -113,16 +113,16 @@ class DataAnakController extends Controller
         } else {
 
             if ($request->has('kelengkapan_data')) {
+                $identityCardPath = '-';
+                $familyCardPath = '-';
+                $birthCertificatePath = '-';
+                $imagePath = $request->file('image')->store('uploads/foto-anak');
+                $guardianIdentityPath = $request->file('guardian_identity_card')->store('uploads/kartu-pengenal-wali');
+            } else {
                 $birthCertificatePath = $request->file('birth_certificate')->store('uploads/akta-kelahiran');
                 $familyCardPath = $request->file('family_card')->store('uploads/kartu-keluarga');
                 $identityCardPath = $request->file('identity_card')->store('uploads/kartu-pengenal');
                 $imagePath = $request->file('image')->store('uploads/foto-anak');
-                $guardianIdentityPath = $request->file('guardian_identity_card')->store('uploads/kartu-pengenal-wali');
-            } else {
-                $identityCardPath = '-';
-                $familyCardPath = '-';
-                $birthCertificatePath = '-';
-                $imagePath = '-';
                 $guardianIdentityPath = $request->file('guardian_identity_card')->store('uploads/kartu-pengenal-wali');
             }
 
