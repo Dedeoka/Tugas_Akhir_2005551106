@@ -9,7 +9,7 @@ use App\Models\Income;
 use App\Models\Cost;
 use App\Models\ChildCostDetail;
 use App\Models\Scholarship;
-use Barryvdh\DomPDF\Facade\Pdf;
+use PDF;
 
 class LaporanKeuanganController extends Controller
 {
@@ -137,7 +137,133 @@ class LaporanKeuanganController extends Controller
         return response()->json(['year' => $year, 'bantuanLuar' => $bantuanLuar, 'bantuanPemerintah' => $bantuanPemerintah, 'hasilUsaha' => $hasilUsaha, 'bungaBank' => $bungaBank, 'otherIncome' => $otherIncome, 'donasiUmum' => $donasiUmum, 'donasiBeasiswa' => $donasiBeasiswa, 'totalAmount' => $totalAmount, 'biayaPangan' => $biayaPangan, 'biayaSandang' => $biayaSandang, 'biayaPapan' => $biayaPapan, 'biayaUsaha' => $biayaUsaha, 'biayaHariRaya' => $biayaHariRaya, 'biayaKegiatan' => $biayaKegiatan, 'biayaKesehatan' => $biayaKesehatan, 'biayaPendidikan' => $biayaPendidikan, 'biayaPrestasi' => $biayaPrestasi, 'otherCost' => $otherCost, 'totalCost' => $totalCost, 'total' => $total]);
     }
 
-    public function laporanTahunanPdf(){
+    public function laporanTahunanPdf(Request $request){
+        $year = intval($request->input('year', now()->year));
 
+        $bantuanLuar = 'Rp ' . number_format(
+            Income::whereHas('incomeTypes', function ($query) {
+                $query->where('name', 'Bantuan Luar Negeri');
+            })->whereYear('created_at', $year)->sum('total_amount'),0,',','.'
+        );
+
+        $bantuanPemerintah = 'Rp ' . number_format(
+            Income::whereHas('incomeTypes', function ($query) {
+                $query->where('name', 'Bantuan Pemerintah');
+            })->whereYear('created_at', $year)->sum('total_amount'),0,',','.'
+        );
+
+        $hasilUsaha = 'Rp ' . number_format(
+            Income::whereHas('incomeTypes', function ($query) {
+                $query->where('name', 'Hasil Usaha Produktif');
+            })->whereYear('created_at', $year)->sum('total_amount'),0,',','.'
+        );
+
+        $bungaBank = 'Rp ' . number_format(
+            Income::whereHas('incomeTypes', function ($query) {
+                $query->where('name', 'Bunga Bank');
+            })->whereYear('created_at', $year)->sum('total_amount'),0,',','.'
+        );
+
+        $excludedIncomeTypes = ['Bantuan Luar Negeri', 'Bantuan Pemerintah', 'Hasil Usaha Produktif', 'Bunga Bank'];
+
+        $otherIncome = 'Rp ' . number_format(
+            Income::whereHas('incomeTypes', function ($query) use ($excludedIncomeTypes) {
+                $query->whereNotIn('name', $excludedIncomeTypes);
+            })->whereYear('created_at', $year)->sum('total_amount'),0,',','.'
+        );
+
+        $donasiUmum = 'Rp ' . number_format(DonateMoney::whereYear('created_at', $year)->sum('total_amount'), 0, ',', '.');
+
+        $donasiBeasiswa = 'Rp ' . number_format(Scholarship::whereYear('created_at', $year)->sum('total_amount'), 0, ',', '.');
+
+        $totalAmount = floatval(str_replace(['Rp ', '.', ','], '', $hasilUsaha)) +
+        floatval(str_replace(['Rp ', '.', ','], '', $bungaBank)) +
+        floatval(str_replace(['Rp ', '.', ','], '', $otherIncome)) +
+        floatval(str_replace(['Rp ', '.', ','], '', $donasiUmum)) +
+        floatval(str_replace(['Rp ', '.', ','], '', $donasiBeasiswa)) +
+        floatval(str_replace(['Rp ', '.', ','], '', $bantuanLuar)) +
+        floatval(str_replace(['Rp ', '.', ','], '', $bantuanPemerintah));
+
+        $totalAmountFormatted = 'Rp ' . number_format($totalAmount, 0, ',', '.');
+
+        $biayaPangan = 'Rp ' . number_format(Cost::whereHas('costTypes', function ($query) {
+            $query->where('name', 'Biaya Kebutuhan Pangan');
+        })->whereYear('created_at', $year)->sum('total_cost'), 0, ',', '.');
+
+        $biayaSandang = 'Rp ' . number_format(Cost::whereHas('costTypes', function ($query) {
+            $query->where('name', 'Biaya Kebutuhan Sandang');
+        })->whereYear('created_at', $year)->sum('total_cost'), 0, ',', '.');
+
+        $biayaPapan = 'Rp ' . number_format(Cost::whereHas('costTypes', function ($query) {
+            $query->where('name', 'Biaya Kebutuhan Papan');
+        })->whereYear('created_at', $year)->sum('total_cost'), 0, ',', '.');
+
+        $biayaUsaha = 'Rp ' . number_format(Cost::whereHas('costTypes', function ($query) {
+            $query->where('name', 'Biaya Usaha Panti');
+        })->whereYear('created_at', $year)->sum('total_cost'), 0, ',', '.');
+
+        $biayaHariRaya = 'Rp ' . number_format(Cost::whereHas('costTypes', function ($query) {
+            $query->where('name', 'Biaya Kegiatan Hari Raya');
+        })->whereYear('created_at', $year)->sum('total_cost'), 0, ',', '.');
+
+        $biayaKegiatan = 'Rp ' . number_format(Cost::whereHas('costTypes', function ($query) {
+            $query->where('name', 'Biaya Kegiatan Panti');
+        })->whereYear('created_at', $year)->sum('total_cost'), 0, ',', '.');
+
+        $biayaKesehatan = 'Rp ' . number_format(ChildCostDetail::whereHas('childCosts', function ($query) {
+            $query->where('reference_table', 'child_health_table');
+        })->whereYear('created_at', $year)->sum('cost'), 0, ',', '.');
+
+        $biayaPendidikan = 'Rp ' . number_format(ChildCostDetail::whereHas('childCosts', function ($query) {
+            $query->where('reference_table', 'child_education_table');
+        })->whereYear('created_at', $year)->sum('cost'), 0, ',', '.');
+
+        $biayaPrestasi = 'Rp ' . number_format(ChildCostDetail::whereHas('childCosts', function ($query) {
+            $query->where('reference_table', 'child_achievement_table');
+        })->whereYear('created_at', $year)->sum('cost'), 0, ',', '.');
+
+        $excludedCostTypes = [
+            'Biaya Kebutuhan Pangan',
+            'Biaya Kebutuhan Sandang',
+            'Biaya Kebutuhan Papan',
+            'Biaya Usaha Panti',
+            'Biaya Kegiatan Hari Raya',
+            'Biaya Kegiatan Panti',
+        ];
+
+        $otherCost = 'Rp ' . number_format(Cost::whereHas('costTypes', function ($query) use ($excludedCostTypes) {
+            $query->whereNotIn('name', $excludedCostTypes);
+        })->whereYear('created_at', $year)->sum('total_cost'), 0, ',', '.');
+
+        $totalCost = floatval(str_replace(['Rp ', '.', ','], '', $biayaPangan)) +
+        floatval(str_replace(['Rp ', '.', ','], '', $biayaSandang)) +
+        floatval(str_replace(['Rp ', '.', ','], '', $biayaPapan)) +
+        floatval(str_replace(['Rp ', '.', ','], '', $biayaUsaha)) +
+        floatval(str_replace(['Rp ', '.', ','], '', $biayaHariRaya)) +
+        floatval(str_replace(['Rp ', '.', ','], '', $biayaKegiatan)) +
+        floatval(str_replace(['Rp ', '.', ','], '', $biayaKesehatan)) +
+        floatval(str_replace(['Rp ', '.', ','], '', $biayaPendidikan)) +
+        floatval(str_replace(['Rp ', '.', ','], '', $biayaPrestasi)) +
+        floatval(str_replace(['Rp ', '.', ','], '', $otherCost));
+
+        // Menghitung totalCost yang sudah diformat sebagai Rupiah
+        $totalCostFormatted = 'Rp ' . number_format($totalCost, 0, ',', '.');
+
+        $totalAmountValue = floatval(str_replace(['Rp ', '.', ','], '', $totalAmount));
+        $totalCostValue = floatval(str_replace(['Rp ', '.', ','], '', $totalCost));
+
+        // Menghitung total yang sudah diformat sebagai Rupiah
+        $total = 'Rp ' . number_format($totalAmountValue - $totalCostValue, 0, ',', '.');
+
+        if ($totalAmountValue - $totalCostValue < 0) {
+            $status = 'Defisit';
+        } else if ($totalAmountValue - $totalCostValue > 0) {
+            $status = 'Surplus';
+        } else {
+            $status = 'Netral';
+        }
+
+        $pdf = PDF::loadView('admin/keuangan/laporan-bulanan-download', compact('year', 'bantuanLuar', 'bantuanPemerintah', 'hasilUsaha', 'bungaBank', 'otherIncome', 'donasiUmum', 'donasiBeasiswa', 'totalAmountFormatted', 'biayaPangan', 'biayaSandang', 'biayaPapan', 'biayaUsaha', 'biayaHariRaya', 'biayaKegiatan', 'biayaKesehatan', 'biayaPendidikan', 'biayaPrestasi', 'otherCost', 'totalCostFormatted', 'total', 'status'));
+        return $pdf->download('laporan-tahunan.' . $year . '.pdf');
     }
 }

@@ -81,7 +81,7 @@ class DatabaseSeeder extends Seeder
         ];
         \App\Models\School::insert($school);
 
-        Children::factory(10)->create()->each(function ($child) {
+        Children::factory(30)->create()->each(function ($child) {
             ChildDetail::factory(1)->create(["children_id" => $child->id]);
             ChildHealth::factory(1)->create(["children_id" => $child->id])->each(function ($childHealth) {
                 ChildCost::factory(1)->create([

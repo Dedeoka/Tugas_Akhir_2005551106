@@ -10,13 +10,17 @@
 
         <div class="card p-5">
             <select class="form-select me-4 border-0" id="yearSelector" aria-label="Default select example">
-                @foreach ($allYearsArray as $year)
-                    <option value="{{ $year }}" @if ($loop->first) selected @endif>
-                        {{ $year }}
+                @foreach ($allYearsArray as $optionYear)
+                    <option value="{{ $optionYear }}">
+                        {{ $optionYear }}
                     </option>
                 @endforeach
             </select>
-            <button class="btn btn-primary">Test</button>
+
+            <!-- Tautan untuk men-download laporan dengan parameter tahun -->
+            <a id="downloadLink" href="{{ route('download-laporan-tahunan') }}">
+                <button class="btn btn-primary">Test</button>
+            </a>
             <div class="border border-3 border-dark text-center">
                 <h5 class="fw-bold m-auto mb-2 mt-5 text-dark">PANTI ASUHAN DHARMA JATI II</h5>
                 <h5 class="fw-bold m-auto mb-3 text-dark">LAPORAN KEUANGAN</h5>

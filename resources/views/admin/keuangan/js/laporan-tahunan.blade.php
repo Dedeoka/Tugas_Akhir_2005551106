@@ -90,3 +90,15 @@
         }
     });
 </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var yearSelector = document.getElementById("yearSelector");
+        var downloadLink = document.getElementById("downloadLink");
+
+        yearSelector.addEventListener("change", function() {
+            var selectedYear = yearSelector.value;
+            downloadLink.href = "{{ route('download-laporan-tahunan') }}?year=" + selectedYear;
+        });
+    });
+</script>

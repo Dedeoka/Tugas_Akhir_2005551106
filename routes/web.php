@@ -33,7 +33,11 @@ use App\Http\Controllers\Admin\Keuangan\PengeluaranTotalController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('admin.keuangan.laporan-tahunan-download');
+});
+
+Route::get('/test', function () {
+    return view('admin.keuangan.laporan-bulanan-download');
 });
 
 // Route::get('/test', function () {
