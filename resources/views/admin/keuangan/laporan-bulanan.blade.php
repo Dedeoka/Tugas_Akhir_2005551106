@@ -5,22 +5,64 @@
 
 
         <h4 class="py-3 mb-4">
-            <span class="text-muted fw-light">Keuangan /</span> <b>Laporan Keuangan Tahunan Panti Asuhan</b>
+            <span class="text-muted fw-light">Keuangan /</span> <b>Laporan Keuangan Bulanan Panti Asuhan</b>
         </h4>
 
         <div class="card p-5">
             <div class="d-flex justify-content-between mb-3">
-                <div class="w-auto">
-                    <select class="form-select me-4" id="yearSelector" aria-label="Default select example">
-                        @foreach ($allYearsArray as $optionYear)
-                            <option value="{{ $optionYear }}">
-                                {{ $optionYear }}
+                <div class="w-75 d-flex">
+                    <div class="me-2">
+                        <select class="form-select" id="monthSelector" name="month" aria-label="Default select example">
+                            <option value="01">
+                                Januari
                             </option>
-                        @endforeach
-                    </select>
+                            <option value="02">
+                                Februari
+                            </option>
+                            <option value="03">
+                                Maret
+                            </option>
+                            <option value="04">
+                                April
+                            </option>
+                            <option value="05">
+                                Mei
+                            </option>
+                            <option value="06">
+                                Juni
+                            </option>
+                            <option value="07">
+                                Juli
+                            </option>
+                            <option value="08">
+                                Agustus
+                            </option>
+                            <option value="09">
+                                September
+                            </option>
+                            <option value="10">
+                                Oktober
+                            </option>
+                            <option value="11">
+                                November
+                            </option>
+                            <option value="12">
+                                Desember
+                            </option>
+                        </select>
+                    </div>
+                    <div class="me-2">
+                        <select class="form-select me-4" id="yearSelector" aria-label="Default select example">
+                            @foreach ($allYearsArray as $optionYear)
+                                <option value="{{ $optionYear }}">
+                                    {{ $optionYear }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
                 <div class="ml-auto">
-                    <a id="downloadLink" href="{{ route('download-laporan-tahunan') }}">
+                    <a id="downloadLink" href="{{ route('download-laporan-bulanan') }}">
                         <button class="btn btn-primary"><i class='bx bxs-file-pdf me-2'></i>Download PDF</button>
                     </a>
                 </div>
@@ -29,7 +71,7 @@
                 <h5 class="fw-bold m-auto mb-2 mt-5 text-dark">PANTI ASUHAN DHARMA JATI II</h5>
                 <h5 class="fw-bold m-auto mb-3 text-dark">LAPORAN KEUANGAN</h5>
 
-                <h5 class="m-auto mb-4 text-dark" id="laporanPeriode">PERIODE 1 JANUARI S/D 31 DESEMBER</h5>
+                <h5 class="m-auto mb-4 text-dark" id="laporanPeriode"></h5>
 
                 <div class="d-flex mb-5 bg-laporan">
                     <div class="border-start-0 border border-2 border-dark w-50 text-center fw-bold text-dark p-2 fs-5"
@@ -145,7 +187,8 @@
                             <h5 class="text-start m-0 p-2 text-dark">Hasil Usaha Produktif</h5>
                         </div>
                     </div>
-                    <div class="w-50 border-start-0 border-top-0 border-end-0 border border-2 border-dark" id="hasilUsaha">
+                    <div class="w-50 border-start-0 border-top-0 border-end-0 border border-2 border-dark"
+                        id="hasilUsaha">
                     </div>
                 </div>
                 <div class="d-flex">
@@ -427,5 +470,5 @@
 @endsection
 
 @section('scripts')
-    @include('admin.keuangan.js.laporan-tahunan')
+    @include('admin.keuangan.js.laporan-bulanan')
 @endsection

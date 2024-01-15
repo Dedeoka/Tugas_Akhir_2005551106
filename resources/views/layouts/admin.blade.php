@@ -243,17 +243,25 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="menu-item {{ request()->is('keuangan/laporan-keuangan-tahunan') ? 'active' : '' }}">
-                        <a href="{{ route('laporan-keuangan.tahunan') }}" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-food-menu"></i>
-                            <div data-i18n="Tables">Laporan Bulanan</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="tables-basic.html" class="menu-link">
+                    <li class="menu-item {{ request()->is('keuangan/laporan-keuangan*') ? 'active open' : '' }}">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
                             <i class="menu-icon tf-icons bx bxs-food-menu"></i>
-                            <div data-i18n="Tables">Laporan Tahunan</div>
+                            <div data-i18n="Profile">Laporan Keuangan</div>
                         </a>
+                        <ul class="menu-sub">
+                            <li
+                                class="menu-item {{ request()->is('keuangan/laporan-keuangan-bulanan') ? 'active' : '' }}">
+                                <a href="{{ route('laporan-keuangan.bulanan') }}" class="menu-link">
+                                    <div data-i18n="CRM">Laporan Bulanan</div>
+                                </a>
+                            </li>
+                            <li
+                                class="menu-item {{ request()->is('keuangan/laporan-keuangan-tahunan') ? 'active' : '' }}">
+                                <a href="{{ route('laporan-keuangan.tahunan') }}" class="menu-link">
+                                    <div data-i18n="CRM">Laporan Tahunan</div>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">Anak Asuh</span></li>
                     <li class="menu-item {{ request()->is('anak-asuh/data-anak') ? 'active' : '' }}">

@@ -645,12 +645,12 @@
                 <div class="wid-50"
                     style="border-right: 2px solid black; border-top: 2px solid black; border-bottom: 2px solid black;">
                     <h5 class="tb-title">
-                        Jumlah Total Tahun {{ $year }}
+                        ({{ $status }}) Jumlah Total Tahun {{ $year }}
                     </h5>
                 </div>
                 <div class="wid-50" style="border-bottom: 2px solid black; border-top: 2px solid black;">
                     <h5 class="tb-title">
-                        {{ $total }} ({{ $status }})
+                        {{ $total }}
                     </h5>
                 </div>
             </div>

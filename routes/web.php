@@ -33,7 +33,7 @@ use App\Http\Controllers\Admin\Keuangan\PengeluaranTotalController;
 */
 
 Route::get('/', function () {
-    return view('admin.keuangan.laporan-tahunan-download');
+    return view('welcome');
 });
 
 Route::get('/test', function () {
@@ -77,6 +77,8 @@ Route::prefix('keuangan')->group(function () {
     Route::get('laporan-keuangan-tahunan-report', [LaporanKeuanganController::class, 'laporanTahunanReport'])->name('laporan-keuangan.tahunanReport');
     Route::get('download-laporan-tahunan-pdf', [LaporanKeuanganController::class, 'laporanTahunanPdf'])->name('download-laporan-tahunan');
     Route::get('laporan-keuangan-bulanan', [LaporanKeuanganController::class, 'laporanBulanan'])->name('laporan-keuangan.bulanan');
+    Route::get('laporan-keuangan-bulanan-report', [LaporanKeuanganController::class, 'laporanBulananReport'])->name('laporan-keuangan.bulananReport');
+    Route::get('download-laporan-bulanan-pdf', [LaporanKeuanganController::class, 'laporanBulananPdf'])->name('download-laporan-bulanan');
 });
 
 
