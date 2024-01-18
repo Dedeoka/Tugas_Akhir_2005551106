@@ -10,6 +10,7 @@ use App\Http\Requests\StoreKategoriRequest;
 use App\Models\ChildEducationDetail;
 use App\Models\School;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
 
@@ -80,7 +81,7 @@ class PendidikanAnakController extends Controller
         ]);
 
         if ($validasi->fails()) {
-            return response()->json(['errors' => $validasi->errors()], 400);
+            return response()->json(['errors' => $validasi->errors()], 422);
         } else {
             $data = [
                 'children_id' => $request->children_id,

@@ -140,7 +140,27 @@ class PemasukanPantiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validasi = Validator::make($request->all(), [
+            'income_type_id' => 'required',
+            'title' => 'required',
+            'total_amount' => 'required',
+        ], [
+            'income_type_id.required' => 'Kategori pengeluaran wajib diisi',
+            'title.required' => 'Nama pengeluaran wajib diisi',
+            'total_amount.required' => 'Jumlah pengeluaran wajib diisi',
+        ]);
+
+        if ($validasi->fails()) {
+            return response()->json(['errors' => $validasi->errors(), 422]);
+        } else {
+            $data = [
+                'income_type_id' => $request->income_type_id,
+                'title' => $request->title,
+                'total_amount' => str_replace(',', '', $request->total_amount),
+            ];
+            Income::where('id', $id)->update($data);
+            return response()->json(['success' => "Berhasil melakukan update data"]);
+        }
     }
 
     /**

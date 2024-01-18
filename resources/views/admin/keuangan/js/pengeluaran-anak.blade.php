@@ -62,6 +62,36 @@
             return false;
         });
 
+        function clearErrors() {
+            // Hapus kelas is-invalid dari semua elemen input
+            document.querySelectorAll('.form-control', ).forEach(function(element) {
+                element.classList.remove('is-invalid');
+            });
+
+            document.querySelectorAll('.form-select', ).forEach(function(element) {
+                element.classList.remove('is-invalid');
+            });
+
+            // Sembunyikan pesan error
+            document.querySelectorAll('.invalid-feedback').forEach(function(element) {
+                element.innerHTML = '';
+            });
+        }
+
+        function handleErrors(errors, id) {
+            clearErrors();
+
+            // Menambahkan kelas is-invalid hanya untuk elemen input yang memiliki error
+            if (errors.title) {
+                $('#title' + id).addClass('is-invalid');
+                $('#titleError' + id).text(errors.title[0]);
+            }
+            if (errors.total_cost) {
+                $('#total_cost' + id).addClass('is-invalid');
+                $('#total_costError' + id).text(errors.total_cost[0]);
+            }
+        }
+
         function simpanKesehatan(id) {
             var formData = new FormData($('#formPengeluaranKesehatan' + id)[0]);
             formData.append('_token', '{{ csrf_token() }}');
@@ -73,15 +103,14 @@
                 processData: false,
                 success: function(response) {
                     if (response.errors) {
-                        console.log('Error Response:', response);
+                        handleErrors(response.errors, id);
                     } else {
                         showSuccessMessage(response.success);
                         $('#dataPengeluaranKesehatan').modal('hide');
                     }
                 },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.error("AJAX Error:", textStatus, errorThrown);
-                    console.log("Response:", jqXHR.responseText);
+                error: function(xhr, textStatus, errorThrown) {
+                    handleErrors(xhr.responseJSON.errors, id);
                 }
             });
         }

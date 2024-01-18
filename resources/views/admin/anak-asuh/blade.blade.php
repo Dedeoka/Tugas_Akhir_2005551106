@@ -475,3 +475,76 @@
         </div>
     </div>
 </div> --}}
+
+{{-- <div class="">
+    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasEnd"
+        aria-controls="offcanvasEnd">
+        <i class='bx bx-plus m-1'></i>
+        Tambah Data
+    </button>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEnd" aria-labelledby="offcanvasEndLabel">
+        <div class="offcanvas-header">
+            <h5 id="offcanvasEndLabel" class="offcanvas-title">Tambah Data Kesehatan Anak Asuh
+            </h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body my-auto mx-0 flex-grow-0">
+            <form id="dataAnakForm" action="{{ route('kesehatan-anak.store') }}" method="POST">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="children_id" class="form-label">Nama Anak</label>
+                            <select class="form-select" id="children_id" name="children_id"
+                                aria-label="Default select example">
+                                <option value="" hidden>Pilih Nama Anak Asuh
+                                </option>
+                                @foreach ($childs as $child)
+                                    <option value="{{ $child->id }}">{{ $child->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <div id="childrenError" class="invalid-feedback"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="disease_id" class="form-label">Nama Penyakit</label>
+                            <select class="form-select" id="disease_id" name="disease_id"
+                                aria-label="Default select example">
+                                <option value="" hidden>Pilih Nama Penyakit
+                                </option>
+                                @foreach ($diseases as $disease)
+                                    <option value="{{ $disease->id }}">{{ $disease->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <div id="diseaseError" class="invalid-feedback"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="medicine" class="form-label">Nama Obat</label>
+                            <input type="text" class="form-control" id="medicine" name="medicine"
+                                placeholder="Nama Obat..." />
+                            <div id="medicineError" class="invalid-feedback"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="date_of_illness" class="form-label">Tanggal
+                                Sakit</label>
+                            <input class="form-control" type="date" id="date_of_illness"
+                                name="date_of_illness" />
+                            <div id="dateOfIllnessError" class="invalid-feedback"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Deskripsi
+                                Kesehatan</label>
+                            <textarea class="form-control" id="description" rows="3"></textarea>
+                            <div id="descriptionError" class="invalid-feedback"></div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary mb-2 d-grid w-100">Simpan</button>
+                <button type="button" class="btn btn-outline-secondary d-grid w-100"
+                    data-bs-dismiss="offcanvas">Cancel</button>
+            </form>
+        </div>
+    </div>
+</div> --}}

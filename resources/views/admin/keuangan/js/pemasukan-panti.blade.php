@@ -59,14 +59,27 @@
                     percentage.innerHTML = `<i class="bx bx-transfer-alt"></i> 0,00%`;
 
                     percentage.classList.remove('text-danger', 'text-success');
-                    const numericPercentage = parseFloat(data.percentage.replace(',', '.'));
+                    if (typeof data.percentage === 'string') {
+                        const numericPercentage = parseFloat(data.percentage.replace(',', '.'));
 
-                    const arrowIcon = numericPercentage >= 0 ? 'bx-up-arrow-alt' :
-                        'bx-down-arrow-alt';
-                    const textColor = numericPercentage >= 0 ? 'text-danger' : 'text-success';
+                        const arrowIcon = numericPercentage >= 0 ? 'bx-up-arrow-alt' :
+                            'bx-down-arrow-alt';
+                        const textColor = numericPercentage >= 0 ? 'text-danger' : 'text-success';
 
-                    percentage.innerHTML = `<i class="bx ${arrowIcon}"></i> ${data.percentage}%`;
-                    percentage.classList.add(textColor);
+                        percentage.innerHTML =
+                            `<i class="bx ${arrowIcon}"></i> ${data.percentage}%`;
+                        percentage.classList.add(textColor);
+                    } else if (typeof data.percentage === 'number') {
+                        const arrowIcon = data.percentage >= 0 ? 'bx-up-arrow-alt' :
+                            'bx-down-arrow-alt';
+                        const textColor = data.percentage >= 0 ? 'text-danger' : 'text-success';
+
+                        percentage.innerHTML =
+                            `<i class="bx ${arrowIcon}"></i> ${data.percentage}%`;
+                        percentage.classList.add(textColor);
+                    } else {
+                        console.error('Error: data.percentage is not a string or number');
+                    }
                 },
                 error: function(error) {
                     console.error('Error:', error);
@@ -355,8 +368,43 @@
             });
         }
 
+        function clearErrors() {
+            // Hapus kelas is-invalid dari semua elemen input
+            document.querySelectorAll('.form-control', ).forEach(function(element) {
+                element.classList.remove('is-invalid');
+            });
+
+            document.querySelectorAll('.form-select', ).forEach(function(element) {
+                element.classList.remove('is-invalid');
+            });
+
+            // Sembunyikan pesan error
+            document.querySelectorAll('.invalid-feedback').forEach(function(element) {
+                element.innerHTML = '';
+            });
+        }
+
+        function handleErrors(errors) {
+            clearErrors();
+
+            // Menambahkan kelas is-invalid hanya untuk elemen input yang memiliki error
+            if (errors.income_type_id) {
+                $('#income_type_id').addClass('is-invalid');
+                $('#income_type_idError').text(errors.income_type_id[0]);
+            }
+            if (errors.title) {
+                $('#title').addClass('is-invalid');
+                $('#titleError').text(errors.title[0]);
+            }
+            if (errors.total_amount) {
+                $('#total_amount').addClass('is-invalid');
+                $('#total_amountError').text(errors.total_amount[0]);
+            }
+        }
+
         $('#modalPemasukanPanti').on('hidden.bs.modal', function() {
             clearForm();
+            clearErrors();
         });
 
         $('#submit').click(function(e) {
@@ -376,7 +424,7 @@
                 processData: false,
                 success: function(response) {
                     if (response.errors) {
-                        console.log('Error Response:', response);
+                        handleErrors(response.errors);
                     } else {
                         showSuccessMessage(response.success);
                         $('#modalPemasukanPanti').modal('hide');
@@ -393,23 +441,44 @@
         });
 
         function update(id) {
+            var formData = new FormData($('#editPemasukanPantiForm' + id)[0]);
+            formData.append('_method', 'patch');
+            for (var pair of formData.entries()) {
+                console.log(pair[0] + ', ' + pair[1]);
+            }
             $.ajax({
-                url: "{{ url('master-data/daftar-sekolah') }}/" + id,
-                type: 'PATCH',
-                data: new FormData($('#dataAnakForm')[0]),
+                url: "{{ url('keuangan/pemasukan-panti') }}/" + id,
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
                 success: function(response) {
                     if (response.errors) {
-                        if (response.errors.name) {
-                            $('#editName' + id).addClass('is-invalid');
-                            $('#editNameError' + id).text(response.errors.name[0]);
-                        }
-                        // Penanganan error lainnya jika diperlukan
+                        handleUpdateErrors(response.errors, id);
                     } else {
                         showSuccessMessage(response.success);
-                        $('#editModal' + id).modal('hide');
+                        $('#modalEditPemasukanPanti' + id).modal('hide');
+                        clearForm();
+                        clearErrors();
                     }
                 }
             });
+        }
+
+        function handleUpdateErrors(errors, id) {
+            clearErrors()
+            if (errors.income_type_id) {
+                $('#income_type_id' + id).addClass('is-invalid');
+                $('#income_type_idError' + id).text(errors.income_type_id[0]);
+            }
+            if (errors.title) {
+                $('#title' + id).addClass('is-invalid');
+                $('#titleError' + id).text(errors.title[0]);
+            }
+            if (errors.total_amount) {
+                $('#total_amount' + id).addClass('is-invalid');
+                $('#total_amountError' + id).text(errors.total_amount[0]);
+            }
         }
     });
 </script>

@@ -218,14 +218,13 @@
         }
 
         function handleErrors(errors) {
-
             clearErrors();
             if (errors.children_id) {
                 $('#children_id').addClass('is-invalid');
                 $('#children_idError').text(errors.children_id[0]);
             }
             if (errors.education_level) {
-                $('#education_level').addClass('is-invalid');
+                $('input[name="education_level"]').addClass('is-invalid');
                 $('#education_levelError').text(errors.education_level[0]);
             }
             if (errors.school_id) {
@@ -235,6 +234,10 @@
             if (errors.start_date) {
                 $('#start_date').addClass('is-invalid');
                 $('#start_dateError').text(errors.start_date[0]);
+            }
+            if (errors.end_date) {
+                $('#end_date').addClass('is-invalid');
+                $('#end_dateError').text(errors.end_date[0]);
             }
             if (errors.class_name) {
                 $('#class_name').addClass('is-invalid');
@@ -263,47 +266,39 @@
         }
 
         function simpan() {
-            const formData = new FormData($('#dataAnakForm')[0])
-            // for (var pair of formData.entries()) {
-            //     console.log(pair[0] + ', ' + pair[1]);
-            // }
-            function simpan() {
-                const formData = new FormData($('#dataAnakForm')[0]);
+            const formData = new FormData($('#dataAnakForm')[0]);
 
-                $.ajax({
-                    url: "{{ route('pendidikan-anak.store') }}",
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        console.log(response); // Tambahkan ini untuk debugging
+            $.ajax({
+                url: "{{ route('pendidikan-anak.store') }}",
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.errors) {
+                        handleErrors(response.errors);
+                    } else if (response.success) {
+                        $('.form-control').removeClass('is-invalid');
 
-                        if (response.errors && Object.keys(response.errors).length > 0) {
-                            handleErrors(response.errors);
-                            showErrorMessage(
-                                'Terdapat kesalahan pada inputan. Silahkan cek kembali semua form.'
-                            );
-                        } else {
-                            $('.form-control').removeClass('is-invalid');
-
-                            Swal.fire({
-                                icon: 'success',
-                                title: response.success,
-                                confirmButtonText: 'OK',
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.reload();
-                                }
-                            });
-                            $('#exLargeModal').modal('hide');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        handleErrors(JSON.parse(xhr.responseText));
+                        Swal.fire({
+                            icon: 'success',
+                            title: response.success,
+                            confirmButtonText: 'OK',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.reload();
+                            }
+                        });
+                        $('#exLargeModal').modal('hide');
                     }
-                });
-            }
+                },
+                error: function(xhr, status, error) {
+                    handleErrors(xhr.responseJSON.errors);
+                    showErrorMessage(
+                        'Terdapat kesalahan pada inputan. Silahkan cek kembali semua form.'
+                    );
+                }
+            });
         }
     });
 </script>

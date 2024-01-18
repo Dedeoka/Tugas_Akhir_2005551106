@@ -322,6 +322,11 @@
                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="javascript:void(0);"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modalEditPemasukanPanti{{ $data->id }}">
+                                                    <i class="bx bx-edit-alt me-1"></i> Edit
+                                                </a>
                                                 <a class="dropdown-item delete-data" href="javascript:void(0);"
                                                     data-id="{{ $data->id }}">
                                                     <i class="bx bx-trash me-1"></i> Delete
@@ -387,6 +392,108 @@
                 </div>
             </div>
             <!-- Modal Edit -->
+            @foreach ($datas as $data)
+                <div class="modal fade" id="modalEditPemasukanPanti{{ $data->id }}" tabindex="-1"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="text-center">Edit Pemasukan Panti</h3>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-header">
+                                <ul class="nav nav-tabs nav-fill w-100" role="tablist">
+                                    <li class="nav-item">
+                                        <button type="button" id="tab-justified-home" class="nav-link" role="tab"
+                                            data-bs-toggle="tab" data-bs-target="#navs-justified-home"
+                                            aria-controls="navs-justified-home" aria-selected="true" disabled>
+                                            <span class="d-none d-sm-block">
+                                                Edit Data Pemasukan Panti</span>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="modal-body">
+                                <form id="editPemasukanPantiForm{{ $data->id }}"
+                                    action="{{ route('pemasukan-panti.update', $data->id) }}"
+                                    data-id="{{ $data->id }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+                                    <div class="row">
+                                        <div class="">
+                                            <div class="nav-align-top mb-4">
+                                                <div class="tab-content">
+                                                    <div class="tab-pane fade show active" id="navs-justified-home"
+                                                        role="tabpanel">
+                                                        <div class="card mb-4">
+                                                            <div class="card-body">
+                                                                <div class="mb-3">
+                                                                    <label for="income_type_id" class="form-label">Jenis
+                                                                        Pemasukan</label>
+                                                                    <select class="form-select"
+                                                                        id="income_type_id{{ $data->id }}"
+                                                                        name="income_type_id"
+                                                                        aria-label="Default select example">
+                                                                        <option value="" hidden>Pilih Jenis Pemasukan
+                                                                        </option>
+                                                                        @foreach ($incomeTypes as $type)
+                                                                            <option value="{{ $type->id }}"
+                                                                                {{ $type->id == $data->income_type_id ? 'selected' : '' }}>
+                                                                                {{ $type->name }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                    <div id="income_type_idError{{ $data->id }}"
+                                                                        class="invalid-feedback"></div>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="title" class="form-label">Nama
+                                                                        Pemasukan</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="title{{ $data->id }}" name="title"
+                                                                        placeholder="Nama Pemasukan..."
+                                                                        value="{{ $data->title }}" />
+                                                                    <div id="titleError{{ $data->id }}"
+                                                                        class="invalid-feedback"></div>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="total_amount" class="form-label">Biaya
+                                                                        Pemeriksaan</label>
+                                                                    <div class="input-group input-group-merge">
+                                                                        <span class="input-group-text">Rp</span>
+                                                                        <input type="text" class="form-control"
+                                                                            id="total_amount{{ $data->id }}"
+                                                                            name="total_amount" placeholder="10,000"
+                                                                            oninput="formatAmount(this)"
+                                                                            value="{{ $data->total_amount }}" />
+                                                                        <div id="total_amountError{{ $data->id }}"
+                                                                            class="invalid-feedback">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <button type="submit"
+                                                            class="btn btn-primary mb-2 d-grid w-100 updateSubmit"
+                                                            data-id="{{ $data->id }}">Simpan</button>
+                                                        <button type="button"
+                                                            class="btn btn-outline-secondary d-grid w-100"
+                                                            data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
     </div>
 @endsection

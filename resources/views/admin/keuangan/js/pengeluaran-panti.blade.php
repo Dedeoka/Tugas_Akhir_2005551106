@@ -348,6 +348,40 @@
             });
         }
 
+        function clearErrors() {
+            // Hapus kelas is-invalid dari semua elemen input
+            document.querySelectorAll('.form-control', ).forEach(function(element) {
+                element.classList.remove('is-invalid');
+            });
+
+            document.querySelectorAll('.form-select', ).forEach(function(element) {
+                element.classList.remove('is-invalid');
+            });
+
+            // Sembunyikan pesan error
+            document.querySelectorAll('.invalid-feedback').forEach(function(element) {
+                element.innerHTML = '';
+            });
+        }
+
+        function handleErrors(errors) {
+            clearErrors();
+
+            // Menambahkan kelas is-invalid hanya untuk elemen input yang memiliki error
+            if (errors.cost_type_id) {
+                $('#cost_type_id').addClass('is-invalid');
+                $('#cost_type_idError').text(errors.cost_type_id[0]);
+            }
+            if (errors.title) {
+                $('#title').addClass('is-invalid');
+                $('#titleError').text(errors.title[0]);
+            }
+            if (errors.total_cost) {
+                $('#total_cost').addClass('is-invalid');
+                $('#total_costError').text(errors.total_cost[0]);
+            }
+        }
+
         function showErrorMessage(message) {
             Swal.fire({
                 icon: 'error',
@@ -376,7 +410,7 @@
                 processData: false,
                 success: function(response) {
                     if (response.errors) {
-                        console.log('Error Response:', response);
+                        handleErrors(response.errors);
                     } else {
                         showSuccessMessage(response.success);
                         $('#modalPengeluaranPanti').modal('hide');
