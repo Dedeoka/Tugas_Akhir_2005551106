@@ -89,8 +89,8 @@
                 <div class="menu-inner-shadow"></div>
                 <ul class="menu-inner py-1">
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">Dashboard</span></li>
-                    <li class="menu-item">
-                        <a href="cards-basic.html" class="menu-link">
+                    <li class="menu-item {{ request()->is('home') ? 'active' : '' }}">
+                        <a href="{{ route('home') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Basic">Dashboard</div>
                         </a>
@@ -282,11 +282,23 @@
                             <div data-i18n="Documentation">Kesehatan Anak Asuh</div>
                         </a>
                     </li>
-                    <li class="menu-item {{ request()->is('anak-asuh/prestasi-anak') ? 'active' : '' }}">
-                        <a href="{{ route('prestasi-anak.index') }}" class="menu-link">
+                    <li class="menu-item {{ request()->is('anak-asuh/prestasi*') ? 'active open' : '' }}">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
                             <i class="menu-icon tf-icons bx bx-medal"></i>
-                            <div data-i18n="Documentation">Prestasi Anak Asuh</div>
+                            <div data-i18n="Profile">Prestasi Anak Asuh</div>
                         </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item {{ request()->is('anak-asuh/prestasi-anak') ? 'active' : '' }}">
+                                <a href="{{ route('prestasi-anak.index') }}" class="menu-link">
+                                    <div data-i18n="Documentation">Prestasi Anak Asuh</div>
+                                </a>
+                            </li>
+                            <li class="menu-item {{ request()->is('anak-asuh/') ? 'active' : '' }}">
+                                <a href="{{ route('prestasi-anak.index') }}" class="menu-link">
+                                    <div data-i18n="Documentation">Prestasi Akademik Anak Asuh</div>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </aside>
