@@ -66,6 +66,7 @@
             /* Menampilkan titik-titik elipsis jika terlalu lebar */
         }
     </style>
+    @yield('style')
 </head>
 
 <body>

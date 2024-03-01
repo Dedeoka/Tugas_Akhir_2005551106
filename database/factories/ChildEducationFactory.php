@@ -39,7 +39,7 @@ class ChildEducationFactory extends Factory
             'class_name' => fake()->randomElement(['A', 'B', 'C', 'D', 'E']),
             'start_date' => fake()->dateTimeBetween($startDate = '-5 years', $endDate = 'now')->format('Y-m-d'),
             'end_date' => fake()->dateTimeBetween($startDate = '-1 years', $endDate = 'now')->format('Y-m-d'),
-            'status' => fake()->randomElement(['Aktif', 'Non-Aktif']),
+            'status' => fake()->randomElement(['Aktif', 'Lulus', 'Tidak Lulus']),
             'school_id' => function (array $attributes) {
                 $educationLevel = $attributes['education_level'];
 

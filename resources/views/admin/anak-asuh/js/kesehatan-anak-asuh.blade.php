@@ -215,7 +215,7 @@
             $('#paymentError').text('');
         }
 
-        function handleErrors(errors) {
+        function handleErrors(errors, id) {
             clearErrors();
 
             if (errors.children_id) {
@@ -325,9 +325,9 @@
                     }
                 },
                 error: function(xhr, status, error) {
-                    // Handle other types of errors (e.g., server errors)
-                    console.error('XHR Response:', xhr.responseText);
-                    showErrorMessage("An error occurred while updating data.");
+                    handleUpdateErrors(xhr.responseJSON.errors);
+                    showErrorMessage(
+                        'Terdapat kesalahan pada inputan. Silahkan cek kembali semua form.');
                 }
             });
         }
@@ -346,43 +346,24 @@
             // Clear previous errors
             clearUpdateErrors(id);
 
-            // Menambahkan kelas is-invalid hanya untuk elemen input yang memiliki error
-            if (errors.children_id) {
-                $('#editChildren_id' + id).addClass('is-invalid');
-                $('#editChildrenError' + id).text(errors.children_id[0]);
-            }
-            if (errors.disease_id) {
-                $('#editDisease_id' + id).addClass('is-invalid');
-                $('#editDiseaseError' + id).text(errors.disease_id[0]);
-            }
-            if (errors.medicine) {
-                $('#editMedicine' + id).addClass('is-invalid');
-                $('#editMedicineError' + id).text(errors.medicine[0]);
-            }
-            if (errors.date_of_illness) {
-                $('#editDate_of_illness' + id).addClass('is-invalid');
-                $('#editDateOfIllnessError' + id).text(errors.date_of_illness[0]);
-            }
-            if (errors.description) {
-                $('#editDescription' + id).addClass('is-invalid');
-                $('#editDescriptionError' + id).text(errors.description[0]);
+            if (errors.recovery_date) {
+                $('#recovery_date' + id).addClass('is-invalid');
+                $('#recovery_dateError' + id).text(errors.recovery_date[0]);
             }
         }
 
         function clearUpdateErrors(id) {
-            // Clear previous errors
-            $('#editChildren_id' + id).removeClass('is-invalid');
-            $('#editDisease_id' + id).removeClass('is-invalid');
-            $('#editMedicine' + id).removeClass('is-invalid');
-            $('#editDate_of_illness' + id).removeClass('is-invalid');
-            $('#editDescription' + id).removeClass('is-invalid');
+            document.querySelectorAll('.form-control', ).forEach(function(element) {
+                element.classList.remove('is-invalid');
+            });
 
-            // Clear error messages
-            $('#editChildrenError' + id).text('');
-            $('#editDiseaseError' + id).text('');
-            $('#editMedicineError' + id).text('');
-            $('#editDateOfIllnessError' + id).text('');
-            $('#editDescriptionError' + id).text('');
+            document.querySelectorAll('.form-select', ).forEach(function(element) {
+                element.classList.remove('is-invalid');
+            });
+
+            document.querySelectorAll('.invalid-feedback').forEach(function(element) {
+                element.innerHTML = '';
+            });
         }
     });
 </script>

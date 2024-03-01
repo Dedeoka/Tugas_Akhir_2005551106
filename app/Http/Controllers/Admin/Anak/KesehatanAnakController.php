@@ -137,7 +137,7 @@ class KesehatanAnakController extends Controller
             'recovery_date' => 'required|date',
             'recovery_date' => 'required|date',
         ], [
-            'recovery_date.required' => 'Tanggal sakit wajib diisi',
+            'recovery_date.required' => 'Tanggal sembuh wajib diisi',
             'recovery_date.date' => 'Format tanggal tidak valid',
         ]);
 

@@ -1,5 +1,22 @@
 @extends('layouts.admin')
 
+@section('style')
+    <style>
+        .list-group-item {
+            border: none;
+            /* Menghilangkan border */
+        }
+
+        .list-group-item strong {
+            display: inline-block;
+            width: 150px;
+            /* Atur lebar label sesuai kebutuhan */
+            margin-right: 10px;
+            /* Atur jarak antara label dan isinya */
+        }
+    </style>
+@endsection
+
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
 
@@ -219,7 +236,10 @@
                                                                                             Status Pendidikan</option>
                                                                                         <option value="Aktif">Aktif
                                                                                         </option>
-                                                                                        <option value="Non-Aktif">Non-Aktif
+                                                                                        <option value="Lulus">Lulus
+                                                                                        </option>
+                                                                                        <option value="Tidak Lulus">Tidak
+                                                                                            Lulus
                                                                                         </option>
                                                                                     </select>
                                                                                     <div id="statusError"
@@ -329,10 +349,14 @@
                                             <button type="button" class="btn rounded-pill btn-success"
                                                 style="width: 100px;">
                                                 Aktif</button>
-                                        @else
-                                            <button type="button" class="btn rounded-pill btn-danger sakitBtn"
+                                        @elseif ($data->status == 'Lulus')
+                                            <button type="button" class="btn rounded-pill btn-warning"
                                                 style="width: 100px;">
-                                                Non-aktif</button>
+                                                Lulus</button>
+                                        @else
+                                            <button type="button" class="btn rounded-pill btn-danger"
+                                                style="width: 100px;">
+                                                Tidak Lulus</button>
                                         @endif
                                     </td>
                                     <td>
@@ -345,6 +369,11 @@
                                                 <a class="dropdown-item" href="javascript:void(0);"
                                                     data-bs-toggle="modal" data-bs-target="#editModal{{ $data->id }}">
                                                     <i class="bx bx-edit-alt me-1"></i> Edit
+                                                </a>
+                                                <a class="dropdown-item" href="javascript:void(0);"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#detailModal{{ $data->id }}">
+                                                    <i class="bx bx-detail me-1"></i> Detail
                                                 </a>
                                                 <a class="dropdown-item delete-data" href="javascript:void(0);"
                                                     data-id="{{ $data->id }}">
@@ -410,10 +439,92 @@
                     </nav>
                 </div>
             </div>
-
-
         </div>
     </div>
+
+    @foreach ($datas as $data)
+        <div class="modal fade" id="detailModal{{ $data->id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header border-bottom">
+                        <h3 class="text-center">Detail Data Pendidikan {{ $data->childrens->name }}</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex pb-2 mb-4 border-bottom">
+                            <div class="w-25 mx-5">
+                                <img src="{{ asset('storage/avatar/avatar-cowok1.jpeg') }}" alt=""
+                                    class="mx-auto d-block" style="max-width: 100%; height: 100%;">
+                            </div>
+                            <div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><strong>Nama Siswa</strong>:
+                                        {{ $data->childrens->name }}</li>
+                                    <li class="list-group-item"><strong>Nama Sekolah</strong>: {{ $data->schools->name }}
+                                    </li>
+                                    <li class="list-group-item"><strong>Jenjang Pendidikan</strong>:
+                                        {{ $data->education_level }}</li>
+                                    <li class="list-group-item"><strong>Kelas</strong>:
+                                        {{ $data->class }} ({{ $data->class_name }})</li>
+                                    <li class="list-group-item"><strong>Tanggal Mulai</strong>:
+                                        {{ $data->start_date }}</li>
+                                    <li class="list-group-item"><strong>Tanggal Berakhir</strong>:
+                                        {{ $data->end_date }}</li>
+                                    <li class="list-group-item"><strong>Status</strong>:
+                                        @if ($data->status == 'Aktif')
+                                            <button type="button" class="btn rounded-pill btn-success">
+                                                Aktif</button>
+                                        @elseif ($data->status == 'Lulus')
+                                            <button type="button" class="btn rounded-pill btn-warning">
+                                                Lulus</button>
+                                        @else
+                                            <button type="button" class="btn rounded-pill btn-danger">
+                                                Tidak Lulus
+                                            </button>
+                                        @endif
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="pb-3">
+                            <div class="d-flex">
+                                <div class="w-50 px-2">
+                                    <h5 class="px-2">Data Wali Kelas</h5>
+                                    <ul class="list-group list-group-flush">
+                                        @foreach ($data->childEducationDetails as $detail)
+                                            <li class="list-group-item"><strong>Nama Wali</strong>:
+                                                {{ $detail->guardian_name }}</li>
+                                            <li class="list-group-item"><strong>Alamat Wali</strong>:
+                                                {{ $detail->guardian_address }}</li>
+                                            <li class="list-group-item"><strong>Nomor Telepon Wali</strong>:
+                                                {{ $detail->guardian_phone }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                <div class="w-50 px-2">
+                                    <h5 class="px-2">Data Sekolah</h5>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item"><strong>Nama Sekolah</strong>:
+                                            {{ $data->schools->name }}</li>
+                                        <li class="list-group-item"><strong>Alamat Sekolah</strong>:
+                                            {{ $data->schools->address }}</li>
+                                        <li class="list-group-item"><strong>Nomor Telepon Sekolah</strong>:
+                                            {{ $data->schools->phone }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
 @endsection
 
 @section('scripts')
