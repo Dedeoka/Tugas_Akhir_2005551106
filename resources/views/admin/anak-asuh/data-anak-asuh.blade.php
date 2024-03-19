@@ -602,9 +602,8 @@
                                 </ul>
                             </div>
                             <div class="modal-body">
-                                <form id="editDataAnakForm{{ $data->id }}"
-                                    action="{{ route('data-anak.update', $data->id) }}" data-id="{{ $data->id }}"
-                                    method="POST" enctype="multipart/form-data">
+                                <form id="editDataAnakForm{{ $data->id }}" action="#"
+                                    data-id="{{ $data->id }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('PATCH')
                                     <div class="row">

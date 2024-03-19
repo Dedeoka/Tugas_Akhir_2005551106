@@ -120,6 +120,43 @@
 
 <script>
     $(document).ready(function() {
+        function nextProfileEdit() {
+            const nextNavEdit = document.getElementById('navs-justified-profile-edit');
+            const nextTabEdit = document.getElementById('tab-justified-profile-edit');
+            const thisNavEdit = document.getElementById('navs-justified-home-edit');
+            const thisTabEdit = document.getElementById('tab-justified-home-edit');
+
+            console.log(nextNavEdit, nextTabEdit, thisNavEdit, thisTabEdit);
+
+            thisNavEdit.classList.remove('show', 'active');
+            nextNavEdit.classList.add('show', 'active');
+            thisTabEdit.classList.remove('active');
+            nextTabEdit.classList.add('active');
+        }
+
+        function prevHomeEdit() {
+            const prevNavEdit = document.getElementById('navs-justified-home-edit');
+            const prevTabEdit = document.getElementById('tab-justified-home-edit');
+            const thisNavEdit = document.getElementById('navs-justified-profile-edit');
+            const thisTabEdit = document.getElementById('tab-justified-profile-edit');
+
+            thisNavEdit.classList.remove('show', 'active');
+            prevNavEdit.classList.add('show', 'active');
+            thisTabEdit.classList.remove('active');
+            prevTabEdit.classList.add('active');
+        }
+
+        $('#btnNextProfileEdit').on('click', function() {
+            nextProfileEdit();
+        });
+        $('#btnPrevHomeEdit').on('click', function() {
+            prevHomeEdit();
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
         function nextProfile() {
             const nextNav = document.getElementById('navs-justified-profile');
             const nextTab = document.getElementById('tab-justified-profile');

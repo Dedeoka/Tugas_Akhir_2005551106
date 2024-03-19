@@ -366,9 +366,12 @@
                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="javascript:void(0);"
-                                                    data-bs-toggle="modal" data-bs-target="#editModal{{ $data->id }}">
-                                                    <i class="bx bx-edit-alt me-1"></i> Edit
+                                                <a class="dropdown-item editBtnEducation" href="javascript:void(0);"
+                                                    data-id="{{ $data->id }}">
+                                                    <i
+                                                        class="bx
+                                                    bx-edit-alt me-1"></i>
+                                                    Edit
                                                 </a>
                                                 <a class="dropdown-item" href="javascript:void(0);"
                                                     data-bs-toggle="modal"
@@ -442,6 +445,205 @@
         </div>
     </div>
 
+    <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-center">Edit Data Pendidikan Anak</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-header">
+                    <ul class="nav nav-tabs nav-fill w-100" role="tablist">
+                        <li class="nav-item">
+                            <button type="button" id="tab-justified-home-edit" class="nav-link active" role="tab"
+                                data-bs-toggle="tab" data-bs-target="#navs-justified-home"
+                                aria-controls="navs-justified-home" aria-selected="true" disabled>
+                                <span class="d-none d-sm-block">
+                                    Data Pendidikan Anak</span>
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" id="tab-justified-profile-edit" class="nav-link" role="tab"
+                                data-bs-toggle="tab" data-bs-target="#navs-justified-profile"
+                                aria-controls="navs-justified-profile" aria-selected="false" disabled>
+                                <span class="d-none d-sm-block">
+                                    Data Wali Kelas</span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-body">
+                    <form id="updateDataEducation" action="#" data-id="{{ $data->id }}" method="POST"
+                        enctype="multipart/form-data">
+                        @csrf
+                        @method('PATCH')
+                        <div class="row">
+                            <div class="">
+                                <div class="nav-align-top mb-4">
+                                    <div class="tab-content">
+                                        <div class="tab-pane fade show active" id="navs-justified-home-edit"
+                                            role="tabpanel">
+                                            <div class="card mb-4">
+                                                <div class="card-body">
+                                                    <div class="mb-3">
+                                                        <label for="children_id" class="form-label">Nama
+                                                            Anak</label>
+                                                        <input type="text" class="form-control" id="child_name_edit"
+                                                            disabled />
+                                                        <div id="children_idError" class="invalid-feedback">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label d-block">Jenjang
+                                                            Pendidikan</label>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio"
+                                                                name="education_levelEdit" id="tk"
+                                                                value="TK" />
+                                                            <label class="form-check-label" for="tk">TK</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio"
+                                                                name="education_levelEdit" id="sd"
+                                                                value="SD" />
+                                                            <label class="form-check-label" for="sd">SD</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio"
+                                                                name="education_levelEdit" id="smp"
+                                                                value="SMP" />
+                                                            <label class="form-check-label" for="smp">SMP</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio"
+                                                                name="education_levelEdit" id="sma"
+                                                                value="SMA/SMK" />
+                                                            <label class="form-check-label" for="sma">SMA/SMK</label>
+                                                        </div>
+                                                        <div id="education_levelError" class="invalid-feedback"></div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="school_idEdit" class="form-label">Nama
+                                                            Sekolah</label>
+                                                        <select class="form-select" id="school_id" name="school_id"
+                                                            aria-label="Default select example">
+                                                            <option value="" hidden>
+                                                                Pilih Nama Sekolah
+                                                            </option>
+                                                        </select>
+                                                        <div id="schoold_idError" class="invalid-feedback"></div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="class" class="form-label">Kelas
+                                                        </label>
+                                                        <select class="form-select" id="classEdit" name="class"
+                                                            aria-label="Default select example">
+                                                            <option value="" hidden>
+                                                                Pilih Kelas
+                                                            </option>
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                            <option value="6">6</option>
+                                                            <option value="7">7</option>
+                                                            <option value="8">8</option>
+                                                            <option value="9">9</option>
+                                                            <option value="10">10</option>
+                                                            <option value="11">11</option>
+                                                            <option value="12">12</option>
+                                                        </select>
+                                                        <div id="classError" class="invalid-feedback"></div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="class_name" class="form-label">Nama
+                                                            Kelas(Contoh : A)</label>
+                                                        <input type="text" class="form-control" id="class_nameEdit"
+                                                            name="class_name" placeholder="Nama Kelas..." />
+                                                        <div id="class_nameError" class="invalid-feedback"></div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="start_date" class="form-label">Tanggal
+                                                            Mulai</label>
+                                                        <input class="form-control" type="date" id="start_dateEdit"
+                                                            name="start_date" />
+                                                        <div id="start_dateError" class="invalid-feedback"></div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="end_date" class="form-label">Tanggal
+                                                            Berakhir</label>
+                                                        <input class="form-control" type="date" id="end_dateEdit"
+                                                            name="end_date" />
+                                                        <div id="end_dateError" class="invalid-feedback"></div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="status" class="form-label">Status</label>
+                                                        <select class="form-select" id="statusEdit" name="status"
+                                                            aria-label="Default select example">
+                                                            <option value="" hidden>
+                                                                Status Pendidikan</option>
+                                                            <option value="Aktif">Aktif
+                                                            </option>
+                                                            <option value="Lulus">Lulus
+                                                            </option>
+                                                            <option value="Tidak Lulus">Tidak
+                                                                Lulus
+                                                            </option>
+                                                        </select>
+                                                        <div id="statusError" class="invalid-feedback"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" id="btnNextProfileEdit"
+                                                class="btn btn-primary mb-2 d-grid w-100">Berikutnya Edit</button>
+                                            <button type="button" class="btn btn-outline-secondary d-grid w-100"
+                                                data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                                        </div>
+                                        <div class="tab-pane fade" id="navs-justified-profile-edit" role="tabpanel">
+                                            <div class="card mb-4">
+                                                <div class="card-body">
+                                                    <div class="mb-3">
+                                                        <label for="guardian_name" class="form-label">Nama
+                                                            Wali Kelas</label>
+                                                        <input type="text" class="form-control" id="guardian_name"
+                                                            name="guardian_name" placeholder="Nama Wali Kelas..." />
+                                                        <div id="guardian_nameError" class="invalid-feedback"></div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="guardian_address" class="form-label">Alamat Wali
+                                                            Kelas</label>
+                                                        <input type="text" class="form-control" id="guardian_address"
+                                                            name="guardian_address" placeholder="Alamat Wali Kelas..." />
+                                                        <div id="guardian_addressError" class="invalid-feedback"></div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="guardian_phone" class="form-label">Nomor Wali
+                                                            Kelas</label>
+                                                        <input type="text" class="form-control" id="guardian_phone"
+                                                            name="guardian_phone" placeholder="Nomor Wali Kelas..." />
+                                                        <div id="guardian_phoneError" class="invalid-feedback"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="submit"
+                                                class="btn btn-primary mb-2 d-grid w-100">Simpan</button>
+                                            <button type="button" class="btn btn-outline-secondary d-grid w-100"
+                                                id="btnPrevHomeEdit">Sebelumnya</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+
     @foreach ($datas as $data)
         <div class="modal fade" id="detailModal{{ $data->id }}" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
@@ -496,7 +698,7 @@
                                                 {{ $detail->guardian_name }}</li>
                                             <li class="list-group-item"><strong>Alamat Wali</strong>:
                                                 {{ $detail->guardian_address }}</li>
-                                            <li class="list-group-item"><strong>Nomor Telepon Wali</strong>:
+                                            <li class="list-group-item"><strong>Nomor Telepon</strong>:
                                                 {{ $detail->guardian_phone }}</li>
                                         @endforeach
                                     </ul>
@@ -508,7 +710,7 @@
                                             {{ $data->schools->name }}</li>
                                         <li class="list-group-item"><strong>Alamat Sekolah</strong>:
                                             {{ $data->schools->address }}</li>
-                                        <li class="list-group-item"><strong>Nomor Telepon Sekolah</strong>:
+                                        <li class="list-group-item"><strong>Nomor Telepon</strong>:
                                             {{ $data->schools->phone }}</li>
                                     </ul>
                                 </div>
@@ -524,9 +726,66 @@
             </div>
         </div>
     @endforeach
-
 @endsection
 
 @section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.editBtnEducation').click(function() {
+                var id = $(this).data('id');
+                fetchEditEducation(id);
+            });
+
+            function fetchEditEducation(id) {
+                const nameEdit = document.getElementById('child_name_edit');
+                const educationLevelRadioButtons = document.getElementsByName('education_levelEdit');
+                const schoolEdit = document.getElementById('school_idEdit');
+                const classEdit = document.getElementById('classEdit');
+                const classNameEdit = document.getElementById('class_nameEdit');
+                const startDateEdit = document.getElementById('start_dateEdit');
+                const endDateEdit = document.getElementById('end_dateEdit');
+                const statusEdit = document.getElementById('statusEdit');
+
+                $.ajax({
+                    url: "{{ route('pendidikan-anak.show', ':id') }}".replace(':id', id),
+                    type: 'GET',
+                    success: function(response) {
+                        $('#editModal').modal('show');
+                        console.log(response);
+                        nameEdit.value = response.childrens.name;
+
+                        // Set education level radio button
+                        educationLevelRadioButtons.forEach(function(radioButton) {
+                            if (radioButton.value === response.education_level) {
+                                radioButton.checked = true;
+                            }
+                        });
+
+                        // Set school select
+                        // schoolEdit.value = response.school_id;
+
+                        // Set class select
+                        classEdit.value = response.class;
+
+                        // Set class name input
+                        classNameEdit.value = response.class_name;
+
+                        // Set start date input
+                        startDateEdit.value = response.start_date;
+
+                        // Set end date input
+                        endDateEdit.value = response.end_date;
+
+                        // Set status select
+                        status.value = response.status;
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        // Handle errors
+                        handleErrors(xhr.responseJSON.errors, id);
+                    }
+                });
+            }
+        });
+    </script>
     @include('admin.anak-asuh.js.pendidikan-anak-asuh')
 @endsection

@@ -113,7 +113,17 @@ class PendidikanAnakController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $childEducation = ChildEducation::with('childrens')->find($id);
+
+        // Pastikan data ChildEducation ditemukan
+        if ($childEducation) {
+
+            // Kembalikan data ChildEducation beserta data anak sebagai respons JSON
+            return response()->json($childEducation);
+        } else {
+            // Jika data ChildEducation tidak ditemukan, kembalikan respons kosong atau respons kesalahan sesuai kebutuhan Anda
+            return response()->json(['error' => 'Data not found'], 404);
+        }
     }
 
     /**
