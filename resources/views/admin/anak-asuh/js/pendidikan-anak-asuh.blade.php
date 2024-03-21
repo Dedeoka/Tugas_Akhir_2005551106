@@ -126,8 +126,6 @@
             const thisNavEdit = document.getElementById('navs-justified-home-edit');
             const thisTabEdit = document.getElementById('tab-justified-home-edit');
 
-            console.log(nextNavEdit, nextTabEdit, thisNavEdit, thisTabEdit);
-
             thisNavEdit.classList.remove('show', 'active');
             nextNavEdit.classList.add('show', 'active');
             thisTabEdit.classList.remove('active');

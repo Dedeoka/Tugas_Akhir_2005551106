@@ -113,11 +113,10 @@ class PendidikanAnakController extends Controller
      */
     public function show(string $id)
     {
-        $childEducation = ChildEducation::with('childrens')->find($id);
+        $childEducation = ChildEducation::with(['childrens', 'childEducationDetails'])->find($id);
 
         // Pastikan data ChildEducation ditemukan
         if ($childEducation) {
-
             // Kembalikan data ChildEducation beserta data anak sebagai respons JSON
             return response()->json($childEducation);
         } else {
@@ -140,9 +139,9 @@ class PendidikanAnakController extends Controller
     public function update(Request $request, $id)
     {
         $validasi = Validator::make($request->all(), [
-            'children_id' => 'required',
             'school_id' => 'required',
-            'education_level' => 'required',
+            'children_idEdit' => 'required',
+            'education_levelEdit' => 'required',
             'class' => 'required',
             'class_name' => 'required',
             'start_date' => 'required|date',
@@ -159,9 +158,9 @@ class PendidikanAnakController extends Controller
             'guardian_address' => 'required',
             'guardian_phone' => 'required',
         ], [
-            'children_id.required' => 'Data wajib diisi',
+            'children_idEdit.required' => 'Data wajib diisi',
             'school_id.required' => 'Nama sekolah wajib diisi',
-            'education_level.required' => 'Nama jenjang wajib diisi',
+            'education_levelEdit.required' => 'Nama jenjang wajib diisi',
             'class.required' => 'Kelas wajib diisi',
             'class_name.required' => 'Nama kelas wajib diisi',
             'start_date.required' => 'Tanggal masuk wajib diisi',
@@ -183,8 +182,8 @@ class PendidikanAnakController extends Controller
             return response()->json(['errors' => ['Data tidak ditemukan']]);
         }
 
-        $data->children_id = $request->children_id;
-        $data->education_level = $request->education_level;
+        $data->children_id = $request->children_idEdit;
+        $data->education_level = $request->education_levelEdit;
         $data->school_id = $request->school_id;
         $data->class = $request->class;
         $data->class_name = $request->class_name;
@@ -193,7 +192,7 @@ class PendidikanAnakController extends Controller
         $data->status = $request->status;
         $data->save();
 
-        $detailData = ChildEducationDetail::where('child_education_id', '=', $data->id);
+        $detailData = ChildEducationDetail::where('child_education_id', '=', $data->id)->first();
         $detailData->guardian_name = $request->guardian_name;
         $detailData->guardian_address = $request->guardian_address;
         $detailData->guardian_phone = $request->guardian_phone;

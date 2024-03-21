@@ -473,8 +473,8 @@
                     </ul>
                 </div>
                 <div class="modal-body">
-                    <form id="updateDataEducation" action="#" data-id="{{ $data->id }}" method="POST"
-                        enctype="multipart/form-data">
+                    <form id="updateDataEducation" action="#" method="POST" enctype="multipart/form-data">
+                        <input type="text" hidden id="updateForm">
                         @csrf
                         @method('PATCH')
                         <div class="row">
@@ -493,45 +493,47 @@
                                                         <div id="children_idError" class="invalid-feedback">
                                                         </div>
                                                     </div>
+                                                    <input type="text" name="children_idEdit" id="children_idEdit"
+                                                        hidden>
                                                     <div class="mb-3">
                                                         <label class="form-label d-block">Jenjang
                                                             Pendidikan</label>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio"
-                                                                name="education_levelEdit" id="tk"
+                                                                name="education_levelEdit" id="tkEdit"
                                                                 value="TK" />
                                                             <label class="form-check-label" for="tk">TK</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio"
-                                                                name="education_levelEdit" id="sd"
+                                                                name="education_levelEdit" id="sdEdit"
                                                                 value="SD" />
                                                             <label class="form-check-label" for="sd">SD</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio"
-                                                                name="education_levelEdit" id="smp"
+                                                                name="education_levelEdit" id="smpEdit"
                                                                 value="SMP" />
                                                             <label class="form-check-label" for="smp">SMP</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio"
-                                                                name="education_levelEdit" id="sma"
+                                                                name="education_levelEdit" id="smaEdit"
                                                                 value="SMA/SMK" />
                                                             <label class="form-check-label" for="sma">SMA/SMK</label>
                                                         </div>
-                                                        <div id="education_levelError" class="invalid-feedback"></div>
+                                                        <div id="education_levelEditError" class="invalid-feedback"></div>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="school_idEdit" class="form-label">Nama
                                                             Sekolah</label>
-                                                        <select class="form-select" id="school_id" name="school_id"
+                                                        <select class="form-select" id="school_idEdit" name="school_id"
                                                             aria-label="Default select example">
                                                             <option value="" hidden>
                                                                 Pilih Nama Sekolah
                                                             </option>
                                                         </select>
-                                                        <div id="schoold_idError" class="invalid-feedback"></div>
+                                                        <div id="school_idEditError" class="invalid-feedback"></div>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="class" class="form-label">Kelas
@@ -541,41 +543,29 @@
                                                             <option value="" hidden>
                                                                 Pilih Kelas
                                                             </option>
-                                                            <option value="1">1</option>
-                                                            <option value="2">2</option>
-                                                            <option value="3">3</option>
-                                                            <option value="4">4</option>
-                                                            <option value="5">5</option>
-                                                            <option value="6">6</option>
-                                                            <option value="7">7</option>
-                                                            <option value="8">8</option>
-                                                            <option value="9">9</option>
-                                                            <option value="10">10</option>
-                                                            <option value="11">11</option>
-                                                            <option value="12">12</option>
                                                         </select>
-                                                        <div id="classError" class="invalid-feedback"></div>
+                                                        <div id="classEditError" class="invalid-feedback"></div>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="class_name" class="form-label">Nama
                                                             Kelas(Contoh : A)</label>
                                                         <input type="text" class="form-control" id="class_nameEdit"
                                                             name="class_name" placeholder="Nama Kelas..." />
-                                                        <div id="class_nameError" class="invalid-feedback"></div>
+                                                        <div id="class_nameEditError" class="invalid-feedback"></div>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="start_date" class="form-label">Tanggal
                                                             Mulai</label>
                                                         <input class="form-control" type="date" id="start_dateEdit"
                                                             name="start_date" />
-                                                        <div id="start_dateError" class="invalid-feedback"></div>
+                                                        <div id="start_dateEditError" class="invalid-feedback"></div>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="end_date" class="form-label">Tanggal
                                                             Berakhir</label>
                                                         <input class="form-control" type="date" id="end_dateEdit"
                                                             name="end_date" />
-                                                        <div id="end_dateError" class="invalid-feedback"></div>
+                                                        <div id="end_dateEditError" class="invalid-feedback"></div>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="status" class="form-label">Status</label>
@@ -591,12 +581,12 @@
                                                                 Lulus
                                                             </option>
                                                         </select>
-                                                        <div id="statusError" class="invalid-feedback"></div>
+                                                        <div id="statusEditError" class="invalid-feedback"></div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <button type="button" id="btnNextProfileEdit"
-                                                class="btn btn-primary mb-2 d-grid w-100">Berikutnya Edit</button>
+                                                class="btn btn-primary mb-2 d-grid w-100">Berikutnya</button>
                                             <button type="button" class="btn btn-outline-secondary d-grid w-100"
                                                 data-bs-dismiss="modal" aria-label="Close">Cancel</button>
                                         </div>
@@ -606,23 +596,26 @@
                                                     <div class="mb-3">
                                                         <label for="guardian_name" class="form-label">Nama
                                                             Wali Kelas</label>
-                                                        <input type="text" class="form-control" id="guardian_name"
+                                                        <input type="text" class="form-control" id="guardian_nameEdit"
                                                             name="guardian_name" placeholder="Nama Wali Kelas..." />
-                                                        <div id="guardian_nameError" class="invalid-feedback"></div>
+                                                        <div id="guardian_nameEditError" class="invalid-feedback"></div>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="guardian_address" class="form-label">Alamat Wali
                                                             Kelas</label>
-                                                        <input type="text" class="form-control" id="guardian_address"
-                                                            name="guardian_address" placeholder="Alamat Wali Kelas..." />
-                                                        <div id="guardian_addressError" class="invalid-feedback"></div>
+                                                        <input type="text" class="form-control"
+                                                            id="guardian_addressEdit" name="guardian_address"
+                                                            placeholder="Alamat Wali Kelas..." />
+                                                        <div id="guardian_addressEditError" class="invalid-feedback">
+                                                        </div>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="guardian_phone" class="form-label">Nomor Wali
                                                             Kelas</label>
-                                                        <input type="text" class="form-control" id="guardian_phone"
-                                                            name="guardian_phone" placeholder="Nomor Wali Kelas..." />
-                                                        <div id="guardian_phoneError" class="invalid-feedback"></div>
+                                                        <input type="text" class="form-control"
+                                                            id="guardian_phoneEdit" name="guardian_phone"
+                                                            placeholder="Nomor Wali Kelas..." />
+                                                        <div id="guardian_phoneEditError" class="invalid-feedback"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -731,9 +724,16 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
+            const allSchoolsEdit = {!! json_encode($schools) !!};
+
+
             $('.editBtnEducation').click(function() {
                 var id = $(this).data('id');
                 fetchEditEducation(id);
+            });
+
+            $('input[name="education_levelEdit"]').change(function() {
+                handleEducationLevelChangeEdit(this.value);
             });
 
             function fetchEditEducation(id) {
@@ -745,6 +745,11 @@
                 const startDateEdit = document.getElementById('start_dateEdit');
                 const endDateEdit = document.getElementById('end_dateEdit');
                 const statusEdit = document.getElementById('statusEdit');
+                const guardianNameEdit = document.getElementById('guardian_nameEdit');
+                const guardianAddressEdit = document.getElementById('guardian_addressEdit');
+                const guardianPhoneEdit = document.getElementById('guardian_phoneEdit');
+                const updateForm = document.getElementById('updateForm');
+                const childrenEdit = document.getElementById('children_idEdit');
 
                 $.ajax({
                     url: "{{ route('pendidikan-anak.show', ':id') }}".replace(':id', id),
@@ -758,11 +763,16 @@
                         educationLevelRadioButtons.forEach(function(radioButton) {
                             if (radioButton.value === response.education_level) {
                                 radioButton.checked = true;
+                                handleEducationLevelChangeEdit(response
+                                    .education_level);
                             }
                         });
 
-                        // Set school select
-                        // schoolEdit.value = response.school_id;
+                        updateForm.value = id;
+
+                        childrenEdit.value = response.children_id;
+
+                        schoolEdit.value = response.school_id;
 
                         // Set class select
                         classEdit.value = response.class;
@@ -777,7 +787,12 @@
                         endDateEdit.value = response.end_date;
 
                         // Set status select
-                        status.value = response.status;
+                        statusEdit.value = response.status;
+                        console.log(response.child_education_details[0].guardian_name);
+                        guardianNameEdit.value = response.child_education_details[0].guardian_name;
+                        guardianAddressEdit.value = response.child_education_details[0]
+                            .guardian_address;
+                        guardianPhoneEdit.value = response.child_education_details[0].guardian_phone;
                     },
                     error: function(xhr, textStatus, errorThrown) {
                         // Handle errors
@@ -785,7 +800,191 @@
                     }
                 });
             }
+
+            // Function to handle education level change
+            function handleEducationLevelChangeEdit(selectedEducationLevel) {
+                // Reset options
+                $('#school_idEdit').empty().append('<option value="" hidden>Pilih Nama Sekolah</option>');
+                $('#classEdit').empty().append('<option value="" hidden>Pilih Kelas</option>');
+
+                // Filter schools based on selected education level
+                var filteredSchoolsEdit = allSchoolsEdit.filter(function(school) {
+                    if (selectedEducationLevel === 'TK' && school.name.includes('TK')) {
+                        return true;
+                    } else if (selectedEducationLevel === 'SD' && school.name.includes('SD')) {
+                        return true;
+                    } else if (selectedEducationLevel === 'SMP' && school.name.includes('SMP')) {
+                        return true;
+                    } else if (selectedEducationLevel === 'SMA/SMK' && (school.name.includes('SMA') ||
+                            school.name.includes('SMK'))) {
+                        return true;
+                    }
+                    return false;
+                });
+
+                filteredSchoolsEdit.forEach(function(school) {
+                    $('#school_idEdit').append('<option value="' + school.id + '">' + school.name +
+                        '</option>');
+                });
+
+                if (selectedEducationLevel === 'TK') {
+                    setTKOptionsEdit();
+                } else if (selectedEducationLevel === 'SD') {
+                    setClassOptionsEdit(1, 6);
+                } else if (selectedEducationLevel === 'SMP') {
+                    setClassOptionsEdit(7, 9);
+                } else if (selectedEducationLevel === 'SMA/SMK') {
+                    setClassOptionsEdit(10, 12);
+                }
+            }
+
+            function setTKOptionsEdit() {
+                $('#classEdit').empty().append('<option value="" hidden>Pilih Kelas</option>');
+
+                // Add TK options
+                $('#classEdit').append('<option value="TK Kecil">TK Kecil</option>');
+                $('#classEdit').append('<option value="TK Besar">TK Besar</option>');
+            }
+
+            // Function to set class options based on selected education level
+            function setClassOptionsEdit(start, end) {
+                var classEdit = $('#classEdit');
+                for (var i = start; i <= end; i++) {
+                    classEdit.append('<option value="' + i + '">' + i + '</option>');
+                }
+            }
         });
     </script>
+
+    <script>
+        $(document).ready(function() {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $('#updateDataEducation').on('submit', function(e) {
+                e.preventDefault();
+                const updateId = document.getElementById('updateForm').value;
+                update(updateId);
+            });
+
+            function showSuccessMessage(message) {
+                Swal.fire({
+                    icon: 'success',
+                    title: message,
+                    confirmButtonText: 'OK',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.reload();
+                    }
+                });
+            }
+
+            function showErrorMessage(message) {
+                Swal.fire({
+                    icon: 'error',
+                    title: message,
+                });
+            }
+
+            function update(id) {
+                var formData = new FormData($('#updateDataEducation')[0]);
+
+                formData.append('_method', 'patch');
+
+                var url = "{{ url('anak-asuh/pendidikan-anak') }}" + '/' + id;
+
+                for (var pair of formData.entries()) {
+                    console.log(pair[0] + ', ' + pair[1]);
+                }
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        if (response.errors) {
+                            handleErrors(response.errors);
+                            showErrorMessage(
+                                'Terdapat kesalahan pada inputan. Silahkan cek kembali semua form.');
+                            console.log('Error Response:', response);
+                        } else {
+                            showSuccessMessage(response.success);
+                            $('#editModal').modal('hide');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('XHR Response:', xhr.responseText);
+                        showErrorMessage("An error occurred while updating data.");
+                    }
+                });
+            }
+
+
+            function handleErrors(errors) {
+                clearErrors();
+                if (errors.education_level) {
+                    $('input[name="education_levelEdit"]').addClass('is-invalid');
+                    $('#education_levelEditError').text(errors.education_level[0]);
+                }
+                if (errors.school_id) {
+                    $('#school_idEdit').addClass('is-invalid');
+                    $('#school_idEditError').text(errors.school_id[0]);
+                }
+                if (errors.start_date) {
+                    $('#start_dateEdit').addClass('is-invalid');
+                    $('#start_dateEditError').text(errors.start_date[0]);
+                }
+                if (errors.end_date) {
+                    $('#end_dateEdit').addClass('is-invalid');
+                    $('#end_dateEditError').text(errors.end_date[0]);
+                }
+                if (errors.class_name) {
+                    $('#class_nameEdit').addClass('is-invalid');
+                    $('#class_nameEditError').text(errors.class_name[0]);
+                }
+                if (errors.class) {
+                    $('#classEdit').addClass('is-invalid');
+                    $('#classEditError').text(errors.class[0]);
+                }
+                if (errors.status) {
+                    $('#statusEdit').addClass('is-invalid');
+                    $('#statusEditError').text(errors.status[0]);
+                }
+                if (errors.guardian_name) {
+                    $('#guardian_nameEdit').addClass('is-invalid');
+                    $('#guardian_nameEditError').text(errors.guardian_name[0]);
+                }
+                if (errors.guardian_address) {
+                    $('#guardian_addressEdit').addClass('is-invalid');
+                    $('#guardian_addressEditError').text(errors.guardian_address[0]);
+                }
+                if (errors.guardian_phone) {
+                    $('#guardian_phoneEdit').addClass('is-invalid');
+                    $('#guardian_phoneEditError').text(errors.guardian_phone[0]);
+                }
+            }
+
+            function clearErrors() {
+                document.querySelectorAll('.form-control', ).forEach(function(element) {
+                    element.classList.remove('is-invalid');
+                });
+
+                document.querySelectorAll('.form-select', ).forEach(function(element) {
+                    element.classList.remove('is-invalid');
+                });
+
+                document.querySelectorAll('.invalid-feedback').forEach(function(element) {
+                    element.innerHTML = '';
+                });
+            }
+        });
+    </script>
+
     @include('admin.anak-asuh.js.pendidikan-anak-asuh')
 @endsection
