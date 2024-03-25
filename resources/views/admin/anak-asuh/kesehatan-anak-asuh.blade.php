@@ -1,5 +1,22 @@
 @extends('layouts.admin')
 
+@section('style')
+    <style>
+        .list-group-item {
+            border: none;
+            /* Menghilangkan border */
+        }
+
+        .list-group-item strong {
+            display: inline-block;
+            width: 150px;
+            /* Atur lebar label sesuai kebutuhan */
+            margin-right: 10px;
+            /* Atur jarak antara label dan isinya */
+        }
+    </style>
+@endsection
+
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
 
@@ -314,6 +331,11 @@
                                                     data-bs-target="#editModal{{ $data->id }}">
                                                     <i class="bx bx-edit-alt me-1"></i> Edit
                                                 </a>
+                                                <a class="dropdown-item" href="javascript:void(0);"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#detailModal{{ $data->id }}">
+                                                    <i class="bx bx-detail me-1"></i> Detail
+                                                </a>
                                                 <a class="dropdown-item delete-data" href="javascript:void(0);"
                                                     data-id="{{ $data->id }}">
                                                     <i class="bx bx-trash me-1"></i> Delete
@@ -480,8 +502,111 @@
                     </div>
                 </div>
             @endforeach
+
+            @foreach ($datas as $data)
+                <div class="modal fade" id="detailModal{{ $data->id }}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header border-bottom">
+                                <h3 class="text-center">Detail Data Sakit {{ $data->childrens->name }}</h3>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="d-flex pb-2 mb-4 border-bottom">
+                                    <div class="w-25 mx-5">
+                                        <img src="{{ asset('storage/avatar/avatar-cowok1.jpeg') }}" alt=""
+                                            class="mx-auto d-block" style="max-width: 100%; height: 100%;">
+                                    </div>
+                                    <div>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item"><strong>Nama Anak</strong>:
+                                                {{ $data->childrens->name }}</li>
+                                            <li class="list-group-item"><strong>Jenis Kelamin</strong>:
+                                                {{ $data->childrens->gender }}
+                                            </li>
+                                            @php
+                                                // Tanggal lahir dari $data->childrens->date_of_birth
+                                                $tanggal_lahir = $data->childrens->date_of_birth;
+
+                                                // Ubah format tanggal lahir menjadi objek DateTime
+                                                $tanggal_lahir_obj = new DateTime($tanggal_lahir);
+
+                                                // Tanggal sekarang
+                                                $tanggal_sekarang = new DateTime();
+
+                                                // Hitung selisih tahun antara tanggal lahir dan tanggal sekarang
+                                                $umur_tahun = $tanggal_lahir_obj->diff($tanggal_sekarang)->y;
+                                            @endphp
+                                            <li class="list-group-item"><strong>Umur</strong>:
+                                                {{ $umur_tahun }}
+                                            </li>
+                                            <li class="list-group-item"><strong>Tanggal Lahir</strong>:
+                                                {{ $data->childrens->date_of_birth }}
+                                            </li>
+                                            <li class="list-group-item"><strong>Penyakit Bawaan</strong>:
+                                                {{ $data->childrens->congenital_disease }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="pb-3">
+                                    <div>
+                                        <div class="px-2">
+                                            <h5 class="px-3">Data Detail Penyakit</h5>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item"><strong>Nama Penyakit</strong>:
+                                                    {{ $data->diseases->name }}</li>
+                                                <li class="list-group-item"><strong>Nama Obat</strong>:
+                                                    {{ $data->medicine }}</li>
+                                                <li class="list-group-item"><strong>Biaya Obat</strong>:
+                                                    Rp {{ $data->drug_cost }}</li>
+                                                <li class="list-group-item"><strong>Biaya Pemeriksaan</strong>:
+                                                    Rp {{ $data->medical_check_cost }}</li>
+                                                @php
+                                                    // Mengambil data medical_check_cost dan drug_cost dari variabel $data
+                                                    $medical_check_cost = $data->medical_check_cost;
+                                                    $drug_cost = $data->drug_cost;
+
+                                                    // Melakukan penjumlahan
+                                                    $total_cost = $medical_check_cost + $drug_cost;
+                                                @endphp
+                                                <li class="list-group-item"><strong>Biaya Total</strong>:
+                                                    Rp {{ $total_cost }}</li>
+                                                <li class="list-group-item"><strong>Metode Pembayaran</strong>:
+                                                    {{ $data->payment_method }}</li>
+                                                <li class="list-group-item"><strong>Tanggal Sakit</strong>:
+                                                    {{ $data->date_of_illness }}</li>
+                                                <li class="list-group-item"><strong>Tanggal Sembuh</strong>:
+                                                    {{ $data->recovery_date }}</li>
+                                                <li class="list-group-item"><strong>Deskripsi</strong>:
+                                                    {{ $data->description }}</li>
+                                                <li class="list-group-item"><strong>Status</strong>:
+                                                    @if ($data->status == 'Sudah Sembuh')
+                                                        <button type="button" class="btn rounded-pill btn-success">
+                                                            Sudah Sembuh</button>
+                                                    @elseif ($data->status == 'Sedang Sakit')
+                                                        <button type="button" class="btn rounded-pill btn-warning">
+                                                            Sedang Sakit</button>
+                                                    @endif
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
     </div>
+
 @endsection
 
 @section('scripts')

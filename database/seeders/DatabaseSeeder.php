@@ -87,7 +87,7 @@ class DatabaseSeeder extends Seeder
                 ChildCost::factory(1)->create([
                     "reference_table_id" => $childHealth->id,
                     "total_cost" => $childHealth->drug_cost + $childHealth->medical_check_cost,
-                    "title" => 'Pengeluaran Sakit' . $childHealth->diseases->name . ' ' . $childHealth->childrens->name,
+                    "title" => 'Pengeluaran Sakit ' . $childHealth->diseases->name . ' ' . $childHealth->childrens->name,
                 ])->each(function ($chilCost) {
                     ChildCostDetail::factory(1)->create([
                         'child_cost_id' => $chilCost->id,
