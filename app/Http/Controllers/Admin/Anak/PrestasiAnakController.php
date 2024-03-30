@@ -22,13 +22,12 @@ class PrestasiAnakController extends Controller
         ->where(function ($query) use ($keyword) {
             $query->whereHas('childrens', function ($subQuery) use ($keyword) {
                 $subQuery->where('name', 'LIKE', "%{$keyword}%");
-            });
+            })->orWhere('title', 'LIKE', "%{$keyword}%");
         })
         ->paginate(10)
         ->withQueryString();
         $childs = Children::all();
-        $childEducations = ChildEducation::with(['childrens'])->paginate(10)->withQueryString();
-        return view('admin.anak-asuh.prestasi-anak-asuh', compact('datas', 'keyword', 'childs', 'childEducations'));
+        return view('admin.anak-asuh.prestasi-anak-asuh', compact('datas', 'keyword', 'childs'));
     }
 
     /**
@@ -129,12 +128,13 @@ class PrestasiAnakController extends Controller
     public function update(Request $request, $id)
     {
         $validasi = Validator::make($request->all(), [
-            'children_id' => 'required',
             'title' => 'required',
             'ranking' => 'required',
             'competition_date' => 'required|date',
             'certificate' => 'file|mimes:pdf,jpg,jpeg,png|max:2048',
             'description' => 'required',
+            'prize_money' => 'required',
+            'competition_level' => 'required',
         ], [
             'children_id.required' => 'Data wajib diisi',
             'title.required' => 'Judul wajib diisi',
@@ -145,6 +145,7 @@ class PrestasiAnakController extends Controller
             'certificate.mimes' => 'Format file bukti perlombaan tidak valid. Pilih format pdf, jpg, jpeg, atau png',
             'certificate.max' => 'Ukuran file bukti perlombaan tidak boleh lebih dari 2MB',
             'description' => 'Deskripsi wajib diisi',
+            'prize_money.required' => 'Hadiah uang wajib diisi',
         ]);
 
         // Cek jika validasi gagal
@@ -161,11 +162,14 @@ class PrestasiAnakController extends Controller
         }
 
         // Update data anak
-        $data->children_id = $request->children_id;
+        $data->children_id = $data->children_id;
         $data->title = $request->title;
         $data->competition_date = $request->competition_date;
         $data->ranking = $request->ranking;
         $data->description = $request->description;
+        $data->prize_money = $request->prize_money;
+        $data->prize_item = $request->prize_item;
+        $data->competition_level = $request->competition_level;
 
         // Periksa dan simpan file-file yang diunggah jika ada
         if ($request->hasFile('certificate')) {

@@ -286,7 +286,7 @@
                     <li class="menu-item {{ request()->is('anak-asuh/prestasi*') ? 'active open' : '' }}">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
                             <i class="menu-icon tf-icons bx bx-medal"></i>
-                            <div data-i18n="Profile">Prestasi Anak Asuh</div>
+                            <div data-i18n="Profile">Prestasi Anak</div>
                         </a>
                         <ul class="menu-sub">
                             <li class="menu-item {{ request()->is('anak-asuh/prestasi-anak') ? 'active' : '' }}">
@@ -295,7 +295,7 @@
                                 </a>
                             </li>
                             <li class="menu-item {{ request()->is('anak-asuh/') ? 'active' : '' }}">
-                                <a href="{{ route('prestasi-anak.index') }}" class="menu-link">
+                                <a href="{{ route('prestasi-akademik-anak.index') }}" class="menu-link">
                                     <div data-i18n="Documentation">Prestasi Akademik Anak Asuh</div>
                                 </a>
                             </li>

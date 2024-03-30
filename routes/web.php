@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\Master\SekolahController;
 use App\Http\Controllers\Admin\Anak\DataAnakController;
 use App\Http\Controllers\Admin\Anak\KesehatanAnakController;
 use App\Http\Controllers\Admin\Anak\PendidikanAnakController;
+use App\Http\Controllers\Admin\Anak\PrestasiAkademikAnakController;
 use App\Http\Controllers\Admin\Anak\PrestasiAnakController;
 use App\Http\Controllers\Admin\Keuangan\ChartPemasukanPantiController;
 use App\Http\Controllers\Admin\Keuangan\ChartPengeluaranAnakController;
@@ -59,6 +60,8 @@ Route::prefix('anak-asuh')->group(function () {
     Route::resource('kesehatan-anak', KesehatanAnakController::class);
     Route::resource('pendidikan-anak', PendidikanAnakController::class);
     Route::resource('prestasi-anak', PrestasiAnakController::class);
+    Route::resource('prestasi-akademik-anak', PrestasiAkademikAnakController::class);
+    Route::get('/data-pendidikan-anak', [PrestasiAkademikAnakController::class, 'educationData'])->name('pendidikan-anak.data');
 });
 
 Route::prefix('keuangan')->group(function () {

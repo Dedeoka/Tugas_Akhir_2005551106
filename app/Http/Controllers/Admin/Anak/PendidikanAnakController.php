@@ -23,6 +23,8 @@ class PendidikanAnakController extends Controller
         ->where(function ($query) use ($keyword) {
             $query->whereHas('childrens', function ($subQuery) use ($keyword) {
                 $subQuery->where('name', 'LIKE', "%{$keyword}%");
+            })->orWhereHas('schools', function ($subQuery) use ($keyword) {
+                $subQuery->where('name', 'LIKE', "%{$keyword}%");
             });
         })
         ->paginate(10)
