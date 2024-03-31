@@ -177,7 +177,7 @@ class PrestasiAnakController extends Controller
             Storage::delete($data->certificate);
 
             // Simpan file yang baru
-            $data->certificate = $request->file('certificate')->store('uploads/bukti-perlombaan');
+            $data->certificate = $request->file('certificate')->store('uploads/sertifikat-perlombaan/mewakili-panti');
         }
 
         // Simpan perubahan

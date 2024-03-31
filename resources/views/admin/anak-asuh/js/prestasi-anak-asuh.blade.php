@@ -66,13 +66,6 @@
             return false;
         });
 
-        $('.submitPrestasiSekolah').click(function(e) {
-            e.preventDefault();
-            var id = $(this).data('id');
-            simpanPrestasiSekolah(id);
-            return false;
-        });
-
         function simpan() {
             const formData = new FormData($('#dataPrestasiAnakPanti')[0]);
             for (var pair of formData.entries()) {
@@ -103,50 +96,6 @@
                             }
                         });
                         $('#modalPrestasiAnakPanti').modal('hide');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('XHR Response:', xhr.responseText);
-                    var errorMessage = "An error occurred while updating data.";
-                    if (xhr.responseJSON && xhr.responseJSON.errors) {
-                        errorMessage = "Validation error: " + JSON.stringify(xhr.responseJSON
-                            .errors);
-                    }
-                    console.log(errorMessage);
-                }
-            });
-        }
-
-        function simpanPrestasiSekolah(id) {
-            const formData = new FormData($('#dataPrestasiAnakSekolah' + id)[0]);
-            for (var pair of formData.entries()) {
-                console.log(pair[0] + ', ' + pair[1]);
-            }
-            $.ajax({
-                url: "{{ route('prestasi-anak.store') }}",
-                type: 'POST',
-                data: formData,
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    if (response.errors) {
-                        handleErrors(response.errors);
-                    } else {
-                        // Menghapus kelas is-invalid dari semua elemen input
-                        $('.form-control').removeClass('is-invalid');
-
-                        // Menggunakan sweetalert
-                        Swal.fire({
-                            icon: 'success',
-                            title: response.success,
-                            confirmButtonText: 'OK',
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                window.location.reload();
-                            }
-                        });
-                        $('#modalPrestasiAnakSekolah').modal('hide');
                     }
                 },
                 error: function(xhr, status, error) {
@@ -260,7 +209,7 @@
             var certificate = $('#editCertificate' + id)[0].files[0];
 
             if (certificate) {
-                formData.append('editCertificate', certificate);
+                formData.append('certificate', certificate);
             }
 
             formData.append('_method', 'patch');

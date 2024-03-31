@@ -139,6 +139,8 @@
                                                                         id="navs-justified-home" role="tabpanel">
                                                                         <div class="card mb-4">
                                                                             <div class="card-body">
+                                                                                <input type="text" id="educationId"
+                                                                                    name="child_education_id" hidden>
                                                                                 <div class="mb-3">
                                                                                     <label for="title"
                                                                                         class="form-label">Nama
@@ -289,7 +291,7 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <button type="submit" id="submitNonakademik"
+                                                                        <button type="submit" id="submitForm"
                                                                             class="btn btn-primary mb-2 d-grid w-100">Simpan</button>
                                                                         <button type="button"
                                                                             class="btn btn-outline-secondary d-grid w-100"
@@ -335,7 +337,7 @@
                             @foreach ($datas as $data)
                                 <tr>
                                     <td>{{ $loop->iteration + $initialNumber }}</td>
-                                    <td>{{ $data->childrens->name }}</td>
+                                    <td>{{ $data->childEducations->childrens->name }}</td>
                                     <td>{{ $data->title }}</td>
                                     <td>{{ $data->competition_date }}</td>
                                     <td>{{ $data->ranking }}</td>
@@ -343,7 +345,7 @@
                                         <ul class="list-unstyled users-list m-0 avatar-group align-items-center">
                                             <li data-bs-toggle="tooltip" data-popup="tooltip-custom"
                                                 data-bs-placement="top" class="avatar avatar-xl pull-up"
-                                                title="Bukti Perlombaan {{ $data->childrens->name }}">
+                                                title="Bukti Perlombaan {{ $data->childEducations->childrens->name }}">
                                                 <img src="{{ asset('storage/' . $data->certificate) }}" alt=""
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#modalCenterAkta_{{ $loop->index }}">
@@ -354,7 +356,7 @@
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title" id="modalCenterTitle">Bukti Perlombaan
-                                                                {{ $data->childrens->name }}</h5>
+                                                                {{ $data->childEducations->childrens->name }}</h5>
                                                             <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
@@ -461,8 +463,8 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <form action="{{ route('prestasi-anak.update', $data->id) }}" data-id="{{ $data->id }}"
-                                method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('prestasi-akademik-anak.update', $data->id) }}"
+                                data-id="{{ $data->id }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PATCH')
                                 <div class="modal-body">
@@ -474,7 +476,7 @@
                                                         Anak</label>
                                                     <input type="text" class="form-control"
                                                         id="editName{{ $data->id }}"
-                                                        value="{{ $data->childrens->name }}" disabled />
+                                                        value="{{ $data->childEducations->childrens->name }}" disabled />
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="editTitle{{ $data->id }}" class="form-label">Nama
@@ -637,7 +639,8 @@
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header border-bottom">
-                                <h3 class="text-center">Detail Data Prestasi {{ $data->childrens->name }}</h3>
+                                <h3 class="text-center">Detail Data Prestasi {{ $data->childEducations->childrens->name }}
+                                </h3>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
@@ -650,18 +653,40 @@
                                     <div>
                                         <ul class="list-group list-group-flush">
                                             <li class="list-group-item"><strong>Nama Anak</strong>:
-                                                {{ $data->childrens->name }}</li>
+                                                {{ $data->childEducations->childrens->name }}</li>
                                             <li class="list-group-item"><strong>Jenis Kelamin</strong>:
-                                                {{ $data->childrens->gender }}
+                                                {{ $data->childEducations->childrens->gender }}
                                             </li>
                                             <li class="list-group-item"><strong>Tempat Lahir</strong>:
-                                                {{ $data->childrens->place_of_birth }}
+                                                {{ $data->childEducations->childrens->place_of_birth }}
                                             </li>
                                             <li class="list-group-item"><strong>Tanggal Lahir</strong>:
-                                                {{ $data->childrens->date_of_birth }}
+                                                {{ $data->childEducations->childrens->date_of_birth }}
                                             </li>
                                             <li class="list-group-item"><strong>Agama</strong>:
-                                                {{ $data->childrens->religion }}
+                                                {{ $data->childEducations->childrens->religion }}
+                                            </li>
+                                            <li class="list-group-item"><strong>Sekolah</strong>:
+                                                {{ $data->childEducations->schools->name }}
+                                            </li>
+                                            <li class="list-group-item"><strong>Jenjang Pendidikan</strong>:
+                                                {{ $data->childEducations->education_level }}
+                                            </li>
+                                            <li class="list-group-item"><strong>Kelas</strong>:
+                                                {{ $data->childEducations->class }}
+                                            </li>
+                                            <li class="list-group-item"><strong>Status</strong>:
+                                                @if ($data->childEducations->status == 'Aktif')
+                                                    <button type="button" class="btn rounded-pill btn-success">
+                                                        Aktif</button>
+                                                @elseif ($data->childEducations->status == 'Lulus')
+                                                    <button type="button" class="btn rounded-pill btn-warning">
+                                                        Lulus</button>
+                                                @else
+                                                    <button type="button" class="btn rounded-pill btn-danger">
+                                                        Tidak Lulus
+                                                    </button>
+                                                @endif
                                             </li>
                                         </ul>
                                     </div>
@@ -796,8 +821,11 @@
 
             $(document).on('click', '.pilih-id', function(e) {
                 let id = $(this).data('id');
+                const eduationId = document.getElementById('educationId');
+                educationId.value = id;
                 $('#modalDataPendidikanAnak').modal('hide');
                 $('#modalPrestasiAnakPanti').modal('show');
+
             });
 
             // Memuat data untuk halaman pertama saat halaman dimuat
@@ -869,20 +897,13 @@
                 return false;
             });
 
-            $('.submitPrestasiSekolah').click(function(e) {
-                e.preventDefault();
-                var id = $(this).data('id');
-                simpanPrestasiSekolah(id);
-                return false;
-            });
-
             function simpan() {
                 const formData = new FormData($('#dataPrestasiAnakPanti')[0]);
                 for (var pair of formData.entries()) {
                     console.log(pair[0] + ', ' + pair[1]);
                 }
                 $.ajax({
-                    url: "{{ route('prestasi-anak.store') }}",
+                    url: "{{ route('prestasi-akademik-anak.store') }}",
                     type: 'POST',
                     data: formData,
                     cache: false,
@@ -906,50 +927,6 @@
                                 }
                             });
                             $('#modalPrestasiAnakPanti').modal('hide');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('XHR Response:', xhr.responseText);
-                        var errorMessage = "An error occurred while updating data.";
-                        if (xhr.responseJSON && xhr.responseJSON.errors) {
-                            errorMessage = "Validation error: " + JSON.stringify(xhr.responseJSON
-                                .errors);
-                        }
-                        console.log(errorMessage);
-                    }
-                });
-            }
-
-            function simpanPrestasiSekolah(id) {
-                const formData = new FormData($('#dataPrestasiAnakSekolah' + id)[0]);
-                for (var pair of formData.entries()) {
-                    console.log(pair[0] + ', ' + pair[1]);
-                }
-                $.ajax({
-                    url: "{{ route('prestasi-anak.store') }}",
-                    type: 'POST',
-                    data: formData,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        if (response.errors) {
-                            handleErrors(response.errors);
-                        } else {
-                            // Menghapus kelas is-invalid dari semua elemen input
-                            $('.form-control').removeClass('is-invalid');
-
-                            // Menggunakan sweetalert
-                            Swal.fire({
-                                icon: 'success',
-                                title: response.success,
-                                confirmButtonText: 'OK',
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.reload();
-                                }
-                            });
-                            $('#modalPrestasiAnakSekolah').modal('hide');
                         }
                     },
                     error: function(xhr, status, error) {
@@ -1063,11 +1040,11 @@
                 var certificate = $('#editCertificate' + id)[0].files[0];
 
                 if (certificate) {
-                    formData.append('editCertificate', certificate);
+                    formData.append('certificate', certificate);
                 }
 
                 formData.append('_method', 'patch');
-                var url = "{{ url('anak-asuh/prestasi-anak') }}" + '/' + id;
+                var url = "{{ url('anak-asuh/prestasi-akademik-anak') }}" + '/' + id;
                 console.log('URL:', url);
                 for (var pair of formData.entries()) {
                     console.log(pair[0] + ', ' + pair[1]);
@@ -1185,7 +1162,7 @@
 
             function deleteData(dataId) {
                 // Kirim permintaan Ajax ke server
-                fetch(`/anak-asuh/prestasi-anak/${dataId}`, {
+                fetch(`/anak-asuh/prestasi-akademik-anak/${dataId}`, {
                         method: 'DELETE',
                         headers: {
                             'X-CSRF-TOKEN': '{{ csrf_token() }}',

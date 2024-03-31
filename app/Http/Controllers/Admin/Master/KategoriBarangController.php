@@ -36,8 +36,12 @@ class KategoriBarangController extends Controller
     {
         $validasi = Validator::make($request->all(), [
             'name' => 'required|unique:goods_categories,name',
+            'capacity' => 'required',
+            'unit' => 'required',
         ], [
             'name.required' => 'Data wajib diisi',
+            'capacity.required' => 'Data wajib diisi',
+            'unit.required' => 'Data wajib diisi',
             'name.unique' => 'Nama kategori barang sudah digunakan, harap pilih nama yang lain.',
         ]);
 
@@ -46,6 +50,8 @@ class KategoriBarangController extends Controller
         } else {
             $data = [
                 'name' => $request->name,
+                'capacity' => $request->capacity,
+                'unit' => $request->unit,
             ];
             GoodsCategory::create($data);
 

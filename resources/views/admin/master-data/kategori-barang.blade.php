@@ -67,11 +67,36 @@
                                                     <label for="nameBasic" class="form-label">Nama Kategori Donasi
                                                         Barang</label>
                                                     <input type="text" id="nameBasic" name="name" class="form-control"
-                                                        placeholder="Enter Name" />
+                                                        placeholder="Nama Barang" />
                                                     <div id="nameError" class="invalid-feedback"></div>
                                                 </div>
                                             </div>
+                                            <div class="row">
+                                                <div class="col mb-3">
+                                                    <label for="kapasitasInput" class="form-label">Kapasitas
+                                                        Penerimaan</label>
+                                                    <div class="input-group">
+                                                        <input type="text" id="kapasitasInput" class="form-control"
+                                                            placeholder="Kapasitas Penerimaan" />
+                                                        <button class="btn btn-outline-primary dropdown-toggle"
+                                                            type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                                                            data-value="0">Pilih Satuan</button>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a class="dropdown-item" href="javascript:void(0);"
+                                                                    data-value="Kg">Kg</a></li>
+                                                            <li><a class="dropdown-item" href="javascript:void(0);"
+                                                                    data-value="Buah">Liter</a></li>
+                                                            <li><a class="dropdown-item" href="javascript:void(0);"
+                                                                    data-value="Liter">Buah</a></li>
+                                                            <li><a class="dropdown-item" href="javascript:void(0);"
+                                                                    data-value="Pasang">Pasang</a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div id="capacityError" class="invalid-feedback"></div>
+                                                </div>
+                                            </div>
                                         </div>
+
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-outline-secondary"
                                                 data-bs-dismiss="modal">Close</button>
@@ -91,6 +116,7 @@
                             <tr>
                                 <th class="col-md-1 text-center fw-bold">No</th>
                                 <th class="col-md-5 text-center fw-bold">Nama</th>
+                                <th class="col-md-3 text-center fw-bold">Kapasitas</th>
                                 <th class="col-md-3 text-center fw-bold">Action</th>
                             </tr>
                         </thead>
@@ -102,6 +128,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration + $initialNumber }}</td>
                                     <td>{{ $data->name }}</td>
+                                    <td>{{ $data->capacity }} {{ $data->unit }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -167,7 +194,8 @@
                                 </a>
                             </li>
                             <!-- Last Page -->
-                            <li class="page-item last {{ $datas->currentPage() == $datas->lastPage() ? 'disabled' : '' }}">
+                            <li
+                                class="page-item last {{ $datas->currentPage() == $datas->lastPage() ? 'disabled' : '' }}">
                                 <a class="page-link" href="{{ $datas->url($lastPage) }}">
                                     <i class="tf-icon bx bx-chevrons-right"></i>
                                 </a>
@@ -265,18 +293,46 @@
                 return false;
             });
 
+            $(document).ready(function() {
+                $('.dropdown-menu a').click(function() {
+                    var selectedValue = $(this).attr('data-value');
+                    var selectedText = $(this).text();
+                    $(this).closest('.input-group').find('.dropdown-toggle').text(selectedText);
+                    $(this).closest('.input-group').find('.dropdown-toggle').attr('data-selected',
+                        selectedValue);
+                });
+
+                $('.dropdown-menu').on('hidden.bs.dropdown', function() {
+                    var selectedValue = $(this).find('.dropdown-toggle').attr('data-selected');
+                    if (!selectedValue) {
+                        $(this).find('.dropdown-toggle').text('Pilih Satuan');
+                    }
+                });
+            });
+            y
+
             function simpan() {
+                var kapasitas = $('.input-group .form-control').val(); // Ambil nilai input
+                var satuan = $('.input-group .dropdown-toggle').text().trim(); // Ambil nilai dropdown
+
+                console.log('Kapasitas:', kapasitas);
+                console.log('Satuan:', satuan);
+
                 $.ajax({
                     url: "{{ route('kategori-barang.store') }}",
                     type: 'POST',
                     data: {
                         name: $('#nameBasic').val(),
+                        capacity: kapasitas,
+                        unit: satuan,
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
                         if (response.errors) {
                             $('#nameBasic').addClass('is-invalid');
                             $('#nameError').text(response.errors.name[0]);
+                            $('#kapasitasInput').addClass('is-invalid');
+                            $('#capacityError').text(response.errors.capacity[0]);
                         } else {
                             showSuccessMessage(response.success);
                             $('#basicModal').modal('hide');
@@ -284,6 +340,7 @@
                     }
                 });
             }
+
 
             // Event click pada tombol "Save Changes" pada modal edit
             $('.updateSubmit').click(function(e) {

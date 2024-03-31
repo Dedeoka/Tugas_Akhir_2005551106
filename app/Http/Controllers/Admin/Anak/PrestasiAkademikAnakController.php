@@ -18,13 +18,13 @@ class PrestasiAkademikAnakController extends Controller
     public function index(Request $request)
     {
         $keyword = $request->query('q','');
-        $datas = ChildAcademicAchievement::with(['childEducations' => function ($query) use ($keyword) {
-            $query->whereHas('childrens', function ($subQuery) use ($keyword) {
-                $subQuery->where('name', 'LIKE', "%{$keyword}%");
-            });
-        }])
+        $datas = ChildAcademicAchievement::with(['childEducations.childrens', 'childEducations.schools'])
+        ->whereHas('childEducations.childrens', function ($query) use ($keyword) {
+            $query->where('name', 'LIKE', "%{$keyword}%");
+        })
         ->paginate(10)
         ->withQueryString();
+
         return view('admin.anak-asuh.prestasi-akademik-anak-asuh', compact('datas', 'keyword'));
     }
 
@@ -64,25 +64,6 @@ class PrestasiAkademikAnakController extends Controller
         if ($validasi->fails()) {
             return response()->json(['errors' => $validasi->errors()]);
         } else {
-
-            if($request->achievement_type == 'Panti') {
-                $certificate = $request->file('certificate')->store('uploads/sertifikat-perlombaan/mewakili-panti');
-
-                $data = [
-                'children_id' => $request->children_id,
-                'title' => $request->title,
-                'competition_level' => $request->competition_level,
-                'competition_date' => $request->competition_date,
-                'ranking' => $request->ranking,
-                'prize_money' => str_replace(',', '', $request->prize_money)? $request->prize_money : 'tidak ada',
-                'prize_item' => $request->prize_item? $request->prize_item : 'tidak ada',
-                'description' => $request->description,
-                'certificate' => $certificate,
-                ];
-
-                ChildAchievement::create($data);
-            }
-            else if($request->achievement_type == 'Sekolah') {
                 $certificate = $request->file('certificate')->store('uploads/sertifikat-perlombaan/mewakili-sekolah');
 
                 $data = [
@@ -98,7 +79,6 @@ class PrestasiAkademikAnakController extends Controller
                 ];
 
                 ChildAcademicAchievement::create($data);
-            }
 
             return response()->json(['success' => "Berhasil menyimpan data"]);
         }
@@ -152,7 +132,7 @@ class PrestasiAkademikAnakController extends Controller
         }
 
         // Ambil data anak berdasarkan ID
-        $data = ChildAchievement::find($id);
+        $data = ChildAcademicAchievement::find($id);
 
         // Cek jika data anak tidak ditemukan
         if (!$data) {
@@ -160,7 +140,7 @@ class PrestasiAkademikAnakController extends Controller
         }
 
         // Update data anak
-        $data->children_id = $data->children_id;
+        $data->child_education_id = $data->child_education_id;
         $data->title = $request->title;
         $data->competition_date = $request->competition_date;
         $data->ranking = $request->ranking;
@@ -175,7 +155,7 @@ class PrestasiAkademikAnakController extends Controller
             Storage::delete($data->certificate);
 
             // Simpan file yang baru
-            $data->certificate = $request->file('certificate')->store('uploads/bukti-perlombaan');
+            $data->certificate = $request->file('certificate')->store('uploads/sertifikat-perlombaan/mewakili-sekolah');
         }
 
         // Simpan perubahan
@@ -189,7 +169,7 @@ class PrestasiAkademikAnakController extends Controller
      */
     public function destroy(string $id)
     {
-        ChildAchievement::find($id)->delete();
+        ChildAcademicAchievement::find($id)->delete();
         return response()->json(['success'=>'Record deleted successfully.']);
     }
 
