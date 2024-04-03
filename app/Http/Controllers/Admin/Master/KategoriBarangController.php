@@ -39,9 +39,9 @@ class KategoriBarangController extends Controller
             'capacity' => 'required',
             'unit' => 'required',
         ], [
-            'name.required' => 'Data wajib diisi',
-            'capacity.required' => 'Data wajib diisi',
-            'unit.required' => 'Data wajib diisi',
+            'name.required' => 'Data nama barang wajib diisi',
+            'capacity.required' => 'Data kapasitas wajib diisi',
+            'unit.required' => 'Satuan wajib diisi',
             'name.unique' => 'Nama kategori barang sudah digunakan, harap pilih nama yang lain.',
         ]);
 

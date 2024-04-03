@@ -76,12 +76,13 @@
                                                     <label for="kapasitasInput" class="form-label">Kapasitas
                                                         Penerimaan</label>
                                                     <div class="input-group">
-                                                        <input type="text" id="kapasitasInput" class="form-control"
+                                                        <input type="text" id="kapasitasInputEdit" class="form-control"
                                                             placeholder="Kapasitas Penerimaan" />
-                                                        <button class="btn btn-outline-primary dropdown-toggle"
-                                                            type="button" data-bs-toggle="dropdown" aria-expanded="false"
-                                                            data-value="0">Pilih Satuan</button>
-                                                        <ul class="dropdown-menu">
+                                                        <button id="satuanDropdownEdit"
+                                                            class="btn btn-outline-primary dropdown-toggle" type="button"
+                                                            data-bs-toggle="dropdown" aria-expanded="false"
+                                                            data-value="{{ $data->unit }}">{{ $data->unit }}</button>
+                                                        <ul id="dropdown-menuEdit" class="dropdown-menu">
                                                             <li><a class="dropdown-item" href="javascript:void(0);"
                                                                     data-value="Kg">Kg</a></li>
                                                             <li><a class="dropdown-item" href="javascript:void(0);"
@@ -91,8 +92,9 @@
                                                             <li><a class="dropdown-item" href="javascript:void(0);"
                                                                     data-value="Pasang">Pasang</a></li>
                                                         </ul>
+                                                        <div id="unitErrorEdit" class="invalid-feedback"></div>
+                                                        <div id="capacityErrorEditi" class="invalid-feedback"></div>
                                                     </div>
-                                                    <div id="capacityError" class="invalid-feedback"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -227,6 +229,30 @@
                                             <div id="editNameError{{ $data->id }}" class="invalid-feedback"></div>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col mb-3">
+                                            <label for="dropdown2Input" class="form-label">Dropdown Kedua</label>
+                                            <div class="input-group">
+                                                <input type="text" id="dropdown2Input" class="form-control"
+                                                    placeholder="Dropdown Kedua" />
+                                                <button id="dropdown2" class="btn btn-outline-primary dropdown-toggle"
+                                                    type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                                                    data-value="{{ $data->unit }}">{{ $data->unit }}</button>
+                                                <ul id="dropdown2-menu" class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="javascript:void(0);"
+                                                            data-value="Value1">Option 1</a></li>
+                                                    <li><a class="dropdown-item" href="javascript:void(0);"
+                                                            data-value="Value2">Option 2</a></li>
+                                                    <li><a class="dropdown-item" href="javascript:void(0);"
+                                                            data-value="Value3">Option 3</a></li>
+                                                    <li><a class="dropdown-item" href="javascript:void(0);"
+                                                            data-value="Value4">Option 4</a></li>
+                                                </ul>
+                                                <div id="dropdown2Error" class="invalid-feedback"></div>
+                                                <div id="dropdown2CapacityError" class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-outline-secondary"
@@ -239,6 +265,7 @@
                     </div>
                 </div>
             @endforeach
+
         </div>
     </div>
 @endsection
@@ -260,9 +287,14 @@
 
             function clearForm() {
                 $('#nameBasic').val('');
+                $('#kapasitasInput').val('');
                 $('.form-control').removeClass('is-invalid');
                 $('.invalid-feedback').text('');
             }
+
+            $('#basicModal').on('hidden.bs.modal', function() {
+                clearForm();
+            });
 
             function showSuccessMessage(message) {
                 Swal.fire({
@@ -283,41 +315,40 @@
                 });
             }
 
-            $('#basicModal').on('hidden.bs.modal', function() {
-                clearForm();
-            });
-
-            $('#postSubmit').click(function(e) {
-                e.preventDefault();
-                simpan();
-                return false;
-            });
-
             $(document).ready(function() {
-                $('.dropdown-menu a').click(function() {
+                $('#dropdown-menu a').click(function() {
                     var selectedValue = $(this).attr('data-value');
                     var selectedText = $(this).text();
-                    $(this).closest('.input-group').find('.dropdown-toggle').text(selectedText);
-                    $(this).closest('.input-group').find('.dropdown-toggle').attr('data-selected',
-                        selectedValue);
+                    var dropdown = $('#satuanDropdown');
+                    dropdown.text(selectedText);
+                    dropdown.attr('data-selected', selectedValue);
                 });
 
-                $('.dropdown-menu').on('hidden.bs.dropdown', function() {
-                    var selectedValue = $(this).find('.dropdown-toggle').attr('data-selected');
+                $('#dropdown-menu').on('hidden.bs.dropdown', function() {
+                    var selectedValue = $('#satuanDropdown').attr('data-selected');
                     if (!selectedValue) {
-                        $(this).find('.dropdown-toggle').text('Pilih Satuan');
+                        $('#satuanDropdown').text('Pilih Satuan');
                     }
                 });
+
+                // Ganti id form menjadi sesuai dengan id form di HTML
+                $('#categoryBarangForm').submit(function(e) {
+                    e.preventDefault();
+                    $('.form-control').removeClass('is-invalid');
+                    $('.invalid-feedback').text('');
+                    simpan();
+                    return false;
+                });
             });
-            y
 
             function simpan() {
-                var kapasitas = $('.input-group .form-control').val(); // Ambil nilai input
-                var satuan = $('.input-group .dropdown-toggle').text().trim(); // Ambil nilai dropdown
+                var kapasitas = $('#kapasitasInput').val();
+                var satuan = $('.input-group .dropdown-toggle').text().trim();
+                if (satuan === 'Pilih Satuan') {
+                    satuan = '';
+                }
 
-                console.log('Kapasitas:', kapasitas);
-                console.log('Satuan:', satuan);
-
+                console.log(satuan);
                 $.ajax({
                     url: "{{ route('kategori-barang.store') }}",
                     type: 'POST',
@@ -328,11 +359,19 @@
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
+                        console.log(response.errors);
                         if (response.errors) {
-                            $('#nameBasic').addClass('is-invalid');
-                            $('#nameError').text(response.errors.name[0]);
-                            $('#kapasitasInput').addClass('is-invalid');
-                            $('#capacityError').text(response.errors.capacity[0]);
+                            if (response.errors.name) {
+                                $('#nameBasic').addClass('is-invalid');
+                                $('#nameError').text(response.errors.name[0]);
+                            }
+                            if (response.errors.capacity) {
+                                $('#kapasitasInput').addClass('is-invalid');
+                                $('#capacityError').text(response.errors.capacity[0]);
+                            }
+                            if (response.errors.unit) {
+                                $('#unitError').text(response.errors.unit[0]);
+                            }
                         } else {
                             showSuccessMessage(response.success);
                             $('#basicModal').modal('hide');
@@ -340,7 +379,6 @@
                     }
                 });
             }
-
 
             // Event click pada tombol "Save Changes" pada modal edit
             $('.updateSubmit').click(function(e) {
@@ -363,7 +401,6 @@
                                 $('#editName' + id).addClass('is-invalid');
                                 $('#editNameError' + id).text(response.errors.name[0]);
                             }
-                            // Penanganan error lainnya jika diperlukan
                         } else {
                             showSuccessMessage(response.success);
                             $('#editModal' + id).modal('hide');
