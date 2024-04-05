@@ -82,9 +82,13 @@ class KategoriBarangController extends Controller
     {
         $validasi = Validator::make($request->all(), [
             'name' => 'required|unique:goods_categories,name,' . $id,
+            'capacity' => 'required',
+            'unit' => 'required',
         ], [
             'name.required' => 'Data wajib diisi',
             'name.unique' => 'Nama kategori barang sudah digunakan, harap pilih nama yang lain.',
+            'capacity.required' => 'Data kapasitas wajib diisi',
+            'unit.required' => 'Satuan wajib diisi',
         ]);
 
         if ($validasi->fails()) {
@@ -92,6 +96,8 @@ class KategoriBarangController extends Controller
         } else {
             $data = [
                 'name' => $request->name,
+                'capacity' => $request->capacity,
+                'unit' => $request->unit,
             ];
             GoodsCategory::where('id', $id)->update($data);
             return response()->json(['success' => "Berhasil melakukan update data"]);

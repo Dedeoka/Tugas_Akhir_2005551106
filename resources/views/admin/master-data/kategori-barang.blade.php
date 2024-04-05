@@ -76,24 +76,24 @@
                                                     <label for="kapasitasInput" class="form-label">Kapasitas
                                                         Penerimaan</label>
                                                     <div class="input-group">
-                                                        <input type="text" id="kapasitasInputEdit" class="form-control"
+                                                        <input type="text" id="kapasitasInput" class="form-control"
                                                             placeholder="Kapasitas Penerimaan" />
-                                                        <button id="satuanDropdownEdit"
+                                                        <button id="satuanDropdown"
                                                             class="btn btn-outline-primary dropdown-toggle" type="button"
                                                             data-bs-toggle="dropdown" aria-expanded="false"
-                                                            data-value="{{ $data->unit }}">{{ $data->unit }}</button>
-                                                        <ul id="dropdown-menuEdit" class="dropdown-menu">
+                                                            data-value="0">Pilih Satuan</button>
+                                                        <ul id="dropdown-menu" class="dropdown-menu">
                                                             <li><a class="dropdown-item" href="javascript:void(0);"
                                                                     data-value="Kg">Kg</a></li>
                                                             <li><a class="dropdown-item" href="javascript:void(0);"
-                                                                    data-value="Buah">Liter</a></li>
+                                                                    data-value="Liter">Liter</a></li>
                                                             <li><a class="dropdown-item" href="javascript:void(0);"
-                                                                    data-value="Liter">Buah</a></li>
+                                                                    data-value="Buah">Buah</a></li>
                                                             <li><a class="dropdown-item" href="javascript:void(0);"
                                                                     data-value="Pasang">Pasang</a></li>
                                                         </ul>
-                                                        <div id="unitErrorEdit" class="invalid-feedback"></div>
-                                                        <div id="capacityErrorEditi" class="invalid-feedback"></div>
+                                                        <div id="unitError" class="invalid-feedback"></div>
+                                                        <div id="capacityError" class="invalid-feedback"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -216,7 +216,9 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <form action="{{ route('kategori-barang.update', $data->id) }}" method="POST">
+                            <form action="{{ route('kategori-barang.update', $data->id) }}"
+                                id="categoryBarangFormEdit{{ $data->id }}" data-id="{{ $data->id }}"
+                                method="POST">
                                 @csrf
                                 @method('PATCH')
                                 <div class="modal-body">
@@ -226,30 +228,39 @@
                                                 Donasi Barang</label>
                                             <input type="text" id="editName{{ $data->id }}" name="name"
                                                 class="form-control" value="{{ $data->name }}" />
-                                            <div id="editNameError{{ $data->id }}" class="invalid-feedback"></div>
+                                            <div id="nameErrorEdit{{ $data->id }}" class="invalid-feedback"></div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col mb-3">
-                                            <label for="dropdown2Input" class="form-label">Dropdown Kedua</label>
+                                            <label for="kapasitasInputEdit{{ $data->id }}"
+                                                class="form-label">Kapasitas
+                                                Penerimaan</label>
                                             <div class="input-group">
-                                                <input type="text" id="dropdown2Input" class="form-control"
-                                                    placeholder="Dropdown Kedua" />
-                                                <button id="dropdown2" class="btn btn-outline-primary dropdown-toggle"
-                                                    type="button" data-bs-toggle="dropdown" aria-expanded="false"
-                                                    data-value="{{ $data->unit }}">{{ $data->unit }}</button>
-                                                <ul id="dropdown2-menu" class="dropdown-menu">
+                                                <input type="text" id="kapasitasInputEdit{{ $data->id }}"
+                                                    name="capacity" class="form-control"
+                                                    placeholder="Kapasitas Penerimaan" value="{{ $data->capacity }}" />
+                                                <button id="satuanDropdownEdit{{ $data->id }}"
+                                                    class="btn btn-outline-primary dropdown-toggle" type="button"
+                                                    data-bs-toggle="dropdown" aria-expanded="false"
+                                                    data-value="{{ $data->unit }}"
+                                                    data-selected="{{ $data->unit }}">
+                                                    {{ $data->unit }}
+                                                </button>
+                                                <ul id="dropdown-menuEdit{{ $data->id }}" class="dropdown-menu">
                                                     <li><a class="dropdown-item" href="javascript:void(0);"
-                                                            data-value="Value1">Option 1</a></li>
+                                                            data-value="Kg">Kg</a></li>
                                                     <li><a class="dropdown-item" href="javascript:void(0);"
-                                                            data-value="Value2">Option 2</a></li>
+                                                            data-value="Liter">Liter</a></li>
                                                     <li><a class="dropdown-item" href="javascript:void(0);"
-                                                            data-value="Value3">Option 3</a></li>
+                                                            data-value="Buah">Buah</a></li>
                                                     <li><a class="dropdown-item" href="javascript:void(0);"
-                                                            data-value="Value4">Option 4</a></li>
+                                                            data-value="Pasang">Pasang</a></li>
                                                 </ul>
-                                                <div id="dropdown2Error" class="invalid-feedback"></div>
-                                                <div id="dropdown2CapacityError" class="invalid-feedback"></div>
+                                                <div id="unitErrorEdit{{ $data->id }}" class="invalid-feedback">
+                                                </div>
+                                                <div id="capacityErrorEdit{{ $data->id }}" class="invalid-feedback">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -343,12 +354,12 @@
 
             function simpan() {
                 var kapasitas = $('#kapasitasInput').val();
-                var satuan = $('.input-group .dropdown-toggle').text().trim();
-                if (satuan === 'Pilih Satuan') {
+                var satuan = $('#satuanDropdown').attr('data-selected'); // Mengambil nilai dari data-selected
+                console.log(satuan);
+                if (!satuan || !['Kg', 'Liter', 'Buah', 'Pasang'].includes(satuan)) {
                     satuan = '';
                 }
 
-                console.log(satuan);
                 $.ajax({
                     url: "{{ route('kategori-barang.store') }}",
                     type: 'POST',
@@ -380,26 +391,82 @@
                 });
             }
 
-            // Event click pada tombol "Save Changes" pada modal edit
-            $('.updateSubmit').click(function(e) {
-                e.preventDefault();
-                var id = $(this).data('id');
-                update(id);
+            $(document).ready(function() {
+                // Mengatur nilai awal dropdown pada saat dokumen dimuat
+                $('[id^="dropdown-menuEdit"]').each(function() {
+                    var dropdownId = $(this).attr('id').replace('dropdown-menuEdit', '');
+                    var selectedValue = $('#satuanDropdownEdit' + dropdownId).attr('data-selected');
+                    if (selectedValue) {
+                        $('#satuanDropdownEdit' + dropdownId).text(selectedValue);
+                    }
+                });
+
+                // Event click untuk pilihan dropdown
+                $('[id^="dropdown-menuEdit"] a').click(function() {
+                    var selectedValue = $(this).attr('data-value');
+                    var selectedText = $(this).text();
+                    var dropdownId = $(this).closest('.dropdown-menu').attr('id').replace(
+                        'dropdown-menuEdit', ''
+                    ); // Perubahan di sini untuk mencocokkan ID dengan HTML
+                    var dropdown = $('#satuanDropdownEdit' + dropdownId);
+                    dropdown.text(selectedText);
+                    dropdown.attr('data-selected', selectedValue);
+                });
+
+                // Event hidden dropdown untuk mereset nilai dropdown jika tidak ada yang dipilih
+                $('[id^="dropdown-menuEdit"]').on('hidden.bs.dropdown', function() {
+                    var dropdownId = $(this).attr('id').replace('dropdown-menuEdit',
+                        ''); // Perubahan di sini untuk mencocokkan ID dengan HTML
+                    var selectedValue = $('#satuanDropdownEdit' + dropdownId).attr('data-selected');
+                    if (!selectedValue) {
+                        $('#satuanDropdownEdit' + dropdownId).text('Pilih Satuan');
+                    }
+                });
+
+                // Event submit form untuk menghandle update data
+                $('[id^="categoryBarangFormEdit"]').submit(function(e) {
+                    e.preventDefault();
+                    var formId = $(this).attr('id').replace('categoryBarangFormEdit', '');
+                    $('.form-control').removeClass('is-invalid');
+                    $('.invalid-feedback').text('');
+                    updateData(formId);
+                    return false;
+                });
             });
 
-            function update(id) {
+            function updateData(id) {
+                var kapasitas = $('#kapasitasInputEdit' + id).val();
+                var satuan = $('#satuanDropdownEdit' + id).attr('data-selected');
+                console.log(satuan);
+                if (!['Kg', 'Liter', 'Buah', 'Pasang'].includes(satuan)) {
+                    satuan = '';
+                }
+
                 $.ajax({
                     url: "{{ url('master-data/kategori-barang') }}/" + id,
                     type: 'PATCH',
                     data: {
                         name: $('#editName' + id).val(),
+                        capacity: kapasitas,
+                        unit: satuan,
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
+                        console.log(response.errors);
                         if (response.errors) {
                             if (response.errors.name) {
                                 $('#editName' + id).addClass('is-invalid');
-                                $('#editNameError' + id).text(response.errors.name[0]);
+                                $('#nameErrorEdit' + id).text(response.errors.name[0]);
+                            }
+                            if (response.errors.capacity) {
+                                $('#kapasitasInputEdit' + id).addClass('is-invalid');
+                                $('#capacityErrorEdit' + id).text(response.errors.capacity[0]);
+                            }
+                            if (response.errors.unit) {
+                                $('#satuanDropdownEdit' + id).addClass(
+                                    'is-invalid'
+                                ); // Perubahan di sini untuk menampilkan pesan kesalahan pada dropdown satuan
+                                $('#unitErrorEdit' + id).text(response.errors.unit[0]);
                             }
                         } else {
                             showSuccessMessage(response.success);
@@ -408,6 +475,7 @@
                     }
                 });
             }
+
         });
     </script>
 
