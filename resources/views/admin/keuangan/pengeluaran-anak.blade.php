@@ -184,8 +184,7 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="javascript:void(0);" data-bs-toggle="modal"
-                                            data-bs-target="#pengeluaranKesehatan"
+                                        <a href="javascript:void(0);" data-bs-toggle="modal" id="childHealth"
                                             class="dropdown-item d-flex align-items-center"><i
                                                 class="bx bx-plus scaleX-n1-rtl"></i>Pengeluaran Kesehatan Anak</a>
                                     </li>
@@ -193,8 +192,7 @@
                                         <hr class="dropdown-divider" />
                                     </li>
                                     <li>
-                                        <a href="javascript:void(0);" data-bs-toggle="modal"
-                                            data-bs-target="#pengeluaranPendidikan"
+                                        <a href="javascript:void(0);" data-bs-toggle="modal" id="childEducation"
                                             class="dropdown-item d-flex align-items-center"><i
                                                 class="bx bx-plus scaleX-n1-rtl"></i>Pengeluaran Pendidikan Anak</a>
                                     </li>
@@ -202,18 +200,27 @@
                                         <hr class="dropdown-divider" />
                                     </li>
                                     <li>
-                                        <a href="javascript:void(0);" class="dropdown-item d-flex align-items-center"><i
+                                        <a href="javascript:void(0);" id="childAchievements"
+                                            class="dropdown-item d-flex align-items-center"><i
                                                 class="bx bx-plus scaleX-n1-rtl"></i>Pengeluaran Prestasi Anak</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider" />
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);" id="childAcademicAchievements"
+                                            class="dropdown-item d-flex align-items-center"><i
+                                                class="bx bx-plus scaleX-n1-rtl"></i>Pengeluaran Prestasi Akademik Anak</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                         <!-- Modal -->
-                        <div class="modal fade" id="pengeluaranKesehatan" tabindex="-1" aria-hidden="true">
+                        <div class="modal fade" id="dataModal" tabindex="-1" aria-hidden="true">
                             <div class="modal-dialog modal-xl" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h3 class="text-center">Pilih Data Kesehatan</h3>
+                                        <h3 class="text-center" id="titleModal"></h3>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
@@ -224,118 +231,37 @@
                                                     role="tab" data-bs-toggle="tab"
                                                     data-bs-target="#navs-justified-home"
                                                     aria-controls="navs-justified-home" aria-selected="true" disabled>
-                                                    <span class="d-none d-sm-block">
-                                                        Tabel Data Kesehatan Anak</span>
+                                                    <span class="d-none d-sm-block" id="modalHead">
+                                                    </span>
                                                 </button>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="modal-body">
                                         <div class="card-datatable table-responsive">
-                                            @if ($childHealths->count() > 0)
-                                                <table class="datatables-basic table border-top quick-sand"
-                                                    id="kategoriBarangTable">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="col-md-1 text-center fw-bold">No</th>
-                                                            <th class="col-md-1 text-center fw-bold">Nama Anak</th>
-                                                            <th class="col-md-1 text-center fw-bold">Nama Penyakit</th>
-                                                            <th class="col-md-1 text-center fw-bold">Tanggal Sakit</th>
-                                                            <th class="col-md-1 text-center fw-bold">Deskripsi</th>
-                                                            <th class="col-md-1 text-center fw-bold">Status</th>
-                                                            <th class="col-md-1 text-center fw-bold">Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody class="text-center">
-                                                        @php
-                                                            $initialNumber = $childHealths->firstItem() - 1;
-                                                        @endphp
-                                                        @foreach ($childHealths as $data)
-                                                            <tr>
-                                                                <td>{{ $loop->iteration + $initialNumber }}</td>
-                                                                <td>{{ $data->childrens->name }}</td>
-                                                                <td>{{ $data->diseases->name }}</td>
-                                                                <td>{{ $data->date_of_illness }}</td>
-                                                                <td>{{ $data->description }}</td>
-                                                                <td>
-                                                                    @if ($data->status == 'Sudah Sembuh')
-                                                                        <button type="button"
-                                                                            class="btn rounded-pill btn-success"
-                                                                            style="width: 100px;">
-                                                                            Sembuh</button>
-                                                                    @else
-                                                                        <button type="button"
-                                                                            class="btn rounded-pill btn-danger sakitBtn"
-                                                                            style="width: 100px;">
-                                                                            Sakit</button>
-                                                                    @endif
-                                                                </td>
-                                                                <td>
-                                                                    <button type="button"
-                                                                        class="btn rounded-pill btn-warning"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#dataPengeluaranKesehatan{{ $data->id }}"
-                                                                        style="width: 100px;"
-                                                                        data-id="{{ $data->id }}">
-                                                                        Pilih</button>
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
-                                            @else
-                                                <h3 class="text-center">Data Tidak Ditemukan</h3>
-                                            @endif
-                                            <div class="d-flex mt-4">
-                                                <div class="pagination-side-content"></div>
-                                                <nav aria-label="Page navigation">
-                                                    <ul class="pagination pagination-round pagination-primary">
-                                                        <li
-                                                            class="page-item first {{ $datas->onFirstPage() ? 'disabled' : '' }}">
-                                                            <a class="page-link" href="{{ $datas->url(1) }}">
-                                                                <i class="tf-icon bx bx-chevrons-left"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li
-                                                            class="page-item prev {{ $datas->onFirstPage() ? 'disabled' : '' }}">
-                                                            <a class="page-link" href="{{ $datas->previousPageUrl() }}">
-                                                                <i class="tf-icon bx bx-chevron-left"></i>
-                                                            </a>
-                                                        </li>
-                                                        @php
-                                                            $currentPage = $datas->currentPage();
-                                                            $lastPage = $datas->lastPage();
-                                                            $startPage = max(1, $currentPage - 1);
-                                                            $endPage = min($lastPage, $startPage + 3);
-
-                                                            if ($endPage - $startPage < 3) {
-                                                                $startPage = max(1, $lastPage - 3);
-                                                                $endPage = $lastPage;
-                                                            }
-                                                        @endphp
-                                                        @for ($i = $startPage; $i <= $endPage; $i++)
-                                                            <li
-                                                                class="page-item {{ $datas->currentPage() == $i ? 'active' : '' }}">
-                                                                <a class="page-link"
-                                                                    href="{{ $datas->url($i) }}">{{ $i }}</a>
-                                                            </li>
-                                                        @endfor
-                                                        <li
-                                                            class="page-item next {{ $datas->hasMorePages() ? '' : 'disabled' }}">
-                                                            <a class="page-link" href="{{ $datas->nextPageUrl() }}">
-                                                                <i class="tf-icon bx bx-chevron-right"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li
-                                                            class="page-item last {{ $datas->currentPage() == $datas->lastPage() ? 'disabled' : '' }}">
-                                                            <a class="page-link" href="{{ $datas->url($lastPage) }}">
-                                                                <i class="tf-icon bx bx-chevrons-right"></i>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </nav>
-                                            </div>
+                                            <table class="datatables-basic table border-top quick-sand"
+                                                id="kategoriBarangTable">
+                                                <thead id="headTable">
+                                                    <tr>
+                                                        <th class="col-md-1 text-center fw-bold">No</th>
+                                                        <th class="col-md-1 text-center fw-bold">Nama Anak</th>
+                                                        <th class="col-md-1 text-center fw-bold">Nama Penyakit</th>
+                                                        <th class="col-md-1 text-center fw-bold">Tanggal Sakit</th>
+                                                        <th class="col-md-1 text-center fw-bold">Deskripsi</th>
+                                                        <th class="col-md-1 text-center fw-bold">Status</th>
+                                                        <th class="col-md-1 text-center fw-bold">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="text-center" id="bodyTable">
+                                                </tbody>
+                                            </table>
                                         </div>
+                                    </div>
+                                    <div class="d-flex mt-4 justify-content-center">
+                                        <nav aria-label="Page navigation">
+                                            <ul class="pagination pagination-round pagination-primary" id="pagination">
+                                            </ul>
+                                        </nav>
                                     </div>
                                 </div>
                                 <div class="modal-footer">

@@ -11,6 +11,7 @@ use App\Models\ChildCostDetail;
 use App\Models\ChildEducation;
 use App\Models\ChildEducationDetail;
 use App\Models\Children;
+use App\Models\ChildAchievement;
 
 class DatabaseSeeder extends Seeder
 {
@@ -83,6 +84,7 @@ class DatabaseSeeder extends Seeder
 
         Children::factory(30)->create()->each(function ($child) {
             ChildDetail::factory(1)->create(["children_id" => $child->id]);
+            ChildAchievement::factory(1)->create(["children_id" => $child->id]);
             ChildHealth::factory(1)->create(["children_id" => $child->id])->each(function ($childHealth) {
                 ChildCost::factory(1)->create([
                     "reference_table_id" => $childHealth->id,

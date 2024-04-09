@@ -109,7 +109,7 @@
                                     <div class="modal-dialog modal-lg" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h3 class="text-center">Tambah Data Prestasi Anak Asuh</h3>
+                                                <h3 class="text-center">Tambah Data Prestasi Akademik Anak Asuh</h3>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
                                             </div>

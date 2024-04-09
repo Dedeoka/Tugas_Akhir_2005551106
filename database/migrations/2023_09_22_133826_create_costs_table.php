@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('total_cost');
             $table->string('status');
+            $table->string('proof_of_payment')->nullable();
             $table->timestamps();
         });
     }

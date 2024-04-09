@@ -11,6 +11,259 @@
 
 <script>
     $(document).ready(function() {
+        var currentPage = 1;
+        var pageSize = 10; // Jumlah data per halaman
+        var totalItems = 0;
+        var totalPages = 0;
+
+        // Fungsi untuk memuat data untuk halaman tertentu
+        function loadData(page, dataUrl) {
+            $.ajax({
+                url: dataUrl,
+                type: 'GET',
+                success: function(response) {
+                    totalItems = response.length;
+                    totalPages = Math.ceil(totalItems / pageSize);
+
+                    if (dataUrl == '{{ route('kesehatan-anak.data') }}') {
+                        $('#titleModal').html('Pilih Data Kesehatan Anak');
+                        $('#modalHead').html('Tabel Data Kesehatan Anak');
+                        var theadHtml = '<tr>' +
+                            '<th class="col-md-1 text-center fw-bold">No</th>' +
+                            '<th class="col-md-1 text-center fw-bold">Nama Anak</th>' +
+                            '<th class="col-md-1 text-center fw-bold">Nama Penyakit</th>' +
+                            '<th class="col-md-1 text-center fw-bold">Tanggal Sakit</th>' +
+                            '<th class="col-md-1 text-center fw-bold">Tanggal Sembuh</th>' +
+                            '<th class="col-md-1 text-center fw-bold">Status</th>' +
+                            '<th class="col-md-1 text-center fw-bold">Action</th>' +
+                            '</tr>';
+
+                        $('#headTable').html(theadHtml);
+
+                        // Render tbody manually
+                        var html = '';
+                        var startIndex = (page - 1) * pageSize;
+                        var endIndex = Math.min(startIndex + pageSize, totalItems);
+                        var statusHtml = '';
+                        for (var i = startIndex; i < endIndex; i++) {
+                            var item = response[i];
+                            if (item.status === 'Sudah Sembuh') {
+                                statusHtml =
+                                    '<button type="button" class="btn rounded-pill btn-success" style="width: 100px;">Sembuh</button>';
+                            } else {
+                                statusHtml =
+                                    '<button type="button" class="btn rounded-pill btn-danger" style="width: 100px;" >Sakit</button>';
+                            }
+                            html += '<tr>' +
+                                '<td>' + (i + 1) + '</td>' +
+                                '<td>' + item.childrens.name + '</td>' +
+                                '<td>' + item.diseases.name + '</td>' +
+                                '<td>' + item.date_of_illness + '</td>' +
+                                '<td>' + item.recovery_date + '</td>' +
+                                '<td>' + statusHtml + '</td>' +
+                                '<td><button class="btn btn-outline-success pilih-id" data-id="' +
+                                item
+                                .id + '">Pilih</button></td>' +
+                                '</tr>';
+                        }
+                        $('#bodyTable').html(html);
+                        renderPagination();
+                    } else if (dataUrl == '{{ route('pendidikan-anak.data') }}') {
+                        var theadHtml = '<tr>' +
+                            '<th class="col-md-1 text-center fw-bold">No</th>' +
+                            '<th class="col-md-1 text-center fw-bold">Nama Anak</th>' +
+                            '<th class="col-md-1 text-center fw-bold">Jenjang Pendidikan</th>' +
+                            '<th class="col-md-1 text-center fw-bold">Nama Sekolah</th>' +
+                            '<th class="col-md-1 text-center fw-bold">Kelas</th>' +
+                            '<th class="col-md-2 text-center fw-bold">Tanggal Mulai</th>' +
+                            '<th class="col-md-2 text-center fw-bold">Tanggal Berakhir</th>' +
+                            '<th class="col-md-4 text-center fw-bold">Status</th>' +
+                            '<th class="col-md-1 text-center fw-bold">Action</th>' +
+                            '</tr>';
+
+                        $('#headTable').html(theadHtml);
+
+                        // Render tbody manually
+                        var html = '';
+                        var startIndex = (page - 1) * pageSize;
+                        var endIndex = Math.min(startIndex + pageSize, totalItems);
+                        for (var i = startIndex; i < endIndex; i++) {
+                            var item = response[i];
+                            if (item.status === 'Aktif') {
+                                statusHtml =
+                                    '<button type="button" class="btn rounded-pill btn-success">Aktif</button>';
+                            } else if (item.status === 'Lulus') {
+                                statusHtml =
+                                    '<button type="button" class="btn rounded-pill btn-warning">Lulus</button>';
+                            } else {
+                                statusHtml =
+                                    '<button type="button" class="btn rounded-pill btn-danger">Tidak Lulus</button>';
+                            }
+                            html += '<tr>' +
+                                '<td>' + (i + 1) + '</td>' +
+                                '<td>' + item.childrens.name + '</td>' +
+                                '<td>' + item.education_level + '</td>' +
+                                '<td>' + item.schools.name + '</td>' +
+                                '<td>' + item.class + '</td>' +
+                                '<td>' + item.start_date + '</td>' +
+                                '<td>' + item.end_date + '</td>' +
+                                '<td>' + statusHtml + '</td>' +
+                                '<td><button class="btn btn-outline-success pilih-id" data-id="' +
+                                item
+                                .id + '">Pilih</button></td>' +
+                                '</tr>';
+                        }
+                        $('#bodyTable').html(html);
+                        renderPagination();
+                    } else if (dataUrl == '{{ route('prestasi-anak.data') }}') {
+                        var theadHtml = '<tr>' +
+                            '<th class="col-md-1 text-center fw-bold">No</th>' +
+                            '<th class="col-md-1 text-center fw-bold">Nama Anak</th>' +
+                            '<th class="col-md-2 text-center fw-bold">Judul Perlombaan</th>' +
+                            '<th class="col-md-2 text-center fw-bold">Tanggal Perlombaan</th>' +
+                            '<th class="col-md-2 text-center fw-bold">Tingkat Perlombaan </th>' +
+                            '<th class="col-md-1 text-center fw-bold">Peringkat</th>' +
+                            '<th class="col-md-2 text-center fw-bold">Action</th>' +
+                            '</tr>';
+
+                        $('#headTable').html(theadHtml);
+
+                        // Render tbody manually
+                        var html = '';
+                        var startIndex = (page - 1) * pageSize;
+                        var endIndex = Math.min(startIndex + pageSize, totalItems);
+                        for (var i = startIndex; i < endIndex; i++) {
+                            var item = response[i];
+                            html += '<tr>' +
+                                '<td>' + (i + 1) + '</td>' +
+                                '<td>' + item.childrens.name + '</td>' +
+                                '<td>' + item.title + '</td>' +
+                                '<td>' + item.competition_date + '</td>' +
+                                '<td>' + item.competition_level + '</td>' +
+                                '<td>' + item.ranking + '</td>' +
+                                '<td><button class="btn btn-outline-success pilih-id" data-id="' +
+                                item
+                                .id + '">Pilih</button></td>' +
+                                '</tr>';
+                        }
+                        $('#bodyTable').html(html);
+                        renderPagination();
+                    } else if (dataUrl == '{{ route('prestasi-akademik.data') }}') {
+                        var theadHtml = '<tr>' +
+                            '<th class="col-md-1 text-center fw-bold">No</th>' +
+                            '<th class="col-md-1 text-center fw-bold">Name</th>' +
+                            '<th class="col-md-1 text-center fw-bold">Education Level</th>' +
+                            '<th class="col-md-1 text-center fw-bold">School Name</th>' +
+                            '<th class="col-md-1 text-center fw-bold">Class</th>' +
+                            '<th class="col-md-1 text-center fw-bold">Status</th>' +
+                            '<th class="col-md-1 text-center fw-bold">Action</th>' +
+                            '</tr>';
+
+                        $('#headTable').html(theadHtml);
+
+                        // Render tbody manually
+                        var html = '';
+                        var startIndex = (page - 1) * pageSize;
+                        var endIndex = Math.min(startIndex + pageSize, totalItems);
+                        for (var i = startIndex; i < endIndex; i++) {
+                            var item = response[i];
+                            html += '<tr>' +
+                                '<td>' + (i + 1) + '</td>' +
+                                '<td>' + item.name + '</td>' +
+                                '<td>' + item.education_level + '</td>' +
+                                '<td>' + item.school_name + '</td>' +
+                                '<td>' + item.class + '</td>' +
+                                '<td>' + item.status + '</td>' +
+                                '<td><button class="btn btn-outline-success pilih-id" data-id="' +
+                                item
+                                .id + '">Pilih</button></td>' +
+                                '</tr>';
+                        }
+                        $('#bodyTable').html(html);
+                        renderPagination();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+
+        }
+
+        function renderPagination() {
+            var html = '';
+
+            // Tombol First Page
+            html += '<li class="page-item ' + (currentPage == 1 ? 'disabled' : '') + '">';
+            html += '<a class="page-link" href="#" data-page="1">&laquo;</a></li>';
+
+            // Tombol Previous Page
+            html += '<li class="page-item ' + (currentPage == 1 ? 'disabled' : '') + '">';
+            html += '<a class="page-link" href="#" data-page="' + (currentPage - 1) + '">&lsaquo;</a></li>';
+
+            // Menampilkan nomor halaman
+            for (var i = 1; i <= totalPages; i++) {
+                html += '<li class="page-item ' + (currentPage == i ? 'active' : '') + '">';
+                html += '<a class="page-link" href="#" data-page="' + i + '">' + i + '</a></li>';
+            }
+
+            // Tombol Next Page
+            html += '<li class="page-item ' + (currentPage == totalPages ? 'disabled' : '') + '">';
+            html += '<a class="page-link" href="#" data-page="' + (currentPage + 1) + '">&rsaquo;</a></li>';
+
+            // Tombol Last Page
+            html += '<li class="page-item ' + (currentPage == totalPages ? 'disabled' : '') + '">';
+            html += '<a class="page-link" href="#" data-page="' + totalPages + '">&raquo;</a></li>';
+
+            $('#pagination').html(html);
+        }
+
+        // Ketika tombol pagination diklik
+        $(document).on('click', '#pagination .page-link', function(e) {
+            e.preventDefault();
+            currentPage = parseInt($(this).data('page'));
+            loadData(currentPage, $('#dataModal').data('url'));
+        });
+
+        $(document).on('click', '.pilih-id', function(e) {
+            let id = $(this).data('id');
+            const educationId = document.getElementById('educationId');
+            educationId.value = id;
+            $('#dataModal').modal('hide');
+            $('#modalPrestasiAnakPanti').modal('show');
+        });
+
+        function showModal(modalId, dataUrl) {
+            // Simpan URL ke dalam atribut data untuk modal
+            $(modalId).data('url', dataUrl);
+            // Panggil loadData untuk mengambil data saat modal ditampilkan
+            loadData(currentPage, dataUrl);
+            // Tampilkan modal
+            $(modalId).modal('show');
+        }
+
+        // Ketika dropdown item diklik
+        $('.dropdown-item').click(function() {
+            var id = $(this).attr('id');
+
+            // Cek id dan panggil fungsi showModal dengan parameter yang sesuai
+            if (id === 'childHealth') {
+                showModal('#dataModal', '{{ route('kesehatan-anak.data') }}');
+            } else if (id === 'childEducation') {
+                showModal('#dataModal', '{{ route('pendidikan-anak.data') }}');
+            } else if (id === 'childAchievements') {
+                showModal('#dataModal', '{{ route('prestasi-anak.data') }}');
+            } else if (id === 'childAcademicAchievements') {
+                showModal('#dataModal', '{{ route('prestasi-akademik.data') }}');
+            }
+        });
+    });
+</script>
+
+</script>
+
+<script>
+    $(document).ready(function() {
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

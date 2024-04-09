@@ -172,10 +172,4 @@ class PrestasiAkademikAnakController extends Controller
         ChildAcademicAchievement::find($id)->delete();
         return response()->json(['success'=>'Record deleted successfully.']);
     }
-
-    public function educationData(){
-        $childEducations = ChildEducation::with(['childrens', 'schools'])->get(); // Mengambil seluruh data
-
-        return response()->json($childEducations);
-    }
 }

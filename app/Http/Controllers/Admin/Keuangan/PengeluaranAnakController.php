@@ -132,9 +132,13 @@ class PengeluaranAnakController extends Controller
         $validasi = Validator::make($request->all(), [
             'title' => 'required',
             'total_cost' => 'required',
+            'proof_of_payment' => 'file|mimes:jpg,jpeg,png|max:2048',
         ], [
             'title.required' => 'Nama pengeluaran wajib diisi',
             'total_cost.required' => 'Jumlah pengeluaran wajib diisi',
+            'proof_of_payment.file' => 'Berkas foto anak asuh harus berupa file',
+            'proof_of_payment.mimes' => 'Format file foto tidak valid. Pilih format jpg, jpeg, atau png',
+            'proof_of_payment.max' => 'Ukuran file foto tidak boleh lebih dari 2MB',
         ]);
 
         if ($validasi->fails()) {
@@ -146,6 +150,11 @@ class PengeluaranAnakController extends Controller
                 $childHealth = ChildHealth::with(['childrens', 'diseases'])->find($data_id);
                 $childCost = ChildCost::where('reference_table', 'child_health_table')->where('reference_table_id', $data_id)->first();
 
+                $proofPayment = null;
+                if ($request->hasFile('proof_of_payment')) {
+                    $proofPayment = $request->file('proof_of_payment')->store('uploads/bukti-pembayaran-kesehatan');
+                }
+
                 if ($childCost) {
                     $childCost->total_cost = $childCost->total_cost + str_replace(',', '', $request->total_cost);
                     $childCost->save();
@@ -154,6 +163,7 @@ class PengeluaranAnakController extends Controller
                         'child_cost_id' => $childCost->id,
                         'title' => 'Pengeluaran Tambahan ' . $request->title,
                         'cost' => str_replace(',', '', $request->total_cost),
+                        'proof_of_payment' => $proofPayment,
                     ];
 
                     ChildCostDetail::create($costDetailData);
@@ -172,6 +182,7 @@ class PengeluaranAnakController extends Controller
                         'child_cost_id' => $childCostCreate->id,
                         'title' => 'Pengeluaran Tambahan ' . $request->title,
                         'cost' => str_replace(',', '', $request->total_cost),
+                        'proof_of_payment' => $proofPayment,
                     ];
 
                     ChildCostDetail::create($costDetailDataNew);
@@ -180,6 +191,10 @@ class PengeluaranAnakController extends Controller
             elseif ($request->type_cost == 'Pendidikan'){
                 $childEducation = ChildEducation::with(['childrens'])->find($data_id);
                 $childCost = ChildCost::where('reference_table', 'child_education_table')->where('reference_table_id', $data_id)->first();
+                $proofPayment = null;
+                if ($request->hasFile('proof_of_payment')) {
+                    $proofPayment = $request->file('proof_of_payment')->store('uploads/bukti-pembayaran-pendidikan');
+                }
 
                 if ($childCost) {
                     $childCost->total_cost = $childCost->total_cost + str_replace(',', '', $request->total_cost);
@@ -189,6 +204,7 @@ class PengeluaranAnakController extends Controller
                         'child_cost_id' => $childCost->id,
                         'title' => 'Pengeluaran Tambahan ' . $request->title,
                         'cost' => str_replace(',', '', $request->total_cost),
+                        'proof_of_payment' => $proofPayment,
                     ];
 
                     ChildCostDetail::create($costDetailData);
@@ -207,6 +223,7 @@ class PengeluaranAnakController extends Controller
                         'child_cost_id' => $childCostCreate->id,
                         'title' => 'Pengeluaran Pendidikan ' . $request->title,
                         'cost' => str_replace(',', '', $request->total_cost),
+                        'proof_of_payment' => $proofPayment,
                     ];
 
                     ChildCostDetail::create($costDetailDataNew);
@@ -215,6 +232,10 @@ class PengeluaranAnakController extends Controller
             elseif ($request->type_cost == 'Prestasi'){
                 $childAchievements = ChildAchievement::with(['childrens'])->find($data_id);
                 $childCost = ChildCost::where('reference_table', 'child_education_table')->where('reference_table_id', $data_id)->first();
+                $proofPayment = null;
+                if ($request->hasFile('proof_of_payment')) {
+                    $proofPayment = $request->file('proof_of_payment')->store('uploads/bukti-pembayaran-prestasi');
+                }
 
                 if ($childCost) {
                     $childCost->total_cost = $childCost->total_cost + str_replace(',', '', $request->total_cost);
@@ -224,6 +245,7 @@ class PengeluaranAnakController extends Controller
                         'child_cost_id' => $childCost->id,
                         'title' => 'Pengeluaran Tambahan ' . $request->title,
                         'cost' => str_replace(',', '', $request->total_cost),
+                        'proof_of_payment' => $proofPayment,
                     ];
 
                     ChildCostDetail::create($costDetailData);
@@ -242,6 +264,7 @@ class PengeluaranAnakController extends Controller
                         'child_cost_id' => $childCostCreate->id,
                         'title' => 'Pengeluaran Prestasi ' . $request->title,
                         'cost' => str_replace(',', '', $request->total_cost),
+                        'proof_of_payment' => $proofPayment,
                     ];
 
                     ChildCostDetail::create($costDetailDataNew);

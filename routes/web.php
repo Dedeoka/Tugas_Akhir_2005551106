@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\Anak\KesehatanAnakController;
 use App\Http\Controllers\Admin\Anak\PendidikanAnakController;
 use App\Http\Controllers\Admin\Anak\PrestasiAkademikAnakController;
 use App\Http\Controllers\Admin\Anak\PrestasiAnakController;
+use App\Http\Controllers\Admin\Data\DataController;
 use App\Http\Controllers\Admin\Keuangan\ChartPemasukanPantiController;
 use App\Http\Controllers\Admin\Keuangan\ChartPengeluaranAnakController;
 use App\Http\Controllers\Admin\Keuangan\ChartPengeluaranPantiController;
@@ -61,7 +62,10 @@ Route::prefix('anak-asuh')->group(function () {
     Route::resource('pendidikan-anak', PendidikanAnakController::class);
     Route::resource('prestasi-anak', PrestasiAnakController::class);
     Route::resource('prestasi-akademik-anak', PrestasiAkademikAnakController::class);
-    Route::get('/data-pendidikan-anak', [PrestasiAkademikAnakController::class, 'educationData'])->name('pendidikan-anak.data');
+    Route::get('/data-pendidikan-anak', [DataController::class, 'educationData'])->name('pendidikan-anak.data');
+    Route::get('/data-kesehatan-anak', [DataController::class, 'healthData'])->name('kesehatan-anak.data');
+    Route::get('/data-prestasi-anak', [DataController::class, 'achievementData'])->name('prestasi-anak.data');
+    Route::get('/data-pendidikan-akademik', [DataController::class, 'academicAchievementData'])->name('prestasi-akademik.data');
 });
 
 Route::prefix('keuangan')->group(function () {

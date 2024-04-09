@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('child_cost_id')->constrained('child_costs')->onDelete('cascade')->onUpdate('cascade');
             $table->string('title');
             $table->string('cost');
+            $table->string('proof_of_payment')->nullable();
             $table->timestamps();
         });
     }
