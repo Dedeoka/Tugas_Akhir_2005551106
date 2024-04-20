@@ -238,19 +238,16 @@
                                         </ul>
                                     </div>
                                     <div class="modal-body">
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" placeholder="Cari..."
+                                                id="searchInput">
+                                            <button class="btn btn-outline-secondary" type="button"
+                                                id="searchButton">Cari</button>
+                                        </div>
                                         <div class="card-datatable table-responsive">
                                             <table class="datatables-basic table border-top quick-sand"
                                                 id="kategoriBarangTable">
                                                 <thead id="headTable">
-                                                    <tr>
-                                                        <th class="col-md-1 text-center fw-bold">No</th>
-                                                        <th class="col-md-1 text-center fw-bold">Nama Anak</th>
-                                                        <th class="col-md-1 text-center fw-bold">Nama Penyakit</th>
-                                                        <th class="col-md-1 text-center fw-bold">Tanggal Sakit</th>
-                                                        <th class="col-md-1 text-center fw-bold">Deskripsi</th>
-                                                        <th class="col-md-1 text-center fw-bold">Status</th>
-                                                        <th class="col-md-1 text-center fw-bold">Action</th>
-                                                    </tr>
                                                 </thead>
                                                 <tbody class="text-center" id="bodyTable">
                                                 </tbody>
@@ -269,297 +266,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="modal fade" id="pengeluaranPendidikan" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog modal-xl" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h3 class="text-center">Pilih Data Pendidikan</h3>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-header">
-                                        <ul class="nav nav-tabs nav-fill w-100" role="tablist">
-                                            <li class="nav-item">
-                                                <button type="button" id="tab-justified-home" class="nav-link"
-                                                    role="tab" data-bs-toggle="tab"
-                                                    data-bs-target="#navs-justified-home"
-                                                    aria-controls="navs-justified-home" aria-selected="true" disabled>
-                                                    <span class="d-none d-sm-block">
-                                                        Tabel Data Pendidikan Anak</span>
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="card-datatable table-responsive">
-                                            @if ($childEducations->count() > 0)
-                                                <table class="datatables-basic table border-top quick-sand"
-                                                    id="kategoriBarangTable">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="col-md-1 text-center fw-bold">No</th>
-                                                            <th class="col-md-1 text-center fw-bold">Nama Anak</th>
-                                                            <th class="col-md-1 text-center fw-bold">Jenjang Pendidikan
-                                                            </th>
-                                                            <th class="col-md-1 text-center fw-bold">Nama Sekolah</th>
-                                                            <th class="col-md-1 text-center fw-bold">Kelas</th>
-                                                            <th class="col-md-1 text-center fw-bold">Status</th>
-                                                            <th class="col-md-1 text-center fw-bold">Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody class="text-center">
-                                                        @php
-                                                            $initialNumber = $childEducations->firstItem() - 1;
-                                                        @endphp
-                                                        @foreach ($childEducations as $data)
-                                                            <tr>
-                                                                <td>{{ $loop->iteration + $initialNumber }}</td>
-                                                                <td>{{ $data->childrens->name }}</td>
-                                                                <td>{{ $data->education_level }}</td>
-                                                                <td>{{ $data->schools->name }}</td>
-                                                                <td>{{ $data->class }} ({{ $data->class_name }})</td>
-                                                                <td>
-                                                                    @if ($data->status == 'Aktif')
-                                                                        <button type="button"
-                                                                            class="btn rounded-pill btn-success"
-                                                                            style="width: 100px;">
-                                                                            Aktif</button>
-                                                                    @else
-                                                                        <button type="button"
-                                                                            class="btn rounded-pill btn-danger sakitBtn"
-                                                                            style="width: 100px;">
-                                                                            Non-aktif</button>
-                                                                    @endif
-                                                                </td>
-                                                                <td>
-                                                                    <button type="button"
-                                                                        class="btn rounded-pill btn-warning"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#dataPengeluaranPendidikan{{ $data->id }}"
-                                                                        style="width: 100px;"
-                                                                        data-id="{{ $data->id }}">
-                                                                        Pilih</button>
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
-                                            @else
-                                                <h3 class="text-center">Data Tidak Ditemukan</h3>
-                                            @endif
-                                            <div class="d-flex mt-4">
-                                                <div class="pagination-side-content"></div>
-                                                <nav aria-label="Page navigation">
-                                                    <ul class="pagination pagination-round pagination-primary">
-                                                        <li
-                                                            class="page-item first {{ $datas->onFirstPage() ? 'disabled' : '' }}">
-                                                            <a class="page-link" href="{{ $datas->url(1) }}">
-                                                                <i class="tf-icon bx bx-chevrons-left"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li
-                                                            class="page-item prev {{ $datas->onFirstPage() ? 'disabled' : '' }}">
-                                                            <a class="page-link" href="{{ $datas->previousPageUrl() }}">
-                                                                <i class="tf-icon bx bx-chevron-left"></i>
-                                                            </a>
-                                                        </li>
-                                                        @php
-                                                            $currentPage = $datas->currentPage();
-                                                            $lastPage = $datas->lastPage();
-                                                            $startPage = max(1, $currentPage - 1);
-                                                            $endPage = min($lastPage, $startPage + 3);
-
-                                                            if ($endPage - $startPage < 3) {
-                                                                $startPage = max(1, $lastPage - 3);
-                                                                $endPage = $lastPage;
-                                                            }
-                                                        @endphp
-                                                        @for ($i = $startPage; $i <= $endPage; $i++)
-                                                            <li
-                                                                class="page-item {{ $datas->currentPage() == $i ? 'active' : '' }}">
-                                                                <a class="page-link"
-                                                                    href="{{ $datas->url($i) }}">{{ $i }}</a>
-                                                            </li>
-                                                        @endfor
-                                                        <li
-                                                            class="page-item next {{ $datas->hasMorePages() ? '' : 'disabled' }}">
-                                                            <a class="page-link" href="{{ $datas->nextPageUrl() }}">
-                                                                <i class="tf-icon bx bx-chevron-right"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li
-                                                            class="page-item last {{ $datas->currentPage() == $datas->lastPage() ? 'disabled' : '' }}">
-                                                            <a class="page-link" href="{{ $datas->url($lastPage) }}">
-                                                                <i class="tf-icon bx bx-chevrons-right"></i>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </nav>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-
-                                </div>
-                            </div>
-                        </div>
-                        @foreach ($childHealths as $data)
-                            <div class="modal fade modal-pengeluaran" id="dataPengeluaranKesehatan{{ $data->id }}"
-                                tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog modal-lg" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h3 class="text-center">Tambah Data Pengeluaran Kesehatan</h3>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-header">
-                                            <ul class="nav nav-tabs nav-fill w-100" role="tablist">
-                                                <li class="nav-item">
-                                                    <button type="button" class="nav-link" role="tab"
-                                                        data-bs-toggle="tab" data-bs-target="#navs-justified-home"
-                                                        aria-controls="navs-justified-home" aria-selected="true" disabled>
-                                                        <span class="d-none d-sm-block">
-                                                            Tambah Data Pengeluaran Kesehatan Anak</span>
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form action="{{ route('pengeluaran-anak.store') }}"
-                                                id="formPengeluaranKesehatan{{ $data->id }}" method="POST">
-                                                @csrf
-                                                <div class="modal-body">
-                                                    <div class="row">
-                                                        <div class="card mb-4">
-                                                            <div class="card-body">
-                                                                <input type="text" name="type_cost" value="Kesehatan"
-                                                                    hidden>
-                                                                <input type="text" name="data_id"
-                                                                    value="{{ $data->id }}" hidden>
-                                                                <div class="mb-3">
-                                                                    <label for="title{{ $data->id }}"
-                                                                        class="form-label">Nama
-                                                                        Pengeluaran</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="title{{ $data->id }}" name="title"
-                                                                        placeholder="Operasi..." />
-                                                                    <div id="titleError{{ $data->id }}"
-                                                                        class="invalid-feedback"></div>
-                                                                </div>
-                                                                <div class="mb-3" id="costInput">
-                                                                    <label for="total_cost{{ $data->id }}"
-                                                                        class="form-label">Biaya
-                                                                        Pengeluaran</label>
-                                                                    <div class="input-group input-group-merge">
-                                                                        <span class="input-group-text">Rp</span>
-                                                                        <input type="text" class="form-control"
-                                                                            id="total_cost{{ $data->id }}"
-                                                                            name="total_cost" placeholder="5,000"
-                                                                            oninput="formatAmount(this)" />
-                                                                        <div id="total_costError{{ $data->id }}"
-                                                                            class="invalid-feedback"></div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-outline-secondary"
-                                                        data-bs-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary submitKesehatan"
-                                                        data-id="{{ $data->id }}">Save
-                                                        Changes</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                        @foreach ($childEducations as $data)
-                            <div class="modal fade modal-pengeluaran" id="dataPengeluaranPendidikan{{ $data->id }}"
-                                tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog modal-lg" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h3 class="text-center">Tambah Data Pengeluaran Pendidikan</h3>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-header">
-                                            <ul class="nav nav-tabs nav-fill w-100" role="tablist">
-                                                <li class="nav-item">
-                                                    <button type="button" class="nav-link" role="tab"
-                                                        data-bs-toggle="tab" data-bs-target="#navs-justified-home"
-                                                        aria-controls="navs-justified-home" aria-selected="true" disabled>
-                                                        <span class="d-none d-sm-block">
-                                                            Tambah Data Pengeluaran Pendidikan Anak</span>
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form action="{{ route('pengeluaran-anak.store') }}"
-                                                id="pengeluaranPendidikan{{ $data->id }}" method="POST">
-                                                @csrf
-                                                <div class="modal-body">
-                                                    <div class="row">
-                                                        <div class="card mb-4">
-                                                            <div class="card-body">
-                                                                <input type="text" name="type_cost" value="Pendidikan"
-                                                                    hidden>
-                                                                <input type="text" name="data_id"
-                                                                    value="{{ $data->id }}" hidden>
-                                                                <div class="mb-3">
-                                                                    <label for="title{{ $data->id }}"
-                                                                        class="form-label">Nama
-                                                                        Pengeluaran</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="title{{ $data->id }}" name="title"
-                                                                        placeholder="Pembayaran SPP..." />
-                                                                    <div id="titleError{{ $data->id }}"
-                                                                        class="invalid-feedback"></div>
-                                                                </div>
-                                                                <div class="mb-3" id="costInput">
-                                                                    <label for="total_cost{{ $data->id }}"
-                                                                        class="form-label">Biaya
-                                                                        Pengeluaran</label>
-                                                                    <div class="input-group input-group-merge">
-                                                                        <span class="input-group-text">Rp</span>
-                                                                        <input type="text" class="form-control"
-                                                                            id="total_cost{{ $data->id }}"
-                                                                            name="total_cost" placeholder="5,000"
-                                                                            oninput="formatAmount(this)" />
-                                                                        <div id="total_costError{{ $data->id }}"
-                                                                            class="invalid-feedback"></div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-outline-secondary"
-                                                        data-bs-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary submitPendidikan"
-                                                        data-id="{{ $data->id }}">Save
-                                                        Changes</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
                     </div>
                 </div>
             </div>
@@ -661,6 +367,84 @@
                             </li>
                         </ul>
                     </nav>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modalPengeluaranAnak" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="text-center">Tambah Pengeluaran Anak</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-header">
+                        <ul class="nav nav-tabs nav-fill w-100" role="tablist">
+                            <li class="nav-item">
+                                <button type="button" id="tab-justified-home" class="nav-link" role="tab"
+                                    data-bs-toggle="tab" data-bs-target="#navs-justified-home"
+                                    aria-controls="navs-justified-home" aria-selected="true" disabled>
+                                    <span class="d-none d-sm-block">
+                                        Tambah Data Pengeluaran Anak</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="modal-body">
+                        <form id="pengeluaranAnakForm" action="{{ route('pengeluaran-anak.store') }}" method="POST">
+                            @csrf
+                            <div class="row">
+                                <div class="">
+                                    <div class="nav-align-top mb-4">
+                                        <div class="tab-content">
+                                            <div class="tab-pane fade show active" id="navs-justified-home"
+                                                role="tabpanel">
+                                                <div class="card mb-4">
+                                                    <div class="card-body">
+                                                        <input type="text" hidden id="costType" name="type_cost">
+                                                        <input type="text" hidden id="costId" name="data_id">
+                                                        <div class="mb-3">
+                                                            <label for="title" class="form-label">Nama
+                                                                Pengeluaran</label>
+                                                            <input type="text" class="form-control" id="title"
+                                                                name="title" placeholder="Nama Pengeluaran..." />
+                                                            <div id="titleError" class="invalid-feedback"></div>
+                                                        </div>
+                                                        <div class="mb-3" id="totalAmountInput">
+                                                            <label for="total_cost" class="form-label">Biaya
+                                                                Pengeluaran</label>
+                                                            <div class="input-group input-group-merge">
+                                                                <span class="input-group-text">Rp</span>
+                                                                <input type="text" class="form-control"
+                                                                    id="total_cost" name="total_cost"
+                                                                    placeholder="10,000" oninput="formatAmount(this)" />
+                                                                <div id="total_costError" class="invalid-feedback">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="proof_of_payment" class="form-label">Bukti
+                                                                Pembayaran
+                                                            </label>
+                                                            <input class="form-control" type="file"
+                                                                id="proof_of_payment" name="proof_of_payment" />
+                                                            <div id="proof_of_paymentError" class="invalid-feedback">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary mb-2 d-grid w-100 simpan"
+                                                    id="submit">Simpan</button>
+                                                <button type="button" class="btn btn-outline-secondary d-grid w-100"
+                                                    data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
                 </div>
             </div>
         </div>
