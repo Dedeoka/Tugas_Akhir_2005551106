@@ -13,7 +13,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class DataController extends Controller
 {
     public function educationData(Request $request){
-        $query = ChildEducation::with(['childrens', 'schools']);
+        $query = ChildEducation::with(['childrens', 'schools'])->where('status', 'aktif');
 
         if ($request->has('search')) {
             $searchQuery = $request->input('search');
@@ -27,7 +27,7 @@ class DataController extends Controller
     }
 
     public function healthData(Request $request){
-        $query = ChildHealth::with(['childrens', 'diseases']);
+        $query = ChildHealth::with(['childrens', 'diseases'])->where('status', 'Sedang Sakit');
 
         if ($request->has('search')) {
             $searchQuery = $request->input('search');

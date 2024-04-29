@@ -1,5 +1,22 @@
 @extends('layouts.admin')
 
+@section('style')
+    <style>
+        .list-group-item {
+            border: none;
+            /* Menghilangkan border */
+        }
+
+        .list-group-item strong {
+            display: inline-block;
+            width: 150px;
+            /* Atur lebar label sesuai kebutuhan */
+            margin-right: 10px;
+            /* Atur jarak antara label dan isinya */
+        }
+    </style>
+@endsection
+
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
 
@@ -239,7 +256,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="input-group mb-3">
-                                            <input type="text" class="form-control" placeholder="Cari..."
+                                            <input type="text" class="form-control" placeholder="Cari Nama Anak..."
                                                 id="searchInput">
                                             <button class="btn btn-outline-secondary" type="button"
                                                 id="searchButton">Cari</button>
@@ -296,12 +313,14 @@
                                             Pendidikan
                                         @elseif ($data->reference_table == 'child_achievement_table')
                                             Prestasi
+                                        @elseif ($data->reference_table == 'child_academic_achievement_table')
+                                            Prestasi Akademik
                                         @else
                                             Pengeluaran Lainnya
                                         @endif
                                     </td>
                                     <td>{{ $data->title }}</td>
-                                    <td>{{ 'RP ' . number_format($data->total_cost, 0, ',', '.') }}</td>
+                                    <td>{{ 'Rp ' . number_format($data->total_cost, 0, ',', '.') }}</td>
                                     <td>{{ $data->status }}</td>
                                     <td>
                                         <div class="dropdown">
@@ -310,6 +329,11 @@
                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="javascript:void(0);"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#detailModal{{ $data->id }}">
+                                                    <i class="bx bx-detail me-1"></i> Detail
+                                                </a>
                                                 <a class="dropdown-item delete-data" href="javascript:void(0);"
                                                     data-id="{{ $data->id }}">
                                                     <i class="bx bx-trash me-1"></i> Delete
@@ -448,6 +472,60 @@
                 </div>
             </div>
         </div>
+        @foreach ($datas as $data)
+            <div class="modal fade" id="detailModal{{ $data->id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header border-bottom">
+                            <h3 class="text-center">Detail Data Pengeluaran Anak
+                            </h3>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="border-bottom">
+                                <h5>{{ $data->title }}</h5>
+                                <p>Total Pengeluaran :
+                                    <span class="fw-bold">
+                                        {{ 'Rp ' . number_format($data->total_cost, 0, ',', '.') }}
+                                    </span>
+                                </p>
+                                <p>Status :
+                                    <span class="fw-bold">
+                                        {{ $data->status }}
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="pb-3">
+                                <h5 class="text-center py-3">Detail Pengeluaran</h5>
+                                @foreach ($data->childCostDetails as $detail)
+                                    <div class="border-bottom py-2">
+                                        <span class="fw-bold">
+                                            {{ $loop->iteration }} . {{ $detail->title }}
+                                        </span>
+                                        <p class="mx-4">
+                                            Pengeluaran
+                                            : {{ 'Rp ' . number_format($detail->cost, 0, ',', '.') }}
+                                        </p>
+                                        @if ($detail->proof_of_payment)
+                                            <img src="{{ asset('storage/' . $detail->proof_of_payment) }}" alt=""
+                                                width="100px" height="100px" class="mx-4">
+                                        @else()
+                                            <p class="mx-4 fw-bold">Tidak Ada Bukti Pembayaran</p>
+                                        @endif
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
     </div>
 @endsection
 

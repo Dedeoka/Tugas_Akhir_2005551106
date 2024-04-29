@@ -357,7 +357,7 @@
             });
         }
 
-        $('.modal-pengeluaran').on('hidden.bs.modal', function() {
+        $('.modalPengeluaranAnak').on('hidden.bs.modal', function() {
             clearForm();
         });
 
@@ -383,17 +383,21 @@
             });
         }
 
-        function handleErrors(errors, id) {
+        function handleErrors(errors) {
             clearErrors();
 
             // Menambahkan kelas is-invalid hanya untuk elemen input yang memiliki error
             if (errors.title) {
-                $('#title' + id).addClass('is-invalid');
-                $('#titleError' + id).text(errors.title[0]);
+                $('#title').addClass('is-invalid');
+                $('#titleError').text(errors.title[0]);
             }
             if (errors.total_cost) {
-                $('#total_cost' + id).addClass('is-invalid');
-                $('#total_costError' + id).text(errors.total_cost[0]);
+                $('#total_cost').addClass('is-invalid');
+                $('#total_costError').text(errors.total_cost[0]);
+            }
+            if (errors.proof_of_payment) {
+                $('#proof_of_payment').addClass('is-invalid');
+                $('#proof_of_paymentError').text(errors.proof_of_payment[0]);
             }
         }
 
@@ -408,39 +412,14 @@
                 processData: false,
                 success: function(response) {
                     if (response.errors) {
-                        handleErrors(response.errors, id);
+                        handleErrors(response.errors);
                     } else {
                         showSuccessMessage(response.success);
-                        $('#dataPengeluaranKesehatan').modal('hide');
+                        $('#modalPengeluaranAnak').modal('hide');
                     }
                 },
                 error: function(xhr, textStatus, errorThrown) {
-                    handleErrors(xhr.responseJSON.errors, id);
-                }
-            });
-        }
-
-        $('.updateSubmit').click(function(e) {
-            e.preventDefault();
-            var id = $(this).data('id');
-            update(id);
-        });
-
-        function update(id) {
-            $.ajax({
-                url: "{{ url('master-data/daftar-sekolah') }}/" + id,
-                type: 'PATCH',
-                data: new FormData($('#dataAnakForm')[0]),
-                success: function(response) {
-                    if (response.errors) {
-                        if (response.errors.name) {
-                            $('#editName' + id).addClass('is-invalid');
-                            $('#editNameError' + id).text(response.errors.name[0]);
-                        }
-                    } else {
-                        showSuccessMessage(response.success);
-                        $('#editModal' + id).modal('hide');
-                    }
+                    handleErrors(xhr.responseJSON.errors);
                 }
             });
         }

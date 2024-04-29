@@ -111,7 +111,5 @@ class ChartPengeluaranAnakController extends Controller
             'totalCost' => $totalCost,
             'percentage' => $percentageChange,
         ]);
-
-        dd($totalCost);
     }
 }

@@ -8,6 +8,7 @@ use App\Models\ChildCostDetail;
 use App\Models\ChildHealth;
 use App\Models\ChildEducation;
 use App\Models\ChildAchievement;
+use App\Models\ChildAcademicAchievement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -31,7 +32,7 @@ class PengeluaranAnakController extends Controller
             $years = [];
         }
 
-        $datas = ChildCost::where('title', 'LIKE', "%{$keyword}%")->paginate(10)->withQueryString();
+        $datas = ChildCost::where('title', 'LIKE', "%{$keyword}%")->with(['childCostDetails'])->paginate(10)->withQueryString();
         $childHealths = ChildHealth::with(['childrens', 'diseases'])->paginate(10)
         ->withQueryString();
         $childEducations = ChildEducation::with(['childrens'])->paginate(10)
@@ -100,14 +101,28 @@ class PengeluaranAnakController extends Controller
                 $query->where('reference_table', 'child_achievement_table');
             })
             ->sum('cost');
-        $currentMonthAchievementCostFormatted = 'Rp ' . number_format($currentMonthAchievementCost, 0, ',', '.');
+
+        $currentMonthAcademicAchievementCost = ChildCostDetail::whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->whereHas('childCosts', function ($query) {
+                $query->where('reference_table', 'child_academic_achievement_table');
+            })
+            ->sum('cost');
+
+        $currentMonthAchievementCostFormatted = 'Rp ' . number_format($currentMonthAchievementCost + $currentMonthAcademicAchievementCost, 0, ',', '.');
         $lastMonthAchievementCost = ChildCostDetail::whereMonth('created_at', now()->subMonth()->month)
             ->whereYear('created_at', now()->subMonth()->year)
             ->whereHas('childCosts', function ($query) {
             $query->where('reference_table', 'child_achievement_table');
             })
             ->sum('cost');
-        $lastMonthAchievementCostFormatted = 'Rp ' . number_format($lastMonthAchievementCost, 0, ',', '.');
+        $lastMonthAcademicAchievementCost = ChildCostDetail::whereMonth('created_at', now()->subMonth()->month)
+            ->whereYear('created_at', now()->subMonth()->year)
+            ->whereHas('childCosts', function ($query) {
+            $query->where('reference_table', 'child_academic_achievement_table');
+            })
+            ->sum('cost');
+        $lastMonthAchievementCostFormatted = 'Rp ' . number_format($lastMonthAchievementCost + $lastMonthAcademicAchievementCost, 0, ',', '.');
         $percentageAchievementCost = 0;
         if ($lastMonthAchievementCost > 0) {
             $percentageAchievementCost = number_format((($currentMonthAchievementCost - $lastMonthAchievementCost) / $lastMonthAchievementCost) * 100, 2);
@@ -171,7 +186,7 @@ class PengeluaranAnakController extends Controller
                     $costDataNew = [
                     'reference_table' => 'child_health_table',
                     'reference_table_id' => $data_id,
-                    'title' => 'Pengeluaran Kesehatan ' . $childHealth->childrens->name,
+                    'title' => 'Pengeluaran Sakit ' . $childHealth->diseases->name . ' ' . $childHealth->childrens->name,
                     'total_cost' => str_replace(',', '', $request->total_cost),
                     'status' => 'Lunas',
                     ];
@@ -212,7 +227,7 @@ class PengeluaranAnakController extends Controller
                     $costDataNew = [
                     'reference_table' => 'child_education_table',
                     'reference_table_id' => $data_id,
-                    'title' => 'Pengeluaran Pendidikan ' . ' ' . $childEducation->childrens->name . ' ' . $childEducation->education_level . '/Kelas ' . $childEducation->class ,
+                    'title' => 'Pengeluaran Pendidikan' . ' ' . $childEducation->childrens->name . ' ' . $childEducation->education_level . '/Kelas ' . $childEducation->class ,
                     'total_cost' => str_replace(',', '', $request->total_cost),
                     'status' => 'Lunas',
                     ];
@@ -231,7 +246,7 @@ class PengeluaranAnakController extends Controller
             }
             elseif ($request->type_cost == 'Prestasi'){
                 $childAchievements = ChildAchievement::with(['childrens'])->find($data_id);
-                $childCost = ChildCost::where('reference_table', 'child_education_table')->where('reference_table_id', $data_id)->first();
+                $childCost = ChildCost::where('reference_table', 'child_achievement_table')->where('reference_table_id', $data_id)->first();
                 $proofPayment = null;
                 if ($request->hasFile('proof_of_payment')) {
                     $proofPayment = $request->file('proof_of_payment')->store('uploads/bukti-pembayaran-prestasi');
@@ -251,9 +266,50 @@ class PengeluaranAnakController extends Controller
                     ChildCostDetail::create($costDetailData);
                 } else {
                     $costDataNew = [
-                    'reference_table' => 'child_education_table',
+                    'reference_table' => 'child_achievement_table',
                     'reference_table_id' => $data_id,
-                    'title' => 'Pengeluaran Prestasi ' . ' ' . $childAchievements->childrens->name . ' ' . $childAchievements->education_level . '/Kelas ' . $childAchievements->class ,
+                    'title' => 'Pengeluaran Prestasi' . ' ' . $childAchievements->childrens->name . ' ' . 'Perlombaan ' . $childAchievements->title ,
+                    'total_cost' => str_replace(',', '', $request->total_cost),
+                    'status' => 'Lunas',
+                    ];
+
+                    $childCostCreate = ChildCost::create($costDataNew);
+
+                    $costDetailDataNew = [
+                        'child_cost_id' => $childCostCreate->id,
+                        'title' => 'Pengeluaran Prestasi ' . $request->title,
+                        'cost' => str_replace(',', '', $request->total_cost),
+                        'proof_of_payment' => $proofPayment,
+                    ];
+
+                    ChildCostDetail::create($costDetailDataNew);
+                }
+            }
+            elseif ($request->type_cost == 'Prestasi Akademik'){
+                $childAchievements = ChildAcademicAchievement::with(['childEducations.childrens'])->find($data_id);
+                $childCost = ChildCost::where('reference_table', 'child_academic_achievement_table')->where('reference_table_id', $data_id)->first();
+                $proofPayment = null;
+                if ($request->hasFile('proof_of_payment')) {
+                    $proofPayment = $request->file('proof_of_payment')->store('uploads/bukti-pembayaran-prestasi-akademik');
+                }
+
+                if ($childCost) {
+                    $childCost->total_cost = $childCost->total_cost + str_replace(',', '', $request->total_cost);
+                    $childCost->save();
+
+                    $costDetailData = [
+                        'child_cost_id' => $childCost->id,
+                        'title' => 'Pengeluaran Tambahan ' . $request->title,
+                        'cost' => str_replace(',', '', $request->total_cost),
+                        'proof_of_payment' => $proofPayment,
+                    ];
+
+                    ChildCostDetail::create($costDetailData);
+                } else {
+                    $costDataNew = [
+                    'reference_table' => 'child_academic_achievement_table',
+                    'reference_table_id' => $data_id,
+                    'title' => 'Pengeluaran Prestasi Akademik' . ' ' . $childAchievements->childEducations->childrens->name . ' Perlombaan ' . $childAchievements->title ,
                     'total_cost' => str_replace(',', '', $request->total_cost),
                     'status' => 'Lunas',
                     ];
