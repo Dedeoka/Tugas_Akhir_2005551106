@@ -39,12 +39,13 @@ Route::get('/', function () {
 });
 
 Route::get('/test', function () {
-    return view('admin.keuangan.laporan-bulanan-download');
+    return view('admin.keuangan.pdf.neraca');
 });
 
 // Route::get('/test', function () {
 //     return view('admin.keuangan.pengeluaran-total');
 // });
+
 Route::middleware('auth')->group(function(){
 });
 Route::prefix('master-data')->group(function () {
@@ -87,9 +88,20 @@ Route::prefix('keuangan')->group(function () {
     Route::get('laporan-keuangan-bulanan', [LaporanKeuanganController::class, 'laporanBulanan'])->name('laporan-keuangan.bulanan');
     Route::get('laporan-keuangan-bulanan-report', [LaporanKeuanganController::class, 'laporanBulananReport'])->name('laporan-keuangan.bulananReport');
     Route::get('download-laporan-bulanan-pdf', [LaporanKeuanganController::class, 'laporanBulananPdf'])->name('download-laporan-bulanan');
+
+    Route::get('neraca-keuangan-tahunan', [LaporanKeuanganController::class, 'neracaTahunan'])->name('neraca-keuangan.tahunan');
+    Route::get('neraca-keuangan-tahunan-report', [LaporanKeuanganController::class, 'neracaTahunanReport'])->name('neraca-keuangan.tahunanReport');
+    Route::get('download-neraca-tahunan-pdf', [LaporanKeuanganController::class, 'neracaTahunanPdf'])->name('download-neraca-tahunan');
+    Route::get('neraca-keuangan-bulanan', [LaporanKeuanganController::class, 'neracaBulanan'])->name('neraca-keuangan.bulanan');
+    Route::get('neraca-keuangan-bulanan-report', [LaporanKeuanganController::class, 'neracaBulananReport'])->name('neraca-keuangan.bulananReport');
+    Route::get('download-neraca-bulanan-pdf', [LaporanKeuanganController::class, 'neracaBulananPdf'])->name('download-neraca-bulanan');
 });
+
 
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/neraca', function () {
+    return view('admin.keuangan.pdf.neraca');
+});

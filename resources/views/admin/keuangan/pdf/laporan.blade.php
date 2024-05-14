@@ -122,8 +122,8 @@
             <h5 class="laporan-title" style="margin: 50px 0 10px 0;">PANTI ASUHAN DHARMA JATI II</h5>
             <h5 class="laporan-title" style="margin: 0 0 20px 0;">LAPORAN KEUANGAN</h5>
 
-            <h5 class="laporan-subtitle" id="laporanPeriode" style="margin: 0px;">PERIODE 1 JANUARI S/D 31 DESEMBER
-                {{ $year }}</h5>
+            <h5 class="laporan-subtitle" id="laporanPeriode" style="margin: 0px;"> {{ $periode }}
+            </h5>
 
             <div class="tb-flex" style="margin: 30px 0 70px 0; background-color: #C0C0C0;">
                 <div class="wid-50"

@@ -244,20 +244,21 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="menu-item {{ request()->is('keuangan/laporan-keuangan*') ? 'active open' : '' }}">
+                    <li
+                        class="menu-item {{ request()->is('keuangan/laporan-keuangan*') || request()->is('keuangan/neraca-keuangan*') ? 'active open' : '' }}">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
                             <i class="menu-icon tf-icons bx bxs-food-menu"></i>
                             <div data-i18n="Profile">Laporan Keuangan</div>
                         </a>
                         <ul class="menu-sub">
                             <li
-                                class="menu-item {{ request()->is('keuangan/laporan-keuangan-bulanan') ? 'active' : '' }}">
+                                class="menu-item {{ request()->is('keuangan/laporan-keuangan-bulanan') || request()->is('keuangan/neraca-keuangan-bulanan') ? 'active' : '' }}">
                                 <a href="{{ route('laporan-keuangan.bulanan') }}" class="menu-link">
                                     <div data-i18n="CRM">Laporan Bulanan</div>
                                 </a>
                             </li>
                             <li
-                                class="menu-item {{ request()->is('keuangan/laporan-keuangan-tahunan') ? 'active' : '' }}">
+                                class="menu-item {{ request()->is('keuangan/laporan-keuangan-tahunan') || request()->is('keuangan/neraca-keuangan-tahunan') ? 'active' : '' }}">
                                 <a href="{{ route('laporan-keuangan.tahunan') }}" class="menu-link">
                                     <div data-i18n="CRM">Laporan Tahunan</div>
                                 </a>

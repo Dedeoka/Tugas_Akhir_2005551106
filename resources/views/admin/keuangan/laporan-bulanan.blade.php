@@ -10,7 +10,7 @@
 
         <div class="card p-5">
             <div class="d-flex justify-content-between mb-3">
-                <div class="w-75 d-flex">
+                <div class="w-50 d-flex">
                     <div class="me-2">
                         <select class="form-select" id="monthSelector" name="month" aria-label="Default select example">
                             <option value="01">
@@ -62,6 +62,9 @@
                     </div>
                 </div>
                 <div class="ml-auto">
+                    <a href="{{ route('neraca-keuangan.bulanan') }}">
+                        <button class="btn btn-success"><i class='bx bx-food-menu me-2'></i>Tampilan Neraca</button>
+                    </a>
                     <a id="downloadLink" href="{{ route('download-laporan-bulanan') }}">
                         <button class="btn btn-primary"><i class='bx bxs-file-pdf me-2'></i>Download PDF</button>
                     </a>
@@ -166,7 +169,7 @@
                             </div>
                         </div>
                         <div class="w-100 border-start-0 border-top-0 border border-2 border-dark">
-                            <h5 class="text-start m-0 p-2 text-dark">Donasi Beasiswa Umum</h5>
+                            <h5 class="text-start m-0 p-2 text-dark">Donasi Beasiswa</h5>
                         </div>
                     </div>
                     <div class="w-50 border-start-0 border-top-0 border-end-0 border border-2 border-dark"

@@ -20,6 +20,9 @@
                     </select>
                 </div>
                 <div class="ml-auto">
+                    <a href="{{ route('neraca-keuangan.tahunan') }}">
+                        <button class="btn btn-success"><i class='bx bx-food-menu me-2'></i>Tampilan Neraca</button>
+                    </a>
                     <a id="downloadLink" href="{{ route('download-laporan-tahunan') }}">
                         <button class="btn btn-primary"><i class='bx bxs-file-pdf me-2'></i>Download PDF</button>
                     </a>
@@ -29,7 +32,7 @@
                 <h5 class="fw-bold m-auto mb-2 mt-5 text-dark">PANTI ASUHAN DHARMA JATI II</h5>
                 <h5 class="fw-bold m-auto mb-3 text-dark">LAPORAN KEUANGAN</h5>
 
-                <h5 class="m-auto mb-4 text-dark" id="laporanPeriode">PERIODE 1 JANUARI S/D 31 DESEMBER</h5>
+                <h5 class="m-auto mb-4 text-dark" id="laporanPeriode"></h5>
 
                 <div class="d-flex mb-5 bg-laporan">
                     <div class="border-start-0 border border-2 border-dark w-50 text-center fw-bold text-dark p-2 fs-5"
