@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\Keuangan\PemasukanPantiController;
 use App\Http\Controllers\Admin\Keuangan\PengeluaranAnakController;
 use App\Http\Controllers\Admin\Keuangan\PengeluaranPantiController;
 use App\Http\Controllers\Admin\Keuangan\PengeluaranTotalController;
+use App\Http\Controllers\User\DonasiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,7 +40,11 @@ Route::get('/', function () {
 });
 
 Route::get('/test', function () {
-    return view('admin.keuangan.pdf.neraca');
+    return view('user.landing-page');
+});
+
+Route::get('/test2', function () {
+    return view('user.donation');
 });
 
 // Route::get('/test', function () {
@@ -97,11 +102,15 @@ Route::prefix('keuangan')->group(function () {
     Route::get('download-neraca-bulanan-pdf', [LaporanKeuanganController::class, 'neracaBulananPdf'])->name('download-neraca-bulanan');
 });
 
-
+Route::prefix('panti-asuhan-dharma-jati-II')->group(function () {
+    Route::get('donasi-uang', [DonasiController::class, 'index'])->name('user-donasi-uang.index');
+    Route::post('donasi-uang', [DonasiController::class, 'store'])->name('user-donasi-uang.store');
+    Route::post('berhasil-donasi', [DonasiController::class, 'success'])->name('user-donasi-uang.success');
+});
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/neraca', function () {
-    return view('admin.keuangan.pdf.neraca');
-});
+
+
+
