@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\Anak\PendidikanAnakController;
 use App\Http\Controllers\Admin\Anak\PrestasiAkademikAnakController;
 use App\Http\Controllers\Admin\Anak\PrestasiAnakController;
 use App\Http\Controllers\Admin\Data\DataController;
+use App\Http\Controllers\Admin\Donasi\DonasiUangController;
 use App\Http\Controllers\Admin\Keuangan\ChartPemasukanPantiController;
 use App\Http\Controllers\Admin\Keuangan\ChartPengeluaranAnakController;
 use App\Http\Controllers\Admin\Keuangan\ChartPengeluaranPantiController;
@@ -39,16 +40,12 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::get('/test', function () {
-    return view('user.landing-page');
-});
-
-Route::get('/test2', function () {
-    return view('user.donation');
-});
-
 // Route::get('/test', function () {
-//     return view('admin.keuangan.pengeluaran-total');
+//     return view('user.landing-page');
+// });
+
+// Route::get('/test2', function () {
+//     return view('user.donation');
 // });
 
 Route::middleware('auth')->group(function(){
@@ -106,6 +103,10 @@ Route::prefix('panti-asuhan-dharma-jati-II')->group(function () {
     Route::get('donasi-uang', [DonasiController::class, 'index'])->name('user-donasi-uang.index');
     Route::post('donasi-uang', [DonasiController::class, 'store'])->name('user-donasi-uang.store');
     Route::post('berhasil-donasi', [DonasiController::class, 'success'])->name('user-donasi-uang.success');
+});
+
+Route::prefix('donasi')->group(function () {
+    Route::resource('donasi-uang', DonasiUangController::class);
 });
 
 Auth::routes();
