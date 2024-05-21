@@ -73,9 +73,15 @@
                                             <div class="row">
                                                 <div class="col mb-3">
                                                     <label for="total_amount" class="form-label">Jumlah Donasi</label>
-                                                    <input type="text" id="total_amount" name="total_amount"
-                                                        class="form-control" placeholder="Jumlah Donasi ..." />
-                                                    <div id="total_amountError" class="invalid-feedback"></div>
+                                                    <div class="mb-3" id="totalAmountInput">
+                                                        <div class="input-group input-group-merge">
+                                                            <span class="input-group-text"
+                                                                style="background-color:transparent;">Rp</span>
+                                                            <input type="text" class="form-control" id="total_amount"
+                                                                name="total_amount" placeholder="1,000,000"
+                                                                oninput="formatAmount(this)" style="border-left: 0px" />
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
