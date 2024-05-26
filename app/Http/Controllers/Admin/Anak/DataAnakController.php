@@ -16,13 +16,13 @@ class DataAnakController extends Controller
     public function index(Request $request)
     {
         $keyword = $request->query('q','');
-        $datas = Children::with('childDetails')  // Sertakan data relasi
+        $datas = Children::with('childDetails', 'childHealths', 'childEducations', 'childAchievements')  // Sertakan data relasi
             ->where('name', 'LIKE', "%{$keyword}%")
             ->orWhere('place_of_birth', 'LIKE', "%{$keyword}%")
             ->paginate(10)
             ->withQueryString();
-
-        return view('admin.anak-asuh.data-anak-asuh', compact('datas', 'keyword'));
+        $details = Children::with('childDetails', 'childHealths', 'childEducations', 'childAchievements')->get();
+        return view('admin.anak-asuh.data-anak-asuh', compact('datas', 'keyword', 'details'));
     }
 
     /**

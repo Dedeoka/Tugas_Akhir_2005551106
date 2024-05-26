@@ -19,12 +19,12 @@ class DonasiController extends Controller
 
             if ($differenceInMinutes > 15) {
                 $request->session()->forget('donate');
-                return view('user.donation');
+                return view('user.donasi-uang');
             }
 
-            return view('user.donation', compact('donate'));
+            return view('user.donasi.donasi-uang', compact('donate'));
         } else {
-            return view('user.donation');
+            return view('user.donasi.donasi-uang');
         }
     }
 

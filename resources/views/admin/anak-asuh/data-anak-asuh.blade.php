@@ -484,7 +484,18 @@
                                     <td>{{ $data->place_of_birth }}, {{ $data->date_of_birth }}</td>
                                     <td>{{ $data->gender }}</td>
                                     <td>{{ $data->religion }}</td>
-                                    <td>{{ $data->status }}</td>
+                                    <td>
+                                        @if ($data->status == 'Aktif')
+                                            <button type="button" class="btn rounded-pill btn-success"
+                                                style="width: 100px;">
+                                                Aktif</button>
+                                        @else
+                                            <button type="button" class="btn rounded-pill btn-danger"
+                                                style="width: 100px;" data-bs-toggle="modal"
+                                                data-bs-target="#editModal{{ $data->id }}">
+                                                Non-Aktif</button>
+                                        @endif
+                                    </td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -496,6 +507,11 @@
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#editModal{{ $data->id }}">
                                                     <i class="bx bx-edit-alt me-1"></i> Edit
+                                                </a>
+                                                <a class="dropdown-item" href="javascript:void(0);"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#detailModal{{ $data->id }}">
+                                                    <i class="bx bx-detail me-1"></i> Detail
                                                 </a>
                                                 <a class="dropdown-item delete-data" href="javascript:void(0);"
                                                     data-id="{{ $data->id }}">
@@ -960,6 +976,164 @@
                         </div>
                         <div class="modal-footer">
 
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+
+            <!-- Modal Detail -->
+            @foreach ($details as $data)
+                <div class="modal fade" id="detailModal{{ $data->id }}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header border-bottom">
+                                <h3 class="text-center">Detail Data {{ $data->name }}
+                                </h3>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="d-flex justify-content-between pb-2 mb-4 border-bottom">
+                                    <div class="">
+                                    </div>
+                                    <div class="w-75 d-flex">
+                                        <div class="w-50">
+                                            <img src="{{ asset('storage/avatar/avatar-cowok1.jpeg') }}" alt=""
+                                                class="mx-auto d-block" style="max-width: 100%; height: 100%;">
+                                        </div>
+                                        <div class="w-50">
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item"><strong>Nama Anak</strong>:
+                                                    {{ $data->name }}</li>
+                                                <li class="list-group-item"><strong>Jenis Kelamin</strong>:
+                                                    {{ $data->gender }}
+                                                </li>
+                                                @php
+                                                    // Tanggal lahir dari $data->childrens->date_of_birth
+                                                    $tanggal_lahir = $data->date_of_birth;
+
+                                                    // Ubah format tanggal lahir menjadi objek DateTime
+                                                    $tanggal_lahir_obj = new DateTime($tanggal_lahir);
+
+                                                    // Tanggal sekarang
+                                                    $tanggal_sekarang = new DateTime();
+
+                                                    // Hitung selisih tahun antara tanggal lahir dan tanggal sekarang
+                                                    $umur_tahun = $tanggal_lahir_obj->diff($tanggal_sekarang)->y;
+                                                @endphp
+                                                <li class="list-group-item"><strong>Umur</strong>:
+                                                    {{ $umur_tahun }}
+                                                </li>
+                                                <li class="list-group-item"><strong>Tanggal Lahir</strong>:
+                                                    {{ $data->date_of_birth }}
+                                                </li>
+                                                <li class="list-group-item"><strong>Tempat Lahir</strong>:
+                                                    {{ $data->place_of_birth }}
+                                                </li>
+                                                <li class="list-group-item"><strong>Agama</strong>:
+                                                    {{ $data->religion }}
+                                                </li>
+                                                <li class="list-group-item"><strong>Penyakit Bawaan</strong>:
+                                                    {{ $data->congenital_disease }}
+                                                </li>
+                                                <li class="list-group-item"><strong>Status</strong>:
+                                                    @if ($data->status == 'Aktif')
+                                                        <button type="button" class="btn rounded-pill btn-success"
+                                                            style="width: 100px;">
+                                                            Aktif</button>
+                                                    @else
+                                                        <button type="button" class="btn rounded-pill btn-danger"
+                                                            style="width: 100px;" data-bs-toggle="modal"
+                                                            data-bs-target="#editModal{{ $data->id }}">
+                                                            Non-Aktif</button>
+                                                    @endif
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class=""></div>
+                                </div>
+                                @foreach ($data->childDetails as $detail)
+                                    <div class="px-2">
+                                        <h5>Data Detail Anak</h5>
+                                        <div class="d-flex">
+                                            <div class="w-25 d-flex">
+                                                <div class="w-75">
+                                                    Nama Ayah
+                                                </div>
+                                                <div class="w-25">
+                                                    :
+                                                </div>
+                                            </div>
+                                            <div class="w-50">
+                                                {{ $detail->father_name }}
+                                            </div>
+                                            <div class="w-25"></div>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div class="w-25 d-flex">
+                                                <div class="w-75">
+                                                    Nama Ibu
+                                                </div>
+                                                <div class="w-25">
+                                                    :
+                                                </div>
+                                            </div>
+                                            <div class="w-50">
+                                                {{ $detail->mother_name }}
+                                            </div>
+                                            <div class="w-25"></div>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div class="w-25 d-flex">
+                                                <div class="w-75">
+                                                    Nama Wali
+                                                </div>
+                                                <div class="w-25">
+                                                    :
+                                                </div>
+                                            </div>
+                                            <div class="w-50">
+                                                {{ $detail->guardian_name }} ({{ $detail->guardian_relationship }})
+                                            </div>
+                                            <div class="w-25"></div>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div class="w-25 d-flex">
+                                                <div class="w-75">
+                                                    Nama Wali
+                                                </div>
+                                                <div class="w-25">
+                                                    :
+                                                </div>
+                                            </div>
+                                            <div class="w-50">
+                                                {{ $detail->guardian_name }} ({{ $detail->guardian_relationship }})
+                                            </div>
+                                            <div class="w-25"></div>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div class="w-25 d-flex">
+                                                <div class="w-75">
+                                                    Nama Wali
+                                                </div>
+                                                <div class="w-25">
+                                                    :
+                                                </div>
+                                            </div>
+                                            <div class="w-50">
+                                                {{ $detail->guardian_name }} ({{ $detail->guardian_relationship }})
+                                            </div>
+                                            <div class="w-25"></div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                    Close
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
