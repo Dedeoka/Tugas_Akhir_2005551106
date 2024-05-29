@@ -21,7 +21,7 @@ class DataAnakController extends Controller
             ->orWhere('place_of_birth', 'LIKE', "%{$keyword}%")
             ->paginate(10)
             ->withQueryString();
-        $details = Children::with('childDetails', 'childHealths', 'childEducations', 'childAchievements')->get();
+        $details = Children::with('childDetails', 'childHealths', 'childEducations.schools', 'childEducations.childAcademicAchievements', 'childAchievements')->get();
         return view('admin.anak-asuh.data-anak-asuh', compact('datas', 'keyword', 'details'));
     }
 

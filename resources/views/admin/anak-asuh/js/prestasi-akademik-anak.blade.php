@@ -9,10 +9,14 @@
         var currentDataUrl = '';
         var currentSearchQuery = '';
 
-        function loadData(page, searchQuery = '') {
+        function loadDataWithSearch(page, searchQuery = '') {
             $.ajax({
                 url: "{{ route('pendidikan-anak.data') }}",
                 type: 'GET',
+                data: {
+                    page: page,
+                    search: searchQuery
+                },
                 success: function(response) {
                     totalItems = response.total;
                     totalPages = response.last_page;
@@ -105,8 +109,8 @@
         }
 
         function handleSearch() {
-            var searchInput = $('#searchInput').val(); // Mendapatkan nilai input pencarian
-            loadDataWithSearch(currentPage, currentDataUrl, searchInput);
+            var searchInput = $('#searchInput').val();
+            loadDataWithSearch(currentPage, searchInput);
         }
 
         $('#searchButton').on('click', function() {
@@ -124,7 +128,7 @@
         $(document).on('click', '#pagination .page-link', function(e) {
             e.preventDefault();
             currentPage = parseInt($(this).data('page'));
-            loadDataWithSearch(currentPage, currentDataUrl, currentSearchQuery);
+            loadDataWithSearch(currentPage, currentSearchQuery);
         });
 
         $(document).on('click', '.pilih-id', function(e) {
@@ -138,7 +142,7 @@
 
         $('#tambahDataBtn').on('click', function() {
             $('#modalDataPendidikanAnak').modal('show');
-            loadData(currentPage, currentSearchQuery);
+            loadDataWithSearch(currentPage, currentSearchQuery);
         });
     })
 </script>

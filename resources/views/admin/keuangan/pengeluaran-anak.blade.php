@@ -242,9 +242,9 @@
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-header">
-                                        <ul class="nav nav-tabs nav-fill w-100" role="tablist">
+                                        <ul class="nav nav-pills nav-fill w-100" role="tablist">
                                             <li class="nav-item">
-                                                <button type="button" id="tab-justified-home" class="nav-link"
+                                                <button type="button" id="tab-justified-home" class="nav-link active"
                                                     role="tab" data-bs-toggle="tab"
                                                     data-bs-target="#navs-justified-home"
                                                     aria-controls="navs-justified-home" aria-selected="true" disabled>
@@ -402,9 +402,9 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-header">
-                        <ul class="nav nav-tabs nav-fill w-100" role="tablist">
+                        <ul class="nav nav-pills nav-fill w-100" role="tablist">
                             <li class="nav-item">
-                                <button type="button" id="tab-justified-home" class="nav-link" role="tab"
+                                <button type="button" id="tab-justified-home" class="nav-link active" role="tab"
                                     data-bs-toggle="tab" data-bs-target="#navs-justified-home"
                                     aria-controls="navs-justified-home" aria-selected="true" disabled>
                                     <span class="d-none d-sm-block">

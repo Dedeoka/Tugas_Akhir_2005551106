@@ -38,7 +38,7 @@
                                                     aria-label="Close"></button>
                                             </div>
                                             <div class="modal-header">
-                                                <ul class="nav nav-tabs nav-fill w-100" role="tablist">
+                                                <ul class="nav nav-pills nav-fill w-100" role="tablist">
                                                     <li class="nav-item">
                                                         <button type="button" id="tab-justified-home"
                                                             class="nav-link active" role="tab" data-bs-toggle="tab"
@@ -436,7 +436,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-header">
-                    <ul class="nav nav-tabs nav-fill w-100" role="tablist">
+                    <ul class="nav nav-pills nav-fill w-100" role="tablist">
                         <li class="nav-item">
                             <button type="button" id="tab-justified-home-edit" class="nav-link active" role="tab"
                                 data-bs-toggle="tab" data-bs-target="#navs-justified-home"
@@ -672,34 +672,101 @@
                                 </div>
                             </div>
                             <div class="">
-
                             </div>
                         </div>
-                        <div class="pb-3">
-                            <div class="d-flex">
-                                <div class="w-50 px-2">
-                                    <h5 class="px-2">Data Wali Kelas</h5>
-                                    <ul class="list-group list-group-flush">
-                                        @foreach ($data->childEducationDetails as $detail)
-                                            <li class="list-group-item"><strong>Nama Wali</strong>:
-                                                {{ $detail->guardian_name }}</li>
-                                            <li class="list-group-item"><strong>Alamat Wali</strong>:
-                                                {{ $detail->guardian_address }}</li>
-                                            <li class="list-group-item"><strong>Nomor Telepon</strong>:
-                                                {{ $detail->guardian_phone }}</li>
-                                        @endforeach
-                                    </ul>
+                        <div class="pb-3 border-bottom mb-4">
+                            <div class="px-3">
+                                @foreach ($data->childEducationDetails as $detail)
+                                    <h5>Data Wali Kelas</h5>
+                                    <div class="d-flex py-2">
+                                        <div class="w-25 d-flex">
+                                            <div class="w-75">
+                                                Nama Wali
+                                            </div>
+                                            <div class="w-25">
+                                                :
+                                            </div>
+                                        </div>
+                                        <div class="w-50">
+                                            {{ $detail->guardian_name }}
+                                        </div>
+                                        <div class="w-25"></div>
+                                    </div>
+                                    <div class="d-flex py-2">
+                                        <div class="w-25 d-flex">
+                                            <div class="w-75">
+                                                Alamat Wali
+                                            </div>
+                                            <div class="w-25">
+                                                :
+                                            </div>
+                                        </div>
+                                        <div class="w-50">
+                                            {{ $detail->guardian_address }}
+                                        </div>
+                                        <div class="w-25"></div>
+                                    </div>
+                                    <div class="d-flex py-2">
+                                        <div class="w-25 d-flex">
+                                            <div class="w-75">
+                                                Nomor Telepon
+                                            </div>
+                                            <div class="w-25">
+                                                :
+                                            </div>
+                                        </div>
+                                        <div class="w-50">
+                                            {{ $detail->guardian_phone }}
+                                        </div>
+                                        <div class="w-25"></div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="pb-3 border-bottom">
+                            <div class="px-3">
+                                <h5>Data Sekolah</h5>
+                                <div class="d-flex py-2">
+                                    <div class="w-25 d-flex">
+                                        <div class="w-75">
+                                            Nama Sekolah
+                                        </div>
+                                        <div class="w-25">
+                                            :
+                                        </div>
+                                    </div>
+                                    <div class="w-50">
+                                        {{ $data->schools->name }}
+                                    </div>
+                                    <div class="w-25"></div>
                                 </div>
-                                <div class="w-50 px-2">
-                                    <h5 class="px-2">Data Sekolah</h5>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item"><strong>Nama Sekolah</strong>:
-                                            {{ $data->schools->name }}</li>
-                                        <li class="list-group-item"><strong>Alamat Sekolah</strong>:
-                                            {{ $data->schools->address }}</li>
-                                        <li class="list-group-item"><strong>Nomor Telepon</strong>:
-                                            {{ $data->schools->phone }}</li>
-                                    </ul>
+                                <div class="d-flex py-2">
+                                    <div class="w-25 d-flex">
+                                        <div class="w-75">
+                                            Alamat Sekolah
+                                        </div>
+                                        <div class="w-25">
+                                            :
+                                        </div>
+                                    </div>
+                                    <div class="w-50">
+                                        {{ $data->schools->address }}
+                                    </div>
+                                    <div class="w-25"></div>
+                                </div>
+                                <div class="d-flex py-2">
+                                    <div class="w-25 d-flex">
+                                        <div class="w-75">
+                                            Nomor Telepon
+                                        </div>
+                                        <div class="w-25">
+                                            :
+                                        </div>
+                                    </div>
+                                    <div class="w-50">
+                                        {{ $data->schools->phone }}
+                                    </div>
+                                    <div class="w-25"></div>
                                 </div>
                             </div>
                         </div>

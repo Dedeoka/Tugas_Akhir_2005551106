@@ -295,7 +295,8 @@
                                     <div data-i18n="Documentation">Prestasi Anak Asuh</div>
                                 </a>
                             </li>
-                            <li class="menu-item {{ request()->is('anak-asuh/') ? 'active' : '' }}">
+                            <li
+                                class="menu-item {{ request()->is('anak-asuh/prestasi-akademik-anak') ? 'active' : '' }}">
                                 <a href="{{ route('prestasi-akademik-anak.index') }}" class="menu-link">
                                     <div data-i18n="Documentation">Prestasi Akademik Anak Asuh</div>
                                 </a>

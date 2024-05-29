@@ -82,6 +82,8 @@
                         '</tr>';
                 }
             } else if (dataUrl == '{{ route('pendidikan-anak.data') }}') {
+                $('#titleModal').html('Pilih Data Pendidikan Anak');
+                $('#modalHead').html('Tabel Data Pendidikan Anak');
                 var theadHtml = '<tr>' +
                     '<th class="col-md-1 text-center fw-bold">No</th>' +
                     '<th class="col-md-1 text-center fw-bold">Nama Anak</th>' +
@@ -126,6 +128,8 @@
                         '</tr>';
                 }
             } else if (dataUrl == '{{ route('prestasi-anak.data') }}') {
+                $('#titleModal').html('Pilih Data Prestasi Anak');
+                $('#modalHead').html('Tabel Data Prestasi Anak');
                 var theadHtml = '<tr>' +
                     '<th class="col-md-1 text-center fw-bold">No</th>' +
                     '<th class="col-md-1 text-center fw-bold">Nama Anak</th>' +
@@ -155,6 +159,8 @@
                         '</tr>';
                 }
             } else if (dataUrl == '{{ route('prestasi-akademik.data') }}') {
+                $('#titleModal').html('Pilih Data Prestasi Akademik Anak');
+                $('#modalHead').html('Tabel Data Prestasi Akademik Anak');
                 var theadHtml = '<tr>' +
                     '<th class="col-md-1 text-center fw-bold">No</th>' +
                     '<th class="col-md-1 text-center fw-bold">Nama Anak</th>' +

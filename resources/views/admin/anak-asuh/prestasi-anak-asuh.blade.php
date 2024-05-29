@@ -1,22 +1,5 @@
 @extends('layouts.admin')
 
-@section('style')
-    <style>
-        .list-group-item {
-            border: none;
-            /* Menghilangkan border */
-        }
-
-        .list-group-item strong {
-            display: inline-block;
-            width: 150px;
-            /* Atur lebar label sesuai kebutuhan */
-            margin-right: 10px;
-            /* Atur jarak antara label dan isinya */
-        }
-    </style>
-@endsection
-
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
 
@@ -57,10 +40,10 @@
                                                     aria-label="Close"></button>
                                             </div>
                                             <div class="modal-header">
-                                                <ul class="nav nav-tabs nav-fill w-100" role="tablist">
+                                                <ul class="nav nav-pills nav-fill w-100" role="tablist">
                                                     <li class="nav-item">
-                                                        <button type="button" id="tab-justified-home" class="nav-link"
-                                                            role="tab" data-bs-toggle="tab"
+                                                        <button type="button" id="tab-justified-home"
+                                                            class="nav-link active" role="tab" data-bs-toggle="tab"
                                                             data-bs-target="#navs-justified-home"
                                                             aria-controls="navs-justified-home" aria-selected="true"
                                                             disabled>
@@ -608,54 +591,153 @@
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <div class="d-flex pb-2 mb-4 border-bottom">
-                                    <div class="w-25 mx-5">
-                                        <img src="{{ asset('storage/avatar/avatar-cowok1.jpeg') }}" alt=""
-                                            class="mx-auto d-block" style="max-width: 100%; height: 100%;">
+                                <div class="d-flex justify-content-between pb-2 mb-4 border-bottom">
+                                    <div class="">
+
                                     </div>
-                                    <div>
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item"><strong>Nama Anak</strong>:
-                                                {{ $data->childrens->name }}</li>
-                                            <li class="list-group-item"><strong>Jenis Kelamin</strong>:
-                                                {{ $data->childrens->gender }}
-                                            </li>
-                                            <li class="list-group-item"><strong>Tempat Lahir</strong>:
-                                                {{ $data->childrens->place_of_birth }}
-                                            </li>
-                                            <li class="list-group-item"><strong>Tanggal Lahir</strong>:
-                                                {{ $data->childrens->date_of_birth }}
-                                            </li>
-                                            <li class="list-group-item"><strong>Agama</strong>:
-                                                {{ $data->childrens->religion }}
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="pb-3">
-                                    <div>
-                                        <div class="px-2">
-                                            <h5 class="px-3">Data Detail Perlombaan</h5>
+                                    <div class="w-75 d-flex">
+                                        <div class="w-50">
+                                            <img src="{{ asset('storage/avatar/avatar-cowok1.jpeg') }}" alt=""
+                                                class="mx-auto d-block" style="max-width: 100%; height: 100%;">
+                                        </div>
+                                        <div class="w-50">
                                             <ul class="list-group list-group-flush">
-                                                <li class="list-group-item"><strong>Nama Perlombaan</strong>:
-                                                    {{ $data->title }}</li>
-                                                <li class="list-group-item"><strong>Tingkat Perlombaan</strong>:
-                                                    {{ $data->competition_level }}</li>
-                                                <li class="list-group-item"><strong>Tanggal Perlombaan</strong>:
-                                                    {{ $data->competition_date }}</li>
-                                                <li class="list-group-item"><strong>Peringkat</strong>:
-                                                    {{ $data->ranking }}</li>
-                                                <li class="list-group-item"><strong>Hadiah Uang</strong>:
-                                                    Rp {{ $data->prize_money }}</li>
-                                                <li class="list-group-item"><strong>Hadiah Lainnya</strong>:
-                                                    {{ $data->prize_item }}</li>
-                                                <li class="list-group-item"><strong>Deskripsi Perlombaan</strong>:
-                                                    {{ $data->description }}</li>
-                                                <li class="list-group-item"><strong>Sertifikat Perlombaan</strong>:
-                                                    <img src="{{ asset('storage/' . $data->certificate) }}"
-                                                        alt="" width="200px" height="150px">
+                                                <li class="list-group-item"><strong>Nama Anak</strong>:
+                                                    {{ $data->childrens->name }}</li>
+                                                <li class="list-group-item"><strong>Jenis Kelamin</strong>:
+                                                    {{ $data->childrens->gender }}
+                                                </li>
+                                                <li class="list-group-item"><strong>Tempat Lahir</strong>:
+                                                    {{ $data->childrens->place_of_birth }}
+                                                </li>
+                                                <li class="list-group-item"><strong>Tanggal Lahir</strong>:
+                                                    {{ $data->childrens->date_of_birth }}
+                                                </li>
+                                                <li class="list-group-item"><strong>Agama</strong>:
+                                                    {{ $data->childrens->religion }}
                                                 </li>
                                             </ul>
+                                        </div>
+                                    </div>
+                                    <div class="">
+
+                                    </div>
+                                </div>
+                                <div class="pb-3 border-bottom">
+                                    <div class="px-3">
+                                        <h5>Data Detail Perlombaan</h5>
+                                        <div class="d-flex py-2">
+                                            <div class="w-25 d-flex">
+                                                <div class="w-75">
+                                                    Nama Perlombaan
+                                                </div>
+                                                <div class="w-25">
+                                                    :
+                                                </div>
+                                            </div>
+                                            <div class="w-50">
+                                                {{ $data->title }}
+                                            </div>
+                                            <div class="w-25"></div>
+                                        </div>
+                                        <div class="d-flex py-2">
+                                            <div class="w-25 d-flex">
+                                                <div class="w-75">
+                                                    Tingkat Perlombaan
+                                                </div>
+                                                <div class="w-25">
+                                                    :
+                                                </div>
+                                            </div>
+                                            <div class="w-50">
+                                                {{ $data->competition_level }}
+                                            </div>
+                                            <div class="w-25"></div>
+                                        </div>
+                                        <div class="d-flex py-2">
+                                            <div class="w-25 d-flex">
+                                                <div class="w-75">
+                                                    Tanggal Perlombaan
+                                                </div>
+                                                <div class="w-25">
+                                                    :
+                                                </div>
+                                            </div>
+                                            <div class="w-50">
+                                                {{ $data->competition_date }}
+                                            </div>
+                                            <div class="w-25"></div>
+                                        </div>
+                                        <div class="d-flex py-2">
+                                            <div class="w-25 d-flex">
+                                                <div class="w-75">
+                                                    Peringkat
+                                                </div>
+                                                <div class="w-25">
+                                                    :
+                                                </div>
+                                            </div>
+                                            <div class="w-50">
+                                                {{ $data->ranking }}
+                                            </div>
+                                            <div class="w-25"></div>
+                                        </div>
+                                        <div class="d-flex py-2">
+                                            <div class="w-25 d-flex">
+                                                <div class="w-75">
+                                                    Hadiah Uang
+                                                </div>
+                                                <div class="w-25">
+                                                    :
+                                                </div>
+                                            </div>
+                                            <div class="w-50">
+                                                {{ $data->prize_money }}
+                                            </div>
+                                            <div class="w-25"></div>
+                                        </div>
+                                        <div class="d-flex py-2">
+                                            <div class="w-25 d-flex">
+                                                <div class="w-75">
+                                                    Hadiah Lainnya
+                                                </div>
+                                                <div class="w-25">
+                                                    :
+                                                </div>
+                                            </div>
+                                            <div class="w-50">
+                                                {{ $data->prize_item }}
+                                            </div>
+                                            <div class="w-25"></div>
+                                        </div>
+                                        <div class="d-flex py-2">
+                                            <div class="w-25 d-flex">
+                                                <div class="w-75">
+                                                    Deskripsi Perlombaan
+                                                </div>
+                                                <div class="w-25">
+                                                    :
+                                                </div>
+                                            </div>
+                                            <div class="w-50">
+                                                {{ $data->description }}
+                                            </div>
+                                            <div class="w-25"></div>
+                                        </div>
+                                        <div class="d-flex py-2">
+                                            <div class="w-25 d-flex">
+                                                <div class="w-75">
+                                                    Sertifikat Perlombaan
+                                                </div>
+                                                <div class="w-25">
+                                                    :
+                                                </div>
+                                            </div>
+                                            <div class="w-50">
+                                                <img src="{{ asset('storage/' . $data->certificate) }}" alt=""
+                                                    width="200px" height="150px">
+                                            </div>
+                                            <div class="w-25"></div>
                                         </div>
                                     </div>
                                 </div>

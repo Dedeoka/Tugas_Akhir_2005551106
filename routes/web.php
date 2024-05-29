@@ -40,9 +40,9 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-// Route::get('/test', function () {
-//     return view('user.landing-page');
-// });
+Route::get('/test', function () {
+    return view('user.landing-page');
+});
 
 // Route::get('/test2', function () {
 //     return view('user.donation');

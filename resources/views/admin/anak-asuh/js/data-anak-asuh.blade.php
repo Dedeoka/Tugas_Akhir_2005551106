@@ -136,7 +136,101 @@
 
 <script>
     $(document).ready(function() {
-        // Setup CSRF token for all AJAX requests
+        function nextEducation() {
+            const nextNav = document.getElementById('navs-justified-education');
+            const nextTab = document.getElementById('tab-justified-education');
+            const thisNav = document.getElementById('navs-justified-child');
+            const thisTab = document.getElementById('tab-justified-child');
+
+            thisNav.classList.remove('show', 'active');
+            nextNav.classList.add('show', 'active');
+            thisTab.classList.remove('active');
+            nextTab.classList.add('active');
+        }
+
+        function nextHealth() {
+            const nextNav = document.getElementById('navs-justified-health');
+            const nextTab = document.getElementById('tab-justified-health');
+            const thisNav = document.getElementById('navs-justified-education');
+            const thisTab = document.getElementById('tab-justified-education');
+
+            thisNav.classList.remove('show', 'active');
+            nextNav.classList.add('show', 'active');
+            thisTab.classList.remove('active');
+            nextTab.classList.add('active');
+        }
+
+        function nextAchievement() {
+            const nextNav = document.getElementById('navs-justified-achievement');
+            const nextTab = document.getElementById('tab-justified-achievement');
+            const thisNav = document.getElementById('navs-justified-health');
+            const thisTab = document.getElementById('tab-justified-health');
+
+            thisNav.classList.remove('show', 'active');
+            nextNav.classList.add('show', 'active');
+            thisTab.classList.remove('active');
+            nextTab.classList.add('active');
+        }
+
+        function prevHealth() {
+            const prevNav = document.getElementById('navs-justified-health');
+            const prevTab = document.getElementById('tab-justified-health');
+            const thisNav = document.getElementById('navs-justified-achievement');
+            const thisTab = document.getElementById('tab-justified-achievement');
+
+            thisNav.classList.remove('show', 'active');
+            prevNav.classList.add('show', 'active');
+            thisTab.classList.remove('active');
+            prevTab.classList.add('active');
+        }
+
+        function prevEducation() {
+            const prevNav = document.getElementById('navs-justified-education');
+            const prevTab = document.getElementById('tab-justified-education');
+            const thisNav = document.getElementById('navs-justified-health');
+            const thisTab = document.getElementById('tab-justified-health');
+
+            thisNav.classList.remove('show', 'active');
+            prevNav.classList.add('show', 'active');
+            thisTab.classList.remove('active');
+            prevTab.classList.add('active');
+        }
+
+        function prevChild() {
+            const prevNav = document.getElementById('navs-justified-child');
+            const prevTab = document.getElementById('tab-justified-child');
+            const thisNav = document.getElementById('navs-justified-education');
+            const thisTab = document.getElementById('tab-justified-education');
+
+            thisNav.classList.remove('show', 'active');
+            prevNav.classList.add('show', 'active');
+            thisTab.classList.remove('active');
+            prevTab.classList.add('active');
+        }
+
+        $('#btnNextEducation').on('click', function() {
+            nextEducation();
+        });
+        $('#btnNextHealth').on('click', function() {
+            nextHealth();
+        });
+        $('#btnNextAchievement').on('click', function() {
+            nextAchievement();
+        });
+        $('#btnPrevHealth').on('click', function() {
+            prevHealth();
+        });
+        $('#btnPrevEducation').on('click', function() {
+            prevEducation();
+        });
+        $('#btnPrevChild').on('click', function() {
+            prevChild();
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
