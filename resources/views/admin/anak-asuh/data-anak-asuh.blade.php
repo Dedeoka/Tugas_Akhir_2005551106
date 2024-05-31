@@ -995,16 +995,17 @@
                             <div class="modal-header">
                                 <ul class="nav nav-pills nav-fill w-100" role="tablist">
                                     <li class="nav-item">
-                                        <button type="button" id="tab-justified-child" class="nav-link active"
-                                            role="tab" data-bs-toggle="tab" data-bs-target="#navs-justified-child"
-                                            aria-controls="navs-justified-child" aria-selected="true" disabled>
+                                        <button type="button" id="tab-justified-child{{ $data->id }}"
+                                            class="nav-link active" role="tab" data-bs-toggle="tab"
+                                            data-bs-target="#navs-justified-child" aria-controls="navs-justified-child"
+                                            aria-selected="true" disabled>
                                             <span class="d-none d-sm-block">
                                                 Data Anak Asuh</span>
                                         </button>
                                     </li>
                                     <li class="nav-item">
-                                        <button type="button" id="tab-justified-education" class="nav-link"
-                                            role="tab" data-bs-toggle="tab"
+                                        <button type="button" id="tab-justified-education{{ $data->id }}"
+                                            class="nav-link" role="tab" data-bs-toggle="tab"
                                             data-bs-target="#navs-justified-education"
                                             aria-controls="navs-justified-education" aria-selected="false" disabled>
                                             <span class="d-none d-sm-block">
@@ -1012,16 +1013,17 @@
                                         </button>
                                     </li>
                                     <li class="nav-item">
-                                        <button type="button" id="tab-justified-health" class="nav-link" role="tab"
-                                            data-bs-toggle="tab" data-bs-target="#navs-justified-health"
-                                            aria-controls="navs-justified-health" aria-selected="false" disabled>
+                                        <button type="button" id="tab-justified-health{{ $data->id }}"
+                                            class="nav-link" role="tab" data-bs-toggle="tab"
+                                            data-bs-target="#navs-justified-health" aria-controls="navs-justified-health"
+                                            aria-selected="false" disabled>
                                             <span class="d-none d-sm-block">
                                                 Riwayat Kesehatan</span>
                                         </button>
                                     </li>
                                     <li class="nav-item">
-                                        <button type="button" id="tab-justified-achievement" class="nav-link"
-                                            role="tab" data-bs-toggle="tab"
+                                        <button type="button" id="tab-justified-achievement{{ $data->id }}"
+                                            class="nav-link" role="tab" data-bs-toggle="tab"
                                             data-bs-target="#navs-justified-achievement"
                                             aria-controls="navs-justified-achievement" aria-selected="false" disabled>
                                             <span class="d-none d-sm-block">
@@ -1033,7 +1035,8 @@
                             <div class="modal-body">
                                 <div class="nav-align-top mb-4">
                                     <div class="tab-content">
-                                        <div class="tab-pane fade show active" id="navs-justified-child" role="tabpanel">
+                                        <div class="tab-pane fade show active"
+                                            id="navs-justified-child{{ $data->id }}" role="tabpanel">
                                             <div class="d-flex justify-content-between pb-2 mb-4 border-bottom">
                                                 <div class="">
                                                 </div>
@@ -1247,19 +1250,22 @@
                                                     @endforeach
                                                 </div>
                                             </div>
-                                            <button type="button" id="btnNextEducation"
-                                                class="btn btn-primary mb-2 d-grid w-100">Berikutnya</button>
+                                            <button type="button" data-id="{{ $data->id }}"
+                                                class="btn btn-primary mb-2 d-grid w-100 btnNextEducation">Berikutnya</button>
                                             <button type="button" class="btn btn-outline-secondary d-grid w-100"
                                                 data-bs-dismiss="modal" aria-label="Close">Close</button>
                                         </div>
-                                        <div class="tab-pane fade" id="navs-justified-education" role="tabpanel">
+                                        <div class="tab-pane fade" id="navs-justified-education{{ $data->id }}"
+                                            role="tabpanel">
                                             <div class="pb-3 mb-4">
                                                 <h5 class="border-bottom text-center pb-3 fw-bold">
                                                     Riwayat Data Pendidikan Anak
                                                 </h5>
                                                 @foreach ($data->childEducations as $educations)
                                                     <div class="px-3 py-2 border-bottom mb-3">
-                                                        <h5 class="fw-bold">{{ $educations->education_level }}</h5>
+                                                        <h5 class="fw-bold">{{ $educations->education_level }}
+                                                            ({{ $educations->class }})
+                                                        </h5>
                                                         <div class="d-flex py-2">
                                                             <div class="w-25 d-flex">
                                                                 <div class="w-75">
@@ -1274,478 +1280,268 @@
                                                             </div>
                                                             <div class="w-25"></div>
                                                         </div>
+                                                        <div class="d-flex py-2">
+                                                            <div class="w-25 d-flex">
+                                                                <div class="w-75">
+                                                                    Periode
+                                                                </div>
+                                                                <div class="w-25">
+                                                                    :
+                                                                </div>
+                                                            </div>
+                                                            <div class="w-50">
+                                                                {{ \Carbon\Carbon::parse($educations->start_date)->translatedFormat('j F Y') }}
+                                                                -
+                                                                {{ \Carbon\Carbon::parse($educations->end_date)->translatedFormat('j F Y') }}
+                                                            </div>
+                                                            <div class="w-25"></div>
+                                                        </div>
+                                                        <div class="d-flex py-2">
+                                                            <div class="w-25 d-flex">
+                                                                <div class="w-75">
+                                                                    Status
+                                                                </div>
+                                                                <div class="w-25">
+                                                                    :
+                                                                </div>
+                                                            </div>
+                                                            <div class="w-50">
+                                                                @if ($educations->status == 'Aktif')
+                                                                    <button type="button"
+                                                                        class="btn rounded-pill btn-success"
+                                                                        style="width: 100px;">
+                                                                        Aktif</button>
+                                                                @elseif ($educations->status == 'Lulus')
+                                                                    <button type="button"
+                                                                        class="btn rounded-pill btn-primary"
+                                                                        style="width: 100px;">
+                                                                        Lulus</button>
+                                                                @else
+                                                                    <button type="button"
+                                                                        class="btn rounded-pill btn-danger"
+                                                                        style="width: 150px;">
+                                                                        Tidak Lulus</button>
+                                                                @endif
+                                                            </div>
+                                                            <div class="w-25"></div>
+                                                        </div>
+                                                        @if ($educations->childAcademicAchievements->isNotEmpty())
+                                                            <h5 class="fw-bold mt-3 mb-1">Prestasi</h5>
+                                                        @else
+                                                        @endif
                                                         @forelse ($educations->childAcademicAchievements as $achievements)
                                                             <div class="d-flex py-2">
                                                                 <div class="w-25 d-flex">
                                                                     <div class="w-75">
-                                                                        Alamat Wali
+                                                                        {{ $loop->iteration + $initialNumber }}.
+                                                                        {{ $achievements->title }}
+                                                                    </div>
+                                                                    <div class="w-25">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="w-50">
+                                                                </div>
+                                                                <div class="w-25"></div>
+                                                            </div>
+                                                            <div class="px-3">
+                                                                <div class="d-flex py-1">
+                                                                    <div class="w-25 d-flex">
+                                                                        <div class="w-75">
+                                                                            Tingkat Perlombaan
+                                                                        </div>
+                                                                        <div class="w-25">
+                                                                            :
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="w-50">
+                                                                        {{ $achievements->competition_level }}
+                                                                    </div>
+                                                                    <div class="w-25"></div>
+                                                                </div>
+                                                                <div class="d-flex py-1">
+                                                                    <div class="w-25 d-flex">
+                                                                        <div class="w-75">
+                                                                            Tanggal Perlombaan
+                                                                        </div>
+                                                                        <div class="w-25">
+                                                                            :
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="w-50">
+                                                                        {{ $achievements->competition_date }}
+                                                                    </div>
+                                                                    <div class="w-25"></div>
+                                                                </div>
+                                                                <div class="d-flex py-1">
+                                                                    <div class="w-25 d-flex">
+                                                                        <div class="w-75">
+                                                                            Peringkat
+                                                                        </div>
+                                                                        <div class="w-25">
+                                                                            :
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="w-50">
+                                                                        {{ $achievements->ranking }}
+                                                                    </div>
+                                                                    <div class="w-25"></div>
+                                                                </div>
+                                                            </div>
+                                                        @empty
+                                                        @endforelse
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            <button type="button" data-id="{{ $data->id }}"
+                                                class="btn btn-primary mb-2 d-grid w-100 btnNextHealth">Berikutnya</button>
+                                            <button type="button" data-id="{{ $data->id }}"
+                                                class="btn btn-secondary mb-2 d-grid w-100 btnPrevChild">Sebelumnya</button>
+                                        </div>
+                                        <div class="tab-pane fade" id="navs-justified-health{{ $data->id }}"
+                                            role="tabpanel">
+                                            <div class="pb-3 mb-4">
+                                                <h5 class="border-bottom text-center pb-3 fw-bold">
+                                                    Riwayat Data Kesehatan Anak
+                                                </h5>
+                                                @foreach ($data->childHealths as $healths)
+                                                    <div class="px-3 py-2 border-bottom mb-3">
+                                                        <h5 class="fw-bold">{{ $healths->diseases->name }}
+                                                        </h5>
+                                                        <div class="d-flex py-2">
+                                                            <div class="w-25 d-flex">
+                                                                <div class="w-75">
+                                                                    Tanggal Sakit
+                                                                </div>
+                                                                <div class="w-25">
+                                                                    :
+                                                                </div>
+                                                            </div>
+                                                            <div class="w-50">
+                                                                {{ \Carbon\Carbon::parse($healths->date_of_illness)->translatedFormat('j F Y') }}
+                                                            </div>
+                                                            <div class="w-25"></div>
+                                                        </div>
+                                                        @if ($healths->status == 'Sedang Sakit')
+                                                            <div class="d-flex py-2">
+                                                                <div class="w-25 d-flex">
+                                                                    <div class="w-75">
+                                                                        Tanggal Sembuh
                                                                     </div>
                                                                     <div class="w-25">
                                                                         :
                                                                     </div>
                                                                 </div>
                                                                 <div class="w-50">
+                                                                    -
                                                                 </div>
-                                                                <div class="w-25">{{ $achievements->title }}</div>
+                                                                <div class="w-25"></div>
                                                             </div>
-                                                        @empty
-                                                        @endforelse
+                                                        @else
+                                                            ()
+                                                            <div class="d-flex py-2">
+                                                                <div class="w-25 d-flex">
+                                                                    <div class="w-75">
+                                                                        Tanggal Sembuh
+                                                                    </div>
+                                                                    <div class="w-25">
+                                                                        :
+                                                                    </div>
+                                                                </div>
+                                                                <div class="w-50">
+                                                                    {{ \Carbon\Carbon::parse($healths->recovery_date)->translatedFormat('j F Y') }}
+                                                                </div>
+                                                                <div class="w-25"></div>
+                                                            </div>
+                                                        @endif
                                                         <div class="d-flex py-2">
                                                             <div class="w-25 d-flex">
                                                                 <div class="w-75">
-                                                                    Nomor Telepon
+                                                                    Status
                                                                 </div>
                                                                 <div class="w-25">
                                                                     :
                                                                 </div>
                                                             </div>
                                                             <div class="w-50">
+                                                                @if ($educations->status == 'Sudah Sembuh')
+                                                                    <button type="button"
+                                                                        class="btn rounded-pill btn-success"
+                                                                        style="width: 100px;">
+                                                                        Sembuh</button>
+                                                                @else
+                                                                    <button type="button"
+                                                                        class="btn rounded-pill btn-danger"
+                                                                        style="width: 200px;">
+                                                                        Sedang Sakit</button>
+                                                                @endif
                                                             </div>
                                                             <div class="w-25"></div>
                                                         </div>
                                                     </div>
                                                 @endforeach
                                             </div>
-                                            <button type="button" id="btnNextHealth"
-                                                class="btn btn-primary mb-2 d-grid w-100">Berikutnya</button>
-                                            <button type="button" id="btnPrevChild"
-                                                class="btn btn-secondary mb-2 d-grid w-100">Sebelumnya</button>
+                                            <button type="button" data-id="{{ $data->id }}"
+                                                class="btn btn-primary mb-2 d-grid w-100 btnNextAchievement">Berikutnya</button>
+                                            <button type="button" data-id="{{ $data->id }}"
+                                                class="btn btn-secondary mb-2 d-grid w-100 btnPrevEducation">Sebelumnya</button>
                                         </div>
-                                        <div class="tab-pane fade" id="navs-justified-health" role="tabpanel">
-                                            <div class="d-flex justify-content-between pb-2 mb-4 border-bottom">
-                                                <div class="">
-                                                </div>
-                                                <div class="w-75 d-flex">
-                                                    <div class="w-50">
-                                                        <img src="{{ asset('storage/avatar/avatar-cowok1.jpeg') }}"
-                                                            alt="" class="mx-auto d-block"
-                                                            style="max-width: 100%; height: 100%;">
-                                                    </div>
-                                                    <div class="w-50">
-                                                        <ul class="list-group list-group-flush">
-                                                            <li class="list-group-item"><strong>Nama Anak</strong>:
-                                                                {{ $data->name }}</li>
-                                                            <li class="list-group-item"><strong>Jenis Kelamin</strong>:
-                                                                {{ $data->gender }}
-                                                            </li>
-                                                            @php
-                                                                // Tanggal lahir dari $data->childrens->date_of_birth
-                                                                $tanggal_lahir = $data->date_of_birth;
-
-                                                                // Ubah format tanggal lahir menjadi objek DateTime
-                                                                $tanggal_lahir_obj = new DateTime($tanggal_lahir);
-
-                                                                // Tanggal sekarang
-                                                                $tanggal_sekarang = new DateTime();
-
-                                                                // Hitung selisih tahun antara tanggal lahir dan tanggal sekarang
-                                                                $umur_tahun = $tanggal_lahir_obj->diff(
-                                                                    $tanggal_sekarang,
-                                                                )->y;
-                                                            @endphp
-                                                            <li class="list-group-item"><strong>Umur</strong>:
-                                                                {{ $umur_tahun }}
-                                                            </li>
-                                                            <li class="list-group-item"><strong>Tanggal Lahir</strong>:
-                                                                {{ $data->date_of_birth }}
-                                                            </li>
-                                                            <li class="list-group-item"><strong>Tempat Lahir</strong>:
-                                                                {{ $data->place_of_birth }}
-                                                            </li>
-                                                            <li class="list-group-item"><strong>Agama</strong>:
-                                                                {{ $data->religion }}
-                                                            </li>
-                                                            <li class="list-group-item"><strong>Penyakit Bawaan</strong>:
-                                                                {{ $data->congenital_disease }}
-                                                            </li>
-                                                            <li class="list-group-item"><strong>Status</strong>:
-                                                                @if ($data->status == 'Aktif')
-                                                                    <button type="button"
-                                                                        class="btn rounded-pill btn-success"
-                                                                        style="width: 100px;">
-                                                                        Aktif</button>
-                                                                @else
-                                                                    <button type="button"
-                                                                        class="btn rounded-pill btn-danger"
-                                                                        style="width: 100px;" data-bs-toggle="modal"
-                                                                        data-bs-target="#editModal{{ $data->id }}">
-                                                                        Non-Aktif</button>
-                                                                @endif
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class=""></div>
-                                            </div>
-                                            <div class="pb-3 border-bottom mb-4">
-                                                <div class="px-3">
-                                                    @foreach ($data->childDetails as $detail)
-                                                        <h5>Data Detail Anak</h5>
-                                                        <div class="d-flex py-2">
-                                                            <div class="w-25 d-flex">
-                                                                <div class="w-75">
-                                                                    Nama Ayah
-                                                                </div>
-                                                                <div class="w-25">
-                                                                    :
-                                                                </div>
-                                                            </div>
-                                                            <div class="w-50">
-                                                                {{ $detail->father_name }}
-                                                            </div>
-                                                            <div class="w-25"></div>
-                                                        </div>
-                                                        <div class="d-flex py-2">
-                                                            <div class="w-25 d-flex">
-                                                                <div class="w-75">
-                                                                    Nama Ibu
-                                                                </div>
-                                                                <div class="w-25">
-                                                                    :
-                                                                </div>
-                                                            </div>
-                                                            <div class="w-50">
-                                                                {{ $detail->mother_name }}
-                                                            </div>
-                                                            <div class="w-25"></div>
-                                                        </div>
-                                                        <div class="d-flex py-2">
-                                                            <div class="w-25 d-flex">
-                                                                <div class="w-75">
-                                                                    Nama Wali
-                                                                </div>
-                                                                <div class="w-25">
-                                                                    :
-                                                                </div>
-                                                            </div>
-                                                            <div class="w-50">
-                                                                {{ $detail->guardian_name }}
-                                                                ({{ $detail->guardian_relationship }})
-                                                            </div>
-                                                            <div class="w-25"></div>
-                                                        </div>
-                                                        <div class="d-flex py-2">
-                                                            <div class="w-25 d-flex">
-                                                                <div class="w-75">
-                                                                    Alamat Wali
-                                                                </div>
-                                                                <div class="w-25">
-                                                                    :
-                                                                </div>
-                                                            </div>
-                                                            <div class="w-50">
-                                                                {{ $detail->guardian_address }}
-                                                            </div>
-                                                            <div class="w-25"></div>
-                                                        </div>
-                                                        <div class="d-flex py-2">
-                                                            <div class="w-25 d-flex">
-                                                                <div class="w-75">
-                                                                    No Telepon Wali
-                                                                </div>
-                                                                <div class="w-25">
-                                                                    :
-                                                                </div>
-                                                            </div>
-                                                            <div class="w-50">
-                                                                {{ $detail->guardian_phone_number }}
-                                                            </div>
-                                                            <div class="w-25"></div>
-                                                        </div>
-                                                        <div class="d-flex py-2">
-                                                            <div class="w-25 d-flex">
-                                                                <div class="w-75">
-                                                                    Email Wali
-                                                                </div>
-                                                                <div class="w-25">
-                                                                    :
-                                                                </div>
-                                                            </div>
-                                                            <div class="w-50">
-                                                                {{ $detail->guardian_email }}
-                                                            </div>
-                                                            <div class="w-25"></div>
-                                                        </div>
-                                                        <div class="d-flex py-2">
-                                                            <div class="w-25 d-flex">
-                                                                <div class="w-75">
-                                                                    Kartu Pengenal Wali
-                                                                </div>
-                                                                <div class="w-25">
-                                                                    :
-                                                                </div>
-                                                            </div>
-                                                            <div class="w-50">
-                                                                {{ $detail->guardian_identity_card }}
-                                                            </div>
-                                                            <div class="w-25"></div>
-                                                        </div>
-                                                        <div class="d-flex py-2">
-                                                            <div class="w-25 d-flex">
-                                                                <div class="w-75">
-                                                                    Alasan Menitipkan
-                                                                </div>
-                                                                <div class="w-25">
-                                                                    :
-                                                                </div>
-                                                            </div>
-                                                            <div class="w-50">
-                                                                {{ $detail->reason_for_leaving }}
-                                                            </div>
-                                                            <div class="w-25"></div>
-                                                        </div>
-                                                        <div class="d-flex py-2">
-                                                            <div class="w-25 d-flex">
-                                                                <div class="w-75">
-                                                                    Akta Kelahiran
-                                                                </div>
-                                                                <div class="w-25">
-                                                                    :
-                                                                </div>
-                                                            </div>
-                                                            <div class="w-50">
-                                                                {{ $detail->birth_certificate }}
-                                                            </div>
-                                                            <div class="w-25"></div>
-                                                        </div>
-                                                        <div class="d-flex py-2">
-                                                            <div class="w-25 d-flex">
-                                                                <div class="w-75">
-                                                                    Kartu Keluarga
-                                                                </div>
-                                                                <div class="w-25">
-                                                                    :
-                                                                </div>
-                                                            </div>
-                                                            <div class="w-50">
-                                                                {{ $detail->family_card }}
-                                                            </div>
-                                                            <div class="w-25"></div>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                            <button type="button" id="btnNextAchievement"
-                                                class="btn btn-primary mb-2 d-grid w-100">Berikutnya</button>
-                                            <button type="button" id="btnPrevEducation"
-                                                class="btn btn-secondary mb-2 d-grid w-100">Sebelumnya</button>
-                                        </div>
-                                        <div class="tab-pane fade" id="navs-justified-achievement" role="tabpanel">
-                                            <div class="d-flex justify-content-between pb-2 mb-4 border-bottom">
-                                                <div class="">
-                                                </div>
-                                                <div class="w-75 d-flex">
-                                                    <div class="w-50">
-                                                        <img src="{{ asset('storage/avatar/avatar-cowok1.jpeg') }}"
-                                                            alt="" class="mx-auto d-block"
-                                                            style="max-width: 100%; height: 100%;">
-                                                    </div>
-                                                    <div class="w-50">
-                                                        <ul class="list-group list-group-flush">
-                                                            <li class="list-group-item"><strong>Nama Anak</strong>:
-                                                                {{ $data->name }}</li>
-                                                            <li class="list-group-item"><strong>Jenis Kelamin</strong>:
-                                                                {{ $data->gender }}
-                                                            </li>
-                                                            @php
-                                                                // Tanggal lahir dari $data->childrens->date_of_birth
-                                                                $tanggal_lahir = $data->date_of_birth;
-
-                                                                // Ubah format tanggal lahir menjadi objek DateTime
-                                                                $tanggal_lahir_obj = new DateTime($tanggal_lahir);
-
-                                                                // Tanggal sekarang
-                                                                $tanggal_sekarang = new DateTime();
-
-                                                                // Hitung selisih tahun antara tanggal lahir dan tanggal sekarang
-                                                                $umur_tahun = $tanggal_lahir_obj->diff(
-                                                                    $tanggal_sekarang,
-                                                                )->y;
-                                                            @endphp
-                                                            <li class="list-group-item"><strong>Umur</strong>:
-                                                                {{ $umur_tahun }}
-                                                            </li>
-                                                            <li class="list-group-item"><strong>Tanggal Lahir</strong>:
-                                                                {{ $data->date_of_birth }}
-                                                            </li>
-                                                            <li class="list-group-item"><strong>Tempat Lahir</strong>:
-                                                                {{ $data->place_of_birth }}
-                                                            </li>
-                                                            <li class="list-group-item"><strong>Agama</strong>:
-                                                                {{ $data->religion }}
-                                                            </li>
-                                                            <li class="list-group-item"><strong>Penyakit Bawaan</strong>:
-                                                                {{ $data->congenital_disease }}
-                                                            </li>
-                                                            <li class="list-group-item"><strong>Status</strong>:
-                                                                @if ($data->status == 'Aktif')
-                                                                    <button type="button"
-                                                                        class="btn rounded-pill btn-success"
-                                                                        style="width: 100px;">
-                                                                        Aktif</button>
-                                                                @else
-                                                                    <button type="button"
-                                                                        class="btn rounded-pill btn-danger"
-                                                                        style="width: 100px;" data-bs-toggle="modal"
-                                                                        data-bs-target="#editModal{{ $data->id }}">
-                                                                        Non-Aktif</button>
-                                                                @endif
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class=""></div>
-                                            </div>
+                                        <div class="tab-pane fade" id="navs-justified-achievement{{ $data->id }}"
+                                            role="tabpanel">
                                             <div class="pb-3 mb-4">
-                                                <div class="px-3">
-                                                    @foreach ($data->childDetails as $detail)
-                                                        <h5>Data Detail Anak</h5>
+                                                <h5 class="border-bottom text-center pb-3 fw-bold">
+                                                    Riwayat Data Prestasi Anak
+                                                </h5>
+                                                @foreach ($data->childAchievements as $achievements)
+                                                    <div class="px-3 py-2 border-bottom mb-3">
+                                                        <h5 class="fw-bold">{{ $achievements->title }}
+                                                        </h5>
                                                         <div class="d-flex py-2">
                                                             <div class="w-25 d-flex">
                                                                 <div class="w-75">
-                                                                    Nama Ayah
+                                                                    Tingkat Perlombaan
                                                                 </div>
                                                                 <div class="w-25">
                                                                     :
                                                                 </div>
                                                             </div>
                                                             <div class="w-50">
-                                                                {{ $detail->father_name }}
+                                                                {{ $achievements->competition_level }}
                                                             </div>
                                                             <div class="w-25"></div>
                                                         </div>
                                                         <div class="d-flex py-2">
                                                             <div class="w-25 d-flex">
                                                                 <div class="w-75">
-                                                                    Nama Ibu
+                                                                    Tanggal Perlombaan
                                                                 </div>
                                                                 <div class="w-25">
                                                                     :
                                                                 </div>
                                                             </div>
                                                             <div class="w-50">
-                                                                {{ $detail->mother_name }}
+                                                                {{ \Carbon\Carbon::parse($achievements->competition_date)->translatedFormat('j F Y') }}
                                                             </div>
                                                             <div class="w-25"></div>
                                                         </div>
                                                         <div class="d-flex py-2">
                                                             <div class="w-25 d-flex">
                                                                 <div class="w-75">
-                                                                    Nama Wali
+                                                                    Peringkat
                                                                 </div>
                                                                 <div class="w-25">
                                                                     :
                                                                 </div>
                                                             </div>
                                                             <div class="w-50">
-                                                                {{ $detail->guardian_name }}
-                                                                ({{ $detail->guardian_relationship }})
+                                                                {{ $achievements->ranking }}
                                                             </div>
                                                             <div class="w-25"></div>
                                                         </div>
-                                                        <div class="d-flex py-2">
-                                                            <div class="w-25 d-flex">
-                                                                <div class="w-75">
-                                                                    Alamat Wali
-                                                                </div>
-                                                                <div class="w-25">
-                                                                    :
-                                                                </div>
-                                                            </div>
-                                                            <div class="w-50">
-                                                                {{ $detail->guardian_address }}
-                                                            </div>
-                                                            <div class="w-25"></div>
-                                                        </div>
-                                                        <div class="d-flex py-2">
-                                                            <div class="w-25 d-flex">
-                                                                <div class="w-75">
-                                                                    No Telepon Wali
-                                                                </div>
-                                                                <div class="w-25">
-                                                                    :
-                                                                </div>
-                                                            </div>
-                                                            <div class="w-50">
-                                                                {{ $detail->guardian_phone_number }}
-                                                            </div>
-                                                            <div class="w-25"></div>
-                                                        </div>
-                                                        <div class="d-flex py-2">
-                                                            <div class="w-25 d-flex">
-                                                                <div class="w-75">
-                                                                    Email Wali
-                                                                </div>
-                                                                <div class="w-25">
-                                                                    :
-                                                                </div>
-                                                            </div>
-                                                            <div class="w-50">
-                                                                {{ $detail->guardian_email }}
-                                                            </div>
-                                                            <div class="w-25"></div>
-                                                        </div>
-                                                        <div class="d-flex py-2">
-                                                            <div class="w-25 d-flex">
-                                                                <div class="w-75">
-                                                                    Kartu Pengenal Wali
-                                                                </div>
-                                                                <div class="w-25">
-                                                                    :
-                                                                </div>
-                                                            </div>
-                                                            <div class="w-50">
-                                                                {{ $detail->guardian_identity_card }}
-                                                            </div>
-                                                            <div class="w-25"></div>
-                                                        </div>
-                                                        <div class="d-flex py-2">
-                                                            <div class="w-25 d-flex">
-                                                                <div class="w-75">
-                                                                    Alasan Menitipkan
-                                                                </div>
-                                                                <div class="w-25">
-                                                                    :
-                                                                </div>
-                                                            </div>
-                                                            <div class="w-50">
-                                                                {{ $detail->reason_for_leaving }}
-                                                            </div>
-                                                            <div class="w-25"></div>
-                                                        </div>
-                                                        <div class="d-flex py-2">
-                                                            <div class="w-25 d-flex">
-                                                                <div class="w-75">
-                                                                    Akta Kelahiran
-                                                                </div>
-                                                                <div class="w-25">
-                                                                    :
-                                                                </div>
-                                                            </div>
-                                                            <div class="w-50">
-                                                                {{ $detail->birth_certificate }}
-                                                            </div>
-                                                            <div class="w-25"></div>
-                                                        </div>
-                                                        <div class="d-flex py-2">
-                                                            <div class="w-25 d-flex">
-                                                                <div class="w-75">
-                                                                    Kartu Keluarga
-                                                                </div>
-                                                                <div class="w-25">
-                                                                    :
-                                                                </div>
-                                                            </div>
-                                                            <div class="w-50">
-                                                                {{ $detail->family_card }}
-                                                            </div>
-                                                            <div class="w-25"></div>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
+                                                    </div>
+                                                @endforeach
                                             </div>
-                                            <button type="button" id="btnPrevHealth"
-                                                class="btn btn-primary mb-2 d-grid w-100">Sebelumnya</button>
+                                            <button type="button" data-id="{{ $data->id }}"
+                                                class="btn btn-primary mb-2 d-grid w-100 btnPrevHealth">Sebelumnya</button>
                                             <button type="button" class="btn btn-outline-secondary d-grid w-100"
                                                 data-bs-dismiss="modal" aria-label="Close">Cancel</button>
                                         </div>

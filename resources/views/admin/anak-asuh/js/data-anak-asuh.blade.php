@@ -136,11 +136,11 @@
 
 <script>
     $(document).ready(function() {
-        function nextEducation() {
-            const nextNav = document.getElementById('navs-justified-education');
-            const nextTab = document.getElementById('tab-justified-education');
-            const thisNav = document.getElementById('navs-justified-child');
-            const thisTab = document.getElementById('tab-justified-child');
+        function nextEducation(dataId) {
+            const nextNav = document.getElementById('navs-justified-education' + dataId);
+            const nextTab = document.getElementById('tab-justified-education' + dataId);
+            const thisNav = document.getElementById('navs-justified-child' + dataId);
+            const thisTab = document.getElementById('tab-justified-child' + dataId);
 
             thisNav.classList.remove('show', 'active');
             nextNav.classList.add('show', 'active');
@@ -148,11 +148,11 @@
             nextTab.classList.add('active');
         }
 
-        function nextHealth() {
-            const nextNav = document.getElementById('navs-justified-health');
-            const nextTab = document.getElementById('tab-justified-health');
-            const thisNav = document.getElementById('navs-justified-education');
-            const thisTab = document.getElementById('tab-justified-education');
+        function nextHealth(dataId) {
+            const nextNav = document.getElementById('navs-justified-health' + dataId);
+            const nextTab = document.getElementById('tab-justified-health' + dataId);
+            const thisNav = document.getElementById('navs-justified-education' + dataId);
+            const thisTab = document.getElementById('tab-justified-education' + dataId);
 
             thisNav.classList.remove('show', 'active');
             nextNav.classList.add('show', 'active');
@@ -160,11 +160,11 @@
             nextTab.classList.add('active');
         }
 
-        function nextAchievement() {
-            const nextNav = document.getElementById('navs-justified-achievement');
-            const nextTab = document.getElementById('tab-justified-achievement');
-            const thisNav = document.getElementById('navs-justified-health');
-            const thisTab = document.getElementById('tab-justified-health');
+        function nextAchievement(dataId) {
+            const nextNav = document.getElementById('navs-justified-achievement' + dataId);
+            const nextTab = document.getElementById('tab-justified-achievement' + dataId);
+            const thisNav = document.getElementById('navs-justified-health' + dataId);
+            const thisTab = document.getElementById('tab-justified-health' + dataId);
 
             thisNav.classList.remove('show', 'active');
             nextNav.classList.add('show', 'active');
@@ -172,11 +172,11 @@
             nextTab.classList.add('active');
         }
 
-        function prevHealth() {
-            const prevNav = document.getElementById('navs-justified-health');
-            const prevTab = document.getElementById('tab-justified-health');
-            const thisNav = document.getElementById('navs-justified-achievement');
-            const thisTab = document.getElementById('tab-justified-achievement');
+        function prevHealth(dataId) {
+            const prevNav = document.getElementById('navs-justified-health' + dataId);
+            const prevTab = document.getElementById('tab-justified-health' + dataId);
+            const thisNav = document.getElementById('navs-justified-achievement' + dataId);
+            const thisTab = document.getElementById('tab-justified-achievement' + dataId);
 
             thisNav.classList.remove('show', 'active');
             prevNav.classList.add('show', 'active');
@@ -184,11 +184,11 @@
             prevTab.classList.add('active');
         }
 
-        function prevEducation() {
-            const prevNav = document.getElementById('navs-justified-education');
-            const prevTab = document.getElementById('tab-justified-education');
-            const thisNav = document.getElementById('navs-justified-health');
-            const thisTab = document.getElementById('tab-justified-health');
+        function prevEducation(dataId) {
+            const prevNav = document.getElementById('navs-justified-education' + dataId);
+            const prevTab = document.getElementById('tab-justified-education' + dataId);
+            const thisNav = document.getElementById('navs-justified-health' + dataId);
+            const thisTab = document.getElementById('tab-justified-health' + dataId);
 
             thisNav.classList.remove('show', 'active');
             prevNav.classList.add('show', 'active');
@@ -196,11 +196,11 @@
             prevTab.classList.add('active');
         }
 
-        function prevChild() {
-            const prevNav = document.getElementById('navs-justified-child');
-            const prevTab = document.getElementById('tab-justified-child');
-            const thisNav = document.getElementById('navs-justified-education');
-            const thisTab = document.getElementById('tab-justified-education');
+        function prevChild(dataId) {
+            const prevNav = document.getElementById('navs-justified-child' + dataId);
+            const prevTab = document.getElementById('tab-justified-child' + dataId);
+            const thisNav = document.getElementById('navs-justified-education' + dataId);
+            const thisTab = document.getElementById('tab-justified-education' + dataId);
 
             thisNav.classList.remove('show', 'active');
             prevNav.classList.add('show', 'active');
@@ -208,23 +208,29 @@
             prevTab.classList.add('active');
         }
 
-        $('#btnNextEducation').on('click', function() {
-            nextEducation();
+        $('.btnNextEducation').on('click', function() {
+            var dataId = $(this).data('id');
+            nextEducation(dataId);
         });
-        $('#btnNextHealth').on('click', function() {
-            nextHealth();
+        $('.btnNextHealth').on('click', function() {
+            var dataId = $(this).data('id');
+            nextHealth(dataId);
         });
-        $('#btnNextAchievement').on('click', function() {
-            nextAchievement();
+        $('.btnNextAchievement').on('click', function() {
+            var dataId = $(this).data('id');
+            nextAchievement(dataId);
         });
-        $('#btnPrevHealth').on('click', function() {
-            prevHealth();
+        $('.btnPrevHealth').on('click', function() {
+            var dataId = $(this).data('id');
+            prevHealth(dataId);
         });
-        $('#btnPrevEducation').on('click', function() {
-            prevEducation();
+        $('.btnPrevEducation').on('click', function() {
+            var dataId = $(this).data('id');
+            prevEducation(dataId);
         });
-        $('#btnPrevChild').on('click', function() {
-            prevChild();
+        $('.btnPrevChild').on('click', function() {
+            var dataId = $(this).data('id');
+            prevChild(dataId);
         });
     });
 </script>

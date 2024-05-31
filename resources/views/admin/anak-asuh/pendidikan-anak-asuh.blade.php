@@ -333,7 +333,7 @@
                                                 style="width: 100px;">
                                                 Aktif</button>
                                         @elseif ($data->status == 'Lulus')
-                                            <button type="button" class="btn rounded-pill btn-warning"
+                                            <button type="button" class="btn rounded-pill btn-primary"
                                                 style="width: 100px;">
                                                 Lulus</button>
                                         @else
