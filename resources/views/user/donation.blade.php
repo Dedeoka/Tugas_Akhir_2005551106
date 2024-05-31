@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 @endsection
 @section('content')
-    <div class="hero-wrap" style="background-image: url('{{ asset('images/dharma-jati-2-donation.jpeg') }}');"
+    <div class="hero-wrap" style="background-image: url('{{ asset('images/dharma-jati-2-donation.png') }}');"
         data-stellar-background-ratio="0.5">
         <div class="overlay"></div>
         <div class="container">

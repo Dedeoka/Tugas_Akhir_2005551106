@@ -40,10 +40,6 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::get('/test', function () {
-    return view('user.landing-page');
-});
-
 // Route::get('/test2', function () {
 //     return view('user.donation');
 // });
@@ -100,6 +96,9 @@ Route::prefix('keuangan')->group(function () {
 });
 
 Route::prefix('panti-asuhan-dharma-jati-II')->group(function () {
+    Route::get('/', function () {
+        return view('user.landing-page');
+    })->name('user.landing-page');
     Route::get('donasi-uang', [DonasiController::class, 'index'])->name('user-donasi-uang.index');
     Route::post('donasi-uang', [DonasiController::class, 'store'])->name('user-donasi-uang.store');
     Route::post('berhasil-donasi', [DonasiController::class, 'success'])->name('user-donasi-uang.success');
