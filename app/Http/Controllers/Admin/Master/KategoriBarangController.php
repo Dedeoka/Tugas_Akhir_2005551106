@@ -52,6 +52,7 @@ class KategoriBarangController extends Controller
                 'name' => $request->name,
                 'capacity' => $request->capacity,
                 'unit' => $request->unit,
+                'stock' => $request->capacity,
             ];
             GoodsCategory::create($data);
 
@@ -98,6 +99,7 @@ class KategoriBarangController extends Controller
                 'name' => $request->name,
                 'capacity' => $request->capacity,
                 'unit' => $request->unit,
+                'stock' => $request->stock,
             ];
             GoodsCategory::where('id', $id)->update($data);
             return response()->json(['success' => "Berhasil melakukan update data"]);

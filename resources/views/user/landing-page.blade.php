@@ -28,7 +28,7 @@
                 <div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
                     <div class="block-18 color-2 align-items-stretch">
                         <div class="text">
-                            <h3 class="mb-4">Donasi Uang</h3>
+                            <h3 class="mb-4">Donasi Panti Asuhan</h3>
                             <p><b>Kita Bernilai </b>bukan karena apa yang kita miliki, tapi apa
                                 yang bisa kita berikan</p>
                             <p><a href="#" class="btn btn-white px-3 py-2 mt-2">Donasi Sekarang</a></p>
@@ -38,7 +38,7 @@
                 <div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
                     <div class="block-18 color-3 align-items-stretch">
                         <div class="text">
-                            <h3 class="mb-4">ProgramAcara Bersama Panti</h3>
+                            <h3 class="mb-4">Program Acara Bersama</h3>
                             <p>Membuat acara dan berbagi <b>kebahagiaan</b> di Panti Asuhan bersama dengan anak asuh</p>
                             <p><a href="#" class="btn btn-white px-3 py-2 mt-2">Buat Acara</a></p>
                         </div>

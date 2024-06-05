@@ -30,11 +30,8 @@
 
             @empty($donate)
                 <div class="row
-                    d-md-flex">
-                    <div class="col-md-6 d-flex ftco-animate">
-                        <div class="img img-2 align-self-stretch" style="background-image: url(images/bg_4.jpg);"></div>
-                    </div>
-                    <div class="col-md-6 donation pl-md-5 ftco-animate">
+                    ">
+                    <div class="col-md-12 donation pl-md-5 ftco-animate">
                         <h3 class="mb-3">Form Donasi</h3>
                         <form action="{{ route('user-donasi-uang.store') }}" id="donateForm" class="donation-form"
                             method="POST">

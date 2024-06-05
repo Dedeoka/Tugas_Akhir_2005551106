@@ -29,7 +29,10 @@
     <link rel="stylesheet" href="{{ asset('assets/landing-page/css/flaticon.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/landing-page/css/icomoon.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/landing-page/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/boxicons.css') }}" />
+
     @yield('head-script')
+    <script></script>
 </head>
 
 <body>
@@ -48,17 +51,7 @@
                     </li>
                     <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
                     <li class="nav-item"><a href="causes.html" class="nav-link">Causes</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDonate" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Donate
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDonate">
-                            <a class="dropdown-item" href="{{ route('user-donasi-uang.index') }}">Donate Online</a>
-                            <a class="dropdown-item" href="donate-items.html">Donate Items</a>
-                            <a class="dropdown-item" href="volunteer.html">Volunteer</a>
-                        </div>
-                    </li>
+                    <li class="nav-item"><a href="causes.html" class="nav-link">Donasi</a></li>
                     <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
                     <li class="nav-item"><a href="gallery.html" class="nav-link">Gallery</a></li>
                     <li class="nav-item"><a href="event.html" class="nav-link">Events</a></li>

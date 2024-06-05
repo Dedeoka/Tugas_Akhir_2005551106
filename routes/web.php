@@ -99,8 +99,9 @@ Route::prefix('panti-asuhan-dharma-jati-II')->group(function () {
     Route::get('/', function () {
         return view('user.landing-page');
     })->name('user.landing-page');
-    Route::get('donasi-uang', [DonasiController::class, 'index'])->name('user-donasi-uang.index');
-    Route::post('donasi-uang', [DonasiController::class, 'store'])->name('user-donasi-uang.store');
+    Route::get('donasi', [DonasiController::class, 'index'])->name('user-donasi-uang.index');
+    Route::post('donasi-uang', [DonasiController::class, 'storeMoney'])->name('user-donasi-uang.store');
+    Route::post('donasi-barang', [DonasiController::class, 'storeGoods'])->name('user-donasi-barang.store');
     Route::post('berhasil-donasi', [DonasiController::class, 'success'])->name('user-donasi-uang.success');
 });
 

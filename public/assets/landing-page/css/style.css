@@ -2522,7 +2522,7 @@ input[type="button"].btn-block {
   color: #212529;
   text-align: left;
   list-style: none;
-  background-color: #fff;
+  background-color: transparent !important;
   background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 0.25rem; }
@@ -8282,7 +8282,7 @@ textarea.form-control {
         border: 2px solid #000; }
 
 .ftco-animate {
-  opacity: 0;
+  opacity: 0.5;
   visibility: hidden; }
 
 .bg-primary {

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('capacity');
+            $table->integer('stock');
             $table->string('unit');
             $table->timestamps();
         });

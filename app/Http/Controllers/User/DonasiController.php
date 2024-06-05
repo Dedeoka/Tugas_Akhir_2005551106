@@ -6,11 +6,23 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\DonateMoney;
+use App\Models\GoodsCategory;
+use App\Models\DonateGoods;
+use App\Models\DonateGoodsDetail;
 
 class DonasiController extends Controller
 {
     public function index(Request $request){
+        $goods = GoodsCategory::get();
+        foreach ($goods as $good) {
+        if ($good->stock === 0) {
+            $good->percentage_available = 0;
+        } else {
+            $good->percentage_available = round((($good->capacity - $good->stock) / $good->capacity) * 100, 2);
+        }
+    }
         $donate = session('donate');
+        // dd($goods);
         // dd($donate);
         if ($donate) {
             $createdAt = $donate->created_at;
@@ -19,16 +31,17 @@ class DonasiController extends Controller
 
             if ($differenceInMinutes > 15) {
                 $request->session()->forget('donate');
-                return view('user.donasi-uang');
+                return view('user.donasi.donasi-uang', compact('goods'));
             }
 
-            return view('user.donasi.donasi-uang', compact('donate'));
+            return view('user.donasi.donasi-uang', compact('donate', 'goods'));
         } else {
-            return view('user.donasi.donasi-uang');
+            return view('user.donasi.donasi-uang', compact('goods'));
         }
+
     }
 
-    public function store(Request $request){
+    public function storeMoney(Request $request){
         $validasi = Validator::make($request->all(), [
             'name' => 'required',
             'address' => 'required',
@@ -97,5 +110,54 @@ class DonasiController extends Controller
         $donasi->save();
         $request->session()->forget('donate');
         return redirect()->route('user-donasi-uang.index', ['success' => $success]);
+    }
+
+    public function storeGoods(Request $request){
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'phone_number' => 'required|string|max:15',
+            'email' => 'required|email|max:255',
+            'description' => 'nullable|string',
+            'date' => 'required|date',
+            'goods' => 'required|array',
+            'goods.*' => 'exists:goods_categories,id', // Pastikan goods ID valid
+            'quantities' => 'required|array',
+            'quantities.*' => 'integer', // Pastikan jumlah valid
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        // Buat data donasi utama
+        $donation = DonateGoods::create([
+            'name' => $request->name,
+            'address' => $request->address,
+            'phone_number' => $request->phone_number,
+            'email' => $request->email,
+            'description' => $request->description,
+            'date' => $request->date,
+            'status' => 'Pending'
+        ]);
+
+        // Simpan detail barang yang didonasikan
+        foreach ($request->goods as $index => $goodId) {
+            $quantity = $request->quantities[$index];
+
+            DonateGoodsDetail::create([
+                'donate_goods_id' => $donation->id,
+                'goods_category_id' => $goodId,
+                'quantity' => $quantity,
+                'description' => $request->description,
+            ]);
+        }
+
+
+        // Redirect atau respon sesuai kebutuhan
+        return redirect()->back()->with('success', 'Donasi berhasil disimpan!');
     }
 }
