@@ -145,57 +145,143 @@
                             method="POST">
                             @csrf
                             <div class="form-group">
-                                <input name="name" type="text" class="form-control" placeholder="Nama ...">
+                                <input name="name" type="text" class="form-control" placeholder="Nama ..."
+                                    value="{{ old('name') }}">
+                                @error('name')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="form-group">
-                                <input name="address" type="text" class="form-control" placeholder="Alamat ...">
+                                <input name="address" type="text" class="form-control" placeholder="Alamat ..."
+                                    value="{{ old('address') }}">
+                                @error('address')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <input id="phone" type="tel" name="phone_number" class="form-control"
-                                    placeholder="Nomer Telepon ..." />
+                                    placeholder="Nomer Telepon ..." value="{{ old('phone_number') }}">
+                                @error('phone_number')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="form-group">
-                                <input name="email" type="text" class="form-control" placeholder="Email ...">
+                                <input name="email" type="text" class="form-control" placeholder="Email ..."
+                                    value="{{ old('email') }}">
+                                @error('email')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="form-label fw-bold fs-5" style="color: black">Tanggal Donasi Ke Panti</label>
-                                <input type="date" name="date" class="form-control">
+                                <input type="date" name="date" class="form-control" value="{{ old('date') }}">
+                                @error('date')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="form-group">
-                                <textarea name="description" cols="30" rows="3" class="form-control" placeholder="Pesan ..."></textarea>
+                                <textarea name="description" cols="30" rows="3" class="form-control" placeholder="Pesan ...">{{ old('description') }}</textarea>
+                                @error('description')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="good-form my-3">
                                 <div class="item-donasi">
-                                    <div id="template-donasi">
-                                        <div class="row my-2">
-                                            <div class="col-md-8">
-                                                <select name="goods[]" class="form-select form-select-lg w-100 h-100"
-                                                    aria-label=".form-select-lg example" style="border: 2px solid black">
-                                                    <option value="" hidden>Pilih Barang Yang Ingin diDonasikan</option>
-                                                    @foreach ($goods as $good)
-                                                        <option value="{{ $good->id }}"
-                                                            data-percentage="{{ $good->percentage_available }}">
-                                                            {{ $good->name }}
+                                    @if (old('goods'))
+                                        @foreach (old('goods') as $index => $goodId)
+                                            <div id="template-donasi">
+                                                <div class="row my-2">
+                                                    <div class="col-md-8">
+                                                        <select name="goods[]"
+                                                            class="form-select form-select-lg w-100 h-100 goods-select"
+                                                            aria-label=".form-select-lg example"
+                                                            style="border: 2px solid black">
+                                                            <option value="" hidden>Pilih Barang Yang Ingin diDonasikan
+                                                            </option>
+                                                            @foreach ($goods as $good)
+                                                                <option value="{{ $good->id }}"
+                                                                    data-percentage="{{ $good->percentage_available }}"
+                                                                    data-stock="{{ $good->stock }}"
+                                                                    data-capacity="{{ $good->capacity }}"
+                                                                    {{ $good->id == $goodId ? 'selected' : '' }}>
+                                                                    {{ $good->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('goods.' . $index)
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input name="quantities[]" type="number" class="form-control"
+                                                            placeholder="Jumlah ..."
+                                                            value="{{ old('quantities.' . $index) }}">
+                                                        @error('quantities.' . $index)
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <button type="button"
+                                                            class="delete-product-button btn btn-sm btn-danger w-100 h-100"
+                                                            style="border-radius: 10px"><i
+                                                                class="bx bx-trash me-1"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="capacity-status">
+                                                    <div class="text-center"
+                                                        style="width: 20%; color:black; background:#f86f2d; border-radius:5px">
+                                                        Jumlah Tersisa</div>
+                                                </div>
+                                                <p class="text-center stock-text">
+                                                    Sisa Stock: -
+                                                </p>
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        <div id="template-donasi">
+                                            <div class="row my-2">
+                                                <div class="col-md-8">
+                                                    <select name="goods[]"
+                                                        class="form-select form-select-lg w-100 h-100 goods-select"
+                                                        aria-label=".form-select-lg example" style="border: 2px solid black">
+                                                        <option value="" hidden>Pilih Barang Yang Ingin diDonasikan
                                                         </option>
-                                                    @endforeach
-                                                </select>
+                                                        @foreach ($goods as $good)
+                                                            <option value="{{ $good->id }}"
+                                                                data-percentage="{{ $good->percentage_available }}"
+                                                                data-stock="{{ $good->stock }}"
+                                                                data-capacity="{{ $good->capacity }}">
+                                                                {{ $good->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    @error('goods.*')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <input name="quantities[]" type="number" class="form-control"
+                                                        placeholder="Jumlah ...">
+                                                    @error('quantities.*')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <button type="button"
+                                                        class="delete-product-button btn btn-sm btn-danger w-100 h-100"
+                                                        style="border-radius: 10px"><i class="bx bx-trash me-1"></i></button>
+                                                </div>
                                             </div>
-                                            <div class="col-md-2">
-                                                <input name="quantities[]" type="number" class="form-control"
-                                                    placeholder="Jumlah ...">
+                                            <div class="capacity-status">
+                                                <div class="text-center"
+                                                    style="width: 20%; color:black; background:#f86f2d; border-radius:5px">
+                                                    Jumlah Tersisa</div>
                                             </div>
-                                            <div class="col-md-2">
-                                                <button type="button"
-                                                    class="delete-product-button btn btn-sm btn-danger w-100 h-100"
-                                                    style="border-radius: 10px"><i class="bx bx-trash me-1"></i> </button>
-                                            </div>
+                                            <p class="text-center stock-text">
+                                                Sisa Stock: -
+                                            </p>
                                         </div>
-                                        <div class="capacity-status">
-                                            <div class="text-center"
-                                                style="width: 20%; color:black; background:#f86f2d; border-radius:5px">Jumlah
-                                                Tersisa</div>
-                                        </div>
-                                    </div>
+                                    @endif
                                 </div>
                                 <div class="my-3">
                                     <button id="tambah-donasi-barang" class="good-donation-add col-md-12"
@@ -206,15 +292,14 @@
                                 <button type="submit" class="w-100 py-3 px-5 donasi-btn">DONASI</button>
                             </div>
                         </form>
-
                     </div>
                 </div>
                 <div class="row
                     d-md-flex form-donation none" id="scholarshipDonationForm">
                     <div class="col-md-12 donation pl-md-5">
                         <h3 class="mb-3">Form Donasi Beasiswa</h3>
-                        <form action="{{ route('user-donasi-uang.store') }}" id="donateFormScholarship" class="donation-form"
-                            method="POST">
+                        <form action="{{ route('user-donasi-uang.store') }}" id="donateFormScholarship"
+                            class="donation-form" method="POST">
                             @csrf
                             <div class="form-group">
                                 <input name="name" type="text" class="form-control" placeholder="Nama ...">
@@ -355,52 +440,92 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Function to update the capacity status width based on selected option
+            var selectedGoods = [];
+
             function updateCapacityStatus(selectElement) {
                 var selectedOption = selectElement.options[selectElement.selectedIndex];
                 var percentage = selectedOption.getAttribute('data-percentage');
                 var capacityStatus = selectElement.closest('.row').nextElementSibling.querySelector(
                     '.capacity-status .text-center');
                 capacityStatus.style.width = percentage + '%';
-                capacityStatus.textContent = percentage + '% available';
+                capacityStatus.textContent = percentage + '% Terkumpul';
             }
 
-            // Add event listener to existing select elements
-            document.querySelectorAll('select').forEach(function(selectElement) {
-                selectElement.addEventListener('change', function() {
-                    updateCapacityStatus(selectElement);
+            function updateStockInfo(selectElement) {
+                const selectedOption = selectElement.options[selectElement.selectedIndex];
+                const stock = selectedOption.getAttribute('data-stock');
+                const capacity = selectedOption.getAttribute('data-capacity');
+
+                const stockTextElement = selectElement.closest('.donasi-item').querySelector('.stock-text');
+                stockTextElement.textContent = `Sisa Stock: ${stock}/${capacity}`;
+            }
+
+            function updateSelectOptions() {
+                document.querySelectorAll('.goods-select').forEach(function(selectElement) {
+                    var currentValue = selectElement.value;
+                    selectElement.querySelectorAll('option').forEach(function(option) {
+                        if (selectedGoods.includes(option.value) && option.value !== currentValue) {
+                            option.style.display = 'none';
+                        } else {
+                            option.style.display = 'block';
+                        }
+                    });
                 });
+            }
+
+            function handleSelectChange(event) {
+                var selectElement = event.target;
+                var selectedOptionValue = selectElement.value;
+
+                // Remove the previously selected value from the array
+                selectedGoods = selectedGoods.filter(value => value !== selectElement.previousValue);
+
+                // Add the currently selected value to the array
+                if (selectedOptionValue) {
+                    selectedGoods.push(selectedOptionValue);
+                }
+
+                selectElement.previousValue = selectedOptionValue;
+
+                updateCapacityStatus(selectElement);
+                updateStockInfo(selectElement);
+                updateSelectOptions();
+            }
+
+            document.querySelectorAll('.goods-select').forEach(function(selectElement) {
+                selectElement.previousValue = selectElement.value;
+                selectElement.addEventListener('change', handleSelectChange);
             });
 
-            // Add new form with event listener
             document.getElementById('tambah-donasi-barang').addEventListener('click', function() {
-                // Clone the template form
-                var template = document.getElementById('template-donasi');
-                var clone = template.cloneNode(true);
+                var template = document.getElementById('template-donasi').cloneNode(true);
+                template.classList.add('donasi-item');
 
-                // Clear the values in the cloned form
-                var inputs = clone.querySelectorAll('input');
+                var inputs = template.querySelectorAll('input');
                 inputs.forEach(function(input) {
                     input.value = '';
                 });
 
-                var selects = clone.querySelectorAll('select');
+                var selects = template.querySelectorAll('select');
                 selects.forEach(function(select) {
-                    select.selectedIndex = 0; // Reset to default option
-                    select.addEventListener('change', function() {
-                        updateCapacityStatus(select);
-                    });
+                    select.selectedIndex = 0;
+                    select.previousValue = '';
+                    select.addEventListener('change', handleSelectChange);
                 });
 
-                // Add an event listener to the delete button in the cloned form
-                var deleteButton = clone.querySelector('.delete-product-button');
+                var deleteButton = template.querySelector('.delete-product-button');
                 deleteButton.addEventListener('click', function() {
-                    clone.remove();
+                    var selectElement = template.querySelector('select');
+                    selectedGoods = selectedGoods.filter(value => value !== selectElement.value);
+                    template.remove();
+                    updateSelectOptions();
                 });
 
-                // Append the cloned form to the container
-                document.querySelector('.item-donasi').appendChild(clone);
+                document.querySelector('.item-donasi').appendChild(template);
+                updateSelectOptions();
             });
+
+            updateSelectOptions();
         });
     </script>
 @endsection

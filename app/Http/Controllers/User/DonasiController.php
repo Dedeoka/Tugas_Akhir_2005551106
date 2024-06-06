@@ -16,7 +16,7 @@ class DonasiController extends Controller
         $goods = GoodsCategory::get();
         foreach ($goods as $good) {
         if ($good->stock === 0) {
-            $good->percentage_available = 0;
+            $good->percentage_available = 100;
         } else {
             $good->percentage_available = round((($good->capacity - $good->stock) / $good->capacity) * 100, 2);
         }
@@ -112,7 +112,8 @@ class DonasiController extends Controller
         return redirect()->route('user-donasi-uang.index', ['success' => $success]);
     }
 
-    public function storeGoods(Request $request){
+    public function storeGoods(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
@@ -121,19 +122,29 @@ class DonasiController extends Controller
             'description' => 'nullable|string',
             'date' => 'required|date',
             'goods' => 'required|array',
-            'goods.*' => 'exists:goods_categories,id', // Pastikan goods ID valid
-            'quantities' => 'required|array',
-            'quantities.*' => 'integer', // Pastikan jumlah valid
+            'goods.*' => 'exists:goods_categories,id',
+            'quantities' => [
+                'required',
+                'array',
+                function ($attribute, $value, $fail) use ($request) {
+                    foreach ($request->goods as $index => $goodId) {
+                        $goods = GoodsCategory::find($goodId);
+                        if ($goods && $request->quantities[$index] > $goods->stock) {
+                            $fail("{$goods->name} Melebihi Stock Yang Dapat Ditampung");
+                        }
+                    }
+                },
+            ],
+            'quantities.*' => 'integer',
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => $validator->errors()
-            ], 422);
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput(); // Mempertahankan input sebelumnya
         }
 
-        // Buat data donasi utama
         $donation = DonateGoods::create([
             'name' => $request->name,
             'address' => $request->address,
@@ -144,7 +155,6 @@ class DonasiController extends Controller
             'status' => 'Pending'
         ]);
 
-        // Simpan detail barang yang didonasikan
         foreach ($request->goods as $index => $goodId) {
             $quantity = $request->quantities[$index];
 
@@ -154,10 +164,14 @@ class DonasiController extends Controller
                 'quantity' => $quantity,
                 'description' => $request->description,
             ]);
+
+            $goods = GoodsCategory::find($goodId);
+            if ($goods) {
+                $goods->stock -= $quantity;
+                $goods->save();
+            }
         }
 
-
-        // Redirect atau respon sesuai kebutuhan
         return redirect()->back()->with('success', 'Donasi berhasil disimpan!');
     }
 }
