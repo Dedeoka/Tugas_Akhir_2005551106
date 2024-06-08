@@ -62,47 +62,53 @@
 
     <section class="ftco-section">
         <div class="container">
-            @isset($donate)
-                <form id="payment-form" action="{{ route('user-donasi-uang.success') }}" method="POST" hidden>
-                    @csrf
-                </form>
-                <div class="col-md-12 text-center">
-                    <button class="donasi-btn donasi-text" id="pay-button">
-                        Bayar Donasi Sekarang
-                    </button>
+            <div class="row justify-content-center mb-5 pb-3">
+                <div class="col-md-5 heading-section text-center">
+                    <h2 class="mb-4">Donasi Kepada Panti Asuhan</h2>
+                    <p>Tunjukan kebaikan hati anda dengan memberikan donasi untuk mendukung anak-anak di Panti Asuhan Dharma
+                        Jati II</p>
                 </div>
-            @endisset
-
-            @empty($donate)
-                <div class="row justify-content-center mb-5 pb-3">
-                    <div class="col-md-5 heading-section text-center">
-                        <h2 class="mb-4">Donasi Kepada Panti Asuhan</h2>
-                        <p>Tunjukan kebaikan hati anda dengan memberikan donasi untuk mendukung anak-anak di Panti Asuhan Dharma
-                            Jati II</p>
-                    </div>
+            </div>
+            <div class="row justify-content-center mb-5 pb-3 d-md text-center">
+                <div class="col-md-4">
+                    <p class="breadcrumbs "><span class="mr-2"><a href="#" class="donation-selection selected"
+                                id="moneyDonation">Donasi
+                                Uang</a></span>
+                    </p>
                 </div>
-                <div class="row justify-content-center mb-5 pb-3 d-md text-center">
-                    <div class="col-md-4">
-                        <p class="breadcrumbs "><span class="mr-2"><a href="#" class="donation-selection selected"
-                                    id="moneyDonation">Donasi
-                                    Uang</a></span>
-                        </p>
-                    </div>
-                    <div class="col-md-4">
-                        <p class="breadcrumbs"><span class="mr-2"><a href="#" class="donation-selection"
-                                    id="goodDonation">Donasi
-                                    Barang</a></span></p>
-                    </div>
-                    <div class="col-md-4">
-                        <p class="breadcrumbs"><span class="mr-2"><a href="#" class="donation-selection"
-                                    id="scholarshipDonation">Donasi
-                                    Beasiswa</a></span></p>
-                    </div>
+                <div class="col-md-4">
+                    <p class="breadcrumbs"><span class="mr-2"><a href="#" class="donation-selection"
+                                id="goodDonation">Donasi
+                                Barang</a></span></p>
                 </div>
-                <div class="row
+                <div class="col-md-4">
+                    <p class="breadcrumbs"><span class="mr-2"><a href="#" class="donation-selection"
+                                id="scholarshipDonation">Donasi
+                                Beasiswa</a></span></p>
+                </div>
+            </div>
+            <div class="row
                     d-md-flex form-donation" id="moneyDonationForm">
-                    <div class="col-md-12 donation pl-md-5">
-                        <h3 class="mb-3">Form Donasi Uang</h3>
+                <div class="col-md-12 donation pl-md-5">
+                    <h3 class="mb-3">Form Donasi Uang</h3>
+                    <p>Pengisian form di bawah dilakukan untuk melakukan donasi uang secara online, uang yang didonasikan
+                        akan digunakan untuk pengoprasian Panti Asuhan Dharma Jati II. <br> <span class="text-danger">
+                            *Lakukan pengisian form dengan
+                            data
+                            yang benar agar tidak terjadi miss
+                            informasi
+                        </span></p>
+                    @isset($donate)
+                        <form id="payment-form" action="{{ route('user-donasi-uang.success') }}" method="POST" hidden>
+                            @csrf
+                        </form>
+                        <div class="col-md-12 text-center">
+                            <button class="donasi-btn donasi-text" id="pay-button">
+                                Bayar Donasi Sekarang
+                            </button>
+                        </div>
+                    @endisset
+                    @empty($donate)
                         <form action="{{ route('user-donasi-uang.store') }}" id="donateForm" class="donation-form"
                             method="POST">
                             @csrf
@@ -135,136 +141,105 @@
                                 </button>
                             </div>
                         </form>
-                    </div>
+                    @endempty
                 </div>
-                <div class="row d-md-flex form-donation none" id="goodDonationForm">
-                    <div class="col-md-12 donation pl-md-5">
-                        <h3 class="mb-3">Form Donasi Barang</h3>
-                        <form action="{{ route('user-donasi-barang.store') }}" id="donateFormGoods" class="donation-form"
-                            method="POST">
-                            @csrf
-                            <div class="form-group">
-                                <input name="name" type="text" class="form-control" placeholder="Nama ..."
-                                    value="{{ old('name') }}">
-                                @error('name')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <input name="address" type="text" class="form-control" placeholder="Alamat ..."
-                                    value="{{ old('address') }}">
-                                @error('address')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <input id="phone" type="tel" name="phone_number" class="form-control"
-                                    placeholder="Nomer Telepon ..." value="{{ old('phone_number') }}">
-                                @error('phone_number')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <input name="email" type="text" class="form-control" placeholder="Email ..."
-                                    value="{{ old('email') }}">
-                                @error('email')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="form-label fw-bold fs-5" style="color: black">Tanggal Donasi Ke Panti</label>
-                                <input type="date" name="date" class="form-control" value="{{ old('date') }}">
-                                @error('date')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <textarea name="description" cols="30" rows="3" class="form-control" placeholder="Pesan ...">{{ old('description') }}</textarea>
-                                @error('description')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="good-form my-3">
-                                <div class="item-donasi">
-                                    @if (old('goods'))
-                                        @foreach (old('goods') as $index => $goodId)
-                                            <div class="donasi-item">
-                                                <div class="row my-2">
-                                                    <div class="col-md-8">
-                                                        <select name="goods[]"
-                                                            class="form-select form-select-lg w-100 h-100 goods-select"
-                                                            aria-label=".form-select-lg example"
-                                                            style="border: 2px solid black">
-                                                            <option value="" hidden>Pilih Barang Yang Ingin diDonasikan
-                                                            </option>
-                                                            @foreach ($goods as $good)
-                                                                <option value="{{ $good->id }}"
-                                                                    data-percentage="{{ $good->percentage_available }}"
-                                                                    data-stock="{{ $good->stock }}"
-                                                                    data-capacity="{{ $good->capacity }}"
-                                                                    {{ $good->id == $goodId ? 'selected' : '' }}>
-                                                                    {{ $good->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <input name="quantities[]" type="number" class="form-control"
-                                                            placeholder="Jumlah ..."
-                                                            value="{{ old('quantities.' . $index) }}">
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <button type="button"
-                                                            class="delete-product-button btn btn-sm btn-danger w-100 h-100"
-                                                            style="border-radius: 10px"><i
-                                                                class="bx bx-trash me-1"></i></button>
-                                                    </div>
-                                                </div>
-                                                <div id="errorGoods">
-                                                    @error('goods.' . $index)
-                                                        <div class="alert alert-danger">{{ $message }}</div>
-                                                    @enderror
-                                                    @error('quantities.' . $index)
-                                                        <div class="alert alert-danger">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-                                                <div class="capacity-status">
-                                                    <div class="text-center"
-                                                        style="width: 20%; color:black; background:#f86f2d; border-radius:5px">
-                                                        Jumlah Tersisa</div>
-                                                </div>
-                                                <p class="text-center stock-text">Sisa Stock: -</p>
-                                            </div>
-                                        @endforeach
-                                    @else
-                                        <div class="donasi-item" id="template-donasi">
+            </div>
+            <div class="row d-md-flex form-donation none" id="goodDonationForm">
+                <div class="col-md-12 donation pl-md-5">
+                    <h3 class="mb-3">Form Donasi Barang</h3>
+                    <p>Pengisian form dilakukan untuk memboking tanggal donasi barang, setelah mengisi form maka donatur
+                        akan dihubungi via WhatsApp. <br> <span class="text-danger">*Lakukan pengisian form dengan data yang
+                            benar agar tidak terjadi
+                            miss
+                            informasi
+                        </span></p>
+                    <form action="{{ route('user-donasi-barang.store') }}" id="donateFormGoods" class="donation-form"
+                        method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <input name="name" type="text" class="form-control" placeholder="Nama ..."
+                                value="{{ old('name') }}">
+                            @error('name')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <input name="address" type="text" class="form-control" placeholder="Alamat ..."
+                                value="{{ old('address') }}">
+                            @error('address')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <input id="phone" type="tel" name="phone_number" class="form-control"
+                                placeholder="Nomer Telepon ..." value="{{ old('phone_number') }}">
+                            @error('phone_number')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <input name="email" type="text" class="form-control" placeholder="Email ..."
+                                value="{{ old('email') }}">
+                            @error('email')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="form-label fw-bold fs-5" style="color: black">Tanggal Donasi Ke Panti</label>
+                            <input type="date" name="date" class="form-control" value="{{ old('date') }}">
+                            @error('date')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <textarea name="description" cols="30" rows="3" class="form-control" placeholder="Pesan ...">{{ old('description') }}</textarea>
+                            @error('description')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="good-form my-3">
+                            <div class="item-donasi">
+                                @if (old('goods'))
+                                    @foreach (old('goods') as $index => $goodId)
+                                        <div class="donasi-item">
                                             <div class="row my-2">
                                                 <div class="col-md-8">
                                                     <select name="goods[]"
                                                         class="form-select form-select-lg w-100 h-100 goods-select"
-                                                        aria-label=".form-select-lg example" style="border: 2px solid black">
+                                                        aria-label=".form-select-lg example"
+                                                        style="border: 2px solid black">
                                                         <option value="" hidden>Pilih Barang Yang Ingin diDonasikan
                                                         </option>
                                                         @foreach ($goods as $good)
                                                             <option value="{{ $good->id }}"
                                                                 data-percentage="{{ $good->percentage_available }}"
                                                                 data-stock="{{ $good->stock }}"
-                                                                data-capacity="{{ $good->capacity }}">
+                                                                data-capacity="{{ $good->capacity }}"
+                                                                {{ $good->id == $goodId ? 'selected' : '' }}>
                                                                 {{ $good->name }}
                                                             </option>
                                                         @endforeach
                                                     </select>
-                                                    @error('goods.*')
-                                                        <div class="alert alert-danger">{{ $message }}</div>
-                                                    @enderror
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-2">
                                                     <input name="quantities[]" type="number" class="form-control"
-                                                        placeholder="Jumlah ...">
-                                                    @error('quantities.*')
-                                                        <div class="alert alert-danger">{{ $message }}</div>
-                                                    @enderror
+                                                        placeholder="Jumlah ..."
+                                                        value="{{ old('quantities.' . $index) }}">
                                                 </div>
+                                                <div class="col-md-2">
+                                                    <button type="button"
+                                                        class="delete-product-button btn btn-sm btn-danger w-100 h-100"
+                                                        style="border-radius: 10px"><i
+                                                            class="bx bx-trash me-1"></i></button>
+                                                </div>
+                                            </div>
+                                            <div id="errorGoods">
+                                                @error('goods.' . $index)
+                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
+                                                @error('quantities.' . $index)
+                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                             <div class="capacity-status">
                                                 <div class="text-center"
@@ -273,25 +248,81 @@
                                             </div>
                                             <p class="text-center stock-text">Sisa Stock: -</p>
                                         </div>
-                                    @endif
-                                </div>
-                                <div class="my-3">
-                                    <button id="tambah-donasi-barang" class="good-donation-add col-md-12"
-                                        type="button">Tambah Barang Donasi</button>
-                                </div>
+                                    @endforeach
+                                @else
+                                    <div class="donasi-item" id="template-donasi">
+                                        <div class="row my-2">
+                                            <div class="col-md-8">
+                                                <select name="goods[]"
+                                                    class="form-select form-select-lg w-100 h-100 goods-select"
+                                                    aria-label=".form-select-lg example" style="border: 2px solid black">
+                                                    <option value="" hidden>Pilih Barang Yang Ingin diDonasikan
+                                                    </option>
+                                                    @foreach ($goods as $good)
+                                                        <option value="{{ $good->id }}"
+                                                            data-percentage="{{ $good->percentage_available }}"
+                                                            data-stock="{{ $good->stock }}"
+                                                            data-capacity="{{ $good->capacity }}">
+                                                            {{ $good->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('goods.*')
+                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input name="quantities[]" type="number" class="form-control"
+                                                    placeholder="Jumlah ...">
+                                                @error('quantities.*')
+                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="capacity-status">
+                                            <div class="text-center"
+                                                style="width: 20%; color:black; background:#f86f2d; border-radius:5px">
+                                                Jumlah Tersisa</div>
+                                        </div>
+                                        <p class="text-center stock-text">Sisa Stock: -</p>
+                                    </div>
+                                @endif
                             </div>
-                            <div class="form-group">
-                                <button type="submit" class="w-100 py-3 px-5 donasi-btn">DONASI</button>
+                            <div class="my-3">
+                                <button id="tambah-donasi-barang" class="good-donation-add col-md-12"
+                                    type="button">Tambah Barang Donasi</button>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="w-100 py-3 px-5 donasi-btn">DONASI</button>
+                        </div>
+                    </form>
                 </div>
-
-                <div class="row
+            </div>
+            <div class="row
                     d-md-flex form-donation none" id="scholarshipDonationForm">
-                    <div class="col-md-12 donation pl-md-5">
-                        <h3 class="mb-3">Form Donasi Beasiswa</h3>
-                        <form action="{{ route('user-donasi-uang.store') }}" id="donateFormScholarship"
+                <div class="col-md-12 donation pl-md-5">
+                    <h3 class="mb-3">Form Donasi Beasiswa</h3>
+                    <p>Pengisian form di bawah dilakukan untuk melakukan donasi beasiswa secara online, uang yang
+                        didonasikan
+                        akan digunakan untuk kepentingan pendidikan anak Panti Asuhan Dharma Jati II.
+                        <br> <span class="text-danger">*Lakukan pengisian form dengan data
+                            yang benar agar tidak terjadi miss
+                            informasi
+                        </span>
+                    </p>
+                    @isset($schoolarship)
+                        <form id="payment-form" action="{{ route('user-donasi-uang.success') }}" method="POST" hidden>
+                            @csrf
+                        </form>
+                        <div class="col-md-12 text-center">
+                            <button class="donasi-btn donasi-text" id="pay-button">
+                                Bayar Donasi Sekarang
+                            </button>
+                        </div>
+                    @endisset
+                    @empty($schoolarship)
+                        <form action="{{ route('user-donasi-beasiswa.store') }}" id="donateFormScholarship"
                             class="donation-form" method="POST">
                             @csrf
                             <div class="form-group">
@@ -324,9 +355,9 @@
                                 </button>
                             </div>
                         </form>
-                    </div>
+                    @endempty
                 </div>
-            @endempty
+            </div>
         </div>
     </section>
 @endsection

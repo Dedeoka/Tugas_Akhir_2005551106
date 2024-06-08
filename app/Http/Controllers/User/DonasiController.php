@@ -9,21 +9,21 @@ use App\Models\DonateMoney;
 use App\Models\GoodsCategory;
 use App\Models\DonateGoods;
 use App\Models\DonateGoodsDetail;
+use App\Models\Scholarship;
 
 class DonasiController extends Controller
 {
     public function index(Request $request){
         $goods = GoodsCategory::get();
-        foreach ($goods as $good) {
-        if ($good->stock === 0) {
-            $good->percentage_available = 100;
-        } else {
-            $good->percentage_available = round((($good->capacity - $good->stock) / $good->capacity) * 100, 2);
+            foreach ($goods as $good) {
+            if ($good->stock === 0) {
+                $good->percentage_available = 100;
+            } else {
+                $good->percentage_available = round((($good->capacity - $good->stock) / $good->capacity) * 100, 2);
+            }
         }
-    }
         $donate = session('donate');
-        // dd($goods);
-        // dd($donate);
+        $schoolarship = session('schoolarship');
         if ($donate) {
             $createdAt = $donate->created_at;
             $now = now();
@@ -35,7 +35,20 @@ class DonasiController extends Controller
             }
 
             return view('user.donasi.donasi-uang', compact('donate', 'goods'));
-        } else {
+        }
+        elseif($schoolarship){
+            $createdAt = $schoolarship->created_at;
+            $now = now();
+            $differenceInMinutes = $now->diffInMinutes($createdAt);
+
+            if ($differenceInMinutes > 15) {
+                $request->session()->forget('schoolarship');
+                return view('user.donasi.donasi-uang', compact('goods'));
+            }
+
+            return view('user.donasi.donasi-uang', compact('schoolarship', 'goods'));
+        }
+        else {
             return view('user.donasi.donasi-uang', compact('goods'));
         }
 
@@ -109,7 +122,7 @@ class DonasiController extends Controller
         $donasi->status = 'success';
         $donasi->save();
         $request->session()->forget('donate');
-        return redirect()->route('user-donasi-uang.index', ['success' => $success]);
+        return redirect()->route('user-donasi.index', ['success' => $success]);
     }
 
     public function storeGoods(Request $request)
@@ -173,5 +186,65 @@ class DonasiController extends Controller
         }
 
         return redirect()->back()->with('success', 'Donasi berhasil disimpan!');
+    }
+
+    public function storeSchoolarship(Request $request){
+        $validasi = Validator::make($request->all(), [
+            'name' => 'required',
+            'address' => 'required',
+            'phone_number' => 'required',
+            'email' => 'required',
+            'total_amount' => 'required',
+        ], [
+            'name.required' => 'Data wajib diisi',
+            'address.required' => 'Data wajib diisi',
+            'phone_number.required' => 'Data wajib diisi',
+            'email.required' => 'Data wajib diisi',
+            'total_amount.required' => 'Data wajib diisi',
+        ]);
+
+        if ($validasi->fails()) {
+            return response()->json(['errors' => $validasi->errors()]);
+        } else {
+            $data = [
+                'name' => $request->name,
+                'address' => $request->address,
+                'phone_number' => $request->phone_number,
+                'email' => $request->email,
+                'total_amount' => str_replace(',', '', $request->total_amount),
+                'description' => $request->description,
+            ];
+            $totalAmount = str_replace(',', '', $request->total_amount);
+            $name = $request->name;
+            $email = $request->email;
+            $donate = Scholarship::create($data);
+
+            // Set your Merchant Server Key
+            \Midtrans\Config::$serverKey = config('midtrans.serverKey');
+            // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+            \Midtrans\Config::$isProduction = false;
+            // Set sanitization on (default)
+            \Midtrans\Config::$isSanitized = true;
+            // Set 3DS transaction for credit card to true
+            \Midtrans\Config::$is3ds = true;
+
+            $params = array(
+                'transaction_details' => array(
+                    'order_id' => rand(),
+                    'gross_amount' => $totalAmount,
+                ),
+                'customer_details' => array(
+                    'first_name' => $name,
+                    'email' => $email,
+                )
+            );
+
+            $snapToken = \Midtrans\Snap::getSnapToken($params);
+            $donate->snap_token = $snapToken;
+            $donate->save();
+
+            $request->session()->put('schoolarship', $donate, 1);
+            return redirect()->back();
+        }
     }
 }
