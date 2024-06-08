@@ -196,8 +196,8 @@
                             <div data-i18n="Basic">Donasi Uang</div>
                         </a>
                     </li>
-                    <li class="menu-item">
-                        <a href="cards-basic.html" class="menu-link">
+                    <li class="menu-item {{ request()->is('donasi/donasi-barang') ? 'active' : '' }}">
+                        <a href="{{ route('donasi-barang.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-donate-heart"></i>
                             <div data-i18n="Basic">Donasi Barang</div>
                         </a>

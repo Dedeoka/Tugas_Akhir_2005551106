@@ -9,4 +9,9 @@ class DonateGoods extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+
+    public function donateGoodDetails()
+    {
+        return $this->hasMany(DonateGoodsDetail::class);
+    }
 }

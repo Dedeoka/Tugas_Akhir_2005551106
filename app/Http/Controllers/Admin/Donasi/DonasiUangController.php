@@ -87,7 +87,16 @@ class DonasiUangController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = DonateMoney::find($id);
+        if ($request->pending){
+            $data->status = 'pending';
+            $data->save();
+        }
+        else if($request->success){
+            $data->status = 'success';
+            $data->save();
+            }
+        return response()->json(['success' => "Berhasil mengubah data"]);
     }
 
     /**

@@ -1,22 +1,3 @@
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-<!-- Tambahkan ini ke head tag HTML Anda jika belum ada -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
-<script>
-    function formatAmount(inputElement) {
-        // Mendapatkan nilai input
-        let inputValue = inputElement.value;
-
-        // Menghapus karakter selain digit (misalnya, strip, titik, dll.)
-        inputValue = inputValue.replace(/[^\d]/g, '');
-
-        // Memformat angka dengan menambahkan titik sebagai pemisah ribuan
-        inputValue = new Intl.NumberFormat().format(inputValue);
-
-        // Menetapkan kembali nilai input yang sudah diformat
-        inputElement.value = inputValue;
-    }
-</script>
 <script>
     $(document).ready(function() {
         // Setup CSRF token for all AJAX requests
@@ -117,7 +98,7 @@
             formData.append('_method', 'PATCH');
 
             // Pastikan Anda menyertakan parameter yang diperlukan dalam rute
-            var url = "{{ route('donasi-uang.update', ':id') }}".replace(':id', id);
+            var url = "{{ route('donasi-barang.update', ':id') }}".replace(':id', id);
 
             $.ajax({
                 url: url,
@@ -145,7 +126,7 @@
             formData.append('_method', 'PATCH');
 
             // Pastikan Anda menyertakan parameter yang diperlukan dalam rute
-            var url = "{{ route('donasi-uang.update', ':id') }}".replace(':id', id);
+            var url = "{{ route('donasi-barang.update', ':id') }}".replace(':id', id);
 
             $.ajax({
                 url: url,

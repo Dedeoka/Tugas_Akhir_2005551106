@@ -3,14 +3,14 @@
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="py-3 mb-4">
-            <span class="text-muted fw-light">Donasi</span> <b>Donasi Uang</b>
+            <span class="text-muted fw-light">Donasi</span> <b>Donasi Barang</b>
         </h4>
 
         <div class="card">
             <div class="d-flex">
                 <div class="w-75 m-3 quick-sand">
                     <h3>
-                        Tabel Data Donasi Uang
+                        Tabel Data Donasi Barang
                     </h3>
                 </div>
                 <div class="col-lg-3 col-md-6 quick-sand">
@@ -30,12 +30,12 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel1">Tambah Data Donasi Uang
+                                        <h5 class="modal-title" id="exampleModalLabel1">Tambah Data Donasi Barang
                                         </h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
-                                    <form id="donasiUangForm" action="{{ route('donasi-uang.store') }}" method="POST">
+                                    <form id="donasiBarangForm" action="{{ route('donasi-barang.store') }}" method="POST">
                                         @csrf
                                         <div class="modal-body">
                                             <div class="row">
@@ -107,7 +107,7 @@
                                 <th class="col-md-2 text-center fw-bold">Nama</th>
                                 <th class="col-md-2 text-center fw-bold">Alamat</th>
                                 <th class="col-md-2 text-center fw-bold">No Telepon</th>
-                                <th class="col-md-3 text-center fw-bold">Jumlah Donasi</th>
+                                <th class="col-md-3 text-center fw-bold">Barang yang diDonasikan</th>
                                 <th class="col-md-5 text-center fw-bold">Status</th>
                                 <th class="col-md-3 text-center fw-bold">Action</th>
                             </tr>
@@ -122,7 +122,11 @@
                                     <td>{{ $data->name }}</td>
                                     <td>{{ $data->address }}</td>
                                     <td>{{ $data->phone_number }}</td>
-                                    <td>{{ 'Rp ' . number_format($data->total_amount, 0, ',', '.') }}</td>
+                                    <td>
+                                        @foreach ($data->donateGoodDetails as $index => $detail)
+                                            {{ $detail->goodsCategory->name }}{{ $index < $data->donateGoodDetails->count() - 1 ? ', ' : '' }}
+                                        @endforeach
+                                    </td>
                                     <td>
                                         @if ($data->status == 'success')
                                             <button type="button" class="btn rounded-pill btn-success"
@@ -227,105 +231,137 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <div class="modal-body border-bottom">
-                                <div class="d-flex py-2">
-                                    <div class="w-50 d-flex fw-bold">
-                                        <div class="w-75">
-                                            Nama Donatur
+                            <div class="modal-body">
+                                <div class="pb-3 border-bottom">
+                                    <div class="d-flex py-2">
+                                        <div class="w-50 d-flex fw-bold">
+                                            <div class="w-75">
+                                                Nama Donatur
+                                            </div>
+                                            <div class="w-25">
+                                                :
+                                            </div>
                                         </div>
-                                        <div class="w-25">
-                                            :
+                                        <div class="w-50">
+                                            {{ $data->name }}
                                         </div>
                                     </div>
-                                    <div class="w-50">
-                                        {{ $data->name }}
+                                    <div class="d-flex py-2">
+                                        <div class="w-50 d-flex fw-bold">
+                                            <div class="w-75">
+                                                Alamat Donatur
+                                            </div>
+                                            <div class="w-25">
+                                                :
+                                            </div>
+                                        </div>
+                                        <div class="w-50">
+                                            {{ $data->address }}
+                                        </div>
+                                    </div>
+                                    <div class="d-flex py-2">
+                                        <div class="w-50 d-flex fw-bold">
+                                            <div class="w-75">
+                                                Nomer Telepon Donatur
+                                            </div>
+                                            <div class="w-25">
+                                                :
+                                            </div>
+                                        </div>
+                                        <div class="w-50">
+                                            {{ $data->phone_number }}
+                                        </div>
+                                    </div>
+                                    <div class="d-flex py-2">
+                                        <div class="w-50 d-flex fw-bold">
+                                            <div class="w-75">
+                                                Email Donatur
+                                            </div>
+                                            <div class="w-25">
+                                                :
+                                            </div>
+                                        </div>
+                                        <div class="w-50">
+                                            {{ $data->email }}
+                                        </div>
+                                    </div>
+                                    <div class="d-flex py-2">
+                                        <div class="w-50 d-flex fw-bold">
+                                            <div class="w-75">
+                                                Total Donasi
+                                            </div>
+                                            <div class="w-25">
+                                                :
+                                            </div>
+                                        </div>
+                                        <div class="w-50">
+                                            {{ 'Rp ' . number_format($data->total_amount, 0, ',', '.') }}
+                                        </div>
+                                    </div>
+                                    <div class="d-flex py-2">
+                                        <div class="w-50 d-flex fw-bold">
+                                            <div class="w-75">
+                                                Deskripsi
+                                            </div>
+                                            <div class="w-25">
+                                                :
+                                            </div>
+                                        </div>
+                                        <div class="w-50">
+                                            {{ $data->description }}
+                                        </div>
+                                    </div>
+                                    <div class="d-flex py-2">
+                                        <div class="w-50 d-flex fw-bold">
+                                            <div class="w-75">
+                                                Status
+                                            </div>
+                                            <div class="w-25">
+                                                :
+                                            </div>
+                                        </div>
+                                        <div class="w-50">
+                                            @if ($data->status == 'success')
+                                                <button type="button" class="btn rounded-pill btn-success"
+                                                    style="width: 100px;">
+                                                    Success</button>
+                                            @else
+                                                <button type="button" class="btn rounded-pill btn-danger"
+                                                    style="width: 100px;">
+                                                    Pending</button>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="d-flex py-2">
-                                    <div class="w-50 d-flex fw-bold">
-                                        <div class="w-75">
-                                            Alamat Donatur
+                            </div>
+                            <div class="pb-2 border-bottom">
+                                <div class="px-3">
+                                    <h5 class="px-2">Data Detail Donasi Barang</h5>
+                                    <div class="row py-2 px-4">
+                                        <div class="col fw-bold">
+                                            Nama Barang
                                         </div>
-                                        <div class="w-25">
-                                            :
+                                        <div class="col fw-bold">
+                                            Jumlah
                                         </div>
-                                    </div>
-                                    <div class="w-50">
-                                        {{ $data->address }}
-                                    </div>
-                                </div>
-                                <div class="d-flex py-2">
-                                    <div class="w-50 d-flex fw-bold">
-                                        <div class="w-75">
-                                            Nomer Telepon Donatur
-                                        </div>
-                                        <div class="w-25">
-                                            :
+                                        <div class="col fw-bold">
+                                            Satuan
                                         </div>
                                     </div>
-                                    <div class="w-50">
-                                        {{ $data->phone_number }}
-                                    </div>
-                                </div>
-                                <div class="d-flex py-2">
-                                    <div class="w-50 d-flex fw-bold">
-                                        <div class="w-75">
-                                            Email Donatur
+                                    @foreach ($data->donateGoodDetails as $detail)
+                                        <div class="row py-2 px-4">
+                                            <div class="col">
+                                                {{ $loop->iteration + $initialNumber }}.
+                                                {{ $detail->goodsCategory->name }}
+                                            </div>
+                                            <div class="col">
+                                                x {{ $detail->quantity }}
+                                            </div>
+                                            <div class="col">
+                                                {{ $detail->goodsCategory->unit }}
+                                            </div>
                                         </div>
-                                        <div class="w-25">
-                                            :
-                                        </div>
-                                    </div>
-                                    <div class="w-50">
-                                        {{ $data->email }}
-                                    </div>
-                                </div>
-                                <div class="d-flex py-2">
-                                    <div class="w-50 d-flex fw-bold">
-                                        <div class="w-75">
-                                            Total Donasi
-                                        </div>
-                                        <div class="w-25">
-                                            :
-                                        </div>
-                                    </div>
-                                    <div class="w-50">
-                                        {{ 'Rp ' . number_format($data->total_amount, 0, ',', '.') }}
-                                    </div>
-                                </div>
-                                <div class="d-flex py-2">
-                                    <div class="w-50 d-flex fw-bold">
-                                        <div class="w-75">
-                                            Deskripsi
-                                        </div>
-                                        <div class="w-25">
-                                            :
-                                        </div>
-                                    </div>
-                                    <div class="w-50">
-                                        {{ $data->description }}
-                                    </div>
-                                </div>
-                                <div class="d-flex py-2">
-                                    <div class="w-50 d-flex fw-bold">
-                                        <div class="w-75">
-                                            Status
-                                        </div>
-                                        <div class="w-25">
-                                            :
-                                        </div>
-                                    </div>
-                                    <div class="w-50">
-                                        @if ($data->status == 'success')
-                                            <button type="button" class="btn rounded-pill btn-success"
-                                                style="width: 100px;">
-                                                Success</button>
-                                        @else
-                                            <button type="button" class="btn rounded-pill btn-danger"
-                                                style="width: 100px;">
-                                                Pending</button>
-                                        @endif
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -342,5 +378,5 @@
 @endsection
 
 @section('scripts')
-    @include('admin.donasi.js.donasi-uang');
+    @include('admin.donasi.js.donasi-barang');
 @endsection

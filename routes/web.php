@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\Anak\PrestasiAkademikAnakController;
 use App\Http\Controllers\Admin\Anak\PrestasiAnakController;
 use App\Http\Controllers\Admin\Data\DataController;
 use App\Http\Controllers\Admin\Donasi\DonasiUangController;
+use App\Http\Controllers\Admin\Donasi\DonasiBarangController;
 use App\Http\Controllers\Admin\Keuangan\ChartPemasukanPantiController;
 use App\Http\Controllers\Admin\Keuangan\ChartPengeluaranAnakController;
 use App\Http\Controllers\Admin\Keuangan\ChartPengeluaranPantiController;
@@ -107,6 +108,7 @@ Route::prefix('panti-asuhan-dharma-jati-II')->group(function () {
 
 Route::prefix('donasi')->group(function () {
     Route::resource('donasi-uang', DonasiUangController::class);
+    Route::resource('donasi-barang', DonasiBarangController::class);
 });
 
 Auth::routes();

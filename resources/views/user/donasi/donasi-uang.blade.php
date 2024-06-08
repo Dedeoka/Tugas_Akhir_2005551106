@@ -137,8 +137,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="row
-                    d-md-flex form-donation none" id="goodDonationForm">
+                <div class="row d-md-flex form-donation none" id="goodDonationForm">
                     <div class="col-md-12 donation pl-md-5">
                         <h3 class="mb-3">Form Donasi Barang</h3>
                         <form action="{{ route('user-donasi-barang.store') }}" id="donateFormGoods" class="donation-form"
@@ -189,7 +188,7 @@
                                 <div class="item-donasi">
                                     @if (old('goods'))
                                         @foreach (old('goods') as $index => $goodId)
-                                            <div id="template-donasi">
+                                            <div class="donasi-item">
                                                 <div class="row my-2">
                                                     <div class="col-md-8">
                                                         <select name="goods[]"
@@ -208,17 +207,11 @@
                                                                 </option>
                                                             @endforeach
                                                         </select>
-                                                        @error('goods.' . $index)
-                                                            <div class="alert alert-danger">{{ $message }}</div>
-                                                        @enderror
                                                     </div>
                                                     <div class="col-md-2">
                                                         <input name="quantities[]" type="number" class="form-control"
                                                             placeholder="Jumlah ..."
                                                             value="{{ old('quantities.' . $index) }}">
-                                                        @error('quantities.' . $index)
-                                                            <div class="alert alert-danger">{{ $message }}</div>
-                                                        @enderror
                                                     </div>
                                                     <div class="col-md-2">
                                                         <button type="button"
@@ -227,18 +220,24 @@
                                                                 class="bx bx-trash me-1"></i></button>
                                                     </div>
                                                 </div>
+                                                <div id="errorGoods">
+                                                    @error('goods.' . $index)
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                    @enderror
+                                                    @error('quantities.' . $index)
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
                                                 <div class="capacity-status">
                                                     <div class="text-center"
                                                         style="width: 20%; color:black; background:#f86f2d; border-radius:5px">
                                                         Jumlah Tersisa</div>
                                                 </div>
-                                                <p class="text-center stock-text">
-                                                    Sisa Stock: -
-                                                </p>
+                                                <p class="text-center stock-text">Sisa Stock: -</p>
                                             </div>
                                         @endforeach
                                     @else
-                                        <div id="template-donasi">
+                                        <div class="donasi-item" id="template-donasi">
                                             <div class="row my-2">
                                                 <div class="col-md-8">
                                                     <select name="goods[]"
@@ -259,17 +258,12 @@
                                                         <div class="alert alert-danger">{{ $message }}</div>
                                                     @enderror
                                                 </div>
-                                                <div class="col-md-2">
+                                                <div class="col-md-4">
                                                     <input name="quantities[]" type="number" class="form-control"
                                                         placeholder="Jumlah ...">
                                                     @error('quantities.*')
                                                         <div class="alert alert-danger">{{ $message }}</div>
                                                     @enderror
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <button type="button"
-                                                        class="delete-product-button btn btn-sm btn-danger w-100 h-100"
-                                                        style="border-radius: 10px"><i class="bx bx-trash me-1"></i></button>
                                                 </div>
                                             </div>
                                             <div class="capacity-status">
@@ -277,9 +271,7 @@
                                                     style="width: 20%; color:black; background:#f86f2d; border-radius:5px">
                                                     Jumlah Tersisa</div>
                                             </div>
-                                            <p class="text-center stock-text">
-                                                Sisa Stock: -
-                                            </p>
+                                            <p class="text-center stock-text">Sisa Stock: -</p>
                                         </div>
                                     @endif
                                 </div>
@@ -294,6 +286,7 @@
                         </form>
                     </div>
                 </div>
+
                 <div class="row
                     d-md-flex form-donation none" id="scholarshipDonationForm">
                     <div class="col-md-12 donation pl-md-5">
@@ -455,7 +448,6 @@
                 const selectedOption = selectElement.options[selectElement.selectedIndex];
                 const stock = selectedOption.getAttribute('data-stock');
                 const capacity = selectedOption.getAttribute('data-capacity');
-
                 const stockTextElement = selectElement.closest('.donasi-item').querySelector('.stock-text');
                 stockTextElement.textContent = `Sisa Stock: ${stock}/${capacity}`;
             }
@@ -492,6 +484,47 @@
                 updateSelectOptions();
             }
 
+            function attachDeleteEventListeners() {
+                document.querySelectorAll('.delete-product-button').forEach(function(deleteButton) {
+                    deleteButton.removeEventListener('click',
+                        deleteButtonHandler); // Remove previous listener
+                    deleteButton.addEventListener('click', deleteButtonHandler); // Add new listener
+                });
+            }
+
+            function deleteButtonHandler(event) {
+                var deleteButton = event.target.closest('.delete-product-button');
+                var template = deleteButton.closest('.donasi-item');
+                if (!template) return; // Check if template is found
+                var selectElement = template.querySelector('select');
+                if (!selectElement) return; // Check if select element is found
+                selectedGoods = selectedGoods.filter(value => value !== selectElement.value);
+                template.remove();
+                updateSelectOptions();
+            }
+
+            function reattachEventListeners() {
+                document.querySelectorAll('.goods-select').forEach(function(selectElement) {
+                    selectElement.previousValue = selectElement.value;
+                    selectElement.removeEventListener('change',
+                        handleSelectChange); // Remove previous listener
+                    selectElement.addEventListener('change', handleSelectChange); // Add new listener
+                });
+
+                attachDeleteEventListeners(); // Reattach delete event listeners
+            }
+
+            function initializeOldValues() {
+                document.querySelectorAll('.goods-select').forEach(function(selectElement) {
+                    updateCapacityStatus(selectElement);
+                    updateStockInfo(selectElement);
+                    if (selectElement.value) {
+                        selectedGoods.push(selectElement.value);
+                    }
+                });
+                updateSelectOptions();
+            }
+
             document.querySelectorAll('.goods-select').forEach(function(selectElement) {
                 selectElement.previousValue = selectElement.value;
                 selectElement.addEventListener('change', handleSelectChange);
@@ -500,6 +533,7 @@
             document.getElementById('tambah-donasi-barang').addEventListener('click', function() {
                 var template = document.getElementById('template-donasi').cloneNode(true);
                 template.classList.add('donasi-item');
+                template.id = ""; // Ensure ID is not duplicated
 
                 var inputs = template.querySelectorAll('input');
                 inputs.forEach(function(input) {
@@ -514,18 +548,20 @@
                 });
 
                 var deleteButton = template.querySelector('.delete-product-button');
-                deleteButton.addEventListener('click', function() {
-                    var selectElement = template.querySelector('select');
-                    selectedGoods = selectedGoods.filter(value => value !== selectElement.value);
-                    template.remove();
-                    updateSelectOptions();
-                });
+                deleteButton.addEventListener('click', deleteButtonHandler);
 
                 document.querySelector('.item-donasi').appendChild(template);
                 updateSelectOptions();
+                attachDeleteEventListeners(); // Attach delete event listeners after adding a new item
             });
 
-            updateSelectOptions();
+            reattachEventListeners(); // Attach delete event listeners on page load
+            initializeOldValues(); // Initialize stock and capacity for old values
+
+            // Hide the "Tambah Barang Donasi" button if there are validation errors
+            if (document.querySelector('.alert-danger')) {
+                document.getElementById('tambah-donasi-barang').style.display = 'none';
+            }
         });
     </script>
 @endsection
