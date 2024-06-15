@@ -47,11 +47,13 @@
 
             <div class="collapse navbar-collapse" id="ftco-nav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active"><a href="{{ route('user.landing-page') }}" class="nav-link">Home</a>
+                    <li class="nav-item {{ request()->is('panti-asuhan-dharma-jati-II/home') ? 'active' : '' }}"><a
+                            href="{{ route('user.landing-page') }}" class="nav-link">Home</a>
                     </li>
                     <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
                     <li class="nav-item"><a href="causes.html" class="nav-link">Causes</a></li>
-                    <li class="nav-item"><a href="causes.html" class="nav-link">Donasi</a></li>
+                    <li class="nav-item {{ request()->is('panti-asuhan-dharma-jati-II/donasi') ? 'active' : '' }}"><a
+                            href="{{ route('user-donasi.index') }}" class="nav-link">Donasi</a></li>
                     <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
                     <li class="nav-item"><a href="gallery.html" class="nav-link">Gallery</a></li>
                     <li class="nav-item"><a href="event.html" class="nav-link">Events</a></li>

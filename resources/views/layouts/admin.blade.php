@@ -35,6 +35,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="{{ asset('assets/js/Chart.js') }}"></script>
+    @yield('header')
     <style>
         .quick-sand {
             font-family: 'Quicksand Book Oblique', sans-serif;
@@ -90,26 +91,26 @@
                 <div class="menu-inner-shadow"></div>
                 <ul class="menu-inner py-1">
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">Dashboard</span></li>
-                    <li class="menu-item {{ request()->is('home') ? 'active' : '' }}">
+                    <li
+                        class="menu-item {{ request()->is('home') || request()->is('dashboard/') ? 'active open' : '' }}">
                         <a href="{{ route('home') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Basic">Dashboard</div>
                         </a>
                     </li>
-                    <li class="menu-item">
+                    <li class="menu-item {{ request()->is('dashboard/profile') ? 'active open' : '' }}">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
                             <i class="menu-icon tf-icons bx bx-building-house"></i>
                             <div data-i18n="Profile">Profile Panti</div>
                         </a>
                         <ul class="menu-sub">
-                            <li class="menu-item">
-                                <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/dashboards-crm.html"
-                                    class="menu-link">
+                            <li class="menu-item {{ request()->is('dashboard/profile') ? 'active' : '' }}">
+                                <a href="{{ route('profile-panti.index') }}" class="menu-link">
                                     <div data-i18n="CRM">Data Profile Panti</div>
                                 </a>
                             </li>
-                            <li class="menu-item">
-                                <a href="index.html" class="menu-link">
+                            <li class="menu-item {{ request()->is('dashboard/pengumuman') ? 'active' : '' }}">
+                                <a href="{{ route('pengumuman.index') }}" class="menu-link">
                                     <div data-i18n="Analytics">Pengumuman</div>
                                 </a>
                             </li>

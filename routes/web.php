@@ -12,6 +12,8 @@ use App\Http\Controllers\Admin\Anak\KesehatanAnakController;
 use App\Http\Controllers\Admin\Anak\PendidikanAnakController;
 use App\Http\Controllers\Admin\Anak\PrestasiAkademikAnakController;
 use App\Http\Controllers\Admin\Anak\PrestasiAnakController;
+use App\Http\Controllers\Admin\Dashboard\ProfileController;
+use App\Http\Controllers\Admin\Dashboard\PengumumanController;
 use App\Http\Controllers\Admin\Data\DataController;
 use App\Http\Controllers\Admin\Donasi\DonasiUangController;
 use App\Http\Controllers\Admin\Donasi\DonasiBarangController;
@@ -97,10 +99,10 @@ Route::prefix('keuangan')->group(function () {
 });
 
 Route::prefix('panti-asuhan-dharma-jati-II')->group(function () {
-    Route::get('/', function () {
+    Route::get('/home', function () {
         return view('user.landing-page');
     })->name('user.landing-page');
-    Route::get('donasi', [DonasiController::class, 'index'])->name('user-donasi-uang.index');
+    Route::get('donasi', [DonasiController::class, 'index'])->name('user-donasi.index');
     Route::post('donasi-uang', [DonasiController::class, 'storeMoney'])->name('user-donasi-uang.store');
     Route::post('donasi-barang', [DonasiController::class, 'storeGoods'])->name('user-donasi-barang.store');
     Route::post('donasi-beasiswa', [DonasiController::class, 'storeSchoolarship'])->name('user-donasi-beasiswa.store');
@@ -110,6 +112,12 @@ Route::prefix('panti-asuhan-dharma-jati-II')->group(function () {
 Route::prefix('donasi')->group(function () {
     Route::resource('donasi-uang', DonasiUangController::class);
     Route::resource('donasi-barang', DonasiBarangController::class);
+});
+
+Route::prefix('dashboard')->group(function () {
+    Route::get('profile', [ProfileController::class, 'index'])->name('profile-panti.index');
+    Route::patch('profile', [ProfileController::class, 'update'])->name('profile-panti.update');
+    Route::resource('pengumuman', PengumumanController::class);
 });
 
 Auth::routes();
