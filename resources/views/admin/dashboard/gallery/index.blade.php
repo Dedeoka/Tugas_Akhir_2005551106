@@ -2,6 +2,11 @@
 
 @section('header')
     <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+    <style>
+        .imageUpdate {
+            cursor: pointer;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -9,7 +14,7 @@
 
 
         <h4 class="py-3 mb-4">
-            <span class="text-muted fw-light">Dashboard /</span> <b>Pengumuman</b>
+            <span class="text-muted fw-light">Dashboard /</span> <b>Gallery Panti</b>
         </h4>
 
 
@@ -18,7 +23,7 @@
             <div class="d-flex">
                 <div class="w-75 m-3 quick-sand">
                     <h3>
-                        Tabel Data Daftar Pengumuman Panti
+                        Tabel Data Daftar Gallery Panti
                     </h3>
                 </div>
                 <div class="col-lg-3 col-md-6 quick-sand">
@@ -38,17 +43,17 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel1">Tambah Data Pengumuman Panti
+                                        <h5 class="modal-title" id="exampleModalLabel1">Tambah Data Gallery Panti
                                         </h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
-                                    <form id="announcementForm" action="{{ route('pengumuman.store') }}" method="POST">
+                                    <form id="galleryForm" action="#" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <div class="modal-body">
                                             <div class="row">
                                                 <div class="col mb-3">
-                                                    <label for="title" class="form-label">Judul Pengumuman</label>
+                                                    <label for="title" class="form-label">Judul Gallery</label>
                                                     <input type="text" id="title" name="title" class="form-control"
                                                         placeholder="Enter Title" />
                                                     <div id="titleError" class="invalid-feedback"></div>
@@ -56,26 +61,34 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col mb-3">
+                                                    <label for="date" class="form-label">Tanggal Gallery</label>
+                                                    <input type="date" id="date" name="date" class="form-control"
+                                                        placeholder="Enter date" />
+                                                    <div id="dateError" class="invalid-feedback"></div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col mb-3">
                                                     <label for="description" class="form-label">Deskripsi
-                                                        Pengumuman</label>
+                                                        Gallery</label>
                                                     <textarea class="form-control" name="description" id="description" rows="3"></textarea>
                                                     <div id="descriptionError" class="invalid-feedback"></div>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col mb-3">
-                                                    <label for="image" class="form-label">Foto Pengumuman (jika kosong
-                                                        maka akan diisi dengan foto default)</label>
-                                                    <input class="form-control" type="file" id="image"
-                                                        name="image" />
-                                                    <div id="imageError" class="invalid-feedback"></div>
+                                                    <label for="images" class="form-label">Foto Gallery (Dapat Mengisi
+                                                        Banyak Foto)</label>
+                                                    <input class="form-control" type="file" id="images"
+                                                        name="images[]" multiple />
+                                                    <div id="imagesError" class="invalid-feedback"></div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-outline-secondary"
-                                                data-bs-dismiss="modal">Tutup</button>
-                                            <button type="submit" id="submit" class="btn btn-primary">Simpan</button>
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="btn" id="submit" class="btn btn-primary">Simpan</button>
                                         </div>
                                     </form>
                                 </div>
@@ -92,7 +105,6 @@
                                 <th class="col-md-1 text-center fw-bold">No</th>
                                 <th class="col-md-3 text-center fw-bold">Judul</th>
                                 <th class="col-md-3 text-center fw-bold">Deskripsi</th>
-                                <th class="col-md-3 text-center fw-bold">Foto</th>
                                 <th class="col-md-3 text-center fw-bold">Action</th>
                             </tr>
                         </thead>
@@ -104,18 +116,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration + $initialNumber }}</td>
                                     <td>{{ $data->title }}</td>
-                                    <td>{{ Str::limit(strip_tags($data->description), 50) }}</td>
-                                    <td>
-                                        <ul
-                                            class="list-unstyled users-list m-0 avatar-group align-items-center text-center">
-                                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                                class="avatar avatar-xl pull-up" title="Foto {{ $data->name }}">
-                                                <img src="{{ asset('storage/' . $data->image) }}" alt=""
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#modalCenterFoto_{{ $loop->index }}">
-                                            </li>
-                                        </ul>
-                                    </td>
+                                    <td>{{ strip_tags($data->description) }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -126,6 +127,10 @@
                                                 <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"
                                                     data-bs-target="#editModal{{ $data->id }}">
                                                     <i class="bx bx-edit-alt me-1"></i> Edit
+                                                </a>
+                                                <a class="dropdown-item storeImage" href="javascript:void(0);"
+                                                    data-id="{{ $data->id }}">
+                                                    <i class='bx bxs-image-add'></i> Tambah Foto
                                                 </a>
                                                 <a class="dropdown-item" href="javascript:void(0);"
                                                     data-bs-toggle="modal"
@@ -198,21 +203,20 @@
             </div>
             <!-- Modal Edit -->
             @foreach ($datas as $data)
-                <div class="modal fade" id="editModal{{ $data->id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal fade editModal" id="editModal{{ $data->id }}" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel1">Edit Data Pengumuman Panti</h5>
+                                <h5 class="modal-title" id="exampleModalLabel1">Edit Data Gallery Panti</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <form id="announcementEditForm{{ $data->id }}" action="{{ route('pengumuman.store') }}"
-                                method="POST">
+                            <form id="galleryEditForm{{ $data->id }}" action="#" method="POST">
                                 @csrf
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="col mb-3">
-                                            <label for="title" class="form-label">Judul Pengumuman</label>
+                                            <label for="title" class="form-label">Judul Gallery</label>
                                             <input type="text" id="titleEdit{{ $data->id }}" name="title"
                                                 class="form-control" placeholder="Enter Title"
                                                 value="{{ $data->title }}" />
@@ -221,19 +225,37 @@
                                     </div>
                                     <div class="row">
                                         <div class="col mb-3">
+                                            <label for="dateEdit" class="form-label">Tanggal Gallery</label>
+                                            <input type="date" id="dateEdit{{ $data->id }}" name="date"
+                                                class="form-control" placeholder="Enter date" />
+                                            <div id="dateErrorEdit{{ $data->id }}" class="invalid-feedback"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col mb-3">
                                             <label for="description" class="form-label">Deskripsi
-                                                Pengumuman</label>
+                                                Gallery</label>
                                             <textarea class="form-control ckeditor" name="description" id="descriptionEdit{{ $data->id }}" rows="3">{{ $data->description }}</textarea>
                                             <div id="descriptionEditError{{ $data->id }}" class="invalid-feedback">
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col mb-3">
-                                            <label for="image" class="form-label">Pengumuman</label>
-                                            <input class="form-control" type="file" id="imageEdit{{ $data->id }}"
-                                                name="image" />
-                                            <div id="imageEditError{{ $data->id }}" class="invalid-feedback"></div>
+                                    <div class="pt-4 border-top">
+                                        <div class="px-3">
+                                            <h5 class="px-2">Edit Foto-Foto Gallery</h5>
+                                            <p class="px-2">
+                                                *Klik foto yang ingin diedit
+                                            </p>
+                                            <div class="row px-3">
+                                                @foreach ($data->galleryImages as $image)
+                                                    <div class="col-6 col-sm-4 py-2">
+                                                        <img width="100px" height="100px"
+                                                            src="{{ asset('storage/' . $image->image) }}"
+                                                            class="imageUpdate" data-id="{{ $image->id }}"
+                                                            alt="">
+                                                    </div>
+                                                @endforeach
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -248,6 +270,67 @@
                     </div>
                 </div>
             @endforeach
+            <div class="modal fade" id="imageUpdateModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel1">Ganti Foto Gallery
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <form id="imageUpdateForm" action="#" method="POST">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col mb-3">
+                                        <label for="image" class="form-label">Gallery</label>
+                                        <input class="form-control" type="file" id="imageEdit{{ $data->id }}"
+                                            name="image" />
+                                        <div id="imageEditError{{ $data->id }}" class="invalid-feedback"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary"
+                                    data-bs-dismiss="modal">Tutup</button>
+                                <button type="button" class="btn btn-primary imageUpdateSubmit">Simpan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="imageStoreModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel1">Ganti Foto Gallery
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <form id="imageStoreForm" action="#" method="POST">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col mb-3">
+                                        <label for="images" class="form-label">Foto Gallery (Dapat Mengisi
+                                            Banyak Foto)</label>
+                                        <input class="form-control" type="file" id="imagesStore" name="images[]"
+                                            multiple />
+                                        <div id="imagesStoreError" class="invalid-feedback"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary"
+                                    data-bs-dismiss="modal">Tutup</button>
+                                <button type="button" class="btn btn-primary imageStoreSubmit">Simpan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
             @foreach ($datas as $data)
                 <div class="modal fade" id="detailModal{{ $data->id }}" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-m" role="document">
@@ -263,7 +346,7 @@
                                     <div class="d-flex py-2">
                                         <div class="w-50 d-flex fw-bold">
                                             <div class="w-75">
-                                                Judul Pengumuman
+                                                Judul Gallery
                                             </div>
                                             <div class="w-25">
                                                 :
@@ -276,6 +359,19 @@
                                     <div class="d-flex py-2">
                                         <div class="w-50 d-flex fw-bold">
                                             <div class="w-75">
+                                                Tanggal
+                                            </div>
+                                            <div class="w-25">
+                                                :
+                                            </div>
+                                        </div>
+                                        <div class="w-50">
+                                            {{ $data->date }}
+                                        </div>
+                                    </div>
+                                    <div class="d-flex py-2">
+                                        <div class="w-50 d-flex fw-bold">
+                                            <div class="w-75">
                                                 Deskripsi
                                             </div>
                                             <div class="w-25">
@@ -283,33 +379,22 @@
                                             </div>
                                         </div>
                                         <div class="w-50">
-                                            <td>{{ strip_tags($data->description) }}</td>
+                                            {{ strip_tags($data->description) }}
                                         </div>
                                     </div>
-                                    <div class="d-flex py-3">
-                                        <div class="w-50 d-flex fw-bold">
-                                            <div class="w-75">
-                                                Foto Pengumuman
+
+                                </div>
+                            </div>
+                            <div class="pb-2 border-bottom">
+                                <div class="px-3">
+                                    <h5 class="px-2">Foto-Foto Gallery</h5>
+                                    <div class="row px-3">
+                                        @foreach ($data->galleryImages as $image)
+                                            <div class="col-6 col-sm-4 py-2">
+                                                <img width="100px" height="100px"
+                                                    src="{{ asset('storage/' . $image->image) }}" alt="">
                                             </div>
-                                            <div class="w-25">
-                                                :
-                                            </div>
-                                        </div>
-                                        <div class="w-50">
-
-                                        </div>
-                                    </div>
-                                    <div class="d-flex py-2">
-                                        <div class="w-25">
-
-                                        </div>
-                                        <div class="w-50 d-flex fw-bold">
-                                            <img width="200px" height="200px"
-                                                src="{{ asset('storage/' . $data->image) }}" alt="">
-                                        </div>
-                                        <div class="w-25">
-
-                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -327,5 +412,5 @@
 @endsection
 
 @section('scripts')
-    @include('admin.dashboard.pengumuman.js.index');
+    @include('admin.dashboard.gallery.js.index');
 @endsection

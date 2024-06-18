@@ -15,6 +15,7 @@
         function clearForm() {
             $('#title').val('');
             $('#description').val('');
+            $('#date').val('');
         }
 
         function showSuccessMessage(message) {
@@ -86,15 +87,84 @@
             return false;
         });
 
+        $('.imageUpdate').click(function(e) {
+            const id = $(this).data('id');
+            $('.editModal').modal('hide');
+            imageUpdate(id);
+            return false;
+        });
+
+        $('.storeImage').click(function(e) {
+            const id = $(this).data('id');
+            storeImage(id);
+            return false;
+        });
+
+        function storeImage(id) {
+            $('#imageStoreModal').modal('show');
+            $('.imageStoreSubmit').click(function(e) {
+                e.preventDefault(); // Prevent default form submission
+                const formData = new FormData($('#imageStoreForm')[0]);
+                var url = `/dashboard/galleryStoreImage/${id}`;
+                formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        if (response.errors) {
+                            handleErrors(response.errors);
+                        } else {
+                            clearErrors();
+                            showSuccessMessage(response.success);
+                            $('#imageStoreModal').modal('hide');
+                        }
+                    }
+                });
+            });
+        }
+
+        function imageUpdate(id) {
+            $('#imageUpdateModal').modal('show');
+            $('.imageUpdateSubmit').click(function(e) {
+                e.preventDefault(); // Prevent default form submission
+                const formData = new FormData($('#imageUpdateForm')[0]);
+                var url = `/dashboard/galleryUpdateImage/${id}`;
+                formData.append('_method', 'patch');
+                formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        if (response.errors) {
+                            handleErrors(response.errors);
+                        } else {
+                            clearErrors();
+                            showSuccessMessage(response.success);
+                            $('#imageUpdateModal').modal('hide');
+                        }
+                    }
+                });
+            });
+        }
+
         function simpan() {
             for (var instance in CKEDITOR.instances) {
                 CKEDITOR.instances[instance].updateElement();
             }
 
-            const formData = new FormData($('#announcementForm')[0]);
+            const formData = new FormData($('#galleryForm')[0]);
             formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+
             $.ajax({
-                url: "{{ route('pengumuman.store') }}",
+                url: "{{ route('gallery.store') }}",
                 type: 'POST',
                 data: formData,
                 cache: false,
@@ -104,34 +174,27 @@
                     if (response.errors) {
                         handleErrors(response.errors);
                     } else {
-                        clearErrors()
+                        clearErrors();
                         showSuccessMessage(response.success);
                         $('#basicModal').modal('hide');
                     }
-                }
+                },
             });
         }
-
-        $('.updateSubmit').click(function(e) {
-            e.preventDefault();
-            var id = $(this).data('id');
-            update(id);
-        });
 
         function update(id) {
             for (var instance in CKEDITOR.instances) {
                 CKEDITOR.instances[instance].updateElement();
             }
-            var formData = new FormData($('#announcementEditForm' + id)[0]);
-            var url = "{{ url('dashboard/pengumuman') }}" + '/' + id;
-            formData.append('_method', 'patch');
+            var formData = new FormData($('#galleryEditForm' + id)[0]);
+            var url = "{{ url('dashboard/gallery') }}" + '/' + id;
             formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
             for (var pair of formData.entries()) {
                 console.log(pair[0] + ', ' + pair[1]);
             }
             $.ajax({
                 url: url,
-                type: 'POST',
+                type: 'PATCH',
                 data: formData,
                 cache: false,
                 contentType: false,
@@ -188,7 +251,7 @@
 
         function deleteData(dataId) {
             // Kirim permintaan Ajax ke server
-            fetch(`/dashboard/pengumuman/${dataId}`, {
+            fetch(`/dashboard/gallery/${dataId}`, {
                     method: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}',

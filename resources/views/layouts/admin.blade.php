@@ -91,14 +91,14 @@
                 <div class="menu-inner-shadow"></div>
                 <ul class="menu-inner py-1">
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">Dashboard</span></li>
-                    <li
-                        class="menu-item {{ request()->is('home') || request()->is('dashboard/') ? 'active open' : '' }}">
+                    <li class="menu-item {{ request()->is('home') ? 'active' : '' }}">
                         <a href="{{ route('home') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Basic">Dashboard</div>
                         </a>
                     </li>
-                    <li class="menu-item {{ request()->is('dashboard/profile') ? 'active open' : '' }}">
+                    <li
+                        class="menu-item {{ request()->is('dashboard/profile') || request()->is('dashboard/pengumuman') || request()->is('dashboard/gallery') ? 'active open' : '' }}">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
                             <i class="menu-icon tf-icons bx bx-building-house"></i>
                             <div data-i18n="Profile">Profile Panti</div>
@@ -114,8 +114,8 @@
                                     <div data-i18n="Analytics">Pengumuman</div>
                                 </a>
                             </li>
-                            <li class="menu-item">
-                                <a href="index.html" class="menu-link">
+                            <li class="menu-item {{ request()->is('dashboard/gallery') ? 'active' : '' }}">
+                                <a href="{{ route('gallery.index') }}" class="menu-link">
                                     <div data-i18n="Analytics">Foto Panti Asuhan</div>
                                 </a>
                             </li>

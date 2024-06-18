@@ -601,9 +601,9 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-outline-secondary"
-                                        data-bs-dismiss="modal">Close</button>
+                                        data-bs-dismiss="modal">Tutup</button>
                                     <button type="button" class="btn btn-primary updateSubmit"
-                                        data-id="{{ $data->id }}">Save Changes</button>
+                                        data-id="{{ $data->id }}">Simpan</button>
                                 </div>
                             </form>
 
@@ -798,7 +798,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                    Close
+                                    Tutup
                                 </button>
                             </div>
                         </div>

@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\Anak\KesehatanAnakController;
 use App\Http\Controllers\Admin\Anak\PendidikanAnakController;
 use App\Http\Controllers\Admin\Anak\PrestasiAkademikAnakController;
 use App\Http\Controllers\Admin\Anak\PrestasiAnakController;
+use App\Http\Controllers\Admin\Dashboard\GalleryController;
 use App\Http\Controllers\Admin\Dashboard\ProfileController;
 use App\Http\Controllers\Admin\Dashboard\PengumumanController;
 use App\Http\Controllers\Admin\Data\DataController;
@@ -118,6 +119,9 @@ Route::prefix('dashboard')->group(function () {
     Route::get('profile', [ProfileController::class, 'index'])->name('profile-panti.index');
     Route::patch('profile', [ProfileController::class, 'update'])->name('profile-panti.update');
     Route::resource('pengumuman', PengumumanController::class);
+    Route::resource('gallery', GalleryController::class);
+    Route::patch('galleryUpdateImage/{id}', [GalleryController::class, 'updateImage']);
+    Route::post('galleryStoreImage/{id}', [GalleryController::class, 'storeImage']);
 });
 
 Auth::routes();

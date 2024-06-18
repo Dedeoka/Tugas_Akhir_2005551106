@@ -1253,7 +1253,7 @@
                                             <button type="button" data-id="{{ $data->id }}"
                                                 class="btn btn-primary mb-2 d-grid w-100 btnNextEducation">Berikutnya</button>
                                             <button type="button" class="btn btn-outline-secondary d-grid w-100"
-                                                data-bs-dismiss="modal" aria-label="Close">Close</button>
+                                                data-bs-dismiss="modal" aria-label="Close">Tutup</button>
                                         </div>
                                         <div class="tab-pane fade" id="navs-justified-education{{ $data->id }}"
                                             role="tabpanel">
@@ -1543,7 +1543,7 @@
                                             <button type="button" data-id="{{ $data->id }}"
                                                 class="btn btn-primary mb-2 d-grid w-100 btnPrevHealth">Sebelumnya</button>
                                             <button type="button" class="btn btn-outline-secondary d-grid w-100"
-                                                data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                                                data-bs-dismiss="modal" aria-label="Close">Tutup</button>
                                         </div>
                                     </div>
                                 </div>

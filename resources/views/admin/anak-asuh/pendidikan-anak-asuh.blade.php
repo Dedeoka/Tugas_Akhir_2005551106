@@ -571,7 +571,7 @@
                                             <button type="button" id="btnNextProfileEdit"
                                                 class="btn btn-primary mb-2 d-grid w-100">Berikutnya</button>
                                             <button type="button" class="btn btn-outline-secondary d-grid w-100"
-                                                data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                                                data-bs-dismiss="modal" aria-label="Close">Tutup</button>
                                         </div>
                                         <div class="tab-pane fade" id="navs-justified-profile-edit" role="tabpanel">
                                             <div class="card mb-4">
@@ -773,7 +773,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                            Close
+                            Tutup
                         </button>
                     </div>
                 </div>

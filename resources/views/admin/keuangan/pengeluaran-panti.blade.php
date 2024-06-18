@@ -271,7 +271,7 @@
                                                                     <button type="button"
                                                                         class="btn btn-outline-secondary d-grid w-100"
                                                                         data-bs-dismiss="modal"
-                                                                        aria-label="Close">Cancel</button>
+                                                                        aria-label="Close">Tutup</button>
                                                                 </div>
                                                             </div>
                                                         </div>

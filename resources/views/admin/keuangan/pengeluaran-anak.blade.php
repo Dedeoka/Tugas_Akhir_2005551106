@@ -459,7 +459,7 @@
                                                 <button type="submit" class="btn btn-primary mb-2 d-grid w-100 simpan"
                                                     id="submit">Simpan</button>
                                                 <button type="button" class="btn btn-outline-secondary d-grid w-100"
-                                                    data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                                                    data-bs-dismiss="modal" aria-label="Close">Tutup</button>
                                             </div>
                                         </div>
                                     </div>
@@ -519,7 +519,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                Close
+                                Tutup
                             </button>
                         </div>
                     </div>
