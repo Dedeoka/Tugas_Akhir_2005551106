@@ -9,4 +9,14 @@ class EventType extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+
+    public function event()
+    {
+        return $this->hasMany(EventType::class);
+    }
+    
+    public function donaturEvent()
+    {
+        return $this->hasMany(DonaturEvent::class);
+    }
 }

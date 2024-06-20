@@ -15,6 +15,8 @@ use App\Http\Controllers\Admin\Anak\PrestasiAnakController;
 use App\Http\Controllers\Admin\Dashboard\GalleryController;
 use App\Http\Controllers\Admin\Dashboard\ProfileController;
 use App\Http\Controllers\Admin\Dashboard\PengumumanController;
+use App\Http\Controllers\Admin\Dashboard\ProgramKegiatanPantiController;
+use App\Http\Controllers\Admin\Dashboard\ProgramKegiatanDonaturController;
 use App\Http\Controllers\Admin\Data\DataController;
 use App\Http\Controllers\Admin\Donasi\DonasiUangController;
 use App\Http\Controllers\Admin\Donasi\DonasiBarangController;
@@ -122,6 +124,12 @@ Route::prefix('dashboard')->group(function () {
     Route::resource('gallery', GalleryController::class);
     Route::patch('galleryUpdateImage/{id}', [GalleryController::class, 'updateImage']);
     Route::post('galleryStoreImage/{id}', [GalleryController::class, 'storeImage']);
+    Route::resource('program-kegiatan-donatur', ProgramKegiatanDonaturController::class);
+    Route::patch('donaturEventUpdateImage/{id}', [ProgramKegiatanDonaturController::class, 'updateImage']);
+    Route::post('donaturEventStoreImage/{id}', [ProgramKegiatanDonaturController::class, 'storeImage']);
+    Route::resource('program-kegiatan-panti', ProgramKegiatanPantiController::class);
+    Route::patch('eventUpdateImage/{id}', [ProgramKegiatanPantiController::class, 'updateImage']);
+    Route::post('eventStoreImage/{id}', [ProgramKegiatanPantiController::class, 'storeImage']);
 });
 
 Auth::routes();

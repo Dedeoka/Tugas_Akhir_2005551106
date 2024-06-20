@@ -182,18 +182,15 @@
             </div>
         </div>
         <div class="card">
-            <div class="d-flex">
+            <div class="d-flex justify-content-between">
                 <div class="w-75 m-3 quick-sand">
                     <h3>
                         Tabel Data Pengeluaran Anak Asuh
                     </h3>
                 </div>
                 <div class="col-lg-3 col-md-6 quick-sand">
-                    <div class="mt-3 mb-3">
-                        <div class="d-flex">
-                            <div class="side-content-30">
-
-                            </div>
+                    <div class="mt-3 mb-3 px-5">
+                        <div class="d-flex justify-content-end">
                             <div class="btn-group" id="dropdown-icon-demo">
                                 <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
                                     aria-expanded="false">

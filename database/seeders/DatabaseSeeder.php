@@ -28,6 +28,19 @@ class DatabaseSeeder extends Seeder
         ];
         \App\Models\IncomeType::insert($incomeTypes);
 
+        $eventType = [
+            ['name' => 'Perayaan Ulang Tahun'],
+            ['name' => 'Tirta Yatra'],
+            ['name' => 'Pengabdian Sosial'],
+            ['name' => 'Syukuran'],
+        ];
+        \App\Models\EventType::insert($eventType);
+
+        $profile = [
+            ['name' => '-', 'description' => '-', 'thumbnail' => '-'],
+        ];
+        \App\Models\OrphanageProfile::insert($profile);
+
         $costType = [
             ['name' => 'Biaya Kebutuhan Pangan'],
             ['name' => 'Biaya Kebutuhan Sandang'],

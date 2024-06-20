@@ -164,25 +164,20 @@
         </div>
         <!-- DataTable with Buttons -->
         <div class="card">
-            <div class="d-flex">
-                <div class="w-75 m-3 quick-sand">
+            <div class="d-flex justify-content-between">
+                <div class="m-3 quick-sand">
                     <h3>
                         Tabel Data Pengeluaran Panti
                     </h3>
                 </div>
                 <div class="col-lg-3 col-md-6 quick-sand">
-                    <div class="mt-3 mb-3">
-                        <div class="d-flex">
-                            <div class="side-content">
-
-                            </div>
-                            <div class="">
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#modalPengeluaranPanti">
-                                    <i class='bx bx-plus m-1'></i>
-                                    Tambah Data
-                                </button>
-                            </div>
+                    <div class="mt-3 mb-3 px-5">
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#modalPengeluaranPanti">
+                                <i class='bx bx-plus m-1'></i>
+                                Tambah Data
+                            </button>
                             <div class="modal fade" id="modalPengeluaranPanti" tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog modal-lg" role="document">
                                     <div class="modal-content">

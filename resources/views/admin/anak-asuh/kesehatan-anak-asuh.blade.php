@@ -11,18 +11,15 @@
 
         <!-- DataTable with Buttons -->
         <div class="card">
-            <div class="d-flex">
-                <div class="w-75 m-3 quick-sand">
+            <div class="d-flex justify-content-between">
+                <div class="m-3 quick-sand">
                     <h3>
                         Tabel Data Kesehatan Anak Asuh
                     </h3>
                 </div>
                 <div class="col-lg-3 col-md-6 quick-sand">
-                    <div class="mt-3 mb-3">
-                        <div class="d-flex">
-                            <div class="side-content">
-
-                            </div>
+                    <div class="mt-3 mb-3 px-5">
+                        <div class="d-flex justify-content-end">
                             <div class="">
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                     data-bs-target="#exLargeModal">

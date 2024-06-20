@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('donatur_event_images', function (Blueprint $table) {
             $table->id();
             $table->foreignId('donatur_event_id')->constrained('donatur_events')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('image_url');
+            $table->string('image');
             $table->timestamps();
         });
     }

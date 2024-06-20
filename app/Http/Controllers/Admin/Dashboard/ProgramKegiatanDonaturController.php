@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin\Dashboard;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Gallery;
+use App\Models\DonaturEvent;
+use App\Models\DonaturEventImages;
+use App\Models\EventType;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use App\Models\GalleryImage;
+use Illuminate\Support\Facades\Log;
 
-class GalleryController extends Controller
+class ProgramKegiatanDonaturController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +19,9 @@ class GalleryController extends Controller
     public function index(Request $request)
     {
         $keyword = $request->query('q','');
-        $datas = Gallery::with('galleryImages')->where('title', 'LIKE', "%{$keyword}%")->orWhere('description', '=',$keyword)->paginate(10)->withQueryString();
-        return view('admin.dashboard.gallery.index', compact('datas', 'keyword'));
+        $eventType = EventType::all();
+        $datas = DonaturEvent::with('donaturEventImages')->where('title', 'LIKE', "%{$keyword}%")->orWhere('description', '=',$keyword)->paginate(10)->withQueryString();
+        return view('admin.dashboard.program-kegiatan.donatur.index', compact('datas', 'keyword', 'eventType'));
     }
 
     /**
@@ -26,7 +29,7 @@ class GalleryController extends Controller
      */
     public function create()
     {
-
+        //
     }
 
     /**
@@ -35,51 +38,55 @@ class GalleryController extends Controller
     public function store(Request $request)
     {
         $validasi = Validator::make($request->all(), [
+            'name' => 'required',
+            'address' => 'required',
+            'email' => 'required|email',
+            'phone_number' => 'required',
+            'event_type_id' => 'required',
             'title' => 'required',
             'description' => 'required',
-            'images' => 'required',
-            'images.*' => 'file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'date' => 'required',
+            'thumbnail' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'date' => 'required|date',
         ], [
+            'name.required' => 'Data wajib diisi',
+            'address.required' => 'Data wajib diisi',
+            'phone_number.required' => 'Data wajib diisi',
+            'email.required' => 'Data wajib diisi',
+            'email.email' => 'Format email tidak valid',
+            'event_type_id.required' => 'Data wajib diisi',
             'title.required' => 'Data wajib diisi',
             'description.required' => 'Data description wajib diisi',
-            'images.required' => 'Foto gallery wajib diisi',
-            'images.*.file' => 'Berkas foto anak asuh harus berupa file',
-            'images.*.mimes' => 'Format file foto tidak valid. Pilih format jpg, jpeg, atau png',
-            'images.*.max' => 'Ukuran file foto tidak boleh lebih dari 2MB',
+            'thumbnail.required' => 'Foto gallery wajib diisi',
+            'thumbnail.file' => 'Berkas foto anak asuh harus berupa file',
+            'thumbnail.mimes' => 'Format file foto tidak valid. Pilih format jpg, jpeg, atau png',
+            'thumbnail.max' => 'Ukuran file foto tidak boleh lebih dari 2MB',
             'date.required' => 'Data wajib diisi',
+            'date.date' => 'Format tanggal tidak valid',
         ]);
 
         if ($validasi->fails()) {
             return response()->json(['errors' => $validasi->errors()], 422);
         }
 
-        try {
             $data = [
+                'name' => $request->name,
+                'address' => $request->address,
+                'email' => $request->email,
+                'phone_number' => $request->phone_number,
+                'event_type_id' => $request->event_type_id,
                 'title' => $request->title,
                 'description' => $request->description,
                 'date' => $request->date,
             ];
 
-            $gallery = Gallery::create($data);
-
-            if ($request->hasFile('images')) {
-                foreach ($request->file('images') as $image) {
-                    $imagePath = $image->store('uploads/gallery');
-                    $imageData = [
-                        'gallery_id' => $gallery->id,
-                        'image' => $imagePath
-                    ];
-                    GalleryImage::create($imageData);
-                }
+            if ($request->hasFile('thumbnail')) {
+                $thumbnailPath = $request->file('thumbnail')->store('uploads/donatur-event-thumbnail');
+                $data['thumbnail'] = $thumbnailPath;
             }
 
-            return response()->json(['success' => 'Berhasil menambahkan data']);
+            $donaturEvent = DonaturEvent::create($data);
 
-        } catch (\Exception $e) {
-            // Handle any unexpected errors
-            return response()->json(['errors' => ['message' => 'Terjadi kesalahan pada server. Silahkan coba lagi nanti.']], 500);
-        }
+            return response()->json(['success' => 'Berhasil menambahkan data']);
     }
 
 
@@ -105,13 +112,29 @@ class GalleryController extends Controller
     public function update(Request $request, string $id)
     {
         $validasi = Validator::make($request->all(), [
+            'name' => 'required',
+            'address' => 'required',
+            'email' => 'required|email',
+            'phone_number' => 'required',
+            'event_type_id' => 'required',
             'title' => 'required',
             'description' => 'required',
-            'date' => 'required',
+            'thumbnail' => 'file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'date' => 'required|date',
         ], [
+            'name.required' => 'Data wajib diisi',
+            'address.required' => 'Data wajib diisi',
+            'phone_number.required' => 'Data wajib diisi',
+            'email.required' => 'Data wajib diisi',
+            'email.email' => 'Format email tidak valid',
+            'event_type_id.required' => 'Data wajib diisi',
             'title.required' => 'Data wajib diisi',
             'description.required' => 'Data description wajib diisi',
+            'thumbnail.file' => 'Berkas foto anak asuh harus berupa file',
+            'thumbnail.mimes' => 'Format file foto tidak valid. Pilih format jpg, jpeg, atau png',
+            'thumbnail.max' => 'Ukuran file foto tidak boleh lebih dari 2MB',
             'date.required' => 'Data wajib diisi',
+            'date.date' => 'Format tanggal tidak valid',
         ]);
 
         if ($validasi->fails()) {
@@ -119,16 +142,42 @@ class GalleryController extends Controller
         }
 
         try {
+            // Find the existing donatur event by ID
+            $donaturEvent = DonaturEvent::find($id);
 
-            $gallery = Gallery::find($id);
-            $gallery->title = $request->title;
-            $gallery->description = $request->description;
-            $gallery->save();
+            // Check if the event exists
+            if (!$donaturEvent) {
+                return response()->json(['errors' => ['message' => 'Data tidak ditemukan.']], 404);
+            }
 
-            return response()->json(['success' => 'Berhasil menambahkan data']);
+            if ($request->hasFile('thumbnail')) {
+                if ($donaturEvent->thumbnail) {
+                    Storage::delete($donaturEvent->thumbnail);
+                }
+                $donaturEvent->thumbnail = $request->file('thumbnail')->store('uploads/donatur-event-thumbnail');
+            } else{
+                $donaturEvent->thumbnail = $donaturEvent->thumbnail;
+            }
+
+            // Update other fields
+            $donaturEvent->name = $request->name;
+            $donaturEvent->address = $request->address;
+            $donaturEvent->email = $request->email;
+            $donaturEvent->phone_number = $request->phone_number;
+            $donaturEvent->event_type_id = $request->event_type_id;
+            $donaturEvent->date = $request->date;
+            $donaturEvent->title = $request->title;
+            $donaturEvent->description = $request->description;
+
+            // Save the updated donatur event
+            $donaturEvent->save();
+
+            return response()->json(['success' => 'Berhasil memperbarui data']);
 
         } catch (\Exception $e) {
-            // Handle any unexpected errors
+            // Log the exception message
+            Log::error('Error updating donatur event: ' . $e->getMessage());
+
             return response()->json(['errors' => ['message' => 'Terjadi kesalahan pada server. Silahkan coba lagi nanti.']], 500);
         }
     }
@@ -138,21 +187,21 @@ class GalleryController extends Controller
      */
     public function destroy(string $id)
     {
-        $gallery = Gallery::find($id);
+        $donaturEvent = DonaturEvent::find($id);
 
-        if (!$gallery) {
+        if (!$donaturEvent) {
             return response()->json(['error' => 'Gallery not found.'], 404);
         }
 
-        $galleryImages = $gallery->galleryImages;
+        $donaturEventImages = $donaturEvent->donaturEventImages;
 
-        foreach ($galleryImages as $image) {
+        foreach ($donaturEventImages as $image) {
             Storage::delete($image->image);
         }
 
-        GalleryImage::where('gallery_id', $gallery->id)->delete();
+        DonaturEventImages::where('donatur_event_id', $donaturEvent->id)->delete();
 
-        $gallery->delete();
+        $donaturEvent->delete();
 
         return response()->json(['success' => 'Data Berhasil Dihapus.']);
     }
@@ -174,16 +223,16 @@ class GalleryController extends Controller
 
         try {
 
-            $gallery = Gallery::find($id);
+            $donaturEvent = DonaturEvent::find($id);
 
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
-                    $imagePath = $image->store('uploads/gallery');
+                    $imagePath = $image->store('uploads/donatur-event-images');
                     $imageData = [
-                        'gallery_id' => $gallery->id,
+                        'donatur_event_id' => $donaturEvent->id,
                         'image' => $imagePath
                     ];
-                    GalleryImage::create($imageData);
+                    DonaturEventImages::create($imageData);
                 }
             }
 
@@ -211,11 +260,11 @@ class GalleryController extends Controller
         }
 
         try {
-            $image = GalleryImage::find($id);
+            $image = DonaturEventImages::find($id);
 
             if ($request->hasFile('image')) {
                 // Simpan file baru
-                $imagePath = $request->file('image')->store('uploads/gallery');
+                $imagePath = $request->file('image')->store('uploads/donatur-event-images');
 
                 // Hapus file lama jika ada
                 if ($image->image) {

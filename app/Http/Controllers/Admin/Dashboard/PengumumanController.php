@@ -117,7 +117,7 @@ class PengumumanController extends Controller
                 Storage::delete($announcement->image);
                 $announcement->image = $request->file('image')->store('uploads/pengumuman');
             }else{
-                $announcement->image = ('-');
+                $announcement->image = $announcement->image;
             }
             $announcement->save();
 

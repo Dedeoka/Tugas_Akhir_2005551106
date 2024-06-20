@@ -9,4 +9,8 @@ class DonaturEventImages extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+
+    public function donaturEvent(){
+        return $this->belongsTo(DonaturEvent::class, 'donatur_event_id');
+    }
 }

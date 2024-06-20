@@ -121,32 +121,22 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="menu-item">
+                    <li class="menu-item {{ request()->is('dashboard/program-kegiatan*') ? 'active open' : '' }}">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
                             <i class="menu-icon tf-icons bx bxs-party"></i>
                             <div data-i18n="Profile">Program Kegiatan</div>
                         </a>
                         <ul class="menu-sub">
-                            <li class="menu-item">
-                                <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/dashboards-crm.html"
-                                    class="menu-link">
+                            <li
+                                class="menu-item {{ request()->is('dashboard/program-kegiatan-panti') ? 'active' : '' }}">
+                                <a href="{{ route('program-kegiatan-panti.index') }}" class="menu-link">
                                     <div data-i18n="CRM">Data Program Kegiatan Panti Asuhan</div>
                                 </a>
                             </li>
-                            <li class="menu-item">
-                                <a href="index.html" class="menu-link">
-                                    <div data-i18n="Analytics">Foto Program Kegiatan Panti Asuhan</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/dashboards-crm.html"
-                                    class="menu-link">
+                            <li
+                                class="menu-item {{ request()->is('dashboard/program-kegiatan-donatur') ? 'active' : '' }}">
+                                <a href="{{ route('program-kegiatan-donatur.index') }}" class="menu-link">
                                     <div data-i18n="CRM">Data Program Kegiatan Donatur</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="index.html" class="menu-link">
-                                    <div data-i18n="Analytics">Foto Program Kegiatan Donatur</div>
                                 </a>
                             </li>
                         </ul>

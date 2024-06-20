@@ -11,393 +11,374 @@
 
         <!-- DataTable with Buttons -->
         <div class="card">
-            <div class="d-flex">
-                <div class="w-75 m-3 quick-sand">
+            <div class="d-flex justify-content-between">
+                <div class="m-3 quick-sand">
                     <h3>
                         Tabel Data Anak Asuh
                     </h3>
                 </div>
                 <div class="col-lg-3 col-md-6 quick-sand">
-                    <div class="mt-3 mb-3">
-                        <div class="d-flex">
-                            <div class="side-content">
-                            </div>
+                    <div class="mt-3 mb-3 px-5">
+                        <div class="d-flex justify-content-end">
                             <div class="">
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                     data-bs-target="#exLargeModal">
                                     <i class='bx bx-plus m-1'></i>
                                     Tambah Data
                                 </button>
-                                <div class="modal fade" id="exLargeModal" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h3 class="text-center">Tambah Data Anak Asuh</h3>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-header">
-                                                <ul class="nav nav-pills nav-fill w-100" role="tablist">
-                                                    <li class="nav-item">
-                                                        <button type="button" id="tab-justified-home"
-                                                            class="nav-link active" role="tab" data-bs-toggle="tab"
-                                                            data-bs-target="#navs-justified-home"
-                                                            aria-controls="navs-justified-home" aria-selected="true"
-                                                            disabled>
-                                                            <span class="d-none d-sm-block">
-                                                                Data Anak</span>
-                                                        </button>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <button type="button" id="tab-justified-profile" class="nav-link"
-                                                            role="tab" data-bs-toggle="tab"
-                                                            data-bs-target="#navs-justified-profile"
-                                                            aria-controls="navs-justified-profile" aria-selected="false"
-                                                            disabled>
-                                                            <span class="d-none d-sm-block">
-                                                                Data Lainnya</span>
-                                                        </button>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <button type="button" id="tab-justified-messages" class="nav-link"
-                                                            role="tab" data-bs-toggle="tab" data-bs-target="#ss"
-                                                            aria-controls="ss" aria-selected="false" disabled>
-                                                            <span class="d-none d-sm-block">
-                                                                Data Wali</span>
-                                                        </button>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form id="dataAnakForm" action="{{ route('data-anak.store') }}"
-                                                    method="POST" enctype="multipart/form-data">
-                                                    @csrf
-                                                    <div class="row">
-                                                        <div class="">
-                                                            <div class="nav-align-top mb-4">
-                                                                <div class="tab-content">
-                                                                    <div class="tab-pane fade show active"
-                                                                        id="navs-justified-home" role="tabpanel">
-                                                                        <div class="card mb-4">
-                                                                            <div class="card-body">
-                                                                                <div class="mb-3">
-                                                                                    <label for="name"
-                                                                                        class="form-label">Nama
-                                                                                        Anak</label>
-                                                                                    <input type="text"
-                                                                                        class="form-control" id="name"
-                                                                                        name="name"
-                                                                                        placeholder="Nama Anak..." />
-                                                                                    <div id="nameError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="place_of_birth"
-                                                                                        class="form-label">Tempat
-                                                                                        Lahir</label>
-                                                                                    <input type="text"
-                                                                                        class="form-control"
-                                                                                        id="place_of_birth"
-                                                                                        name="place_of_birth"
-                                                                                        placeholder="Tempat Lahir..." />
-                                                                                    <div id="placeOfBirthError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="date_of_birth"
-                                                                                        class="form-label">Tanggal
-                                                                                        Lahir</label>
-                                                                                    <input class="form-control"
-                                                                                        type="date" id="date_of_birth"
-                                                                                        name="date_of_birth" />
-                                                                                    <div id="dateOfBirthError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="gender"
-                                                                                        class="form-label">Jenis
-                                                                                        Kelamin</label>
-                                                                                    <select class="form-select"
-                                                                                        id="gender" name="gender"
-                                                                                        aria-label="Default select example">
-                                                                                        <option value="" hidden>Pilih
-                                                                                            Jenis Kelamin
-                                                                                        </option>
-                                                                                        <option value="Laki-Laki">Laki-Laki
-                                                                                        </option>
-                                                                                        <option value="Perempuan">Perempuan
-                                                                                        </option>
-                                                                                    </select>
-                                                                                    <div id="genderError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="religion"
-                                                                                        class="form-label">Agama</label>
-                                                                                    <select class="form-select"
-                                                                                        id="religion" name="religion"
-                                                                                        aria-label="Default select example">
-                                                                                        <option value="" hidden>Pilih
-                                                                                            Agama</option>
-                                                                                        <option value="Islam">Islam
-                                                                                        </option>
-                                                                                        <option value="Hindu">Hindu
-                                                                                        </option>
-                                                                                        <option value="Kristen Protestan">
-                                                                                            Kristen Protestan</option>
-                                                                                        <option value="Kristen Katolik">
-                                                                                            Kristen Katolik</option>
-                                                                                        <option value="Budha">Budha
-                                                                                        </option>
-                                                                                        <option value="Konghucu">Konghucu
-                                                                                        </option>
-                                                                                    </select>
-                                                                                    <div id="religionError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="congenital_disease"
-                                                                                        class="form-label">Penyakit
-                                                                                        Bawaan (Kosongkan Bila Tidak
-                                                                                        Ada)</label>
-                                                                                    <input type="text"
-                                                                                        class="form-control"
-                                                                                        id="congenital_disease"
-                                                                                        name="congenital_disease"
-                                                                                        placeholder="Penaykit Bawaan..." />
-                                                                                    <div id="congenital_diseaseError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="status"
-                                                                                        class="form-label">Status</label>
-                                                                                    <select class="form-select"
-                                                                                        id="status" name="status"
-                                                                                        aria-label="Default select example">
-                                                                                        <option value="" hidden>
-                                                                                            Status Anak Asuh</option>
-                                                                                        <option value="Aktif">Aktif
-                                                                                        </option>
-                                                                                        <option value="Non-Aktif">Non-Aktif
-                                                                                        </option>
-                                                                                    </select>
-                                                                                    <div id="statusError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="image"
-                                                                                        class="form-label">Foto
-                                                                                        Anak</label>
-                                                                                    <input class="form-control"
-                                                                                        type="file" id="image"
-                                                                                        name="image" />
-                                                                                    <div id="imageError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
+                            </div>
+                            <div class="modal fade" id="exLargeModal" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h3 class="text-center">Tambah Data Anak Asuh</h3>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-header">
+                                            <ul class="nav nav-pills nav-fill w-100" role="tablist">
+                                                <li class="nav-item">
+                                                    <button type="button" id="tab-justified-home" class="nav-link active"
+                                                        role="tab" data-bs-toggle="tab"
+                                                        data-bs-target="#navs-justified-home"
+                                                        aria-controls="navs-justified-home" aria-selected="true" disabled>
+                                                        <span class="d-none d-sm-block">
+                                                            Data Anak</span>
+                                                    </button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" id="tab-justified-profile" class="nav-link"
+                                                        role="tab" data-bs-toggle="tab"
+                                                        data-bs-target="#navs-justified-profile"
+                                                        aria-controls="navs-justified-profile" aria-selected="false"
+                                                        disabled>
+                                                        <span class="d-none d-sm-block">
+                                                            Data Lainnya</span>
+                                                    </button>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <button type="button" id="tab-justified-messages" class="nav-link"
+                                                        role="tab" data-bs-toggle="tab" data-bs-target="#ss"
+                                                        aria-controls="ss" aria-selected="false" disabled>
+                                                        <span class="d-none d-sm-block">
+                                                            Data Wali</span>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="dataAnakForm" action="{{ route('data-anak.store') }}" method="POST"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                <div class="row">
+                                                    <div class="">
+                                                        <div class="nav-align-top mb-4">
+                                                            <div class="tab-content">
+                                                                <div class="tab-pane fade show active"
+                                                                    id="navs-justified-home" role="tabpanel">
+                                                                    <div class="card mb-4">
+                                                                        <div class="card-body">
+                                                                            <div class="mb-3">
+                                                                                <label for="name"
+                                                                                    class="form-label">Nama
+                                                                                    Anak</label>
+                                                                                <input type="text" class="form-control"
+                                                                                    id="name" name="name"
+                                                                                    placeholder="Nama Anak..." />
+                                                                                <div id="nameError"
+                                                                                    class="invalid-feedback"></div>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="place_of_birth"
+                                                                                    class="form-label">Tempat
+                                                                                    Lahir</label>
+                                                                                <input type="text" class="form-control"
+                                                                                    id="place_of_birth"
+                                                                                    name="place_of_birth"
+                                                                                    placeholder="Tempat Lahir..." />
+                                                                                <div id="placeOfBirthError"
+                                                                                    class="invalid-feedback"></div>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="date_of_birth"
+                                                                                    class="form-label">Tanggal
+                                                                                    Lahir</label>
+                                                                                <input class="form-control" type="date"
+                                                                                    id="date_of_birth"
+                                                                                    name="date_of_birth" />
+                                                                                <div id="dateOfBirthError"
+                                                                                    class="invalid-feedback"></div>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="gender"
+                                                                                    class="form-label">Jenis
+                                                                                    Kelamin</label>
+                                                                                <select class="form-select" id="gender"
+                                                                                    name="gender"
+                                                                                    aria-label="Default select example">
+                                                                                    <option value="" hidden>Pilih
+                                                                                        Jenis Kelamin
+                                                                                    </option>
+                                                                                    <option value="Laki-Laki">Laki-Laki
+                                                                                    </option>
+                                                                                    <option value="Perempuan">Perempuan
+                                                                                    </option>
+                                                                                </select>
+                                                                                <div id="genderError"
+                                                                                    class="invalid-feedback"></div>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="religion"
+                                                                                    class="form-label">Agama</label>
+                                                                                <select class="form-select" id="religion"
+                                                                                    name="religion"
+                                                                                    aria-label="Default select example">
+                                                                                    <option value="" hidden>Pilih
+                                                                                        Agama</option>
+                                                                                    <option value="Islam">Islam
+                                                                                    </option>
+                                                                                    <option value="Hindu">Hindu
+                                                                                    </option>
+                                                                                    <option value="Kristen Protestan">
+                                                                                        Kristen Protestan</option>
+                                                                                    <option value="Kristen Katolik">
+                                                                                        Kristen Katolik</option>
+                                                                                    <option value="Budha">Budha
+                                                                                    </option>
+                                                                                    <option value="Konghucu">Konghucu
+                                                                                    </option>
+                                                                                </select>
+                                                                                <div id="religionError"
+                                                                                    class="invalid-feedback"></div>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="congenital_disease"
+                                                                                    class="form-label">Penyakit
+                                                                                    Bawaan (Kosongkan Bila Tidak
+                                                                                    Ada)</label>
+                                                                                <input type="text" class="form-control"
+                                                                                    id="congenital_disease"
+                                                                                    name="congenital_disease"
+                                                                                    placeholder="Penaykit Bawaan..." />
+                                                                                <div id="congenital_diseaseError"
+                                                                                    class="invalid-feedback"></div>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="status"
+                                                                                    class="form-label">Status</label>
+                                                                                <select class="form-select" id="status"
+                                                                                    name="status"
+                                                                                    aria-label="Default select example">
+                                                                                    <option value="" hidden>
+                                                                                        Status Anak Asuh</option>
+                                                                                    <option value="Aktif">Aktif
+                                                                                    </option>
+                                                                                    <option value="Non-Aktif">Non-Aktif
+                                                                                    </option>
+                                                                                </select>
+                                                                                <div id="statusError"
+                                                                                    class="invalid-feedback"></div>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="image"
+                                                                                    class="form-label">Foto
+                                                                                    Anak</label>
+                                                                                <input class="form-control" type="file"
+                                                                                    id="image" name="image" />
+                                                                                <div id="imageError"
+                                                                                    class="invalid-feedback"></div>
                                                                             </div>
                                                                         </div>
-                                                                        <button type="button" id="btnNextProfile"
-                                                                            class="btn btn-primary mb-2 d-grid w-100">Berikutnya</button>
-                                                                        <button type="button"
-                                                                            class="btn btn-outline-secondary d-grid w-100"
-                                                                            data-bs-dismiss="modal"
-                                                                            aria-label="Close">Cancel</button>
                                                                     </div>
-                                                                    <div class="tab-pane fade" id="navs-justified-profile"
-                                                                        role="tabpanel">
-                                                                        <div class="card mb-4">
-                                                                            <div class="card-body">
-                                                                                <div class="form-check mt-3 mb-3">
-                                                                                    <input class="form-check-input"
-                                                                                        type="checkbox"
-                                                                                        value="tidak_lengkap"
-                                                                                        id="kelengkapanData"
-                                                                                        name="kelengkapan_data" />
-                                                                                    <label class="form-check-label"
-                                                                                        for="kelengkapanData"> Data Anak
-                                                                                        Tidak Lengkap? (Data di Bawah Dapat
-                                                                                        Dikosongkan)
-                                                                                    </label>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="father_name"
-                                                                                        class="form-label">Nama
-                                                                                        Ayah Anak</label>
-                                                                                    <input type="text"
-                                                                                        class="form-control"
-                                                                                        id="father_name"
-                                                                                        name="father_name"
-                                                                                        placeholder="Nama Ayah Anak..." />
-                                                                                    <div id="father_nameError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="mother_name"
-                                                                                        class="form-label">Nama
-                                                                                        Ibu Anak</label>
-                                                                                    <input type="text"
-                                                                                        class="form-control"
-                                                                                        id="mother_name"
-                                                                                        name="mother_name"
-                                                                                        placeholder="Nama Ibu Anak..." />
-                                                                                    <div id="mother_nameError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="identity_card"
-                                                                                        class="form-label">Kartu
-                                                                                        Pengenal Anak (KTP
-                                                                                        atau Kartu Pengenal Lainnya)</label>
-                                                                                    <input class="form-control"
-                                                                                        type="file" id="identity_card"
-                                                                                        name="identity_card" />
-                                                                                    <div id="identity_cardError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="birth_certificate"
-                                                                                        class="form-label">Akta
-                                                                                        Kelahiran Anak</label>
-                                                                                    <input class="form-control"
-                                                                                        type="file"
-                                                                                        id="birth_certificate"
-                                                                                        name="birth_certificate" />
-                                                                                    <div id="birthCertificateError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="family_card"
-                                                                                        class="form-label">Kartu
-                                                                                        Keluarga Anak</label>
-                                                                                    <input class="form-control"
-                                                                                        type="file" id="family_card"
-                                                                                        name="family_card" />
-                                                                                    <div id="family_cardError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
+                                                                    <button type="button" id="btnNextProfile"
+                                                                        class="btn btn-primary mb-2 d-grid w-100">Berikutnya</button>
+                                                                    <button type="button"
+                                                                        class="btn btn-outline-secondary d-grid w-100"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close">Cancel</button>
+                                                                </div>
+                                                                <div class="tab-pane fade" id="navs-justified-profile"
+                                                                    role="tabpanel">
+                                                                    <div class="card mb-4">
+                                                                        <div class="card-body">
+                                                                            <div class="form-check mt-3 mb-3">
+                                                                                <input class="form-check-input"
+                                                                                    type="checkbox" value="tidak_lengkap"
+                                                                                    id="kelengkapanData"
+                                                                                    name="kelengkapan_data" />
+                                                                                <label class="form-check-label"
+                                                                                    for="kelengkapanData"> Data Anak
+                                                                                    Tidak Lengkap? (Data di Bawah Dapat
+                                                                                    Dikosongkan)
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="father_name"
+                                                                                    class="form-label">Nama
+                                                                                    Ayah Anak</label>
+                                                                                <input type="text" class="form-control"
+                                                                                    id="father_name" name="father_name"
+                                                                                    placeholder="Nama Ayah Anak..." />
+                                                                                <div id="father_nameError"
+                                                                                    class="invalid-feedback"></div>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="mother_name"
+                                                                                    class="form-label">Nama
+                                                                                    Ibu Anak</label>
+                                                                                <input type="text" class="form-control"
+                                                                                    id="mother_name" name="mother_name"
+                                                                                    placeholder="Nama Ibu Anak..." />
+                                                                                <div id="mother_nameError"
+                                                                                    class="invalid-feedback"></div>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="identity_card"
+                                                                                    class="form-label">Kartu
+                                                                                    Pengenal Anak (KTP
+                                                                                    atau Kartu Pengenal Lainnya)</label>
+                                                                                <input class="form-control" type="file"
+                                                                                    id="identity_card"
+                                                                                    name="identity_card" />
+                                                                                <div id="identity_cardError"
+                                                                                    class="invalid-feedback"></div>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="birth_certificate"
+                                                                                    class="form-label">Akta
+                                                                                    Kelahiran Anak</label>
+                                                                                <input class="form-control" type="file"
+                                                                                    id="birth_certificate"
+                                                                                    name="birth_certificate" />
+                                                                                <div id="birthCertificateError"
+                                                                                    class="invalid-feedback"></div>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="family_card"
+                                                                                    class="form-label">Kartu
+                                                                                    Keluarga Anak</label>
+                                                                                <input class="form-control" type="file"
+                                                                                    id="family_card" name="family_card" />
+                                                                                <div id="family_cardError"
+                                                                                    class="invalid-feedback"></div>
                                                                             </div>
                                                                         </div>
-                                                                        <button type="button" id="btnNextMessages"
-                                                                            class="btn btn-primary mb-2 next-tab d-grid w-100">Berikutnya</button>
-                                                                        <button type="button"
-                                                                            class="btn btn-outline-secondary d-grid w-100"
-                                                                            id="btnPrevHome">Sebelumnya</button>
                                                                     </div>
-                                                                    <div class="tab-pane fade"
-                                                                        id="navs-justified-messages" role="tabpanel">
-                                                                        <div class="card mb-4">
-                                                                            <div class="card-body">
-                                                                                <div class="mb-3">
-                                                                                    <label for="guardian_name"
-                                                                                        class="form-label">Nama
-                                                                                        Wali Anak</label>
-                                                                                    <input type="text"
-                                                                                        class="form-control"
-                                                                                        id="guardian_name"
-                                                                                        name="guardian_name"
-                                                                                        placeholder="Nama Wali Anak..." />
-                                                                                    <div id="guardian_nameError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="guardian_relationship"
-                                                                                        class="form-label">Hubungan Wali
-                                                                                        Dengan Anak</label>
-                                                                                    <select class="form-select"
-                                                                                        id="guardian_relationship"
-                                                                                        name="guardian_relationship"
-                                                                                        aria-label="Default select example">
-                                                                                        <option value="" hidden>
-                                                                                            Hubungan Wali Dengan Anak
-                                                                                        </option>
-                                                                                        <option value="Ayah">Ayah
-                                                                                        </option>
-                                                                                        <option value="Ibu">Ibu
-                                                                                        </option>
-                                                                                        <option value="Kerabat">Kerabat
-                                                                                        </option>
-                                                                                        <option value="Teman">Teman
-                                                                                        </option>
-                                                                                        <option value="Lainnya">Lainnya
-                                                                                        </option>
-                                                                                    </select>
-                                                                                    <div id="guardian_relationshipError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="guardian_address"
-                                                                                        class="form-label">Alamat
-                                                                                        Wali Anak</label>
-                                                                                    <input type="text"
-                                                                                        class="form-control"
-                                                                                        id="guardian_address"
-                                                                                        name="guardian_address"
-                                                                                        placeholder="Alamat Wali Anak..." />
-                                                                                    <div id="guardian_addressError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="guardian_phone_number"
-                                                                                        class="form-label">Nomor Telepon
-                                                                                        Wali Anak</label>
-                                                                                    <input type="text"
-                                                                                        class="form-control"
-                                                                                        id="guardian_phone_number"
-                                                                                        name="guardian_phone_number"
-                                                                                        placeholder="Nomor Telepon Wali Anak..." />
-                                                                                    <div id="guardian_phone_numberError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="guardian_email"
-                                                                                        class="form-label">Email
-                                                                                        Wali Anak</label>
-                                                                                    <input type="email"
-                                                                                        class="form-control"
-                                                                                        id="guardian_email"
-                                                                                        name="guardian_email"
-                                                                                        placeholder="Email Wali Anak..." />
-                                                                                    <div id="guardian_emailError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="guardian_identity_card"
-                                                                                        class="form-label">Kartu Pengenal
-                                                                                        Wali Anak (KTP
-                                                                                        atau Kartu Pengenal Lainnya)</label>
-                                                                                    <input class="form-control"
-                                                                                        type="file"
-                                                                                        id="guardian_identity_card"
-                                                                                        name="guardian_identity_card" />
-                                                                                    <div id="guardian_identity_cardError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label for="reason_for_leaving"
-                                                                                        class="form-label">Alasan
-                                                                                        Menitipkan</label>
-                                                                                    <textarea class="form-control" id="reason_for_leaving" name="reason_for_leaving" rows="3"></textarea>
-                                                                                    <div id="reason_for_leavingError"
-                                                                                        class="invalid-feedback"></div>
-                                                                                </div>
+                                                                    <button type="button" id="btnNextMessages"
+                                                                        class="btn btn-primary mb-2 next-tab d-grid w-100">Berikutnya</button>
+                                                                    <button type="button"
+                                                                        class="btn btn-outline-secondary d-grid w-100"
+                                                                        id="btnPrevHome">Sebelumnya</button>
+                                                                </div>
+                                                                <div class="tab-pane fade" id="navs-justified-messages"
+                                                                    role="tabpanel">
+                                                                    <div class="card mb-4">
+                                                                        <div class="card-body">
+                                                                            <div class="mb-3">
+                                                                                <label for="guardian_name"
+                                                                                    class="form-label">Nama
+                                                                                    Wali Anak</label>
+                                                                                <input type="text" class="form-control"
+                                                                                    id="guardian_name"
+                                                                                    name="guardian_name"
+                                                                                    placeholder="Nama Wali Anak..." />
+                                                                                <div id="guardian_nameError"
+                                                                                    class="invalid-feedback"></div>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="guardian_relationship"
+                                                                                    class="form-label">Hubungan Wali
+                                                                                    Dengan Anak</label>
+                                                                                <select class="form-select"
+                                                                                    id="guardian_relationship"
+                                                                                    name="guardian_relationship"
+                                                                                    aria-label="Default select example">
+                                                                                    <option value="" hidden>
+                                                                                        Hubungan Wali Dengan Anak
+                                                                                    </option>
+                                                                                    <option value="Ayah">Ayah
+                                                                                    </option>
+                                                                                    <option value="Ibu">Ibu
+                                                                                    </option>
+                                                                                    <option value="Kerabat">Kerabat
+                                                                                    </option>
+                                                                                    <option value="Teman">Teman
+                                                                                    </option>
+                                                                                    <option value="Lainnya">Lainnya
+                                                                                    </option>
+                                                                                </select>
+                                                                                <div id="guardian_relationshipError"
+                                                                                    class="invalid-feedback"></div>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="guardian_address"
+                                                                                    class="form-label">Alamat
+                                                                                    Wali Anak</label>
+                                                                                <input type="text" class="form-control"
+                                                                                    id="guardian_address"
+                                                                                    name="guardian_address"
+                                                                                    placeholder="Alamat Wali Anak..." />
+                                                                                <div id="guardian_addressError"
+                                                                                    class="invalid-feedback"></div>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="guardian_phone_number"
+                                                                                    class="form-label">Nomor Telepon
+                                                                                    Wali Anak</label>
+                                                                                <input type="text" class="form-control"
+                                                                                    id="guardian_phone_number"
+                                                                                    name="guardian_phone_number"
+                                                                                    placeholder="Nomor Telepon Wali Anak..." />
+                                                                                <div id="guardian_phone_numberError"
+                                                                                    class="invalid-feedback"></div>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="guardian_email"
+                                                                                    class="form-label">Email
+                                                                                    Wali Anak</label>
+                                                                                <input type="email" class="form-control"
+                                                                                    id="guardian_email"
+                                                                                    name="guardian_email"
+                                                                                    placeholder="Email Wali Anak..." />
+                                                                                <div id="guardian_emailError"
+                                                                                    class="invalid-feedback"></div>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="guardian_identity_card"
+                                                                                    class="form-label">Kartu Pengenal
+                                                                                    Wali Anak (KTP
+                                                                                    atau Kartu Pengenal Lainnya)</label>
+                                                                                <input class="form-control" type="file"
+                                                                                    id="guardian_identity_card"
+                                                                                    name="guardian_identity_card" />
+                                                                                <div id="guardian_identity_cardError"
+                                                                                    class="invalid-feedback"></div>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="reason_for_leaving"
+                                                                                    class="form-label">Alasan
+                                                                                    Menitipkan</label>
+                                                                                <textarea class="form-control" id="reason_for_leaving" name="reason_for_leaving" rows="3"></textarea>
+                                                                                <div id="reason_for_leavingError"
+                                                                                    class="invalid-feedback"></div>
                                                                             </div>
                                                                         </div>
-                                                                        <button type="submit"
-                                                                            class="btn btn-primary mb-2 d-grid w-100">Simpan</button>
-                                                                        <button type="button"
-                                                                            class="btn btn-outline-secondary d-grid w-100"
-                                                                            id="btnPrevProfile">Sebelumnya</button>
                                                                     </div>
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary mb-2 d-grid w-100">Simpan</button>
+                                                                    <button type="button"
+                                                                        class="btn btn-outline-secondary d-grid w-100"
+                                                                        id="btnPrevProfile">Sebelumnya</button>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </form>
-                                            </div>
+                                                </div>
+                                            </form>
                                         </div>
-                                        <div class="modal-footer">
+                                    </div>
+                                    <div class="modal-footer">
 
-                                        </div>
                                     </div>
                                 </div>
                             </div>
