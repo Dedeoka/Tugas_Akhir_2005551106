@@ -30,7 +30,6 @@
     <link rel="stylesheet" href="{{ asset('assets/landing-page/css/icomoon.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/landing-page/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/boxicons.css') }}" />
-
     @yield('head-script')
     <script></script>
 </head>
@@ -50,14 +49,15 @@
                     <li class="nav-item {{ request()->is('panti-asuhan-dharma-jati-II/home') ? 'active' : '' }}"><a
                             href="{{ route('user.landing-page') }}" class="nav-link">Home</a>
                     </li>
-                    <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-                    <li class="nav-item"><a href="causes.html" class="nav-link">Causes</a></li>
+                    <li class="nav-item"><a href="about.html" class="nav-link">Profil</a></li>
+                    <li class="nav-item"><a href="causes.html" class="nav-link">Pengumuman</a></li>
                     <li class="nav-item {{ request()->is('panti-asuhan-dharma-jati-II/donasi') ? 'active' : '' }}"><a
                             href="{{ route('user-donasi.index') }}" class="nav-link">Donasi</a></li>
-                    <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
-                    <li class="nav-item"><a href="gallery.html" class="nav-link">Gallery</a></li>
-                    <li class="nav-item"><a href="event.html" class="nav-link">Events</a></li>
-                    <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                    <li class="nav-item"><a href="blog.html" class="nav-link">Pengumuman</a></li>
+                    <li class="nav-item"><a href="{{ route('user-gallery.index') }}" class="nav-link">Gallery</a></li>
+                    <li class="nav-item"><a href="event.html" class="nav-link">Program</a></li>
+                    <li class="nav-item {{ request()->is('panti-asuhan-dharma-jati-II/contact') ? 'active' : '' }}"><a
+                            href="{{ route('user-contact.index') }}" class="nav-link">Contact</a></li>
                 </ul>
             </div>
         </div>
@@ -182,8 +182,6 @@
     <script src="{{ asset('assets/landing-page/js/bootstrap-datepicker.js') }}"></script>
     <script src="{{ asset('assets/landing-page/js/jquery.timepicker.min.js') }}"></script>
     <script src="{{ asset('assets/landing-page/js/scrollax.min.js') }}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-    <script src="{{ asset('assets/landing-page/js/google-map.js') }}"></script>
     <script src="{{ asset('assets/landing-page/js/main.js') }}"></script>
 
 </body>
