@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('description');
             $table->date('date');
             $table->string('thumbnail');
+            $table->enum('status', ['success', 'pending'])->default('pending');
             $table->timestamps();
         });
     }

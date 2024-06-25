@@ -50,7 +50,6 @@
                             href="{{ route('user.landing-page') }}" class="nav-link">Home</a>
                     </li>
                     <li class="nav-item"><a href="about.html" class="nav-link">Profil</a></li>
-                    <li class="nav-item"><a href="causes.html" class="nav-link">Pengumuman</a></li>
                     <li class="nav-item {{ request()->is('panti-asuhan-dharma-jati-II/donasi') ? 'active' : '' }}"><a
                             href="{{ route('user-donasi.index') }}" class="nav-link">Donasi</a></li>
                     <li class="nav-item"><a href="blog.html" class="nav-link">Pengumuman</a></li>

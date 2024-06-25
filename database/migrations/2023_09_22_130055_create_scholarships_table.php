@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('address');
             $table->string('phone_number');
             $table->string('email');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->string('total_amount');
-            $table->string('payment_url');
-            $table->string('status');
+            $table->string('snap_token')->nullable();
+            $table->enum('status', ['success', 'pending'])->default('pending');
             $table->timestamps();
         });
     }

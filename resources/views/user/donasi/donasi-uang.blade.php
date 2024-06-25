@@ -101,6 +101,7 @@
                     @isset($donate)
                         <form id="payment-form" action="{{ route('user-donasi-uang.success') }}" method="POST" hidden>
                             @csrf
+                            <input type="text" name="type_donation" value="donate_money">
                         </form>
                         <div class="col-md-12 text-center">
                             <button class="donasi-btn donasi-text" id="pay-button">
@@ -148,7 +149,8 @@
                 <div class="col-md-12 donation pl-md-5">
                     <h3 class="mb-3">Form Donasi Barang</h3>
                     <p>Pengisian form dilakukan untuk memboking tanggal donasi barang, setelah mengisi form maka donatur
-                        akan dihubungi via WhatsApp. <br> <span class="text-danger">*Lakukan pengisian form dengan data yang
+                        akan dihubungi via WhatsApp. <br> <span class="text-danger">*Lakukan pengisian form dengan data
+                            yang
                             benar agar tidak terjadi
                             miss
                             informasi
@@ -314,9 +316,10 @@
                     @isset($schoolarship)
                         <form id="payment-form" action="{{ route('user-donasi-uang.success') }}" method="POST" hidden>
                             @csrf
+                            <input type="text" name="type_donation" value="schoolarship">
                         </form>
                         <div class="col-md-12 text-center">
-                            <button class="donasi-btn donasi-text" id="pay-button">
+                            <button class="donasi-btn donasi-text" id="pay-buttonSchoolarship">
                                 Bayar Donasi Sekarang
                             </button>
                         </div>
@@ -379,6 +382,23 @@
         }
     </script>
     <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="<Set your ClientKey here>"></script>
+    @isset($schoolarship)
+        <script type="text/javascript">
+            document.getElementById('pay-buttonSchoolarship').onclick = function() {
+                snap.pay('{{ $schoolarship->snap_token }}', {
+                    onSuccess: function(result) {
+                        document.getElementById('payment-form').submit();
+                    },
+                    onPending: function(result) {
+                        document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                    },
+                    onError: function(result) {
+                        document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                    }
+                });
+            };
+        </script>
+    @endisset
     @isset($donate)
         <script type="text/javascript">
             document.getElementById('pay-button').onclick = function() {

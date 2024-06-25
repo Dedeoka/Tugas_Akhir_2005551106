@@ -51,7 +51,7 @@ class PengumumanController extends Controller
 
         try {
             if ($request->hasFile('image')) {
-                $imagePath = $request->file('image')->store('uploads/profile');
+                $imagePath = $request->file('image')->store('uploads/pengumuman');
             }
 
             $data = [

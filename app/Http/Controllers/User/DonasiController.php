@@ -13,20 +13,44 @@ use App\Models\Scholarship;
 
 class DonasiController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $goods = GoodsCategory::get();
-            foreach ($goods as $good) {
+        foreach ($goods as $good) {
             if ($good->stock === 0) {
                 $good->percentage_available = 100;
             } else {
                 $good->percentage_available = round((($good->capacity - $good->stock) / $good->capacity) * 100, 2);
             }
         }
+
         $donate = session('donate');
         $schoolarship = session('schoolarship');
+
+        $now = now();
+
+        // Jika kedua sesi ada
+        if ($donate && $schoolarship) {
+            $donateCreatedAt = $donate->created_at;
+            $schoolarshipCreatedAt = $schoolarship->created_at;
+
+            $donateDifferenceInMinutes = $now->diffInMinutes($donateCreatedAt);
+            $schoolarshipDifferenceInMinutes = $now->diffInMinutes($schoolarshipCreatedAt);
+
+            if ($donateDifferenceInMinutes > 15) {
+                $request->session()->forget('donate');
+            }
+
+            if ($schoolarshipDifferenceInMinutes > 15) {
+                $request->session()->forget('schoolarship');
+            }
+
+            return view('user.donasi.donasi-uang', compact('donate', 'schoolarship', 'goods'));
+        }
+
+        // Jika hanya sesi donate ada
         if ($donate) {
             $createdAt = $donate->created_at;
-            $now = now();
             $differenceInMinutes = $now->diffInMinutes($createdAt);
 
             if ($differenceInMinutes > 15) {
@@ -36,9 +60,10 @@ class DonasiController extends Controller
 
             return view('user.donasi.donasi-uang', compact('donate', 'goods'));
         }
-        elseif($schoolarship){
+
+        // Jika hanya sesi schoolarship ada
+        if ($schoolarship) {
             $createdAt = $schoolarship->created_at;
-            $now = now();
             $differenceInMinutes = $now->diffInMinutes($createdAt);
 
             if ($differenceInMinutes > 15) {
@@ -48,10 +73,9 @@ class DonasiController extends Controller
 
             return view('user.donasi.donasi-uang', compact('schoolarship', 'goods'));
         }
-        else {
-            return view('user.donasi.donasi-uang', compact('goods'));
-        }
 
+        // Jika tidak ada sesi donate maupun schoolarship
+        return view('user.donasi.donasi-uang', compact('goods'));
     }
 
     public function storeMoney(Request $request){
@@ -116,12 +140,21 @@ class DonasiController extends Controller
 
     public function success(Request $request){
         $success = true;
-        $donate = session('donate');
-        $donateId = $donate->id;
-        $donasi = DonateMoney::findorfail($donateId);
-        $donasi->status = 'success';
-        $donasi->save();
-        $request->session()->forget('donate');
+        if($request->type_donation == 'donate_money'){
+            $donate = session('donate');
+            $donateId = $donate->id;
+            $donasi = DonateMoney::findorfail($donateId);
+            $donasi->status = 'success';
+            $donasi->save();
+            $request->session()->forget('donate');
+        } else if($request->type_donation == 'schoolarship'){
+            $donate = session('schoolarship');
+            $donateId = $donate->id;
+            $donasi = Scholarship::findorfail($donateId);
+            $donasi->status = 'success';
+            $donasi->save();
+            $request->session()->forget('schoolarship');
+        }
         return redirect()->route('user-donasi.index', ['success' => $success]);
     }
 

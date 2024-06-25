@@ -263,6 +263,7 @@
             <div class="row justify-content-center mb-5 pb-3">
                 <div class="col-md-7 heading-section ftco-animate text-center">
                     <h2 class="mb-4">Pengumuman Panti Asuhan</h2>
+                    <p>Daftar pengumuman terbaru panti asuhan Dharma Jati II</p>
                 </div>
             </div>
             <div class="row">

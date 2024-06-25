@@ -103,15 +103,8 @@
                                     <td>{{ $data->title }}</td>
                                     <td>{{ Str::limit(strip_tags($data->description), 50) }}</td>
                                     <td>
-                                        <ul
-                                            class="list-unstyled users-list m-0 avatar-group align-items-center text-center">
-                                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                                class="avatar avatar-xl pull-up" title="Foto {{ $data->name }}">
-                                                <img src="{{ asset('storage/' . $data->image) }}" alt=""
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#modalCenterFoto_{{ $loop->index }}">
-                                            </li>
-                                        </ul>
+                                        <img src="{{ asset('storage/' . $data->image) }}" alt="" width="100px"
+                                            height="100px">
                                     </td>
                                     <td>
                                         <div class="dropdown">
@@ -124,8 +117,7 @@
                                                     data-bs-target="#editModal{{ $data->id }}">
                                                     <i class="bx bx-edit-alt me-1"></i> Edit
                                                 </a>
-                                                <a class="dropdown-item" href="javascript:void(0);"
-                                                    data-bs-toggle="modal"
+                                                <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"
                                                     data-bs-target="#detailModal{{ $data->id }}">
                                                     <i class="bx bx-detail me-1"></i> Detail
                                                 </a>

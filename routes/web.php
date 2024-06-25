@@ -48,7 +48,7 @@ Route::get('/', function () {
 });
 
 Route::get('/test', function () {
-    return view('user.gallery/index');
+    return view('user.program.index');
 });
 
 Route::middleware('auth')->group(function(){
@@ -113,6 +113,11 @@ Route::prefix('panti-asuhan-dharma-jati-II')->group(function () {
     Route::post('berhasil-donasi', [DonasiController::class, 'success'])->name('user-donasi-uang.success');
     Route::get('contact', [ViewController::class, 'contact'])->name('user-contact.index');
     Route::get('gallery', [ViewController::class, 'gallery'])->name('user-gallery.index');
+    Route::get('pengumuman', [ViewController::class, 'pengumuman'])->name('user-pengumuman.index');
+    Route::get('program', [ViewController::class, 'program'])->name('user-program.index');
+    Route::post('program', [ViewController::class, 'storeProgram'])->name('user-program.store');
+    Route::get('profil', [ViewController::class, 'profil'])->name('user-profil.index');
+
 });
 
 Route::prefix('donasi')->group(function () {
