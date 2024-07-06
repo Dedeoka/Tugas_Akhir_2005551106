@@ -95,8 +95,10 @@
                         <thead>
                             <tr>
                                 <th class="col-md-1 text-center fw-bold">No</th>
-                                <th class="col-md-5 text-center fw-bold">Nama</th>
-                                <th class="col-md-3 text-center fw-bold">Kapasitas</th>
+                                <th class="col-md-3 text-center fw-bold">Nama</th>
+                                <th class="col-md-3 text-center fw-bold">Kapasitas Total</th>
+                                <th class="col-md-3 text-center fw-bold">Kapasitas Sisa</th>
+                                <th class="col-md-3 text-center fw-bold">Ditampilkan</th>
                                 <th class="col-md-3 text-center fw-bold">Action</th>
                             </tr>
                         </thead>
@@ -109,6 +111,14 @@
                                     <td>{{ $loop->iteration + $initialNumber }}</td>
                                     <td>{{ $data->name }}</td>
                                     <td>{{ $data->capacity }} {{ $data->unit }}</td>
+                                    <td>{{ $data->stock }}</td>
+                                    <td>
+                                        @if ($data->is_hide)
+                                            Disembunyikan
+                                        @else
+                                            Ditampilkan
+                                        @endif
+                                    </td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -120,6 +130,17 @@
                                                     data-bs-target="#editModal{{ $data->id }}">
                                                     <i class="bx bx-edit-alt me-1"></i> Edit
                                                 </a>
+                                                @if ($data->is_hide == true)
+                                                    <a class="dropdown-item" href="javascript:void(0);" id="false"
+                                                        data-id="{{ $data->id }}">
+                                                        <i class='bx bx-checkbox-minus'></i> Tampilkan
+                                                    </a>
+                                                @else
+                                                    <a class="dropdown-item" href="javascript:void(0);" id="true"
+                                                        data-id="{{ $data->id }}">
+                                                        <i class='bx bx-check-square'></i> Sembunyikan
+                                                    </a>
+                                                @endif
                                                 <a class="dropdown-item delete-data" href="javascript:void(0);"
                                                     data-id="{{ $data->id }}">
                                                     <i class="bx bx-trash me-1"></i> Delete

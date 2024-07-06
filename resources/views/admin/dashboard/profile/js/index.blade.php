@@ -4,6 +4,19 @@
 <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
 
 <script>
+    document.getElementById('thumbnail').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('thumbnailImage').src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+<script>
     $('.ckeditor').each(function() {
         CKEDITOR.replace($(this).attr('id'));
     });
@@ -61,7 +74,6 @@
         function handleErrors(errors) {
             clearErrors();
 
-            // Menambahkan kelas is-invalid hanya untuk elemen input yang memiliki error
             if (errors.name) {
                 $('#name').addClass('is-invalid');
                 $('#nameError').text(errors.name[0]);
@@ -85,7 +97,6 @@
             const formData = new FormData($('#profileForm')[0]);
             formData.append('_method', 'patch');
 
-
             $.ajax({
                 url: "{{ route('profile-panti.update') }}",
                 type: 'POST',
@@ -111,53 +122,16 @@
                         });
                     }
                 },
-                error: function(xhr, status, error) {
-                    console.error('AJAX Error:', error);
-                    console.error('Response:', xhr.responseText);
-                    showErrorMessage('Terjadi kesalahan pada server. Silahkan coba lagi nanti.');
-                }
-            });
-        }
-
-        function update(id) {
-            // Update textarea with CKEditor content
-            for (var instance in CKEDITOR.instances) {
-                CKEDITOR.instances[instance].updateElement();
-            }
-
-            const formData = new FormData($('#profileForm')[0]);
-            formData.append('_method', 'patch');
-
-
-            $.ajax({
-                url: "{{ route('profile-panti.update') }}",
-                type: 'POST',
-                data: formData,
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    if (response.errors) {
-                        handleErrors(response.errors);
+                error: function(xhr) {
+                    if (xhr.status === 422) {
+                        handleErrors(xhr.responseJSON.errors);
                         showErrorMessage(
                             'Terdapat kesalahan pada inputan. Silahkan cek kembali semua form.');
                     } else {
-                        clearErrors();
-                        Swal.fire({
-                            icon: 'success',
-                            title: response.success,
-                            confirmButtonText: 'OK',
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                window.location.reload();
-                            }
-                        });
+                        console.error('AJAX Error:', xhr);
+                        showErrorMessage(
+                            'Terjadi kesalahan pada server. Silahkan coba lagi nanti.');
                     }
-                },
-                error: function(xhr, status, error) {
-                    console.error('AJAX Error:', error);
-                    console.error('Response:', xhr.responseText);
-                    showErrorMessage('Terjadi kesalahan pada server. Silahkan coba lagi nanti.');
                 }
             });
         }

@@ -226,8 +226,9 @@
                                         <div class="col mb-3">
                                             <label for="dateEdit" class="form-label">Tanggal Gallery</label>
                                             <input type="date" id="dateEdit{{ $data->id }}" name="date"
-                                                class="form-control" placeholder="Enter date" />
-                                            <div id="dateErrorEdit{{ $data->id }}" class="invalid-feedback"></div>
+                                                class="form-control" placeholder="Enter date"
+                                                value="{{ $data->date }}" />
+                                            <div id="dateEditError{{ $data->id }}" class="invalid-feedback"></div>
                                         </div>
                                     </div>
                                     <div class="row">

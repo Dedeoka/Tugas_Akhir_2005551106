@@ -83,28 +83,49 @@ class KategoriBarangController extends Controller
     {
         $validasi = Validator::make($request->all(), [
             'name' => 'required|unique:goods_categories,name,' . $id,
-            'capacity' => 'required',
+            'capacity' => 'required|integer|min:0',
             'unit' => 'required',
         ], [
             'name.required' => 'Data wajib diisi',
             'name.unique' => 'Nama kategori barang sudah digunakan, harap pilih nama yang lain.',
             'capacity.required' => 'Data kapasitas wajib diisi',
+            'capacity.integer' => 'Kapasitas harus berupa angka',
+            'capacity.min' => 'Kapasitas tidak boleh kurang dari 0',
             'unit.required' => 'Satuan wajib diisi',
         ]);
 
         if ($validasi->fails()) {
             return response()->json(['errors' => $validasi->errors()]);
-        } else {
-            $data = [
-                'name' => $request->name,
-                'capacity' => $request->capacity,
-                'unit' => $request->unit,
-                'stock' => $request->stock,
-            ];
-            GoodsCategory::where('id', $id)->update($data);
-            return response()->json(['success' => "Berhasil melakukan update data"]);
         }
+
+        $goodsCategory = GoodsCategory::find($id);
+
+        if (!$goodsCategory) {
+            return response()->json(['errors' => ['id' => 'Kategori barang tidak ditemukan.']]);
+        }
+
+        $newCapacity = (int)$request->capacity;
+        $oldCapacity = (int)$goodsCategory->capacity;
+        $stock = (int)$goodsCategory->stock;
+
+        $capacityDifference = $newCapacity - $oldCapacity;
+
+        if ($capacityDifference > 0) {
+            $stock += $capacityDifference;
+        }
+
+        $data = [
+            'name' => $request->name,
+            'capacity' => $newCapacity,
+            'unit' => $request->unit,
+            'stock' => $stock,
+        ];
+
+        $goodsCategory->update($data);
+
+        return response()->json(['success' => "Berhasil melakukan update data"]);
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -113,5 +134,18 @@ class KategoriBarangController extends Controller
     {
         GoodsCategory::find($id)->delete();
         return response()->json(['success'=>'Record deleted successfully.']);
+    }
+
+    public function updateStatus(Request $request, string $id){
+        $data = GoodsCategory::find($id);
+        if ($request->is_hide){
+            $data->is_hide = true;
+            $data->save();
+        }
+        else if($request->is_show){
+            $data->is_hide = false;
+            $data->save();
+            }
+        return response()->json(['success' => "Berhasil mengubah data"]);
     }
 }

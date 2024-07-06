@@ -15,7 +15,10 @@ class DonasiController extends Controller
 {
     public function index(Request $request)
     {
-        $goods = GoodsCategory::get();
+        $goods = GoodsCategory::where('is_hide', false)
+        ->where('stock', '>', 0)
+        ->get();
+
         foreach ($goods as $good) {
             if ($good->stock === 0) {
                 $good->percentage_available = 100;
@@ -185,10 +188,7 @@ class DonasiController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput(); // Mempertahankan input sebelumnya
+            return response()->json(['errors' => $validator->errors()], 422);
         }
 
         $donation = DonateGoods::create([
@@ -218,7 +218,7 @@ class DonasiController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'Donasi berhasil disimpan!');
+        return response()->json(['success' => 'Donasi berhasil disimpan!']);
     }
 
     public function storeSchoolarship(Request $request){

@@ -123,6 +123,7 @@ class GalleryController extends Controller
             $gallery = Gallery::find($id);
             $gallery->title = $request->title;
             $gallery->description = $request->description;
+            $gallery->date = $request->date;
             $gallery->save();
 
             return response()->json(['success' => 'Berhasil menambahkan data']);

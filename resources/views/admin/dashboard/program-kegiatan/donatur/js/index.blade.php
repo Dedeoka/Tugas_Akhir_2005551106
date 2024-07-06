@@ -58,40 +58,99 @@
             });
         }
 
-        function handleErrors(errors) {
+        function handleErrors(errors, id = '') {
             clearErrors();
 
-            if (errors.name) {
-                $('#name').addClass('is-invalid');
-                $('#nameError').text(errors.name[0]);
-            }
-            if (errors.address) {
-                $('#address').addClass('is-invalid');
-                $('#addressError').text(errors.address[0]);
-            }
-            if (errors.email) {
-                $('#email').addClass('is-invalid');
-                $('#emailError').text(errors.email[0]);
-            }
-            if (errors.phone_number) {
-                $('#phone_number').addClass('is-invalid');
-                $('#phone_numberError').text(errors.phone_number[0]);
-            }
-            if (errors.title) {
-                $('#title').addClass('is-invalid');
-                $('#titleError').text(errors.title[0]);
-            }
-            if (errors.description) {
-                $('#description').addClass('is-invalid');
-                $('#descriptionError').text(errors.description[0]);
-            }
-            if (errors.date) {
-                $('#date').addClass('is-invalid');
-                $('#dateError').text(errors.date[0]);
-            }
-            if (errors.thumbnail) {
-                $('#thumbnail').addClass('is-invalid');
-                $('#thumbnailError').text(errors.thumbnail[0]);
+            if (id) {
+                if (errors.name) {
+                    $('#name' + id).addClass('is-invalid');
+                    $('#nameError' + id).text(errors.name[0]);
+                }
+                if (errors.address) {
+                    $('#address' + id).addClass('is-invalid');
+                    $('#addressError' + id).text(errors.address[0]);
+                }
+                if (errors.email) {
+                    $('#email' + id).addClass('is-invalid');
+                    $('#emailError' + id).text(errors.email[0]);
+                }
+                if (errors.phone_number) {
+                    $('#phone_number' + id).addClass('is-invalid');
+                    $('#phone_numberError' + id).text(errors.phone_number[0]);
+                }
+                if (errors.title) {
+                    $('#title' + id).addClass('is-invalid');
+                    $('#titleError' + id).text(errors.title[0]);
+                }
+                if (errors.location) {
+                    $('#location' + id).addClass('is-invalid');
+                    $('#locationError' + id).text(errors.location[0]);
+                }
+                if (errors.event_type_id) {
+                    $('#event_type_id' + id).addClass('is-invalid');
+                    $('#event_type_idError' + id).text(errors.event_type_id[0]);
+                }
+                if (errors.description) {
+                    $('#description' + id).addClass('is-invalid');
+                    $('#descriptionError' + id).text(errors.description[0]);
+                }
+                if (errors.title) {
+                    $('#title' + id).addClass('is-invalid');
+                    $('#titleError' + id).text(errors.title[0]);
+                }
+                if (errors.date) {
+                    $('#date' + id).addClass('is-invalid');
+                    $('#dateError' + id).text(errors.date[0]);
+                }
+            } else {
+                if (errors.name) {
+                    $('#name').addClass('is-invalid');
+                    $('#nameError').text(errors.name[0]);
+                }
+                if (errors.address) {
+                    $('#address').addClass('is-invalid');
+                    $('#addressError').text(errors.address[0]);
+                }
+                if (errors.email) {
+                    $('#email').addClass('is-invalid');
+                    $('#emailError').text(errors.email[0]);
+                }
+                if (errors.phone_number) {
+                    $('#phone_number').addClass('is-invalid');
+                    $('#phone_numberError').text(errors.phone_number[0]);
+                }
+                if (errors.location) {
+                    $('#location').addClass('is-invalid');
+                    $('#locationError').text(errors.location[0]);
+                }
+                if (errors.event_type_id) {
+                    $('#event_type_id').addClass('is-invalid');
+                    $('#event_type_idError').text(errors.event_type_id[0]);
+                }
+                if (errors.title) {
+                    $('#title').addClass('is-invalid');
+                    $('#titleError').text(errors.title[0]);
+                }
+                if (errors.date) {
+                    $('#date').addClass('is-invalid');
+                    $('#dateError').text(errors.date[0]);
+                }
+                if (errors.description) {
+                    $('#description').addClass('is-invalid');
+                    $('#descriptionError').text(errors.description[0]);
+                }
+                if (errors.thumbnail) {
+                    $('#thumbnail').addClass('is-invalid');
+                    $('#thumbnailError').text(errors.thumbnail[0]);
+                }
+                if (errors.image) {
+                    $('#imageEdit').addClass('is-invalid');
+                    $('#imageEditError').text(errors.image[0]);
+                }
+                if (errors['images.0']) {
+                    $('#imagesStore').addClass('is-invalid');
+                    $('#imagesStoreError').text(errors['images.0'][0]);
+                }
             }
         }
 
@@ -147,6 +206,18 @@
                             showSuccessMessage(response.success);
                             $('#imageStoreModal').modal('hide');
                         }
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            handleErrors(xhr.responseJSON.errors);
+                            showErrorMessage(
+                                'Terdapat kesalahan pada inputan. Silahkan cek kembali semua form.'
+                            );
+                        } else {
+                            showErrorMessage(
+                                'Terjadi kesalahan pada server. Silahkan coba lagi nanti.'
+                            );
+                        }
                     }
                 });
             });
@@ -174,6 +245,18 @@
                             clearErrors();
                             showSuccessMessage(response.success);
                             $('#imageUpdateModal').modal('hide');
+                        }
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            handleErrors(xhr.responseJSON.errors);
+                            showErrorMessage(
+                                'Terdapat kesalahan pada inputan. Silahkan cek kembali semua form.'
+                            );
+                        } else {
+                            showErrorMessage(
+                                'Terjadi kesalahan pada server. Silahkan coba lagi nanti.'
+                            );
                         }
                     }
                 });
@@ -210,12 +293,19 @@
                     }
                 },
                 error: function(xhr) {
-                    console.error(xhr.responseText);
-                    showErrorMessage('Terjadi kesalahan pada server. Silahkan coba lagi nanti.');
+                    if (xhr.status === 422) {
+                        handleErrors(xhr.responseJSON.errors);
+                        showErrorMessage(
+                            'Terdapat kesalahan pada inputan. Silahkan cek kembali semua form.'
+                        );
+                    } else {
+                        showErrorMessage(
+                            'Terjadi kesalahan pada server. Silahkan coba lagi nanti.'
+                        );
+                    }
                 }
             });
         }
-
 
         function update(id) {
             for (var instance in CKEDITOR.instances) {
@@ -243,6 +333,50 @@
                         showSuccessMessage(response.success);
                         $('#editModal' + id).modal('hide');
                     }
+                },
+                error: function(xhr) {
+                    if (xhr.status === 422) {
+                        handleErrors(xhr.responseJSON.errors, id);
+                        showErrorMessage(
+                            'Terdapat kesalahan pada inputan. Silahkan cek kembali semua form.');
+                    } else {
+                        showErrorMessage(
+                            'Terjadi kesalahan pada server. Silahkan coba lagi nanti.');
+                    }
+                }
+            });
+        }
+
+        $('#success').click(function(e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            success(id);
+            return false;
+        });
+
+        function success(id) {
+            var formData = new FormData();
+            formData.append('_method', 'PATCH');
+
+            // Pastikan Anda menyertakan parameter yang diperlukan dalam rute
+            var url = "{{ route('donaturEventStatus.update', ':id') }}".replace(':id', id);
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.errors) {
+                        // Tangani error
+                    } else {
+                        showSuccessMessage(response.success);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Tangani error
+                    console.error('Error:', error);
                 }
             });
         }

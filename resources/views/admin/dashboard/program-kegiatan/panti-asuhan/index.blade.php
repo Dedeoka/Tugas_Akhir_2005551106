@@ -14,7 +14,7 @@
 
 
         <h4 class="py-3 mb-4">
-            <span class="text-muted fw-light">Dashboard /</span> <b>Program Kegiatan Donatur</b>
+            <span class="text-muted fw-light">Dashboard /</span> <b>Program Kegiatan Panti</b>
         </h4>
 
 
@@ -40,12 +40,12 @@
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel1">Tambah Data Program Kegiatan Donatur
+                                        <h5 class="modal-title" id="exampleModalLabel1">Tambah Data Program Kegiatan Panti
                                         </h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
-                                    <form id="donaturEventForm" action="#" method="POST" enctype="multipart/form-data">
+                                    <form id="pantiEventForm" action="#" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <div class="modal-body">
                                             <div class="row">
@@ -67,7 +67,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col mb-3">
-                                                    <label for="title" class="form-label">Judul Program Donatur</label>
+                                                    <label for="title" class="form-label">Judul Program Panti</label>
                                                     <input type="text" id="title" name="title" class="form-control"
                                                         placeholder="Enter Title" />
                                                     <div id="titleError" class="invalid-feedback"></div>
@@ -76,7 +76,7 @@
                                             <div class="row">
                                                 <div class="col mb-3">
                                                     <label for="date" class="form-label">Tanggal Program
-                                                        Donatur</label>
+                                                        Panti</label>
                                                     <input type="date" id="date" name="date" class="form-control"
                                                         placeholder="Enter date" />
                                                     <div id="dateError" class="invalid-feedback"></div>
@@ -85,7 +85,7 @@
                                             <div class="row">
                                                 <div class="col mb-3">
                                                     <label for="location" class="form-label">Lokasi Program
-                                                        Donatur</label>
+                                                        Panti</label>
                                                     <input type="text" id="location" name="location"
                                                         class="form-control" placeholder="Enter Location" />
                                                     <div id="locationError" class="invalid-feedback"></div>
@@ -94,7 +94,7 @@
                                             <div class="row">
                                                 <div class="col mb-3">
                                                     <label for="description" class="form-label">Deskripsi
-                                                        Program Donatur</label>
+                                                        Program Panti</label>
                                                     <textarea class="form-control" name="description" id="description" rows="3"></textarea>
                                                     <div id="descriptionError" class="invalid-feedback"></div>
                                                 </div>
@@ -235,56 +235,16 @@
             <!-- Modal Edit -->
             @foreach ($datas as $data)
                 <div class="modal fade editModal" id="editModal{{ $data->id }}" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
+                    <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel1">Edit Data Program Kegiatan Donatur</h5>
+                                <h5 class="modal-title" id="exampleModalLabel1">Edit Data Program Kegiatan Panti</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <form id="donaturEventEditForm{{ $data->id }}" action="#" method="POST">
+                            <form id="pantiEventEditForm{{ $data->id }}" action="#" method="POST">
                                 @csrf
                                 <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col mb-3">
-                                            <label for="name{{ $data->id }}" class="form-label">Nama Donatur</label>
-                                            <input type="text" id="name{{ $data->id }}" name="name"
-                                                class="form-control" placeholder="Enter Name"
-                                                value="{{ $data->name }}" />
-                                            <div id="nameError{{ $data->id }}" class="invalid-feedback"></div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col mb-3">
-                                            <label for="address{{ $data->id }}" class="form-label">Alamat
-                                                Donatur</label>
-                                            <input type="text" id="address{{ $data->id }}" name="address"
-                                                class="form-control" placeholder="Enter Address"
-                                                value="{{ $data->address }}" />
-                                            <div id="addressError{{ $data->id }}" class="invalid-feedback"></div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col mb-3">
-                                            <label for="emai{{ $data->id }}l" class="form-label">Email
-                                                Donatur</label>
-                                            <input type="text" id="email{{ $data->id }}" name="email"
-                                                class="form-control" placeholder="Enter Email"
-                                                value="{{ $data->email }}" />
-                                            <div id="emailError{{ $data->id }}" class="invalid-feedback"></div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col mb-3">
-                                            <label for="phone_number{{ $data->id }}" class="form-label">Nomer Telepon
-                                                Donatur</label>
-                                            <input type="text" id="phone_number{{ $data->id }}"
-                                                name="phone_number" class="form-control" placeholder="Enter phone_number"
-                                                value="{{ $data->phone_number }}" />
-                                            <div id="phone_numberError{{ $data->id }}" class="invalid-feedback">
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div class="row">
                                         <div class="col mb-3">
                                             <label for="event_type_id{{ $data->id }}" class="form-label">Jenis
@@ -308,7 +268,7 @@
                                     <div class="row">
                                         <div class="col mb-3">
                                             <label for="title{{ $data->id }}" class="form-label">Judul Program
-                                                Donatur</label>
+                                                Panti</label>
                                             <input type="text" id="title{{ $data->id }}" name="title"
                                                 class="form-control" placeholder="Enter Title"
                                                 value="{{ $data->title }}" />
@@ -318,7 +278,7 @@
                                     <div class="row">
                                         <div class="col mb-3">
                                             <label for="date{{ $data->id }}" class="form-label">Tanggal Program
-                                                Donatur</label>
+                                                Panti</label>
                                             <input type="date" id="date{{ $data->id }}" name="date"
                                                 class="form-control" placeholder="Enter date"
                                                 value="{{ $data->date }}" />
@@ -327,8 +287,18 @@
                                     </div>
                                     <div class="row">
                                         <div class="col mb-3">
+                                            <label for="location{{ $data->id }}" class="form-label">Lokasi Program
+                                                Panti</label>
+                                            <input type="text" id="location{{ $data->id }}"
+                                                name="location{{ $data->id }}" class="form-control"
+                                                placeholder="Enter Location" value="{{ $data->location }}" />
+                                            <div id="locationError{{ $data->id }}" class="invalid-feedback"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col mb-3">
                                             <label for="description{{ $data->id }}" class="form-label">Deskripsi
-                                                Program Donatur</label>
+                                                Program Panti</label>
                                             <textarea class="form-control ckeditor" name="description" id="description{{ $data->id }}" rows="3">{{ $data->description }}</textarea>
                                             <div id="descriptionError{{ $data->id }}" class="invalid-feedback"></div>
                                         </div>
@@ -444,58 +414,6 @@
                             </div>
                             <div class="modal-body">
                                 <div class="pb-3 border-bottom">
-                                    <div class="d-flex py-2">
-                                        <div class="w-50 d-flex fw-bold">
-                                            <div class="w-75">
-                                                Nama Donatur
-                                            </div>
-                                            <div class="w-25">
-                                                :
-                                            </div>
-                                        </div>
-                                        <div class="w-50">
-                                            {{ $data->name }}
-                                        </div>
-                                    </div>
-                                    <div class="d-flex py-2">
-                                        <div class="w-50 d-flex fw-bold">
-                                            <div class="w-75">
-                                                Alamat Donatur
-                                            </div>
-                                            <div class="w-25">
-                                                :
-                                            </div>
-                                        </div>
-                                        <div class="w-50">
-                                            {{ $data->address }}
-                                        </div>
-                                    </div>
-                                    <div class="d-flex py-2">
-                                        <div class="w-50 d-flex fw-bold">
-                                            <div class="w-75">
-                                                Email Donatur
-                                            </div>
-                                            <div class="w-25">
-                                                :
-                                            </div>
-                                        </div>
-                                        <div class="w-50">
-                                            {{ $data->email }}
-                                        </div>
-                                    </div>
-                                    <div class="d-flex py-2">
-                                        <div class="w-50 d-flex fw-bold">
-                                            <div class="w-75">
-                                                Nomer Telepon Donatur
-                                            </div>
-                                            <div class="w-25">
-                                                :
-                                            </div>
-                                        </div>
-                                        <div class="w-50">
-                                            {{ $data->phone_number }}
-                                        </div>
-                                    </div>
                                     <div class="d-flex py-2">
                                         <div class="w-50 d-flex fw-bold">
                                             <div class="w-75">

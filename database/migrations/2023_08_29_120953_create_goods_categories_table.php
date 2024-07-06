@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('capacity');
             $table->integer('stock');
             $table->string('unit');
+            $table->boolean('is_hide')->default(false);
             $table->timestamps();
         });
     }

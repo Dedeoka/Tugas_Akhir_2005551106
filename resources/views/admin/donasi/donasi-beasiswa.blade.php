@@ -3,14 +3,14 @@
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="py-3 mb-4">
-            <span class="text-muted fw-light">Donasi</span> <b>Donasi Uang</b>
+            <span class="text-muted fw-light">Donasi</span> <b>Donasi Beasiswa</b>
         </h4>
 
         <div class="card">
             <div class="d-flex justify-content-between">
                 <div class="m-3 quick-sand">
                     <h3>
-                        Tabel Data Donasi Uang
+                        Tabel Data Donasi Beasiswa
                     </h3>
                 </div>
                 <div class="col-lg-3 col-md-6 quick-sand">
@@ -27,12 +27,13 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel1">Tambah Data Donasi Uang
+                                        <h5 class="modal-title" id="exampleModalLabel1">Tambah Data Donasi Beasiswa
                                         </h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
-                                    <form id="donasiUangForm" action="{{ route('donasi-uang.store') }}" method="POST">
+                                    <form id="donasibeasiswaForm" action="{{ route('donasi-beasiswa.store') }}"
+                                        method="POST">
                                         @csrf
                                         <div class="modal-body">
                                             <div class="row">
@@ -335,5 +336,5 @@
 @endsection
 
 @section('scripts')
-    @include('admin.donasi.js.donasi-uang');
+    @include('admin.donasi.js.donasi-beasiswa');
 @endsection

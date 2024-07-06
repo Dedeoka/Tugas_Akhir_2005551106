@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\Dashboard\ProgramKegiatanPantiController;
 use App\Http\Controllers\Admin\Dashboard\ProgramKegiatanDonaturController;
 use App\Http\Controllers\Admin\Data\DataController;
 use App\Http\Controllers\Admin\Donasi\DonasiUangController;
+use App\Http\Controllers\Admin\Donasi\DonasiBeasiswaController;
 use App\Http\Controllers\Admin\Donasi\DonasiBarangController;
 use App\Http\Controllers\Admin\Keuangan\ChartPemasukanPantiController;
 use App\Http\Controllers\Admin\Keuangan\ChartPengeluaranAnakController;
@@ -56,6 +57,7 @@ Route::middleware('auth')->group(function(){
 Route::prefix('master-data')->group(function () {
     Route::resource('daftar-sekolah', SekolahController::class);
     Route::resource('kategori-barang', KategoriBarangController::class);
+    Route::patch('kategoriBarangStatus/{id}', [KategoriBarangController::class, 'updateStatus'])->name('kategoriBarangStatus.update');
     Route::resource('kategori-pemasukan', KategoriPemasukanController::class);
     Route::resource('kategori-pengeluaran', KategoriPengeluaranController::class);
     Route::resource('kategori-penyakit', KategoriPenyakitController::class);
@@ -122,6 +124,7 @@ Route::prefix('panti-asuhan-dharma-jati-II')->group(function () {
 
 Route::prefix('donasi')->group(function () {
     Route::resource('donasi-uang', DonasiUangController::class);
+    Route::resource('donasi-beasiswa', DonasiBeasiswaController::class);
     Route::resource('donasi-barang', DonasiBarangController::class);
 });
 
@@ -133,6 +136,7 @@ Route::prefix('dashboard')->group(function () {
     Route::patch('galleryUpdateImage/{id}', [GalleryController::class, 'updateImage']);
     Route::post('galleryStoreImage/{id}', [GalleryController::class, 'storeImage']);
     Route::resource('program-kegiatan-donatur', ProgramKegiatanDonaturController::class);
+    Route::patch('donaturEventUpdateStatus/{id}', [ProgramKegiatanDonaturController::class, 'updateStatus'])->name('donaturEventStatus.update');
     Route::patch('donaturEventUpdateImage/{id}', [ProgramKegiatanDonaturController::class, 'updateImage']);
     Route::post('donaturEventStoreImage/{id}', [ProgramKegiatanDonaturController::class, 'storeImage']);
     Route::resource('program-kegiatan-panti', ProgramKegiatanPantiController::class);

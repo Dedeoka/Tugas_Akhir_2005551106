@@ -29,15 +29,8 @@ class ProfileController extends Controller
 
         if ($validasi->fails()) {
             return response()->json(['errors' => $validasi->errors()], 422);
-        }
-
-        try {
-            // Get the first OrphanageProfile entry
+        } else {
             $data = OrphanageProfile::first();
-
-            if (!$data) {
-                return response()->json(['errors' => ['message' => 'Data not found']], 404);
-            }
 
             // Update the data fields
             $data->name = $request->name;
@@ -57,10 +50,6 @@ class ProfileController extends Controller
             $data->save();
 
             return response()->json(['success' => 'Berhasil memperbarui data']);
-
-        } catch (\Exception $e) {
-            // Handle any unexpected errors
-            return response()->json(['errors' => ['message' => 'Terjadi kesalahan pada server. Silahkan coba lagi nanti.']], 500);
         }
     }
 

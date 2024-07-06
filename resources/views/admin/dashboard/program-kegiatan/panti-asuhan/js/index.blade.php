@@ -13,10 +13,6 @@
         });
 
         function clearForm() {
-            $('#name').val('');
-            $('#address').val('');
-            $('#email').val('');
-            $('#phone_number').val('');
             $('#event_type_id').val('');
             $('#title').val('');
             $('#description').val('');
@@ -58,40 +54,63 @@
             });
         }
 
-        function handleErrors(errors) {
+        function handleErrors(errors, id = '') {
             clearErrors();
 
-            if (errors.name) {
-                $('#name').addClass('is-invalid');
-                $('#nameError').text(errors.name[0]);
-            }
-            if (errors.address) {
-                $('#address').addClass('is-invalid');
-                $('#addressError').text(errors.address[0]);
-            }
-            if (errors.email) {
-                $('#email').addClass('is-invalid');
-                $('#emailError').text(errors.email[0]);
-            }
-            if (errors.phone_number) {
-                $('#phone_number').addClass('is-invalid');
-                $('#phone_numberError').text(errors.phone_number[0]);
-            }
-            if (errors.title) {
-                $('#title').addClass('is-invalid');
-                $('#titleError').text(errors.title[0]);
-            }
-            if (errors.description) {
-                $('#description').addClass('is-invalid');
-                $('#descriptionError').text(errors.description[0]);
-            }
-            if (errors.date) {
-                $('#date').addClass('is-invalid');
-                $('#dateError').text(errors.date[0]);
-            }
-            if (errors.thumbnail) {
-                $('#thumbnail').addClass('is-invalid');
-                $('#thumbnailError').text(errors.thumbnail[0]);
+            if (id) {
+                if (errors.location) {
+                    $('#location' + id).addClass('is-invalid');
+                    $('#locationError' + id).text(errors.location[0]);
+                }
+                if (errors.event_type_id) {
+                    $('#event_type_id' + id).addClass('is-invalid');
+                    $('#event_type_idError' + id).text(errors.event_type_id[0]);
+                }
+                if (errors.description) {
+                    $('#description' + id).addClass('is-invalid');
+                    $('#descriptionError' + id).text(errors.description[0]);
+                }
+                if (errors.title) {
+                    $('#title' + id).addClass('is-invalid');
+                    $('#titleError' + id).text(errors.title[0]);
+                }
+                if (errors.date) {
+                    $('#date' + id).addClass('is-invalid');
+                    $('#dateError' + id).text(errors.date[0]);
+                }
+            } else {
+                if (errors.location) {
+                    $('#location').addClass('is-invalid');
+                    $('#locationError').text(errors.location[0]);
+                }
+                if (errors.event_type_id) {
+                    $('#event_type_id').addClass('is-invalid');
+                    $('#event_type_idError').text(errors.event_type_id[0]);
+                }
+                if (errors.title) {
+                    $('#title').addClass('is-invalid');
+                    $('#titleError').text(errors.title[0]);
+                }
+                if (errors.date) {
+                    $('#date').addClass('is-invalid');
+                    $('#dateError').text(errors.date[0]);
+                }
+                if (errors.description) {
+                    $('#description').addClass('is-invalid');
+                    $('#descriptionError').text(errors.description[0]);
+                }
+                if (errors.thumbnail) {
+                    $('#thumbnail').addClass('is-invalid');
+                    $('#thumbnailError').text(errors.thumbnail[0]);
+                }
+                if (errors.image) {
+                    $('#imageEdit').addClass('is-invalid');
+                    $('#imageEditError').text(errors.image[0]);
+                }
+                if (errors['images.0']) {
+                    $('#imagesStore').addClass('is-invalid');
+                    $('#imagesStoreError').text(errors['images.0'][0]);
+                }
             }
         }
 
@@ -147,6 +166,18 @@
                             showSuccessMessage(response.success);
                             $('#imageStoreModal').modal('hide');
                         }
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            handleErrors(xhr.responseJSON.errors);
+                            showErrorMessage(
+                                'Terdapat kesalahan pada inputan. Silahkan cek kembali semua form.'
+                            );
+                        } else {
+                            showErrorMessage(
+                                'Terjadi kesalahan pada server. Silahkan coba lagi nanti.'
+                            );
+                        }
                     }
                 });
             });
@@ -175,6 +206,18 @@
                             showSuccessMessage(response.success);
                             $('#imageUpdateModal').modal('hide');
                         }
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            handleErrors(xhr.responseJSON.errors);
+                            showErrorMessage(
+                                'Terdapat kesalahan pada inputan. Silahkan cek kembali semua form.'
+                            );
+                        } else {
+                            showErrorMessage(
+                                'Terjadi kesalahan pada server. Silahkan coba lagi nanti.'
+                            );
+                        }
                     }
                 });
             });
@@ -185,7 +228,7 @@
                 CKEDITOR.instances[instance].updateElement();
             }
 
-            const formData = new FormData($('#donaturEventForm')[0]);
+            const formData = new FormData($('#pantiEventForm')[0]);
             formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
 
             // Log the form data entries to the console
@@ -210,8 +253,16 @@
                     }
                 },
                 error: function(xhr) {
-                    console.error(xhr.responseText);
-                    showErrorMessage('Terjadi kesalahan pada server. Silahkan coba lagi nanti.');
+                    if (xhr.status === 422) {
+                        handleErrors(xhr.responseJSON.errors);
+                        showErrorMessage(
+                            'Terdapat kesalahan pada inputan. Silahkan cek kembali semua form.'
+                        );
+                    } else {
+                        showErrorMessage(
+                            'Terjadi kesalahan pada server. Silahkan coba lagi nanti.'
+                        );
+                    }
                 }
             });
         }
@@ -221,7 +272,7 @@
             for (var instance in CKEDITOR.instances) {
                 CKEDITOR.instances[instance].updateElement();
             }
-            var formData = new FormData($('#donaturEventEditForm' + id)[0]);
+            var formData = new FormData($('#pantiEventEditForm' + id)[0]);
             var url = "{{ url('dashboard/program-kegiatan-panti') }}" + '/' + id;
             formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
             formData.append('_method', 'patch');
@@ -242,6 +293,16 @@
                         clearErrors()
                         showSuccessMessage(response.success);
                         $('#editModal' + id).modal('hide');
+                    }
+                },
+                error: function(xhr) {
+                    if (xhr.status === 422) {
+                        handleErrors(xhr.responseJSON.errors, id);
+                        showErrorMessage(
+                            'Terdapat kesalahan pada inputan. Silahkan cek kembali semua form.');
+                    } else {
+                        showErrorMessage(
+                            'Terjadi kesalahan pada server. Silahkan coba lagi nanti.');
                     }
                 }
             });

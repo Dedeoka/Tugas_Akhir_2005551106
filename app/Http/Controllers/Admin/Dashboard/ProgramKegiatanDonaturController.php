@@ -286,4 +286,11 @@ class ProgramKegiatanDonaturController extends Controller
             return response()->json(['errors' => ['message' => 'Terjadi kesalahan pada server. Silahkan coba lagi nanti.']], 500);
         }
     }
+
+    public function updateStatus(Request $request, string $id){
+        $data = DonaturEvent::find($id);
+        $data->status = 'success';
+        $data->save();
+        return response()->json(['success' => "Berhasil mengubah data"]);
+    }
 }

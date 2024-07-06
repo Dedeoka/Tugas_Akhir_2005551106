@@ -152,11 +152,10 @@
                             <tr>
                                 <th class="col-md-1 text-center fw-bold">No</th>
                                 <th class="col-md-2 text-center fw-bold">Nama</th>
-                                <th class="col-md-3 text-center fw-bold">Alamat</th>
                                 <th class="col-md-2 text-center fw-bold">No Telepon</th>
                                 <th class="col-md-2 text-center fw-bold">Judul</th>
                                 <th class="col-md-3 text-center fw-bold">Jenis Program</th>
-                                <th class="col-md-3 text-center fw-bold">Thumbnail</th>
+                                <th class="col-md-5 text-center fw-bold">Status</th>
                                 <th class="col-md-3 text-center fw-bold">Action</th>
                             </tr>
                         </thead>
@@ -168,12 +167,20 @@
                                 <tr>
                                     <td>{{ $loop->iteration + $initialNumber }}</td>
                                     <td>{{ $data->name }}</td>
-                                    <td>{{ $data->address }}</td>
                                     <td>{{ $data->phone_number }}</td>
                                     <td>{{ $data->title }}</td>
                                     <td>{{ $data->eventType->name }}</td>
-                                    <td><img width="100px" height="100px"
-                                            src="{{ asset('storage/' . $data->thumbnail) }}" alt=""></td>
+                                    <td>
+                                        @if ($data->status == 'success')
+                                            <button type="button" class="btn rounded-pill btn-success"
+                                                style="width: 100px;">
+                                                Success</button>
+                                        @else
+                                            <button type="button" class="btn rounded-pill btn-danger"
+                                                style="width: 100px;">
+                                                Pending</button>
+                                        @endif
+                                    </td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -194,6 +201,13 @@
                                                     data-bs-target="#detailModal{{ $data->id }}">
                                                     <i class="bx bx-detail me-1"></i> Detail
                                                 </a>
+                                                @if ($data->status == 'pending')
+                                                    <a class="dropdown-item" href="javascript:void(0);" id="success"
+                                                        data-id="{{ $data->id }}">
+                                                        <i class='bx bx-checkbox-minus'></i> Success
+                                                    </a>
+                                                @else
+                                                @endif
                                                 <a class="dropdown-item delete-data" href="javascript:void(0);"
                                                     data-id="{{ $data->id }}">
                                                     <i class="bx bx-trash me-1"></i> Delete
@@ -261,7 +275,7 @@
             <!-- Modal Edit -->
             @foreach ($datas as $data)
                 <div class="modal fade editModal" id="editModal{{ $data->id }}" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
+                    <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel1">Edit Data Program Kegiatan Donatur</h5>
@@ -572,6 +586,29 @@
                                         </div>
                                         <div class="w-50">
                                             {{ strip_tags($data->description) }}
+                                        </div>
+                                    </div>
+                                    <div class="d-flex py-2">
+                                        <div class="w-50 d-flex fw-bold">
+                                            <div class="w-75">
+                                                Status
+                                            </div>
+                                            <div class="w-25">
+                                                :
+                                            </div>
+                                        </div>
+                                        <div class="w-50">
+                                            <td>
+                                                @if ($data->status == 'success')
+                                                    <button type="button" class="btn rounded-pill btn-success"
+                                                        style="width: 100px;">
+                                                        Success</button>
+                                                @else
+                                                    <button type="button" class="btn rounded-pill btn-danger"
+                                                        style="width: 100px;">
+                                                        Pending</button>
+                                                @endif
+                                            </td>
                                         </div>
                                     </div>
                                     <div class="d-flex py-2">

@@ -192,6 +192,75 @@
             });
         }
 
+        $('#false').click(function(e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            is_show(id);
+            return false;
+        });
+
+        $('#true').click(function(e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            is_hide(id);
+            return false;
+        });
+
+        function is_show(id) {
+            var formData = new FormData();
+            formData.append('is_show', 'true');
+            formData.append('_method', 'PATCH');
+
+            // Pastikan Anda menyertakan parameter yang diperlukan dalam rute
+            var url = "{{ route('kategoriBarangStatus.update', ':id') }}".replace(':id', id);
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.errors) {
+                        // Tangani error
+                    } else {
+                        showSuccessMessage(response.success);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Tangani error
+                    console.error('Error:', error);
+                }
+            });
+        }
+
+        function is_hide(id) {
+            var formData = new FormData();
+            formData.append('is_hide', 'true');
+            formData.append('_method', 'PATCH');
+
+            // Pastikan Anda menyertakan parameter yang diperlukan dalam rute
+            var url = "{{ route('kategoriBarangStatus.update', ':id') }}".replace(':id', id);
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.errors) {
+                        // Tangani error
+                    } else {
+                        showSuccessMessage(response.success);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Tangani error
+                    console.error('Error:', error);
+                }
+            });
+        }
     });
 </script>
 

@@ -15,7 +15,6 @@
         function clearForm() {
             $('#title').val('');
             $('#description').val('');
-            $('#date').val('');
         }
 
         function showSuccessMessage(message) {
@@ -53,20 +52,47 @@
             });
         }
 
-        function handleErrors(errors) {
+        function handleErrors(errors, id = '') {
             clearErrors();
 
-            if (errors.title) {
-                $('#title').addClass('is-invalid');
-                $('#titleError').text(errors.title[0]);
-            }
-            if (errors.description) {
-                $('#description').addClass('is-invalid');
-                $('#descriptionError').text(errors.description[0]);
-            }
-            if (errors.image) {
-                $('#image').addClass('is-invalid');
-                $('#imageError').text(errors.image[0]);
+            if (id) {
+                if (errors.title) {
+                    $('#titleEdit' + id).addClass('is-invalid');
+                    $('#titleEditError' + id).text(errors.title[0]);
+                }
+                if (errors.date) {
+                    $('#dateEdit' + id).addClass('is-invalid');
+                    $('#dateEditError' + id).text(errors.date[0]);
+                }
+                if (errors.description) {
+                    $('#descriptionEdit' + id).addClass('is-invalid');
+                    $('#descriptionEditError' + id).text(errors.description[0]);
+                }
+            } else {
+                if (errors.title) {
+                    $('#title').addClass('is-invalid');
+                    $('#titleError').text(errors.title[0]);
+                }
+                if (errors.date) {
+                    $('#date').addClass('is-invalid');
+                    $('#dateError').text(errors.date[0]);
+                }
+                if (errors.description) {
+                    $('#description').addClass('is-invalid');
+                    $('#descriptionError').text(errors.description[0]);
+                }
+                if (errors.image) {
+                    $('#image').addClass('is-invalid');
+                    $('#imageError').text(errors.image[0]);
+                }
+                if (errors.image) {
+                    $('#imageEdit').addClass('is-invalid');
+                    $('#imageEditError').text(errors.image[0]);
+                }
+                if (errors['images.0']) {
+                    $('#imagesStore').addClass('is-invalid');
+                    $('#imagesStoreError').text(errors['images.0'][0]);
+                }
             }
         }
 
@@ -122,6 +148,18 @@
                             showSuccessMessage(response.success);
                             $('#imageStoreModal').modal('hide');
                         }
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            handleErrors(xhr.responseJSON.errors);
+                            showErrorMessage(
+                                'Terdapat kesalahan pada inputan. Silahkan cek kembali semua form.'
+                            );
+                        } else {
+                            showErrorMessage(
+                                'Terjadi kesalahan pada server. Silahkan coba lagi nanti.'
+                            );
+                        }
                     }
                 });
             });
@@ -149,6 +187,18 @@
                             clearErrors();
                             showSuccessMessage(response.success);
                             $('#imageUpdateModal').modal('hide');
+                        }
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            handleErrors(xhr.responseJSON.errors);
+                            showErrorMessage(
+                                'Terdapat kesalahan pada inputan. Silahkan cek kembali semua form.'
+                            );
+                        } else {
+                            showErrorMessage(
+                                'Terjadi kesalahan pada server. Silahkan coba lagi nanti.'
+                            );
                         }
                     }
                 });
@@ -179,6 +229,16 @@
                         $('#basicModal').modal('hide');
                     }
                 },
+                error: function(xhr) {
+                    if (xhr.status === 422) {
+                        handleErrors(xhr.responseJSON.errors);
+                        showErrorMessage(
+                            'Terdapat kesalahan pada inputan. Silahkan cek kembali semua form.');
+                    } else {
+                        showErrorMessage(
+                            'Terjadi kesalahan pada server. Silahkan coba lagi nanti.');
+                    }
+                }
             });
         }
 
@@ -189,23 +249,34 @@
             var formData = new FormData($('#galleryEditForm' + id)[0]);
             var url = "{{ url('dashboard/gallery') }}" + '/' + id;
             formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+            formData.append('_method', 'PATCH'); // Ensuring the method is set to PATCH
             for (var pair of formData.entries()) {
                 console.log(pair[0] + ', ' + pair[1]);
             }
             $.ajax({
                 url: url,
-                type: 'PATCH',
+                type: 'POST',
                 data: formData,
                 cache: false,
                 contentType: false,
                 processData: false,
                 success: function(response) {
                     if (response.errors) {
-                        handleErrors(response.errors);
+                        handleErrors(response.errors, id);
                     } else {
-                        clearErrors()
+                        clearErrors();
                         showSuccessMessage(response.success);
                         $('#editModal' + id).modal('hide');
+                    }
+                },
+                error: function(xhr) {
+                    if (xhr.status === 422) {
+                        handleErrors(xhr.responseJSON.errors, id);
+                        showErrorMessage(
+                            'Terdapat kesalahan pada inputan. Silahkan cek kembali semua form.');
+                    } else {
+                        showErrorMessage(
+                            'Terjadi kesalahan pada server. Silahkan coba lagi nanti.');
                     }
                 }
             });

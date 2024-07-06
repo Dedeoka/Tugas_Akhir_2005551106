@@ -489,8 +489,12 @@
             function updateCapacityStatus(selectElement) {
                 var selectedOption = selectElement.options[selectElement.selectedIndex];
                 var percentage = selectedOption.getAttribute('data-percentage');
-                var capacityStatus = selectElement.closest('.row').nextElementSibling.querySelector(
-                    '.capacity-status .text-center');
+                var row = selectElement.closest('.row');
+                if (!row) return;
+                var nextElement = row.nextElementSibling;
+                if (!nextElement) return;
+                var capacityStatus = nextElement.querySelector('.capacity-status .text-center');
+                if (!capacityStatus) return;
                 capacityStatus.style.width = percentage + '%';
                 capacityStatus.textContent = percentage + '% Terkumpul';
             }
@@ -519,17 +523,11 @@
             function handleSelectChange(event) {
                 var selectElement = event.target;
                 var selectedOptionValue = selectElement.value;
-
-                // Remove the previously selected value from the array
                 selectedGoods = selectedGoods.filter(value => value !== selectElement.previousValue);
-
-                // Add the currently selected value to the array
                 if (selectedOptionValue) {
                     selectedGoods.push(selectedOptionValue);
                 }
-
                 selectElement.previousValue = selectedOptionValue;
-
                 updateCapacityStatus(selectElement);
                 updateStockInfo(selectElement);
                 updateSelectOptions();
@@ -537,18 +535,17 @@
 
             function attachDeleteEventListeners() {
                 document.querySelectorAll('.delete-product-button').forEach(function(deleteButton) {
-                    deleteButton.removeEventListener('click',
-                        deleteButtonHandler); // Remove previous listener
-                    deleteButton.addEventListener('click', deleteButtonHandler); // Add new listener
+                    deleteButton.removeEventListener('click', deleteButtonHandler);
+                    deleteButton.addEventListener('click', deleteButtonHandler);
                 });
             }
 
             function deleteButtonHandler(event) {
                 var deleteButton = event.target.closest('.delete-product-button');
                 var template = deleteButton.closest('.donasi-item');
-                if (!template) return; // Check if template is found
+                if (!template) return;
                 var selectElement = template.querySelector('select');
-                if (!selectElement) return; // Check if select element is found
+                if (!selectElement) return;
                 selectedGoods = selectedGoods.filter(value => value !== selectElement.value);
                 template.remove();
                 updateSelectOptions();
@@ -557,12 +554,10 @@
             function reattachEventListeners() {
                 document.querySelectorAll('.goods-select').forEach(function(selectElement) {
                     selectElement.previousValue = selectElement.value;
-                    selectElement.removeEventListener('change',
-                        handleSelectChange); // Remove previous listener
-                    selectElement.addEventListener('change', handleSelectChange); // Add new listener
+                    selectElement.removeEventListener('change', handleSelectChange);
+                    selectElement.addEventListener('change', handleSelectChange);
                 });
-
-                attachDeleteEventListeners(); // Reattach delete event listeners
+                attachDeleteEventListeners();
             }
 
             function initializeOldValues() {
@@ -584,35 +579,98 @@
             document.getElementById('tambah-donasi-barang').addEventListener('click', function() {
                 var template = document.getElementById('template-donasi').cloneNode(true);
                 template.classList.add('donasi-item');
-                template.id = ""; // Ensure ID is not duplicated
-
+                template.id = "";
                 var inputs = template.querySelectorAll('input');
                 inputs.forEach(function(input) {
                     input.value = '';
                 });
-
                 var selects = template.querySelectorAll('select');
                 selects.forEach(function(select) {
                     select.selectedIndex = 0;
                     select.previousValue = '';
                     select.addEventListener('change', handleSelectChange);
                 });
-
                 var deleteButton = template.querySelector('.delete-product-button');
-                deleteButton.addEventListener('click', deleteButtonHandler);
-
+                if (deleteButton) {
+                    deleteButton.addEventListener('click', deleteButtonHandler);
+                } else {
+                    console.error('Delete button not found in template');
+                }
                 document.querySelector('.item-donasi').appendChild(template);
                 updateSelectOptions();
-                attachDeleteEventListeners(); // Attach delete event listeners after adding a new item
+                attachDeleteEventListeners();
             });
 
-            reattachEventListeners(); // Attach delete event listeners on page load
-            initializeOldValues(); // Initialize stock and capacity for old values
+            reattachEventListeners();
+            initializeOldValues();
 
             // Hide the "Tambah Barang Donasi" button if there are validation errors
             if (document.querySelector('.alert-danger')) {
                 document.getElementById('tambah-donasi-barang').style.display = 'none';
             }
+
+            // Handle form submission with AJAX
+            document.getElementById('donateFormGoods').addEventListener('submit', function(event) {
+                event.preventDefault();
+                var form = event.target;
+                var formData = new FormData(form);
+                var url = form.action;
+
+                // Clear previous errors
+                document.querySelectorAll('.alert-danger').forEach(function(alert) {
+                    alert.remove();
+                });
+
+                fetch(url, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                .getAttribute('content')
+                        }
+                    }).then(response => response.json())
+                    .then(data => {
+                        if (data.errors) {
+                            let firstErrorMessage = null;
+                            Object.keys(data.errors).forEach(function(key) {
+                                var errorMessage = data.errors[key][0];
+                                var inputElement = document.querySelector(`[name="${key}"]`);
+                                if (inputElement) {
+                                    var errorDiv = document.createElement('div');
+                                    errorDiv.classList.add('alert', 'alert-danger');
+                                    errorDiv.textContent = errorMessage;
+                                    inputElement.parentElement.appendChild(errorDiv);
+                                }
+                                // Capture the first error message
+                                if (!firstErrorMessage) {
+                                    firstErrorMessage = errorMessage;
+                                }
+                            });
+                            if (firstErrorMessage) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: firstErrorMessage
+                                });
+                            }
+                        } else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: 'Donation successfully saved!'
+                            }).then(() => {
+                                window.location.reload();
+                            });
+                        }
+                    }).catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Something went wrong. Please try again later.'
+                        });
+                    });
+            });
         });
     </script>
 @endsection

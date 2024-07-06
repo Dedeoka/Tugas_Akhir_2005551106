@@ -97,6 +97,7 @@
                             <div data-i18n="Basic">Dashboard</div>
                         </a>
                     </li>
+                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Profil Panti</span></li>
                     <li
                         class="menu-item {{ request()->is('dashboard/profile') || request()->is('dashboard/pengumuman') || request()->is('dashboard/gallery') ? 'active open' : '' }}">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -193,8 +194,8 @@
                             <div data-i18n="Basic">Donasi Barang</div>
                         </a>
                     </li>
-                    <li class="menu-item">
-                        <a href="cards-basic.html" class="menu-link">
+                    <li class="menu-item {{ request()->is('donasi/donasi-beasiswa') ? 'active' : '' }}">
+                        <a href="{{ route('donasi-beasiswa.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bxs-graduation"></i>
                             <div data-i18n="Basic">Donasi Beasiswa</div>
                         </a>

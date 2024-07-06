@@ -37,7 +37,6 @@
         }
 
         function clearErrors() {
-            // Hapus kelas is-invalid dari semua elemen input
             document.querySelectorAll('.form-control').forEach(function(element) {
                 element.classList.remove('is-invalid');
             });
@@ -46,26 +45,40 @@
                 element.classList.remove('is-invalid');
             });
 
-            // Sembunyikan pesan error
             document.querySelectorAll('.invalid-feedback').forEach(function(element) {
                 element.innerHTML = '';
             });
         }
 
-        function handleErrors(errors) {
+        function handleErrors(errors, id = '') {
             clearErrors();
 
-            if (errors.title) {
-                $('#title').addClass('is-invalid');
-                $('#titleError').text(errors.title[0]);
-            }
-            if (errors.description) {
-                $('#description').addClass('is-invalid');
-                $('#descriptionError').text(errors.description[0]);
-            }
-            if (errors.image) {
-                $('#image').addClass('is-invalid');
-                $('#imageError').text(errors.image[0]);
+            if (id) {
+                if (errors.title) {
+                    $('#titleEdit' + id).addClass('is-invalid');
+                    $('#titleEditError' + id).text(errors.title[0]);
+                }
+                if (errors.description) {
+                    $('#descriptionEdit' + id).addClass('is-invalid');
+                    $('#descriptionEditError' + id).text(errors.description[0]);
+                }
+                if (errors.image) {
+                    $('#imageEdit' + id).addClass('is-invalid');
+                    $('#imageEditError' + id).text(errors.image[0]);
+                }
+            } else {
+                if (errors.title) {
+                    $('#title').addClass('is-invalid');
+                    $('#titleError').text(errors.title[0]);
+                }
+                if (errors.description) {
+                    $('#description').addClass('is-invalid');
+                    $('#descriptionError').text(errors.description[0]);
+                }
+                if (errors.image) {
+                    $('#image').addClass('is-invalid');
+                    $('#imageError').text(errors.image[0]);
+                }
             }
         }
 
@@ -86,6 +99,12 @@
             return false;
         });
 
+        $('.updateSubmit').click(function(e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            update(id);
+        });
+
         function simpan() {
             for (var instance in CKEDITOR.instances) {
                 CKEDITOR.instances[instance].updateElement();
@@ -93,6 +112,7 @@
 
             const formData = new FormData($('#announcementForm')[0]);
             formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+
             $.ajax({
                 url: "{{ route('pengumuman.store') }}",
                 type: 'POST',
@@ -104,31 +124,34 @@
                     if (response.errors) {
                         handleErrors(response.errors);
                     } else {
-                        clearErrors()
+                        clearErrors();
                         showSuccessMessage(response.success);
                         $('#basicModal').modal('hide');
+                    }
+                },
+                error: function(xhr) {
+                    if (xhr.status === 422) {
+                        handleErrors(xhr.responseJSON.errors);
+                        showErrorMessage(
+                            'Terdapat kesalahan pada inputan. Silahkan cek kembali semua form.');
+                    } else {
+                        showErrorMessage(
+                            'Terjadi kesalahan pada server. Silahkan coba lagi nanti.');
                     }
                 }
             });
         }
 
-        $('.updateSubmit').click(function(e) {
-            e.preventDefault();
-            var id = $(this).data('id');
-            update(id);
-        });
-
         function update(id) {
             for (var instance in CKEDITOR.instances) {
                 CKEDITOR.instances[instance].updateElement();
             }
+
             var formData = new FormData($('#announcementEditForm' + id)[0]);
             var url = "{{ url('dashboard/pengumuman') }}" + '/' + id;
             formData.append('_method', 'patch');
             formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
-            for (var pair of formData.entries()) {
-                console.log(pair[0] + ', ' + pair[1]);
-            }
+
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -140,9 +163,19 @@
                     if (response.errors) {
                         handleErrors(response.errors);
                     } else {
-                        clearErrors()
+                        clearErrors();
                         showSuccessMessage(response.success);
                         $('#editModal' + id).modal('hide');
+                    }
+                },
+                error: function(xhr) {
+                    if (xhr.status === 422) {
+                        handleErrors(xhr.responseJSON.errors, id);
+                        showErrorMessage(
+                            'Terdapat kesalahan pada inputan. Silahkan cek kembali semua form.');
+                    } else {
+                        showErrorMessage(
+                            'Terjadi kesalahan pada server. Silahkan coba lagi nanti.');
                     }
                 }
             });
