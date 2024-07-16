@@ -312,7 +312,7 @@
                 CKEDITOR.instances[instance].updateElement();
             }
             var formData = new FormData($('#donaturEventEditForm' + id)[0]);
-            var url = "{{ url('dashboard/program-kegiatan-donatur') }}" + '/' + id;
+            var url = "{{ url('admin/dashboard/program-kegiatan-donatur') }}" + '/' + id;
             formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
             formData.append('_method', 'patch');
             for (var pair of formData.entries()) {

@@ -23,7 +23,7 @@
         });
 
         function fetchMonthlyReport(selectedYear, selectedMonthValue, selectedMonthText) {
-            var url = "{{ route('laporan-keuangan.bulananReport') }}";
+            var url = "{{ route('neraca-keuangan.bulananReport') }}";
             if (selectedYear) {
                 url += "?year=" + selectedYear;
             }
@@ -77,6 +77,8 @@
                     otherCost.innerHTML = formatCurrency(data.otherCost);
                     const totalCost = document.getElementById('totalKredit');
                     totalCost.innerHTML = formatCurrency(data.totalCost);
+                    const kasPanti = document.getElementById('kasPanti');
+                    kasPanti.innerHTML = formatCurrency(data.previousMonthlyReport.total_amount);
                 },
                 error: function(error) {
                     console.error('Error:', error);

@@ -305,7 +305,7 @@
                 console.log(pair[0] + ', ' + pair[1]);
             }
 
-            var url = "{{ url('anak-asuh/kesehatan-anak') }}" + '/' + id;
+            var url = "{{ url('admin/anak-asuh/kesehatan-anak') }}" + '/' + id;
 
             $.ajax({
                 url: url,

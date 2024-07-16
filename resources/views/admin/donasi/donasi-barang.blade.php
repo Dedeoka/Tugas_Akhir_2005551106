@@ -1,5 +1,21 @@
 @extends('layouts.admin')
 
+@section('header')
+    <style>
+        .item-donasi {
+            /* Add necessary styles to ensure consistent appearance */
+            width: 100%;
+            /* Other styles as needed */
+        }
+
+        .capacity-status {
+            border: #f86f2d 2px solid;
+            border-radius: 20px;
+            padding: 0;
+        }
+    </style>
+@endsection
+
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="py-3 mb-4">
@@ -27,8 +43,7 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel1">Tambah Data Donasi Barang
-                                        </h5>
+                                        <h5 class="modal-title" id="exampleModalLabel1">Tambah Data Donasi Barang</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
@@ -69,30 +84,91 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col mb-3">
-                                                    <label for="total_amount" class="form-label">Jumlah Donasi</label>
-                                                    <div class="mb-3" id="totalAmountInput">
-                                                        <div class="input-group input-group-merge">
-                                                            <span class="input-group-text"
-                                                                style="background-color:transparent;">Rp</span>
-                                                            <input type="text" class="form-control" id="total_amount"
-                                                                name="total_amount" placeholder="1,000,000"
-                                                                oninput="formatAmount(this)" style="border-left: 0px" />
+                                                    <label for="date" class="form-label">Tanggal Program</label>
+                                                    <input type="date" id="date" name="date"
+                                                        class="form-control">
+                                                    <div id="dateError" class="invalid-feedback"></div>
+                                                </div>
+                                            </div>
+                                            <div id="item-container">
+                                                <div class="item-wrapper">
+                                                    <div class="row my-3 item-donasi">
+                                                        <div class="col-6">
+                                                            <select class="form-select" name="goods[]"
+                                                                aria-label="Default select example">
+                                                                <option value="" hidden>Pilih Barang Yang Ingin
+                                                                    diDonasikan</option>
+                                                                @foreach ($goods as $good)
+                                                                    <option value="{{ $good->id }}"
+                                                                        data-percentage="{{ $good->percentage_available }}"
+                                                                        data-stock="{{ $good->stock }}"
+                                                                        data-capacity="{{ $good->capacity }}">
+                                                                        {{ $good->name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
                                                         </div>
+                                                        <div class="col-3">
+                                                            <input name="quantities[]" type="number" class="form-control"
+                                                                placeholder="Jumlah ...">
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <button type="button"
+                                                                class="delete-product-button btn btn-sm btn-danger w-100 h-100"
+                                                                style="border-radius: 10px"><i
+                                                                    class="bx bx-trash me-1"></i></button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="capacity-status">
+                                                            <div class="text-center"
+                                                                style="width: 20%; color:black; background:#f86f2d; border-radius:10px">
+                                                                Jumlah Tersisa</div>
+                                                        </div>
+                                                        <p class="text-center stock-text">Sisa Stock: -</p>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
+                                            <div class="row">
+                                                <button type="button" id="tambahBarang" class="btn btn-success">Tambah
+                                                    Barang</button>
+                                            </div>
+                                        </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-outline-secondary"
                                                 data-bs-dismiss="modal">Tutup</button>
-                                            <button type="submit" id="postSubmit" class="btn btn-primary">Simpan</button>
+                                            <button type="submit" id="postSubmit"
+                                                class="btn btn-primary">Simpan</button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <form action="{{ route('donasi-barang.export') }}" hidden id="export-form">
+                <input type="text" name="startDate" id="startDate">
+                <input type="text" name="endDate" id="endDate">
+            </form>
+            <form action="{{ route('donasi-barang.index') }}" hidden id="search-form">
+                <input type="text" name="startDate" id="startDateSearch">
+                <input type="text" name="endDate" id="endDateSearch">
+            </form>
+            <div class="row pt-3 pb-5">
+                <div class="d-flex col-md-10 px-4">
+                    <input type="date" class="form-control" id="startInput">
+                    <span class="px-1">__</span>
+                    <input type="date" class="form-control" id="endInput">
+                </div>
+                <div class="d-flex col-md-2">
+                    <button type="button" id="search-button" class="btn btn-success mx-2">
+                        <i class='bx bx-search'></i>
+                    </button>
+                    <button type="button" id="export-button" class="btn btn-primary">
+                        <i class='bx bx-export'></i>
+                    </button>
                 </div>
             </div>
             <div class="card-datatable table-responsive">

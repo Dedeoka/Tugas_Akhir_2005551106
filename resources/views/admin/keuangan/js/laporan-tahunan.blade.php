@@ -69,9 +69,36 @@
                     const laporanPeriode = document.getElementById('laporanPeriode');
                     laporanPeriode.innerHTML = 'PERIODE 1 JANUARI S / D 31 DESEMBER ' + data.year;
 
+
                     const kasTahunLalu = document.getElementById('kasTahunLalu');
-                    kasTahunLalu.innerHTML = 'Jumlah Saldo Kas Akhir Tahun ' +
-                        (data.year - 1);
+                    kasTahunLalu.innerHTML = 'Saldo Kas Akhir Tahun ' + data.previousYear;
+
+                    const jumlahKasTahunLalu = document.getElementById('jumlahKasTahunLalu');
+                    jumlahKasTahunLalu.innerHTML = formatCurrency(data.previousYearlyReport
+                        .total_amount);
+
+                    let previousTotalAmount = parseFloat(data.previousYearlyReport.total_amount);
+                    let currentTotal = parseFloat(data.total);
+
+                    let formattedTotal; // Deklarasikan di luar blok if
+
+                    // Pastikan nilai yang dikonversi bukan NaN (Not a Number)
+                    if (isNaN(previousTotalAmount) || isNaN(currentTotal)) {
+                        console.error("Nilai tidak valid untuk penjumlahan");
+                    } else {
+                        let kasTotalTahunIni = previousTotalAmount + currentTotal;
+
+                        // Memformat hasil penjumlahan ke dalam format mata uang
+                        formattedTotal = formatCurrency(kasTotalTahunIni);
+
+                        console.log(formattedTotal);
+                    }
+
+                    if (formattedTotal !==
+                        undefined) { // Pastikan formattedTotal telah diinisialisasi
+                        const kasTahunIni = document.getElementById('kasTahunIni');
+                        kasTahunIni.innerHTML = formattedTotal;
+                    }
 
                     const year = document.getElementById('year');
                     year.innerHTML = data.year;

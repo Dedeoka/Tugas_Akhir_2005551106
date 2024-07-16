@@ -8,7 +8,6 @@
             <span class="text-muted fw-light">Keuangan /</span> <b>Pemasukan Panti</b>
         </h4>
 
-
         <div class="row">
             <div class="col-sm-6 col-lg-3 mb-4">
                 <div class="card card-border-shadow-primary h-100">
@@ -22,7 +21,7 @@
                         </div>
                         <p class="mb-1">Total Pemasukan Panti Bulan Ini</p>
                         <p class="mb-0">
-                            <span class="text-{{ $percentageMonthTotalIncome >= 0 ? 'danger' : 'success' }} fw-medium">
+                            <span class="text-{{ $percentageMonthTotalIncome >= 0 ? 'success' : 'danger' }} fw-medium">
                                 <i
                                     class="bx {{ $percentageMonthTotalIncome >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
                                 {{ $percentageMonthTotalIncome }}%
@@ -44,7 +43,7 @@
                         </div>
                         <p class="mb-1">Pemasukan Panti Tahun Ini </p>
                         <p class="mb-0">
-                            <span class="text-{{ $percentageYearTotalIncome >= 0 ? 'danger' : 'success' }} fw-medium">
+                            <span class="text-{{ $percentageYearTotalIncome >= 0 ? 'success' : 'danger' }} fw-medium">
                                 <i
                                     class="bx {{ $percentageYearTotalIncome >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
                                 {{ $percentageYearTotalIncome }}%
@@ -83,7 +82,7 @@
                         </div>
                         <p class="mb-1">Jumlah Pemasukan Tahun Ini</p>
                         <p class="mb-0">
-                            <span class="text-{{ $percentageYearCountIncome >= 0 ? 'danger' : 'success' }} fw-medium">
+                            <span class="text-{{ $percentageYearCountIncome >= 0 ? 'success' : 'danger' }} fw-medium">
                                 <i
                                     class="bx {{ $percentageYearCountIncome >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
                                 {{ $percentageYearCountIncome }}%

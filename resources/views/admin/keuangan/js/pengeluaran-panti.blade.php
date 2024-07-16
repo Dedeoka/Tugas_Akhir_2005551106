@@ -63,7 +63,7 @@
 
                     const arrowIcon = numericPercentage >= 0 ? 'bx-up-arrow-alt' :
                         'bx-down-arrow-alt';
-                    const textColor = numericPercentage >= 0 ? 'text-danger' : 'text-success';
+                    const textColor = numericPercentage >= 0 ? 'text-success' : 'text-danger';
 
                     percentage.innerHTML = `<i class="bx ${arrowIcon}"></i> ${data.percentage}%`;
                     percentage.classList.add(textColor);
@@ -189,7 +189,7 @@
 
                     const arrowIcon = numericPercentage >= 0 ? 'bx-up-arrow-alt' :
                         'bx-down-arrow-alt';
-                    const textColor = numericPercentage >= 0 ? 'text-danger' : 'text-success';
+                    const textColor = numericPercentage >= 0 ? 'text-success' : 'text-danger';
 
                     percentage.innerHTML = `<i class="bx ${arrowIcon}"></i> ${data.percentage}%`;
                     percentage.classList.add(textColor);
@@ -428,7 +428,7 @@
 
         function update(id) {
             $.ajax({
-                url: "{{ url('master-data/daftar-sekolah') }}/" + id,
+                url: "{{ url('admin/master-data/daftar-sekolah') }}/" + id,
                 type: 'PATCH',
                 data: new FormData($('#dataAnakForm')[0]),
                 success: function(response) {

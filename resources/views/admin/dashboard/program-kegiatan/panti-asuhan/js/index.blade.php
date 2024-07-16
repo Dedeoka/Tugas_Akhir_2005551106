@@ -273,7 +273,7 @@
                 CKEDITOR.instances[instance].updateElement();
             }
             var formData = new FormData($('#pantiEventEditForm' + id)[0]);
-            var url = "{{ url('dashboard/program-kegiatan-panti') }}" + '/' + id;
+            var url = "{{ url('admin/dashboard/program-kegiatan-panti') }}" + '/' + id;
             formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
             formData.append('_method', 'patch');
             for (var pair of formData.entries()) {

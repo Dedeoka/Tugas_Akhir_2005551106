@@ -92,18 +92,34 @@
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
+                    // Clear previous error states
+                    $('.is-invalid').removeClass('is-invalid');
+                    $('.invalid-feedback').text('');
+
                     if (response.errors) {
-                        $('#name').addClass('is-invalid');
-                        $('#nameError').text(response.errors.name[0]);
-                        $('#address').addClass('is-invalid');
-                        $('#addressError').text(response.errors.address[0]);
-                        $('#phone_number').addClass('is-invalid');
-                        $('#phone_numberError').text(response.errors.phone_number[0]);
-                        $('#email').addClass('is-invalid');
-                        $('#emailError').text(response.errors.email[0]);
-                        $('#total_amount').addClass('is-invalid');
-                        $('#total_amountError').text(response.errors.total_amount[0]);
+                        // Handle validation errors
+                        if (response.errors.name) {
+                            $('#name').addClass('is-invalid');
+                            $('#nameError').text(response.errors.name[0]);
+                        }
+                        if (response.errors.address) {
+                            $('#address').addClass('is-invalid');
+                            $('#addressError').text(response.errors.address[0]);
+                        }
+                        if (response.errors.phone_number) {
+                            $('#phone_number').addClass('is-invalid');
+                            $('#phone_numberError').text(response.errors.phone_number[0]);
+                        }
+                        if (response.errors.email) {
+                            $('#email').addClass('is-invalid');
+                            $('#emailError').text(response.errors.email[0]);
+                        }
+                        if (response.errors.total_amount) {
+                            $('#total_amount').addClass('is-invalid');
+                            $('#total_amountError').text(response.errors.total_amount[0]);
+                        }
                     } else {
+                        // Success handling here
                         showSuccessMessage(response.success);
                         $('#basicModal').modal('hide');
                     }
@@ -167,5 +183,51 @@
             });
         }
 
+    });
+</script>
+<script>
+    $("#export-button").on('click', function(e) {
+        e.preventDefault(); // Mencegah aksi default tombol
+
+        // Ambil nilai dari input tanggal
+        var startDate = $('#startInput').val();
+        var endDate = $('#endInput').val();
+
+        // Log untuk memeriksa nilai yang diambil
+        console.log("Start Date: ", startDate);
+        console.log("End Date: ", endDate);
+
+        // Buat URL dengan parameter tanggal
+        var url = "{{ route('donasi-beasiswa.export') }}?startDate=" + startDate + "&endDate=" + endDate;
+
+        // Arahkan browser ke URL tersebut
+        window.location.href = url;
+    });
+
+    $("#search-button").on('click', function(e) {
+        // Set nilai input startDate dan endDate di dalam #search-form
+        $('#startDateSearch').val($('#startInput').val());
+        $('#endDateSearch').val($('#endInput').val());
+
+        // Submit form #search-form untuk melakukan pencarian
+        $('#search-form').submit();
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        function getQueryParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        const startDate = getQueryParameter('startDate');
+        const endDate = getQueryParameter('endDate');
+
+        if (startDate) {
+            document.getElementById('startInput').value = startDate;
+        }
+        if (endDate) {
+            document.getElementById('endInput').value = endDate;
+        }
     });
 </script>

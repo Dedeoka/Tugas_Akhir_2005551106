@@ -19,7 +19,7 @@
                         </div>
                         <p class="mb-1">Total Pengeluaran Panti Bulan Ini</p>
                         <p class="mb-0">
-                            <span class="text-{{ $percentageMonthPantiCost >= 0 ? 'danger' : 'success' }} fw-medium">
+                            <span class="text-{{ $percentageMonthPantiCost >= 0 ? 'success' : 'danger' }} fw-medium">
                                 <i
                                     class="bx {{ $percentageMonthPantiCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
                                 {{ $percentageMonthPantiCost }}%
@@ -41,7 +41,7 @@
                         </div>
                         <p class="mb-1">Pengeluaran Panti Tahun Ini </p>
                         <p class="mb-0">
-                            <span class="text-{{ $percentageYearPantiCost >= 0 ? 'danger' : 'success' }} fw-medium">
+                            <span class="text-{{ $percentageYearPantiCost >= 0 ? 'success' : 'danger' }} fw-medium">
                                 <i
                                     class="bx {{ $percentageYearPantiCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
                                 {{ $percentageYearPantiCost }}%
@@ -63,7 +63,7 @@
                         </div>
                         <p class="mb-1">Pengeluaran Anak Bulan Ini</p>
                         <p class="mb-0">
-                            <span class="text-{{ $percentageMonthChildCost >= 0 ? 'danger' : 'success' }} fw-medium">
+                            <span class="text-{{ $percentageMonthChildCost >= 0 ? 'success' : 'danger' }} fw-medium">
                                 <i
                                     class="bx {{ $percentageMonthChildCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
                                 {{ $percentageMonthChildCost }}%
@@ -84,7 +84,7 @@
                         </div>
                         <p class="mb-1">Pengeluaran Anak Tahun Ini</p>
                         <p class="mb-0">
-                            <span class="text-{{ $percentageYearChildCost >= 0 ? 'danger' : 'success' }} fw-medium">
+                            <span class="text-{{ $percentageYearChildCost >= 0 ? 'success' : 'danger' }} fw-medium">
                                 <i
                                     class="bx {{ $percentageYearChildCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
                                 {{ $percentageYearChildCost }}%

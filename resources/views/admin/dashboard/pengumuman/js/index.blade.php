@@ -148,7 +148,7 @@
             }
 
             var formData = new FormData($('#announcementEditForm' + id)[0]);
-            var url = "{{ url('dashboard/pengumuman') }}" + '/' + id;
+            var url = "{{ url('admin/dashboard/pengumuman') }}" + '/' + id;
             formData.append('_method', 'patch');
             formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
 

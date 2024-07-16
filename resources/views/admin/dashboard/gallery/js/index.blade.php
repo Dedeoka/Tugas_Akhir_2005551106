@@ -247,7 +247,7 @@
                 CKEDITOR.instances[instance].updateElement();
             }
             var formData = new FormData($('#galleryEditForm' + id)[0]);
-            var url = "{{ url('dashboard/gallery') }}" + '/' + id;
+            var url = "{{ url('admin/dashboard/gallery') }}" + '/' + id;
             formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
             formData.append('_method', 'PATCH'); // Ensuring the method is set to PATCH
             for (var pair of formData.entries()) {

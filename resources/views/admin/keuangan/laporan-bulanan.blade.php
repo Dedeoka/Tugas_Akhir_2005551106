@@ -80,8 +80,8 @@
                     <div class="border-start-0 border border-2 border-dark w-50 text-center fw-bold text-dark p-2 fs-5"
                         id="kasTahunLalu">
                     </div>
-                    <div class="border-top border-bottom border-2 border-dark w-50 text-center fw-bold text-dark p-2 fs-5">
-                        Rp 50.000.000,00
+                    <div class="border-top border-bottom border-2 border-dark w-50 text-center fw-bold text-dark p-2 fs-5"
+                        id="jumlahKasTahunLalu">Rp
                     </div>
                 </div>
 
@@ -460,11 +460,11 @@
                 <div class="d-flex mb-5 bg-laporan">
                     <div class="w-50 border-start-0 border-top-0 border border-2 border-dark">
                         <h5 class="m-0 p-2 text-dark fw-bold">
-                            Jumlah Saldo Kas Akhir Tahun Ini
+                            Jumlah Saldo Kas Akhir Bulan Ini
                         </h5>
                     </div>
                     <div class="w-50">
-                        <h5 class="m-0 p-2 border-bottom border-2 border-dark text-dark fw-bold">Rp</h5>
+                        <h5 class="m-0 p-2 border-bottom border-2 border-dark text-dark fw-bold" id="kasTahunIni"></h5>
                     </div>
                 </div>
             </div>

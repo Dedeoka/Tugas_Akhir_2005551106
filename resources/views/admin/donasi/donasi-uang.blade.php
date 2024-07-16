@@ -77,6 +77,7 @@
                                                             <input type="text" class="form-control" id="total_amount"
                                                                 name="total_amount" placeholder="1,000,000"
                                                                 oninput="formatAmount(this)" style="border-left: 0px" />
+                                                            <div id="total_amountError" class="invalid-feedback"></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -93,6 +94,29 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <form action="{{ route('donasi-uang.export') }}" hidden id="export-form">
+                <input type="text" name="startDate" id="startDate">
+                <input type="text" name="endDate" id="endDate">
+            </form>
+            <form action="{{ route('donasi-uang.index') }}" hidden id="search-form">
+                <input type="text" name="startDate" id="startDateSearch">
+                <input type="text" name="endDate" id="endDateSearch">
+            </form>
+            <div class="row pt-3 pb-5">
+                <div class="d-flex col-md-10 px-4">
+                    <input type="date" class="form-control" id="startInput">
+                    <span class="px-1">__</span>
+                    <input type="date" class="form-control" id="endInput">
+                </div>
+                <div class="d-flex col-md-2">
+                    <button type="button" id="search-button" class="btn btn-success mx-2">
+                        <i class='bx bx-search'></i>
+                    </button>
+                    <button type="button" id="export-button" class="btn btn-primary">
+                        <i class='bx bx-export'></i>
+                    </button>
                 </div>
             </div>
             <div class="card-datatable table-responsive">

@@ -11,6 +11,7 @@ use App\Models\ChildCostDetail;
 use App\Models\ChildEducation;
 use App\Models\ChildEducationDetail;
 use App\Models\Children;
+use App\Models\User;
 use App\Models\ChildAchievement;
 
 class DatabaseSeeder extends Seeder
@@ -20,7 +21,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        User::factory(1)->create();
+
         $incomeTypes = [
+            ['name' => 'Donasi Uang Umum'],
+            ['name' => 'Donasi Beasiswa Umum'],
             ['name' => 'Bantuan Luar Negeri'],
             ['name' => 'Bantuan Pemerintah'],
             ['name' => 'Hasil Usaha Produktif'],

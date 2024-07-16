@@ -64,7 +64,7 @@
 
                         const arrowIcon = numericPercentage >= 0 ? 'bx-up-arrow-alt' :
                             'bx-down-arrow-alt';
-                        const textColor = numericPercentage >= 0 ? 'text-danger' : 'text-success';
+                        const textColor = numericPercentage >= 0 ? 'text-success' : 'text-danger';
 
                         percentage.innerHTML =
                             `<i class="bx ${arrowIcon}"></i> ${data.percentage}%`;
@@ -72,7 +72,7 @@
                     } else if (typeof data.percentage === 'number') {
                         const arrowIcon = data.percentage >= 0 ? 'bx-up-arrow-alt' :
                             'bx-down-arrow-alt';
-                        const textColor = data.percentage >= 0 ? 'text-danger' : 'text-success';
+                        const textColor = data.percentage >= 0 ? 'text-success' : 'text-danger';
 
                         percentage.innerHTML =
                             `<i class="bx ${arrowIcon}"></i> ${data.percentage}%`;
@@ -202,7 +202,7 @@
 
                     const arrowIcon = numericPercentage >= 0 ? 'bx-up-arrow-alt' :
                         'bx-down-arrow-alt';
-                    const textColor = numericPercentage >= 0 ? 'text-danger' : 'text-success';
+                    const textColor = numericPercentage >= 0 ? 'text-success' : 'text-danger';
 
                     percentage.innerHTML = `<i class="bx ${arrowIcon}"></i> ${data.percentage}%`;
                     percentage.classList.add(textColor);
@@ -447,7 +447,7 @@
                 console.log(pair[0] + ', ' + pair[1]);
             }
             $.ajax({
-                url: "{{ url('keuangan/pemasukan-panti') }}/" + id,
+                url: "{{ url('admin/keuangan/pemasukan-panti') }}/" + id,
                 type: 'POST',
                 data: formData,
                 contentType: false,

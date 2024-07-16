@@ -391,7 +391,7 @@
             }
 
             formData.append('_method', 'patch');
-            var url = "{{ url('anak-asuh/pendidikan-anak') }}" + '/' + id;
+            var url = "{{ url('admin/anak-asuh/pendidikan-anak') }}" + '/' + id;
             console.log('URL:', url);
             for (var pair of formData.entries()) {
                 console.log(pair[0] + ', ' + pair[1]);
@@ -713,7 +713,7 @@
 
             formData.append('_method', 'patch');
 
-            var url = "{{ url('anak-asuh/pendidikan-anak') }}" + '/' + id;
+            var url = "{{ url('admin/anak-asuh/pendidikan-anak') }}" + '/' + id;
 
             for (var pair of formData.entries()) {
                 console.log(pair[0] + ', ' + pair[1]);

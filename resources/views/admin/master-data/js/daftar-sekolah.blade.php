@@ -83,7 +83,7 @@
 
         function update(id) {
             $.ajax({
-                url: "{{ url('master-data/daftar-sekolah') }}/" + id,
+                url: "{{ url('admin/master-data/daftar-sekolah') }}/" + id,
                 type: 'PATCH',
                 data: {
                     name: $('#editName' + id).val(),

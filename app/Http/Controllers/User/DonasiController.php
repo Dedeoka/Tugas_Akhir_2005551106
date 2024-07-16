@@ -10,6 +10,7 @@ use App\Models\GoodsCategory;
 use App\Models\DonateGoods;
 use App\Models\DonateGoodsDetail;
 use App\Models\Scholarship;
+use App\Models\Income;
 
 class DonasiController extends Controller
 {
@@ -148,14 +149,34 @@ class DonasiController extends Controller
             $donateId = $donate->id;
             $donasi = DonateMoney::findorfail($donateId);
             $donasi->status = 'success';
+
+            $data = [
+                'title' => 'Donasi Uang Umum #' . $donasi->id,
+                'income_type_id' => 1,
+                'total_amount' => $donasi->total_amount,
+                'status' => 'Lunas'
+            ];
+
             $donasi->save();
+            Income::create($data);
+
             $request->session()->forget('donate');
         } else if($request->type_donation == 'schoolarship'){
             $donate = session('schoolarship');
             $donateId = $donate->id;
             $donasi = Scholarship::findorfail($donateId);
             $donasi->status = 'success';
+
+            $data = [
+                'title' => 'Donasi Beasiswa Umum #' . $donasi->id,
+                'income_type_id' => 2,
+                'total_amount' => $donasi->total_amount,
+                'status' => 'Lunas'
+            ];
+
             $donasi->save();
+            Income::create($data);
+
             $request->session()->forget('schoolarship');
         }
         return redirect()->route('user-donasi.index', ['success' => $success]);
@@ -210,7 +231,6 @@ class DonasiController extends Controller
                 'quantity' => $quantity,
                 'description' => $request->description,
             ]);
-
             $goods = GoodsCategory::find($goodId);
             if ($goods) {
                 $goods->stock -= $quantity;

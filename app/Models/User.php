@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Maatwebsite\Excel\Facades\Excel;
 
 class User extends Authenticatable
 {
@@ -38,4 +39,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function exportUsers()
+    {
+        $users = User::select('id', 'name', 'email')->get();
+
+        return Excel::download($users, 'users.xlsx');
+    }
 }

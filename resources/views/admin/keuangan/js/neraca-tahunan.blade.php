@@ -7,7 +7,7 @@
         });
 
         function fetchYearlyReport(selectedYear = null) {
-            let url = "{{ route('laporan-keuangan.tahunanReport') }}";
+            let url = "{{ route('neraca-keuangan.tahunanReport') }}";
             if (selectedYear) {
                 url += "?year=" + selectedYear;
             }
@@ -52,6 +52,8 @@
                     otherCost.innerHTML = formatCurrency(data.otherCost);
                     const totalCost = document.getElementById('totalKredit');
                     totalCost.innerHTML = formatCurrency(data.totalCost);
+                    const kasPanti = document.getElementById('kasPanti');
+                    kasPanti.innerHTML = formatCurrency(data.previousYearlyReport.total_amount);
 
                     const laporanPeriode = document.getElementById('laporanPeriode');
                     laporanPeriode.innerHTML = 'PERIODE 1 JANUARI S / D 31 DESEMBER ' + data.year;

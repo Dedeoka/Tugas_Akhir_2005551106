@@ -30,6 +30,10 @@ return [
 
     'disks' => [
 
+        'excel' => [
+            'driver' => 'local',
+            'root' => storage_path('app/excel'),
+        ],
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

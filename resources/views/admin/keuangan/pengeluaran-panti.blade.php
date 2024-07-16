@@ -22,7 +22,7 @@
                         </div>
                         <p class="mb-1">Total Pengeluaran Panti Bulan Ini</p>
                         <p class="mb-0">
-                            <span class="text-{{ $percentageMonthTotalCost >= 0 ? 'danger' : 'success' }} fw-medium">
+                            <span class="text-{{ $percentageMonthTotalCost >= 0 ? 'success' : 'danger' }} fw-medium">
                                 <i
                                     class="bx {{ $percentageMonthTotalCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
                                 {{ $percentageMonthTotalCost }}%
@@ -44,7 +44,7 @@
                         </div>
                         <p class="mb-1">Pengeluaran Panti Tahun Ini </p>
                         <p class="mb-0">
-                            <span class="text-{{ $percentageYearTotalCost >= 0 ? 'danger' : 'success' }} fw-medium">
+                            <span class="text-{{ $percentageYearTotalCost >= 0 ? 'success' : 'danger' }} fw-medium">
                                 <i
                                     class="bx {{ $percentageYearTotalCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
                                 {{ $percentageYearTotalCost }}%
@@ -83,7 +83,7 @@
                         </div>
                         <p class="mb-1">Jumlah Pengeluaran Tahun Ini</p>
                         <p class="mb-0">
-                            <span class="text-{{ $percentageYearCountCost >= 0 ? 'danger' : 'success' }} fw-medium">
+                            <span class="text-{{ $percentageYearCountCost >= 0 ? 'success' : 'danger' }} fw-medium">
                                 <i
                                     class="bx {{ $percentageYearCountCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
                                 {{ $percentageYearCountCost }}%

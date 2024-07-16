@@ -159,7 +159,7 @@
             }
 
             $.ajax({
-                url: "{{ url('master-data/kategori-barang') }}/" + id,
+                url: "{{ url('admin/master-data/kategori-barang') }}/" + id,
                 type: 'PATCH',
                 data: {
                     name: $('#editName' + id).val(),

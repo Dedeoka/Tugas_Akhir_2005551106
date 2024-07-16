@@ -14,8 +14,27 @@ class DonasiBeasiswaController extends Controller
      */
     public function index(Request $request)
     {
-        $keyword = $request->query('q','');
-        $datas = Scholarship::where('name', 'LIKE', "%{$keyword}%")->orWhere('status', '=',$keyword)->paginate(10)->withQueryString();
+        $keyword = $request->query('q', '');
+        $startDate = $request->input('startDate');
+        $endDate = $request->input('endDate');
+
+        $query = Scholarship::query();
+
+        // Filter berdasarkan kata kunci
+        if (!empty($keyword)) {
+            $query->where(function ($q) use ($keyword) {
+                $q->where('name', 'LIKE', "%{$keyword}%")
+                    ->orWhere('status', '=', $keyword);
+            });
+        }
+
+        // Filter berdasarkan rentang tanggal jika startDate dan endDate tersedia
+        if (!empty($startDate) && !empty($endDate)) {
+            $query->whereBetween('created_at', [$startDate, $endDate]);
+        }
+
+        // Lakukan pagination dan tetapkan untuk menyimpan query string dalam URL
+        $datas = $query->paginate(10)->withQueryString();
         return view('admin.donasi.donasi-beasiswa', compact('datas', 'keyword'));
     }
 
@@ -61,7 +80,6 @@ class DonasiBeasiswaController extends Controller
             Scholarship::create($data);
 
             return response()->json(['success' => "Berhasil menyimpan data"]);
-
         }
     }
 

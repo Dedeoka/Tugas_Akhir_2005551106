@@ -37,7 +37,7 @@
                         </div>
                         <p class="mb-1">Total Pengeluaran Anak Bulan Ini</p>
                         <p class="mb-0">
-                            <span class="text-{{ $percentageTotalCost >= 0 ? 'danger' : 'success' }} fw-medium">
+                            <span class="text-{{ $percentageTotalCost >= 0 ? 'success' : 'danger' }} fw-medium">
                                 <i class="bx {{ $percentageTotalCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
                                 {{ $percentageTotalCost }}%
                             </span>
@@ -58,7 +58,7 @@
                         </div>
                         <p class="mb-1">Pengeluaran Kesehatan Bulan Ini</p>
                         <p class="mb-0">
-                            <span class="text-{{ $percentageHealthCost >= 0 ? 'danger' : 'success' }} fw-medium">
+                            <span class="text-{{ $percentageHealthCost >= 0 ? 'success' : 'danger' }} fw-medium">
                                 <i
                                     class="bx {{ $percentageHealthCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
                                 {{ $percentageHealthCost }}%
@@ -80,7 +80,7 @@
                         </div>
                         <p class="mb-1">Pengeluaran Pendidikan Bulan Ini </p>
                         <p class="mb-0">
-                            <span class="text-{{ $percentageEducationCost >= 0 ? 'danger' : 'success' }} fw-medium">
+                            <span class="text-{{ $percentageEducationCost >= 0 ? 'success' : 'danger' }} fw-medium">
                                 <i
                                     class="bx {{ $percentageEducationCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
                                 {{ $percentageEducationCost }}%
@@ -102,7 +102,7 @@
                         </div>
                         <p class="mb-1">Pengeluaran Prestasi Bulan Ini</p>
                         <p class="mb-0">
-                            <span class="text-{{ $percentageAchievementCost >= 0 ? 'danger' : 'success' }} fw-medium">
+                            <span class="text-{{ $percentageAchievementCost >= 0 ? 'success' : 'danger' }} fw-medium">
                                 <i
                                     class="bx {{ $percentageAchievementCost >= 0 ? 'bx-up-arrow-alt' : 'bx-down-arrow-alt' }}"></i>
                                 {{ $percentageAchievementCost }}%

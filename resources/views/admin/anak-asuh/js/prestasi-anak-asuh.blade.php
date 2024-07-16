@@ -213,7 +213,7 @@
             }
 
             formData.append('_method', 'patch');
-            var url = "{{ url('anak-asuh/prestasi-anak') }}" + '/' + id;
+            var url = "{{ url('admin/anak-asuh/prestasi-anak') }}" + '/' + id;
             console.log('URL:', url);
             for (var pair of formData.entries()) {
                 console.log(pair[0] + ', ' + pair[1]);

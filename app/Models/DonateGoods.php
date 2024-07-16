@@ -14,4 +14,6 @@ class DonateGoods extends Model
     {
         return $this->hasMany(DonateGoodsDetail::class);
     }
+
+
 }

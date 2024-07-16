@@ -129,12 +129,16 @@
                 <div class="wid-50"
                     style="border-right: 2px solid black; border-top: 2px solid black; border-bottom: 2px solid black;">
                     <h5 class="tb-title">
-                        Jumlah Saldo Kas Akhir Tahun {{ $year - 1 }}
+                        @isset($previousMonthName)
+                            Jumlah Saldo Kas Akhir Bulan {{ $previousMonthName }} Tahun {{ $year - 1 }}
+                        @else
+                            Jumlah Saldo Kas Akhir Tahun {{ $year - 1 }}
+                        @endisset
                     </h5>
                 </div>
                 <div class="wid-50" style="border-top: 2px solid black; border-bottom: 2px solid black;">
                     <h5 class="tb-title">
-                        Rp 50.000.000,00
+                        {{ $previousTotalAmountFormatted }}
                     </h5>
                 </div>
             </div>
@@ -645,7 +649,7 @@
                 <div class="wid-50"
                     style="border-right: 2px solid black; border-top: 2px solid black; border-bottom: 2px solid black;">
                     <h5 class="tb-title">
-                        ({{ $status }}) Jumlah Total Tahun {{ $year }}
+                        ({{ $status }}) Jumlah Total
                     </h5>
                 </div>
                 <div class="wid-50" style="border-bottom: 2px solid black; border-top: 2px solid black;">
@@ -657,12 +661,16 @@
             <div class="tb-flex" style="margin:0 0 80px 0; background-color: #C0C0C0;">
                 <div class="wid-50" style="border-right: 2px solid black; border-bottom: 2px solid black;">
                     <h5 class="tb-title">
-                        Jumlah Pengeluaran
+                        @isset($previousMonthName)
+                            Jumlah Saldo Kas Akhir Bulan Ini
+                        @else
+                            Jumlah Saldo Kas Akhir Tahun Ini
+                        @endisset
                     </h5>
                 </div>
                 <div class="wid-50" style="border-bottom: 2px solid black;">
                     <h5 class="tb-title">
-                        Rp 50.000.000,00
+                        {{ $totalAkhirFormatted }}
                     </h5>
                 </div>
             </div>

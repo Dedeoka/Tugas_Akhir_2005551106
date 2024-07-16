@@ -76,7 +76,7 @@
 
         function update(id) {
             $.ajax({
-                url: "{{ url('master-data/kategori-penyakit') }}/" + id,
+                url: "{{ url('admin/master-data/kategori-penyakit') }}/" + id,
                 type: 'PATCH',
                 data: {
                     name: $('#editName' + id).val(),

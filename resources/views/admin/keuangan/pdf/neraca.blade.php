@@ -199,7 +199,7 @@
                 <div class="wid-25"
                     style="border-right: 2px solid black;  border-bottom: 2px solid black; text-align: center;">
                     <h5 class="tb-subtitle" id="kasPanti">
-
+                        {{ $previousTotalAmountFormatted }}
                     </h5>
                 </div>
                 <div class="wid-25" style=" border-bottom: 2px solid black; text-align: center;">
